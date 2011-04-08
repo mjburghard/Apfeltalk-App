@@ -30,7 +30,7 @@
 @synthesize imageURL;
 
 - (id)initWithURL:(NSURL *)url {
-	if(self = [super init]) {
+	if(self == [super init]) {
 		imageURL = [url retain];
 	}
 	
