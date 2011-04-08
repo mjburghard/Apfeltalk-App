@@ -38,7 +38,7 @@
 	IBOutlet UILabel *titleLabel;
 	IBOutlet UILabel *authorLabel;
 	IBOutlet UIImageView *detailimage;
-
+    
 	Story *story;
 	UIActionSheet *myMenu;
 }
