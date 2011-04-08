@@ -37,6 +37,7 @@
 	BOOL frontViewIsVisible;
 	NSTimer *timer;
 	NSURL *imageURL;
+    UIColor *navBarColor;
 }
 
 @property (assign) BOOL frontViewIsVisible;
@@ -45,8 +46,9 @@
 @property (nonatomic,retain) ImageView *imageView;
 @property (nonatomic,retain) UIImageView *reflectionView;
 @property (nonatomic,retain) UIButton *flipIndicatorButton;
-@property (retain) NSTimer *timer;
+@property (retain, setter = setTimer:) NSTimer *timer;
 @property (retain, readonly) NSURL *imageURL;
+@property (retain) UIColor *navBarColor;
 
 - (id)initWithURL:(NSURL *)url;
 

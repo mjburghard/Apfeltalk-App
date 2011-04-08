@@ -1,4 +1,4 @@
-    //
+//
 //  GCImageViewer.m
 //  ImageViewerTest
 //
@@ -10,38 +10,64 @@
 
 
 @implementation GCImageViewer
-@synthesize url;
+@synthesize url, navBarColor, timer, myScrollView, imageView;
 
 - (id)initWithURL:(NSURL*)URL {
 	self = [super initWithNibName:@"GCImageViewer" bundle:nil];
 	if (self != nil) {
 		url = URL;
+        self.hidesBottomBarWhenPushed = YES;
 	}
 	return self;
 }
 
 
 /*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
+ // Implement loadView to create a view hierarchy programmatically, without using a nib.
+ - (void)loadView {
+ }
+ */
+
+- (void)setTimer:(NSTimer *)newTimer {
+    if (timer != newTimer) {
+        [timer invalidate];
+        [timer release];
+        timer = [newTimer retain];
+    }
 }
-*/
 
 - (void)viewWillAppear:(BOOL)animated {
-    [[self navigationController] setNavigationBarHidden:YES animated:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    self.navBarColor = navigationBar.tintColor;
+    navigationBar.tintColor = nil;
+    navigationBar.barStyle = UIBarStyleBlack;
+    navigationBar.translucent = YES;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackOpaque animated:YES];
+    [self setWantsFullScreenLayout:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:3
+                                                  target:self
+                                                selector:@selector(hideBars)
+                                                userInfo:nil
+                                                 repeats:NO];
+    [self setWantsFullScreenLayout:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [[self navigationController] setNavigationBarHidden:NO animated:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
+    [self setTimer:nil];
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    navigationBar.tintColor = self.navBarColor;
+    navigationBar.translucent = NO;
+	[[self navigationController] setNavigationBarHidden:NO animated:NO];
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleDefault animated:YES];
+    
 }
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-		
+    
 	//url = [NSURL URLWithString:@"http://www.alliphonewallpapers.com/images/wallpapers/gk6aim4p7.jpg"];
 	NSURLRequest* request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
 	NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -83,13 +109,13 @@
 	[bar removeFromSuperview];
 	[bar release];
 	
-	imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:responseData]];
+	self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:responseData]];
 	[imageView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 	[imageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 	[imageView setContentMode:UIViewContentModeScaleAspectFit];
 	[imageView setTag:2];
 	
-	myScrollView = [[UIScrollView alloc] initWithFrame:imageView.frame];
+	self.myScrollView = [[UIScrollView alloc] initWithFrame:imageView.frame];
 	myScrollView.contentSize = CGSizeMake(imageView.frame.size.width, imageView.frame.size.height);
 	myScrollView.maximumZoomScale = 4.0;
 	myScrollView.minimumZoomScale = 1.0;
@@ -112,6 +138,7 @@
 }
 
 - (void)hideBars {
+    [self setTimer:nil];
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationBeginsFromCurrentState:YES];
 	[UIView setAnimationDuration:0.4];
@@ -120,12 +147,17 @@
 	if ([[self navigationController] isNavigationBarHidden]) {
         [[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
         [[self navigationController] setNavigationBarHidden:NO animated:YES];
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:3
+                                                      target:self
+                                                    selector:@selector(hideBars)
+                                                    userInfo:nil
+                                                     repeats:NO];
 	} else {
         [[self navigationController] setNavigationBarHidden:YES animated:YES];
         [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
 	}
-
-
+    
+    
 	[UIView commitAnimations];
 }
 
@@ -133,6 +165,15 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations.
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    if (toInterfaceOrientation == UIInterfaceOrientationPortrait) {
+        myScrollView.contentSize = CGSizeMake(320, 480);
+    } else {
+        
+        myScrollView.contentSize = CGSizeMake(480, 320);
+    }
 }
 
 
@@ -151,9 +192,11 @@
 
 
 - (void)dealloc {
-    [super dealloc];
+    [self setTimer:nil];
+    [navBarColor release];
 	[myScrollView release];
 	[imageView release];
+    [super dealloc];
 }
 
 

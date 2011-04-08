@@ -113,15 +113,15 @@
 	
 	NSString * link = [[stories objectAtIndex: indexPath.row] link];
 	BOOL read = [self databaseContainsURL:link];
-
+    
 	if (read) {
 		cell.imageView.image = [UIImage imageNamed:@"thread_dot.png"];
 	} else {
 		cell.imageView.image = [UIImage imageNamed:@"thread_dot_hot.png"];
 	}
-
+    
 	cell.textLabel.text = [[stories objectAtIndex: storyIndex] title];
-
+    
     return cell;
 }
 
@@ -139,9 +139,9 @@
 	DetailViewController *detailController = [[dvClass alloc] initWithNibName:@"DetailView" 
 																	   bundle:[NSBundle mainBundle]
 																		story:story];
-
+    
 	NSString * link = [story link];
-
+    
 	if ([link length] > 0 && ![self databaseContainsURL:link]) {
 		NSDate *date = [[stories objectAtIndex: indexPath.row] date];
 		
@@ -166,7 +166,7 @@
 			[alert show];
 			[alert release];
 		}
-
+        
 		/*
 		 *	More thinking needs to go into the deletion of reads
 		 *
@@ -188,7 +188,7 @@
 		// update the number of unread messages in Application Badge
 		[self updateApplicationIconBadgeNumber];
 	}
-
+    
 	[self.navigationController pushViewController:detailController animated:YES];
 	[detailController release];
 }
@@ -234,7 +234,7 @@
 	error = sqlite3_finalize(statement);	
 	if (error != SQLITE_OK)
 		NSLog (@"An error occurred: %s", sqlite3_errmsg(database));
-
+    
 	return found;
 }
 
@@ -280,7 +280,7 @@
 		accel.delegate = nil;
 	}
 }
-		
+
 // handle acceleromter event
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration {
 	if ([self isShake:acceleration]) {
@@ -296,7 +296,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
-
+    
 	if ([stories count] == 0) {
 		[self parseXMLFileAtURL:[self documentPath]];
 		//[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
@@ -417,6 +417,13 @@
 													   delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:nil];
     [alertView show];
     [alertView release];
+}
+
+#pragma mark -
+#pragma mark Interfacerotation
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 @end

@@ -34,8 +34,8 @@
 
 @synthesize story;
 
- // This is the new designated initializer for the class
- - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle story:(Story *)newStory
+// This is the new designated initializer for the class
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle story:(Story *)newStory
 {
 	self = [super initWithNibName:nibName bundle:nibBundle];
 	if (self != nil) {
@@ -45,10 +45,10 @@
 }
 
 /*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
+ // Implement loadView to create a view hierarchy programmatically, without using a nib.
+ - (void)loadView {
+ }
+ */
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 {	
@@ -61,15 +61,15 @@
 
 - (NSString *) cssStyleString {
     NSURL *middleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailMiddle" ofType:@"png"]];
-
+    
 	return [NSString stringWithFormat:@"background:url(%@) repeat-y; font:10pt Helvetica; padding-top:95px; padding-left:20px; padding-right:20px", [middleURL absoluteString]];
 }
 
 - (NSString *)baseHtmlString {
     NSURL *bottomURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailBottom" ofType:@"png"]];
     NSString *testString = [NSString stringWithFormat:@"<div style=\"position:absolute; top:0px; left:0px; width:320px\"><div style=\"%@\">"
-            @"%@</div><img src=\"%@\" alt=\"DetailBottom\"></div>", [self cssStyleString], @"%@", [bottomURL absoluteString]];
-
+                            @"%@</div><img src=\"%@\" alt=\"DetailBottom\"></div>", [self cssStyleString], @"%@", [bottomURL absoluteString]];
+    
     return testString;
 }
 
@@ -79,7 +79,7 @@
     float            scaleFactor;
     NSRange          aRange, searchRange, valueRange;
     NSMutableString *mutableString = [NSMutableString stringWithString:htmlString];
-
+    
     // Scale the images to fit into the webview
 	// !!!:below:20090919 This needs more cleanup, possibly with XQuery. But not today...
     searchRange = NSMakeRange(0, [mutableString length]);
@@ -91,7 +91,7 @@
             searchRange = NSMakeRange(NSMaxRange(aRange), [mutableString length] - NSMaxRange(aRange));
             aRange = [mutableString rangeOfString:@"\"" options:NSLiteralSearch range:searchRange];
             valueRange = NSMakeRange(searchRange.location, aRange.location - searchRange.location);
-
+            
             scaleFactor = (float)MAX_IMAGE_WIDTH / [[mutableString substringWithRange:valueRange] intValue];
             if (scaleFactor < 1.0)
             {
@@ -114,7 +114,7 @@
             searchRange.location = [mutableString length];
         }
     }
-
+    
     // !!!:MacApple:20090919 This scales all image to MAX_IMAGE_WIDTH even if they are smaller, but I have no better idea.
     [mutableString replaceOccurrencesOfString:@"class=\"resize\"" withString:[NSString stringWithFormat:@"width=%i", MAX_IMAGE_WIDTH] options:NSLiteralSearch
                                         range:NSMakeRange(0, [mutableString length])];
@@ -127,11 +127,11 @@
 	NSRange divRange = [bodyString rangeOfString:@"<fieldset"];
 	if (divRange.location == NSNotFound)
         divRange.location = [bodyString length];
-
+    
     divRange = [bodyString rangeOfString:@"</div>" options:NSBackwardsSearch range:NSMakeRange(0, divRange.location)];
     if (divRange.location == NSNotFound)
 		return NSLocalizedString (@"Nachricht konnte nicht angezeigt werden", @"");
-
+    
     NSString *extractedString = [bodyString substringToIndex:divRange.location];
     
     // NSString *queryString = extractTextFromHTMLForQuery(bodyString, @"//div[1]"); not used
@@ -142,7 +142,7 @@
     
 	bodyString = [NSString stringWithFormat:@"<style type=\"text/css\"> %@ </style> <div style=\"text-align:center; font-weight:bold;\">%@</div>%@</div>", cssCode, [[self story] title], extractedString];
     bodyString = [[self baseHtmlString] stringByReplacingOccurrencesOfString:@"%@" withString:bodyString];
-
+    
 	return [self scaledHtmlStringFromHtmlString:bodyString];
 }
 
@@ -172,14 +172,14 @@
 	titleLabel.text = [[self story] title];
 	NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-
+    
 	if ([[self story] author] == nil) {
 		datum.text = [dateFormatter stringFromDate:[[self story] date]];
 	} else {
 		datum.text = [NSString stringWithFormat:@"von %@ - %@", [[self story] author], [dateFormatter stringFromDate:[[self story] date]]];
 	}
 	[dateFormatter release];
-
+    
 	//[thumbnailButton setBackgroundImage:[self thumbimage] forState:UIControlStateNormal];
     [thumbnailButton loadImageFromURL:[NSURL URLWithString:[[self story] thumbnailLink]]];
 	[webview loadHTMLString:[self htmlString] baseURL:nil];
@@ -190,34 +190,40 @@
 	webview.delegate = self;
     [webview setBackgroundColor:[UIColor clearColor]];
     [super viewDidLoad];
-
+    
     [self updateInterface];
-
+    
 	//Set the title of the navigation bar
 	//-150x150
 	NSString * buttonTitle = [self rightBarButtonTitle];
 	detailimage.image = [self usedimage];
-
+    
     UIBarButtonItem *speichernButton = [[UIBarButtonItem alloc] initWithTitle:buttonTitle
                                                                         style:UIBarButtonItemStyleBordered
                                                                        target:self
                                                                        action:@selector(speichern:)];
     self.navigationItem.rightBarButtonItem = speichernButton;
     [speichernButton release];
-
-// :below:20091111 Apple wants this removed
-//	[(UIScrollView*)[webview.subviews objectAtIndex:0]	 setAllowsRubberBanding:NO];
-// :MacApple:20100105 I'm wondering why this doesn't caused a crash
-//	[webview release];
+    
+    // :below:20091111 Apple wants this removed
+    //	[(UIScrollView*)[webview.subviews objectAtIndex:0]	 setAllowsRubberBanding:NO];
+    // :MacApple:20100105 I'm wondering why this doesn't caused a crash
+    //	[webview release];
 }
 
 /*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ // Override to allow orientations other than the default portrait orientation.
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations
+ return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ }
+ */
+#pragma mark -
+#pragma mark Interfacerotation
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
-*/
 
 - (void)dealloc {
 	[story release];

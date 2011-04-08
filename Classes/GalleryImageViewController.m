@@ -41,7 +41,25 @@
 @synthesize frontViewIsVisible;
 @synthesize timer;
 @synthesize imageURL;
+@synthesize navBarColor;
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    if (interfaceOrientation == UIInterfaceOrientationPortrait)
+        return YES;
+    
+    
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+        return YES;
+    
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+        return YES;
+    
+    return NO;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    self.imageView.frame = CGRectMake(0, 0, 480, 320);
+}
 
 - (void)setTimer:(NSTimer *)newTimer {
     if (timer != newTimer) {
@@ -71,41 +89,59 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[[self navigationController] setNavigationBarHidden:YES animated:YES];
-	[[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[self setTimer:nil];
-
-	[[self navigationController] setNavigationBarHidden:NO animated:NO];
-	[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	// show navigation bar
-	[[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
-	[[self navigationController] setNavigationBarHidden:NO animated:YES];
-
-	// create timer to remove navigation bar
-	self.timer = [NSTimer scheduledTimerWithTimeInterval:3
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    self.navBarColor = navigationBar.tintColor;
+    navigationBar.tintColor = nil;
+    navigationBar.barStyle = UIBarStyleBlack;
+    navigationBar.translucent = YES;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackTranslucent animated:YES];
+    [self setWantsFullScreenLayout:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:3
                                                   target:self
                                                 selector:@selector(hideNavigationBar:)
                                                 userInfo:nil
                                                  repeats:NO];
 }
 
+
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[self setTimer:nil];
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    navigationBar.tintColor = self.navBarColor;
+    navigationBar.translucent = NO;
+	[[self navigationController] setNavigationBarHidden:NO animated:NO];
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleDefault animated:YES];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	// show navigation bar
+    [[UIApplication sharedApplication] setStatusBarHidden:![UIApplication sharedApplication].statusBarHidden withAnimation:UIStatusBarAnimationFade];
+	[[self navigationController] setNavigationBarHidden:![self navigationController].navigationBarHidden animated:YES];
+    
+	// create timer to remove navigation bar
+    if (self.navigationController.navigationBarHidden == NO) {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:3
+                                                      target:self
+                                                    selector:@selector(hideNavigationBar:)
+                                                    userInfo:nil
+                                                     repeats:NO];
+    } else {
+        [self setTimer:nil];
+    }
+}
+
 - (void)hideNavigationBar:(NSTimer *)theTimer {
 	[self setTimer:nil];
-
+    
 	[[self navigationController] setNavigationBarHidden:YES animated:YES];
 	[[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
 }
 
 - (void)loadView {	
 	// create and store a container view
-
+    
 	UIView *localContainerView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	self.containerView = localContainerView;
 	[localContainerView release];
@@ -130,10 +166,10 @@
 	
 	imageView.viewController = self;
 	self.view = containerView;
-
+    
 	// create the reflection view
 	CGRect reflectionRect=viewRect;
-
+    
 	// the reflection is a fraction of the size of the view being reflected
 	reflectionRect.size.height=reflectionRect.size.height*reflectionFraction;
 	
