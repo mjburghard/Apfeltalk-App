@@ -132,7 +132,7 @@
 }
 
 - (NSString *) documentPath {
-	return @"http://www.apfeltalk.de/forum/gallery.rss";
+	return @"http://www.apfeltalk.de/gallery/external.php?type=RSS2";
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {return YES;
