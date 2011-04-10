@@ -25,7 +25,12 @@
 #import "DetailNews.h"
 #import "NewsController.h"
 #import "Apfeltalk_MagazinAppDelegate.h"
-#import "TwitterRequest.h"
+#import "SHK.h"
+
+#import "SHKTwitter.h"
+#import "SHKFacebook.h"
+#import "SHKFBStreamDialog.h"
+#import "SHKMail.h"
 
 @interface DetailNews (private)
 - (void)createMailComposer;
@@ -58,7 +63,7 @@
 	}
 }
 
-- (void) postTweet {
+/*- (void) postTweet {
 	TwitterRequest * t = [[TwitterRequest alloc] init];
 	t.username = usernameTextField.text;
 	t.password = passwordTextField.text;
@@ -97,7 +102,7 @@
 											cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
 	[loadingActionSheet showInView:self.view];
 	[t statuses_update:[NSString stringWithFormat:NSLocalizedString (@"Newstipp: %@ %@", @""), [[self story] title], shortLink] delegate:self requestSelector:@selector(status_updateCallback:)];
-}
+}*/
 - (void) status_updateCallback: (NSData *) content {
 	[loadingActionSheet dismissWithClickedButtonIndex:0 animated:YES];
 	[loadingActionSheet release];
@@ -133,54 +138,43 @@
 	// assume that when we have 3 buttons, the one with idx 1 is the save button
     // :below:20091220 This assumption is not correct, We should find a smarter way
 	if (saveEnabled && buttonIdx == 1) {
+        // Save
 		UINavigationController *navController = [self navigationController];
 		 NSArray *controllers = [navController viewControllers];
 		 
 		 NewsController *newsController = (NewsController*) [controllers objectAtIndex:[controllers count] -2];
 		 [newsController addSavedStory:[self story]];
 	}
-	NSArray *controllers = [[self navigationController] viewControllers];
-    NewsController *newsController = (NewsController *)[controllers objectAtIndex:[controllers count] - 2];
-	
+    
+	UINavigationController *navController = [self navigationController];
+    NSArray *controllers = [navController viewControllers];
+    NewsController *newsController = (NewsController*) [controllers objectAtIndex:[controllers count] -2];
+    
     if ([self showSave] && [newsController isSavedStory:[self story]])
         [self setShowSave:NO];
 
 	if (buttonIdx == 0) {
-		if (TARGET_IPHONE_SIMULATOR)
-			NSLog(@"Keep in mind, that no mail could be send in Simulator mode... just providing the UI");
-        [self createMailComposer];
+		// Mail
+        NSURL *url = [NSURL URLWithString:story.link];
+        SHKItem *item = [SHKItem URL:url title:story.title];
+        
+        [SHKMail shareItem:item];
 	}
 	
 	if (buttonIdx == 1 + saveEnabled) {
-		//Newstipp twittern
-		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-		NSString *documentsDirectory = [paths objectAtIndex:0];
-		NSString *twitter = [documentsDirectory stringByAppendingPathComponent:@"Twitter.plist"];
-		NSArray * savedata = [NSArray arrayWithContentsOfFile:twitter];
-		
-		UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Gib deine Twitter Daten ein." message:@" \n   " 
-															 delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-		usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
-		[usernameTextField setBackgroundColor:[UIColor whiteColor]];
-		passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 75.0, 260.0, 25.0)];
-		[passwordTextField setBackgroundColor:[UIColor whiteColor]];
-		usernameTextField.placeholder = @"Benutzername";
-		passwordTextField.placeholder = @"Passwort";
-		passwordTextField.secureTextEntry = YES;
-		
-		usernameTextField.text = [savedata objectAtIndex:0];
-		passwordTextField.text = [savedata objectAtIndex:1];
-		CGAffineTransform myTransform = CGAffineTransformMakeTranslation(0.0, 130.0);
-		[myAlertView setTransform:myTransform];
-		[myAlertView addSubview:usernameTextField];
-		[myAlertView addSubview:passwordTextField];
-		[myAlertView show];
-		[myAlertView release];
+		// Twitter
+        NSURL *url = [NSURL URLWithString:story.link];
+        SHKItem *item = [SHKItem URL:url title:story.title];
+        
+        [SHKTwitter shareItem:item];
 	}
 	
 	if (buttonIdx == 2 + saveEnabled) {
-		FBLoginDialog* dialog = [[[FBLoginDialog alloc] initWithSession:session] autorelease];
-		[dialog show];
+        // FaceBook
+        NSURL *url = [NSURL URLWithString:story.link];
+        SHKItem *item = [SHKItem URL:url title:story.title];
+        
+        [SHKFacebook shareItem:item];
 	}
 	
 	if (actionSheet == myMenu) {
@@ -189,69 +183,6 @@
 	}
 }
 
-- (void)createMailComposer {
-	MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
-	controller.mailComposeDelegate = self;
-	[controller setSubject:[story title] ];
-	[controller setMessageBody:[story summary] isHTML:YES];
-	[self presentModalViewController:controller animated:YES];
-	[controller release];
-}
-
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-	[self becomeFirstResponder];
-	[self dismissModalViewControllerAnimated:YES];
-}
-
-- (void)alertView:(UIAlertView *)alertView
-didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-	if (buttonIndex == 1)
-	{
-		[self postTweet];
-	}
-	
-}
-
-- (void)session:(FBSession*)session didLogin:(FBUID)uid {
-	FBPermissionDialog* dialog = [[[FBPermissionDialog alloc] init] autorelease];
-	dialog.delegate = self;
-	dialog.permission = @"status_update";
-	[dialog show];
-}
-
-- (void)dialogDidSucceed:(FBDialog*)dialog {
-	NSString *link = [[self story] link];
-	
-	NSMutableURLRequest *postRequest = [NSMutableURLRequest new];
-	
-	[postRequest setHTTPMethod:@"GET"];
-	
-	[postRequest setURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.bit.ly/shorten?version=2.0.1&longUrl=%@&login=apfeltalk&apiKey=R_c9aabb37645e874c9e99aebe9ba12cb8", link]]];
-	
-	NSData *responseData;
-	NSHTTPURLResponse *response;
-	
-	//==== Synchronous call to upload
-	responseData = [ NSURLConnection sendSynchronousRequest:postRequest returningResponse:&response error:nil];
-	[postRequest release];
-    
-	NSString *shortLink = [[[NSString alloc] initWithData:responseData encoding:NSASCIIStringEncoding]
-                           autorelease];
-	
-	NSRange pos1 = [shortLink rangeOfString: @"shortUrl"];
-	NSRange pos2 = [shortLink rangeOfString: @"userHash"];
-	NSRange range = NSMakeRange(pos1.location + 12,pos2.location - 17 - (pos1.location + 12));
-	shortLink = [shortLink substringWithRange:range];
-	
-	
-	NSString *statusString = [NSString stringWithFormat:@"Newstipp: %@ %@", [[self story] title], shortLink];
-	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-							statusString, @"status",
-							@"true", @"status_includes_verb",
-							nil];
-	[[FBRequest requestWithDelegate:self] call:@"facebook.Users.setStatus" params:params];
-}
 
 - (void)viewDidLoad
 {
@@ -283,8 +214,6 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 
     if ([self showSave] && [newsController isSavedStory:[self story]])
         [self setShowSave:NO];
-
-	session = [[FBSession sessionForApplication:@"4b52995a95555faf4ee6daa4267c92c5" secret:@"f3a3bf5c39884676247710b27a978b77" delegate:self] retain];
 }
 
 @end

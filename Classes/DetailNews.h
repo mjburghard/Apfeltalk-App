@@ -25,17 +25,13 @@
 #import <Foundation/Foundation.h>
 #import "DetailViewController.h"
 #import <MessageUI/MessageUI.h>
-#import "FBConnect/FBConnect.h"
 
-@interface DetailNews : DetailViewController <UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate, FBSessionDelegate, FBDialogDelegate, FBRequestDelegate> {
+@interface DetailNews : DetailViewController <UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate> {
 	BOOL showSave;
 	
-	UITextField *usernameTextField;
-	UITextField *passwordTextField;
 	
 	UIActionSheet * loadingActionSheet;
 	
-	FBSession* session;
 }
 @property (readwrite) BOOL showSave;
 
