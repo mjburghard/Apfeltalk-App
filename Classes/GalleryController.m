@@ -121,6 +121,10 @@
     // Navigation logic
 
     // Custom code
+    if ([stories count] == 0) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
 
     // open in Safari
     DetailGallery *dvController = [[DetailGallery alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] 
