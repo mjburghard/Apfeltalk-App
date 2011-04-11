@@ -30,13 +30,16 @@
 #import <sqlite3.h>
 #import "DetailViewController.h"
 #import <MessageUI/MessageUI.h>
+#import "EGORefreshTableHeaderView.h"
 
-@interface RootViewController : UITableViewController <ATXMLParserDelegateProtocol, MFMailComposeViewControllerDelegate>
+@interface RootViewController : UITableViewController <ATXMLParserDelegateProtocol, MFMailComposeViewControllerDelegate, EGORefreshTableHeaderDelegate>
 {
 	IBOutlet UITableView * newsTable;
 	IBOutlet UITableViewCell *loadingCell;
 	NSMutableData *xmlData;
 	NSArray *stories;
+    EGORefreshTableHeaderView *tableHeaderView;
+    BOOL reloading;
 
 @protected
 	sqlite3 * database;
@@ -45,6 +48,9 @@
 @property(retain) NSArray *stories;
 @property (readonly) BOOL shakeToReload;
 @property (readonly) NSDictionary * desiredKeys;
+
+- (void)reloadTableViewDataSource;
+- (void)doneLoadingTableViewData;
 
 - (void)parseXMLFileAtURL:(NSString *)URL;
 - (IBAction)openSafari:(id)sender;
