@@ -155,8 +155,8 @@
 
 	if (buttonIdx == 0) {
 		// Mail
-        NSURL *url = [NSURL URLWithString:story.link];
-        SHKItem *item = [SHKItem URL:url title:story.title];
+        SHKItem *item = [SHKItem text:story.summary];
+        item.title = story.title;
         
         [SHKMail shareItem:item];
 	}
