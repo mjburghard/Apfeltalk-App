@@ -239,6 +239,61 @@
 }
 
 #pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+- (void)reloadTableViewDataSource{
+    reloading =YES;
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrateOnReload"]) {
+        AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
+    }
+    [self parseXMLFileAtURL:[self documentPath]];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+- (void)doneLoadingTableViewData{
+	[tableHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+	reloading =NO;
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
+	
+	[tableHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+	[tableHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+	
+}
+
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+	
+	[self reloadTableViewDataSource];
+	
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+	
+	return reloading;
+	
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+	
+	return [NSDate date]; 
+	
+}
+
+#pragma mark -
 
 - (NSString *) documentPath {
 	return @"http://pipes.yahoo.com/pipes/pipe.run?ContextBegin=%3Cdiv+class%3D%22article+cms_clear+restore+postcontainer%22%3E&ContextEnd=%3C%2Fdiv%3E&RssUrl=http%3A%2F%2Ffeeds.apfeltalk.de%2Fapfeltalk-magazin&_id=2b7dd66fad6786fb098d951bad72762c&_render=rss";
@@ -291,6 +346,20 @@
 		[self parseXMLFileAtURL:[self documentPath]];
 		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	}
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    if (tableHeaderView == nil) {
+		
+		tableHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+		tableHeaderView.delegate = self;
+        tableHeaderView.backgroundColor = self.tableView.backgroundColor;
+		[self.tableView addSubview:tableHeaderView];
+		
+	}
+	
+	[tableHeaderView refreshLastUpdatedDate];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -405,6 +474,7 @@
 {
     [self setStories:parsedStories];
     [(UITableView *)[self view] reloadData];
+    [self doneLoadingTableViewData];
 }
 
 
