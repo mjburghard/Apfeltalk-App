@@ -36,6 +36,39 @@
 @end
 
 @implementation DetailGallery
+
+- (void)showFullscreen {
+    NSString *str = [[self story] summary];
+	
+    NSString *thumbLink = extractTextFromHTMLForQuery(str, @"//img[attribute::title]/attribute::src");
+	
+    if ([thumbLink length] == NSNotFound) {
+		UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Keine URL", @"")
+                                                              message:NSLocalizedString (@"Es konnte keine URL für das Bild gefunden werden", @"")
+                                                             delegate:nil cancelButtonTitle:NSLocalizedString (@"OK", @"")
+                                                    otherButtonTitles:nil];
+		[errorAlert show];
+		[errorAlert release];
+        return;
+    }
+    
+    NSString *imageLink = [thumbLink stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
+    
+    GCImageViewer *galleryImageViewController = [[GCImageViewer alloc] initWithURL:[NSURL URLWithString:imageLink]];
+    [self.navigationController pushViewController:galleryImageViewController animated:YES];
+    [galleryImageViewController release];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    UIButton *pictureButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 95, 275, 181)];
+    pictureButton.backgroundColor = [UIColor clearColor];
+    [pictureButton addTarget:self action:@selector(showFullscreen) forControlEvents:UIControlEventTouchUpInside];
+    
+    [webview addSubview:pictureButton];
+    [pictureButton release];
+}
+
 - (NSString *)strip_tags:(NSString *)data :(NSArray *)valid_tags
 {
 	//use to strip the HTML tags from the data
@@ -132,7 +165,6 @@ void endElement (void *userData, const xmlChar *name) {
 	free (htmlDoc);
 	[elementString release];
 	NSString *str = [[[self story] thumbnailLink] stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
-
 	NSString *showpicture = [NSString stringWithFormat:@"<img src=\"%@\" width=\"275\" height=\"181\" alt=\"No Medium Picture.\" /> ", str];
 
 	NSString *resultString = [NSString stringWithFormat:@"%@<br/>%@", showpicture, cleanedString];
