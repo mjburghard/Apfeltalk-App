@@ -2,58 +2,30 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>StringsTable</key>
-	<string>Root</string>
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Group_IconBadge</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>ShowIconBadge</string>
+			<key>DefaultValue</key>
+			<true/>
 			<key>Key</key>
 			<string>showIconBadge</string>
-			<key>DefaultValue</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
 			<key>Title</key>
-			<string>Group_ShakeToReload</string>
-		</dict>
-		<dict>
+			<string>ShowIconBadge</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>ShakeToReload</string>
-			<key>Key</key>
-			<string>shakeToReload</string>
-			<key>DefaultValue</key>
-			<true/>
 		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>Group_VibrateOnReload</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Ein / Aus</string>
-			<key>Key</key>
-			<string>vibrateOnReload</string>
-			<key>DefaultValue</key>
-			<true/>
-		</dict>
+		<dict/>
+		<dict/>
+		<dict/>
+		<dict/>
 	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
 </dict>
 </plist>
