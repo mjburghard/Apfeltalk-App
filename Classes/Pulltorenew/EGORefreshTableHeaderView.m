@@ -131,7 +131,7 @@
 	switch (aState) {
 		case EGOOPullRefreshPulling:
 			
-			_statusLabel.text = NSLocalizedString(@"Loslassen um neuzuladen...", @"Loslassen um Status zu erneuern");
+			_statusLabel.text = NSLocalizedString(@"Loslassen um neu zu laden...", @"Loslassen um Status zu erneuern");
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
 			_arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -147,7 +147,7 @@
 				[CATransaction commit];
 			}
 			
-			_statusLabel.text = NSLocalizedString(@"Ziehen um neuzuladen...", @"Ziehe um Status zu erneuern");
+			_statusLabel.text = NSLocalizedString(@"Ziehen um neu zu laden...", @"Ziehe um Status zu erneuern");
 			[_activityView stopAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
