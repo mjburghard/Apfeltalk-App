@@ -253,7 +253,7 @@
 
 - (void)doneLoadingTableViewData{
 	[tableHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-	
+	reloading =NO;
 }
 
 #pragma mark -
