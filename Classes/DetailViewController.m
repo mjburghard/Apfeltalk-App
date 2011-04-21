@@ -153,8 +153,8 @@
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"css"];
 	NSString *cssCode = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    
-	bodyString = [NSString stringWithFormat:@"<style type=\"text/css\"> %@ </style> <div style=\"text-align:center; font-weight:bold;\">%@</div>%@</div>", cssCode, [[self story] title], extractedString];
+    // <div style=\"text-align:center; font-weight:bold;\">%@</div>
+	bodyString = [NSString stringWithFormat:@"<style type=\"text/css\"> %@ </style>%@</div>", cssCode, extractedString];
     bodyString = [[self baseHtmlString] stringByReplacingOccurrencesOfString:@"%@" withString:bodyString];
     
 	return [self scaledHtmlStringFromHtmlString:bodyString];
