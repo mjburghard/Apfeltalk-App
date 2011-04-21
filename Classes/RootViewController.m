@@ -49,7 +49,7 @@
 	[newsTable reloadData];
 	UIAlertView *alert = [[UIAlertView alloc]
 						  initWithTitle:@"Impressum"
-						  message:@"Diese App ist ein Community-Projekt und steht unter der Lizenz GPL v2. Entwickelt wurde sie mit freundlicher Unterstützung der Apfeltalk GmbH, Breitmoos 46, 83334 Inzell. \n\nFür die Richtigkeit der Inhalte wird nicht gehaftet. \n\nDie Forenzugriffs-API stammt von Tapatalk."
+						  message:@"Diese App ist ein Community-Projekt und steht unter der Lizenz GPL v2. Entwickelt wurde sie mit freundlicher Unterstützung der Apfeltalk GmbH. \n\nDie Forenzugriffs-Schnittstelle stammt von Tapatalk. \n\n Liste der Entwickler unter Einstellungen..."
 						  delegate:self
 						  cancelButtonTitle:@"OK"
 						  otherButtonTitles:@"Kontakt"
