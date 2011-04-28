@@ -24,7 +24,6 @@
 
 #import "DetailViewController.h"
 #import "RootViewController.h"
-#import "UIScrollViewPrivate.h"
 #import "ATMXMLUtilities.h"
 #import "GCImageViewer.h"
 
