@@ -26,3 +26,14 @@
 "LivetickerController.noTicker" = "Kein Liveticker";
 "NewsController.TableView.DeleteButtonLabel" = "Löschen";
 "Parsing Error" = "Parser Fehler";
+"Logout" = "Abmelden";
+"Login" = "Anmelden";
+"Wrong username or password" = "Falscher Nutzername oder Passwort";
+"Retry" = "Wiederholen";
+"Answer" = "Antworten";
+"Back" = "Zurück";
+"More" = "Mehr";
+"Threads" = "Themen";
+"Subforums" = "Unterforen";
+"Username" = "Benutzername";
+"Password" = "Passwort";
