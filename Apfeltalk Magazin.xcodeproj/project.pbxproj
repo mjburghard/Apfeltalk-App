@@ -121,6 +121,22 @@
 		5E8D915C1352355700274017 /* SHKOAuthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D911B1352355700274017 /* SHKOAuthView.m */; };
 		5E8D915D1352355700274017 /* SHKShareMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D911D1352355700274017 /* SHKShareMenu.m */; };
 		5E8D915E1352355700274017 /* SHKViewControllerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D911F1352355700274017 /* SHKViewControllerWrapper.m */; };
+		5EC265E3136999D3006A10DE /* ContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265B9136999D3006A10DE /* ContentCell.m */; };
+		5EC265E4136999D3006A10DE /* DetailThreadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265BB136999D3006A10DE /* DetailThreadController.m */; };
+		5EC265E5136999D3006A10DE /* DetailThreadController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC265BC136999D3006A10DE /* DetailThreadController.xib */; };
+		5EC265E8136999D3006A10DE /* ForumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC265C1136999D3006A10DE /* ForumViewController.xib */; };
+		5EC265EC136999D3006A10DE /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265C9136999D3006A10DE /* Post.m */; };
+		5EC265ED136999D3006A10DE /* ForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265CB136999D3006A10DE /* ForumViewController.m */; };
+		5EC265EE136999D3006A10DE /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265CD136999D3006A10DE /* Section.m */; };
+		5EC265EF136999D3006A10DE /* SubForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265CF136999D3006A10DE /* SubForum.m */; };
+		5EC265F0136999D3006A10DE /* SubForumController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265D1136999D3006A10DE /* SubForumController.m */; };
+		5EC265F1136999D3006A10DE /* SubForumController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC265D2136999D3006A10DE /* SubForumController.xib */; };
+		5EC265F2136999D3006A10DE /* SubjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265D4136999D3006A10DE /* SubjectCell.m */; };
+		5EC265F5136999D3006A10DE /* Topic.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265DB136999D3006A10DE /* Topic.m */; };
+		5EC265F7136999D3006A10DE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265DF136999D3006A10DE /* User.m */; };
+		5EC265F8136999D3006A10DE /* UserXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265E1136999D3006A10DE /* UserXMLParser.m */; };
+		5EC2660D1369AAE1006A10DE /* ATWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC2660C1369AAE1006A10DE /* ATWebViewController.m */; };
+		5EC2660F1369AB18006A10DE /* ATWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC2660E1369AB18006A10DE /* ATWebViewController.xib */; };
 		CB15C87B10498EBF00360BDC /* NewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15C87A10498EBF00360BDC /* NewsController.m */; };
 		CB15C89C1049950900360BDC /* DetailNews.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15C89B1049950900360BDC /* DetailNews.m */; };
 		CB15C8CE1049A0CF00360BDC /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15C8CD1049A0CF00360BDC /* Story.m */; };
@@ -146,7 +162,6 @@
 		F6730BE5134A70B40045B876 /* GCImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6730BE3134A70B40045B876 /* GCImageViewer.xib */; };
 		F6730BE8134A70F50045B876 /* TDHUDProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F6730BE7134A70F40045B876 /* TDHUDProgressBar.m */; };
 		F6730BEA134A71E40045B876 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6730BE9134A71E30045B876 /* QuartzCore.framework */; };
-		F69CED7610DA770800E72FD5 /* TwitterRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F69CED7510DA770800E72FD5 /* TwitterRequest.m */; };
 		F6B4FC73103697960080D615 /* DetailGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B4FC72103697960080D615 /* DetailGallery.m */; };
 		F6DACAC7103EA57700003B92 /* PodcastController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6DACAC6103EA57700003B92 /* PodcastController.m */; };
 		F6DACACF103EA73F00003B92 /* DetailPodcast.m in Sources */ = {isa = PBXBuildFile; fileRef = F6DACACE103EA73F00003B92 /* DetailPodcast.m */; };
@@ -352,6 +367,35 @@
 		5E8D911D1352355700274017 /* SHKShareMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKShareMenu.m; sourceTree = "<group>"; };
 		5E8D911E1352355700274017 /* SHKViewControllerWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKViewControllerWrapper.h; sourceTree = "<group>"; };
 		5E8D911F1352355700274017 /* SHKViewControllerWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKViewControllerWrapper.m; sourceTree = "<group>"; };
+		5EC265B8136999D3006A10DE /* ContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentCell.h; sourceTree = "<group>"; };
+		5EC265B9136999D3006A10DE /* ContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentCell.m; sourceTree = "<group>"; };
+		5EC265BA136999D3006A10DE /* DetailThreadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailThreadController.h; sourceTree = "<group>"; };
+		5EC265BB136999D3006A10DE /* DetailThreadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailThreadController.m; sourceTree = "<group>"; };
+		5EC265BC136999D3006A10DE /* DetailThreadController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailThreadController.xib; path = Classes/Tapatalk/DetailThreadController.xib; sourceTree = "<group>"; };
+		5EC265C2136999D3006A10DE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ForumViewController.xib; sourceTree = "<group>"; };
+		5EC265C8136999D3006A10DE /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
+		5EC265C9136999D3006A10DE /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
+		5EC265CA136999D3006A10DE /* ForumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumViewController.h; sourceTree = "<group>"; };
+		5EC265CB136999D3006A10DE /* ForumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForumViewController.m; sourceTree = "<group>"; };
+		5EC265CC136999D3006A10DE /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section.h; sourceTree = "<group>"; };
+		5EC265CD136999D3006A10DE /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
+		5EC265CE136999D3006A10DE /* SubForum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubForum.h; sourceTree = "<group>"; };
+		5EC265CF136999D3006A10DE /* SubForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubForum.m; sourceTree = "<group>"; };
+		5EC265D0136999D3006A10DE /* SubForumController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubForumController.h; sourceTree = "<group>"; };
+		5EC265D1136999D3006A10DE /* SubForumController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubForumController.m; sourceTree = "<group>"; };
+		5EC265D2136999D3006A10DE /* SubForumController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SubForumController.xib; path = Classes/Tapatalk/SubForumController.xib; sourceTree = "<group>"; };
+		5EC265D3136999D3006A10DE /* SubjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectCell.h; sourceTree = "<group>"; };
+		5EC265D4136999D3006A10DE /* SubjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectCell.m; sourceTree = "<group>"; };
+		5EC265D5136999D3006A10DE /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		5EC265DA136999D3006A10DE /* Topic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Topic.h; sourceTree = "<group>"; };
+		5EC265DB136999D3006A10DE /* Topic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Topic.m; sourceTree = "<group>"; };
+		5EC265DE136999D3006A10DE /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		5EC265DF136999D3006A10DE /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		5EC265E0136999D3006A10DE /* UserXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserXMLParser.h; sourceTree = "<group>"; };
+		5EC265E1136999D3006A10DE /* UserXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserXMLParser.m; sourceTree = "<group>"; };
+		5EC2660B1369AAE0006A10DE /* ATWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATWebViewController.h; sourceTree = "<group>"; };
+		5EC2660C1369AAE1006A10DE /* ATWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATWebViewController.m; sourceTree = "<group>"; };
+		5EC2660E1369AB18006A10DE /* ATWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ATWebViewController.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB15C87910498EBF00360BDC /* NewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsController.h; sourceTree = "<group>"; };
 		CB15C87A10498EBF00360BDC /* NewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsController.m; sourceTree = "<group>"; };
@@ -362,7 +406,6 @@
 		CB1E3BC610CC674600B01120 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		CB9E946D104490B700768B8B /* gelesen.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = gelesen.db; sourceTree = "<group>"; };
 		CB9E94831044929D00768B8B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		CBA438EC1058361C002B2077 /* UIScrollViewPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIScrollViewPrivate.h; sourceTree = "<group>"; };
 		CBA438F9105836D9002B2077 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CBBD046610DE4C020056C183 /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		CBC26120108B9DC500E5F36B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -389,8 +432,6 @@
 		F6730BE6134A70F40045B876 /* TDHUDProgressBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDHUDProgressBar.h; sourceTree = "<group>"; };
 		F6730BE7134A70F40045B876 /* TDHUDProgressBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDHUDProgressBar.m; sourceTree = "<group>"; };
 		F6730BE9134A71E30045B876 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		F69CED7410DA770800E72FD5 /* TwitterRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwitterRequest.h; path = Classes/TwitterRequest.h; sourceTree = "<group>"; };
-		F69CED7510DA770800E72FD5 /* TwitterRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwitterRequest.m; path = Classes/TwitterRequest.m; sourceTree = "<group>"; };
 		F6B4FC71103697960080D615 /* DetailGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailGallery.h; sourceTree = "<group>"; };
 		F6B4FC72103697960080D615 /* DetailGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailGallery.m; sourceTree = "<group>"; };
 		F6DACAC5103EA57700003B92 /* PodcastController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PodcastController.h; sourceTree = "<group>"; };
@@ -429,6 +470,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5EC265B5136999D3006A10DE /* Tapatalk */,
 				5AB3DC8F135352C600E0D3CA /* Pulltorenew */,
 				220A139310590B16001D295D /* GalleryImageViewController.h */,
 				220A139410590B16001D295D /* GalleryImageViewController.m */,
@@ -496,11 +538,8 @@
 			children = (
 				28A0AB4B0D9B1048005BE974 /* Apfeltalk_Magazin_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
-				CBA438EC1058361C002B2077 /* UIScrollViewPrivate.h */,
 				CBC2B8D71068104200040255 /* ATMXMLUtilities.h */,
 				CBC2B8D81068104200040255 /* ATMXMLUtilities.m */,
-				F69CED7410DA770800E72FD5 /* TwitterRequest.h */,
-				F69CED7510DA770800E72FD5 /* TwitterRequest.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -508,6 +547,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5EC265D2136999D3006A10DE /* SubForumController.xib */,
+				5EC265BC136999D3006A10DE /* DetailThreadController.xib */,
+				5EC265C1136999D3006A10DE /* ForumViewController.xib */,
 				CBBD046610DE4C020056C183 /* LoadingCell.xib */,
 				CB1E3BC610CC674600B01120 /* Entitlements.plist */,
 				F6730BA113490EE70045B876 /* default.css */,
@@ -520,6 +562,7 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				22FB60DD104DC15600A0F65A /* Settings.bundle */,
 				22FB6026104D9DEA00A0F65A /* Localizable.strings */,
+				5EC2660E1369AB18006A10DE /* ATWebViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -909,6 +952,38 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		5EC265B5136999D3006A10DE /* Tapatalk */ = {
+			isa = PBXGroup;
+			children = (
+				5EC265D5136999D3006A10DE /* SynthesizeSingleton.h */,
+				5EC265B8136999D3006A10DE /* ContentCell.h */,
+				5EC265B9136999D3006A10DE /* ContentCell.m */,
+				5EC265BA136999D3006A10DE /* DetailThreadController.h */,
+				5EC265BB136999D3006A10DE /* DetailThreadController.m */,
+				5EC265C8136999D3006A10DE /* Post.h */,
+				5EC265C9136999D3006A10DE /* Post.m */,
+				5EC265CA136999D3006A10DE /* ForumViewController.h */,
+				5EC265CB136999D3006A10DE /* ForumViewController.m */,
+				5EC265CC136999D3006A10DE /* Section.h */,
+				5EC265CD136999D3006A10DE /* Section.m */,
+				5EC265CE136999D3006A10DE /* SubForum.h */,
+				5EC265CF136999D3006A10DE /* SubForum.m */,
+				5EC265D0136999D3006A10DE /* SubForumController.h */,
+				5EC265D1136999D3006A10DE /* SubForumController.m */,
+				5EC265D3136999D3006A10DE /* SubjectCell.h */,
+				5EC265D4136999D3006A10DE /* SubjectCell.m */,
+				5EC265DA136999D3006A10DE /* Topic.h */,
+				5EC265DB136999D3006A10DE /* Topic.m */,
+				5EC265DE136999D3006A10DE /* User.h */,
+				5EC265DF136999D3006A10DE /* User.m */,
+				5EC265E0136999D3006A10DE /* UserXMLParser.h */,
+				5EC265E1136999D3006A10DE /* UserXMLParser.m */,
+				5EC2660B1369AAE0006A10DE /* ATWebViewController.h */,
+				5EC2660C1369AAE1006A10DE /* ATWebViewController.m */,
+			);
+			path = Tapatalk;
+			sourceTree = "<group>";
+		};
 		CB1434AE1058616500B5FF14 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -1102,6 +1177,10 @@
 				5AB3DCA11353546800E0D3CA /* grayArrow@2x.png in Resources */,
 				5AB3DCA21353546800E0D3CA /* whiteArrow.png in Resources */,
 				5AB3DCA31353546800E0D3CA /* whiteArrow@2x.png in Resources */,
+				5EC265E5136999D3006A10DE /* DetailThreadController.xib in Resources */,
+				5EC265E8136999D3006A10DE /* ForumViewController.xib in Resources */,
+				5EC265F1136999D3006A10DE /* SubForumController.xib in Resources */,
+				5EC2660F1369AB18006A10DE /* ATWebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1135,7 +1214,6 @@
 				220A13271059031C001D295D /* Image.m in Sources */,
 				220A139510590B16001D295D /* GalleryImageViewController.m in Sources */,
 				CBC2B8D91068104200040255 /* ATMXMLUtilities.m in Sources */,
-				F69CED7610DA770800E72FD5 /* TwitterRequest.m in Sources */,
 				F6730BBA134A67040045B876 /* AsyncImageButton.m in Sources */,
 				F6730BE4134A70B40045B876 /* GCImageViewer.m in Sources */,
 				F6730BE8134A70F50045B876 /* TDHUDProgressBar.m in Sources */,
@@ -1201,6 +1279,18 @@
 				5E8D915D1352355700274017 /* SHKShareMenu.m in Sources */,
 				5E8D915E1352355700274017 /* SHKViewControllerWrapper.m in Sources */,
 				5AB3DC92135352C600E0D3CA /* EGORefreshTableHeaderView.m in Sources */,
+				5EC265E3136999D3006A10DE /* ContentCell.m in Sources */,
+				5EC265E4136999D3006A10DE /* DetailThreadController.m in Sources */,
+				5EC265EC136999D3006A10DE /* Post.m in Sources */,
+				5EC265ED136999D3006A10DE /* ForumViewController.m in Sources */,
+				5EC265EE136999D3006A10DE /* Section.m in Sources */,
+				5EC265EF136999D3006A10DE /* SubForum.m in Sources */,
+				5EC265F0136999D3006A10DE /* SubForumController.m in Sources */,
+				5EC265F2136999D3006A10DE /* SubjectCell.m in Sources */,
+				5EC265F5136999D3006A10DE /* Topic.m in Sources */,
+				5EC265F7136999D3006A10DE /* User.m in Sources */,
+				5EC265F8136999D3006A10DE /* UserXMLParser.m in Sources */,
+				5EC2660D1369AAE1006A10DE /* ATWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1223,6 +1313,15 @@
 				5E8D90C81352355700274017 /* en */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		5EC265C1136999D3006A10DE /* ForumViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5EC265C2136999D3006A10DE /* en */,
+			);
+			name = ForumViewController.xib;
+			path = Classes/Tapatalk;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -24,7 +24,6 @@
 
 #import "DetailLiveticker.h"
 #import "LivetickerController.h"
-#import "UIScrollViewPrivate.h"
 
 
 @implementation DetailLiveticker
