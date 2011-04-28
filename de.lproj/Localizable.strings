@@ -37,3 +37,12 @@
 "Subforums" = "Unterforen";
 "Username" = "Benutzername";
 "Password" = "Passwort";
+"Database error" = "Datenbank Fehler";
+"An unknown error occurred" = "Ein unerwarteter Fehler ist aufgetreten";
+"OK" = "OK";
+"Options" = "Optionen";
+"Saved News" = "Gespeicherte News";
+"Mark all News as read" = "Alle News als gel. mark.";
+"Delete all saved News" = "Alle gesp. News löschen";
+"Contact" = "Kontakt";
+"Error" = "Fehler";
