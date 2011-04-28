@@ -60,7 +60,6 @@
     navigationBar.barStyle = UIBarStyleBlack;
     navigationBar.translucent = YES;
     [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackOpaque animated:YES];
-    [self setWantsFullScreenLayout:YES];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:3
                                                   target:self
                                                 selector:@selector(hideBars)
