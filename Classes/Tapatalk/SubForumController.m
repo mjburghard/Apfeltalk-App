@@ -40,7 +40,7 @@
 #pragma mark -
 #pragma mark Private Methods
 
-- (void)loadData {
+- (void)loadStandartTopics {
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string></string></value></param></params></methodCall>", self.subForum.forumID];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
@@ -58,6 +58,28 @@
     [connection start];
 }
 
+- (void)loadPinnedTopics {
+    NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
+    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string>TOP</string></value></param></params></methodCall>", self.subForum.forumID];
+    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:data];
+    [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    
+    if (connection) {
+        self.receivedData = [[NSMutableData alloc] init];
+    }
+    
+    [connection start];
+}
+
+- (void)loadData {
+    [self loadPinnedTopics];
+}
+
 #pragma mark-
 #pragma mark NSURLConnectionDelegate
 
@@ -69,6 +91,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    //NSLog(@"%@", [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding]);
     NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
     [thread start];
     [thread release];
@@ -126,7 +149,10 @@
 #pragma mark - Table view data source
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return nil;
+    if ([self.subForum.subFora count] != 0 && section == 0) {
+        return NSLocalizedString(@"Subforums", @"");
+    }
+    return NSLocalizedString(@"Threads", @"");
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -160,12 +186,13 @@
     
     if (indexPath.section == 0 && [self.subForum.subFora count] != 0) {
         cell.textLabel.text = [(SubForum *)[self.subForum.subFora objectAtIndex:indexPath.row] name];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
     
     cell.textLabel.text = [(Topic *)[self.topics objectAtIndex:indexPath.row] title];
-    
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
     // Configure the cell...
@@ -301,6 +328,11 @@
         isPrefixes = NO;
         
     self.currentString = nil;
+}
+
+- (void)parserDidEndDocument:(NSXMLParser *)parser {
+    [super parserDidEndDocument:parser];
+    [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
 }
 
 @end
