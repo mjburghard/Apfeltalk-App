@@ -244,7 +244,7 @@
             if (loadMoreCell == nil) {
                 loadMoreCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             }
-            loadMoreCell.textLabel.text = @"Load more";
+            loadMoreCell.textLabel.text = @"Mehr";
             return loadMoreCell;
         }
         
@@ -274,7 +274,7 @@
             if (actionsCell == nil) {
                 actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
             }
-            actionsCell.textLabel.text = @"Answer";
+            actionsCell.textLabel.text = @"Antworten";
             actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
             return actionsCell;
         }
@@ -292,7 +292,7 @@
 		if (actionsCell == nil) {
 			actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
 		}
-		actionsCell.textLabel.text = @"Answer";
+		actionsCell.textLabel.text = @"Antworten";
         actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
 		return actionsCell;
 	}

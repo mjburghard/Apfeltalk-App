@@ -96,11 +96,11 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)login {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Please log in", @"") 
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Bitte melde Dich an...", @"") 
                                                         message:@"\n\n\n" 
                                                        delegate:self 
-                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"") 
-                                              otherButtonTitles:NSLocalizedString(@"Login", @""), nil];
+                                              cancelButtonTitle:NSLocalizedString(@"Abbrechen", @"") 
+                                              otherButtonTitles:NSLocalizedString(@"Anmelden", @""), nil];
     alertView.tag = 0;
     usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
     [usernameTextField setBackgroundColor:[UIColor whiteColor]];
@@ -160,16 +160,16 @@ NSString * encodeString(NSString *aString) {
 - (void)userIsLoggedIn:(BOOL)isLoggedIn {
     if (isLoggedIn) {
         NSLog(@"YES");
-        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Logout", @"");
+        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Abmelden", @"");
         [usernameTextField release];
         [passwordTextField release];
     } else {
         NSLog(@"NO");
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") 
-                                                        message:NSLocalizedString(@"Username or password is wrong", @"") 
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Fehler", @"") 
+                                                        message:NSLocalizedString(@"Falscher Benutzername oder Passwort", @"") 
                                                        delegate:self 
-                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"") 
-                                              otherButtonTitles:NSLocalizedString(@"Try again", @""), nil];
+                                              cancelButtonTitle:NSLocalizedString(@"Abbrechen", @"") 
+                                              otherButtonTitles:NSLocalizedString(@"Wiederholen", @""), nil];
         alertView.tag = 1;
         [alertView show];
         [alertView release];
@@ -213,14 +213,14 @@ NSString * encodeString(NSString *aString) {
     self.path = @"";
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
-    backButton.title = NSLocalizedString(@"Back", @"");
+    backButton.title = NSLocalizedString(@"Zurück", @"");
     self.navigationItem.backBarButtonItem = backButton;
     [backButton release];
     NSString *buttonTitle;
     if ([[User sharedUser] isLoggedIn]) {
-        buttonTitle = NSLocalizedString(@"Logout", @"");
+        buttonTitle = NSLocalizedString(@"Abmelden", @"");
     } else {
-        buttonTitle = NSLocalizedString(@"Login", @"");
+        buttonTitle = NSLocalizedString(@"Anmelden", @"");
     }
     
     UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(login)];
