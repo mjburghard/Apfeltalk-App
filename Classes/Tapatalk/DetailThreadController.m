@@ -67,7 +67,7 @@
     self.navigationItem.hidesBackButton = NO;
 }
 
-- (void)post {
+- (void)reply {
     if (![[User sharedUser] isLoggedIn]) return;
     
     NSLog(@"Content: %@", answerCell.textView.text);
@@ -302,7 +302,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
-        [self post];
+        [self reply];
     }
     
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
