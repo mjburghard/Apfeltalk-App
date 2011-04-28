@@ -44,7 +44,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	savedStories = [[NSKeyedUnarchiver unarchiveObjectWithFile:[self savedStoryFilepath]] mutableCopy];
 	[super viewWillAppear:animated];
 		
-	UIBarButtonItem *safariButton = [[UIBarButtonItem alloc] initWithTitle:@"Optionen"
+	UIBarButtonItem *safariButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Options", @"")
 																	 style:UIBarButtonItemStyleBordered
 																	target:self
 																	action:@selector(openSafari:)];
@@ -76,7 +76,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	if (section != SAVED_MESSAGES_SECTION_INDEX)
 		return @"";
 	
-	return NSLocalizedString (@"Gespeicherte News", @"");
+	return NSLocalizedString (@"Saved News", @"");
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -315,9 +315,9 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	myMenu = [[UIActionSheet alloc]
 							 initWithTitle: nil
 							 delegate:self
-							 cancelButtonTitle:@"Abbrechen"
+              cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
 							 destructiveButtonTitle:nil
-							 otherButtonTitles:@"Alle News als gel. mark.", @"Alle gesp. News löschen",nil];
+							 otherButtonTitles:NSLocalizedString(@"Mark all news as read", @""), NSLocalizedString(@"Delete all saved news", @""),nil];
 	
     [myMenu showFromTabBar:[[appDelegate tabBarController] tabBar]];
 }
@@ -348,7 +348,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 				
 				if (error != SQLITE_OK) {
 					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString (@"Datenbank Fehler", @"")
-																	message:NSLocalizedString (@"Ein unerwarteter Fehler ist aufgetreten", @"")
+																	message:NSLocalizedString (@"An unknown error occurred", @"")
 																   delegate:nil
 														  cancelButtonTitle:NSLocalizedString (@"OK", @"") otherButtonTitles:nil];
 					[alert show];

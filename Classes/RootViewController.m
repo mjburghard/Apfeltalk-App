@@ -51,8 +51,8 @@
 						  initWithTitle:@"Impressum"
 						  message:@"Diese App ist ein Community-Projekt und steht unter der Lizenz GPL v2. Entwickelt wurde sie mit freundlicher Unterstützung der Apfeltalk GmbH. \n\nDie Forenzugriffs-Schnittstelle stammt von Tapatalk. \n\n Liste der Entwickler unter Einstellungen..."
 						  delegate:self
-						  cancelButtonTitle:@"OK"
-						  otherButtonTitles:@"Kontakt"
+						  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+						  otherButtonTitles:NSLocalizedString(@"Contact", @"")
 						  ,nil];
 	[alert show];
 	[alert release];
@@ -159,8 +159,8 @@
 		
 		// This code could be resued in the News Controller
 		if (error != SQLITE_OK) {
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString (@"Datenbank Fehler", @"")
-															message:NSLocalizedString (@"Ein unerwarteter Fehler ist aufgetreten", @"")
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString (@"Database error", @"")
+															message:NSLocalizedString (@"An unknown error occurred.", @"")
 														   delegate:nil
 												  cancelButtonTitle:NSLocalizedString (@"OK", @"") otherButtonTitles:nil];
 			[alert show];
