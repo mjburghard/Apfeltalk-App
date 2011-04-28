@@ -1323,6 +1323,7 @@
 			name = ForumViewController.xib;
 			path = Classes/Tapatalk;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 /* End PBXVariantGroup section */
 
