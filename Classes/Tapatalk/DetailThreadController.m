@@ -190,7 +190,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == [self.posts count]) {
         if ([self.posts count] != 0) 
-            return NSLocalizedString(@"Answer", @"");
+            return NSLocalizedString(@"Direktantwort", @"");
         return nil;
     } else if (section == [self.posts count] +1) return nil;
     return [(Post *)[self.posts objectAtIndex:section] title];
