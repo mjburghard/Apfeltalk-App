@@ -150,10 +150,7 @@ NSString * encodeString(NSString *aString) {
                 [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
                 [request setHTTPBody:data];
                 [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-                if (userXMLParser != nil) {
-                    [userXMLParser release];
-                    userXMLParser = nil;
-                }
+                userXMLParser = nil;
                 userXMLParser = [[UserXMLParser alloc] initWithRequest:request delegate:self];
                 
             } else if (buttonIndex == 0 ) {
@@ -222,6 +219,8 @@ NSString * encodeString(NSString *aString) {
     self.receivedData = nil;
     NSLog(@"%@", [error localizedDescription]);
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil, nil];
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark -
