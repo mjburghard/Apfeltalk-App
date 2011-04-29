@@ -34,6 +34,7 @@
     if (self) {
         // Initialization code
         self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,0.0, 300.0, self.frame.size.height)];
+        self.textView.scrollEnabled = NO;
         self.textView.layer.masksToBounds = YES;
         self.textView.layer.cornerRadius = 10.0;
         self.textView.editable = NO;

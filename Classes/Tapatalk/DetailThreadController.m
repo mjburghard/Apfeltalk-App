@@ -67,7 +67,7 @@
     self.navigationItem.hidesBackButton = NO;
 }
 
-- (void)post {
+- (void)reply {
     if (![[User sharedUser] isLoggedIn]) return;
     
     NSLog(@"Content: %@", answerCell.textView.text);
@@ -95,8 +95,6 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     [super connectionDidFinishLoading:connection];
-    NSString *s = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", s);
 }
 
 #pragma mark -
@@ -119,6 +117,7 @@
         GCImageViewer *imageViewer = [[GCImageViewer alloc] initWithURL:[aRequest URL]];
         [self.navigationController pushViewController:imageViewer animated:YES];
         [imageViewer release];
+        return NO;
     }
     
     ATWebViewController *webViewController = [[ATWebViewController alloc] initWithNibName:@"ATWebViewController" bundle:nil URL:[aRequest URL]];
@@ -180,8 +179,11 @@
         return 22.0;
     } else if (indexPath.row == 1) {
         if (indexPath.section == [self.posts count]) return DEFAULT_ROW_HEIGHT;
-        CGSize size = [[(Post *)[self.posts objectAtIndex:indexPath.section] content] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17.0] constrainedToSize:CGSizeMake(300, CGFLOAT_MAX)];
-        return size.height; // Row is to high. But I don't know why.
+        ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell"];
+        contentCell.textView.text = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
+        CGFloat height = contentCell.textView.contentSize.height;
+        [contentCell release];
+        return height;
     }
     
     return DEFAULT_ROW_HEIGHT;
@@ -244,7 +246,7 @@
             if (loadMoreCell == nil) {
                 loadMoreCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             }
-            loadMoreCell.textLabel.text = @"Mehr";
+            loadMoreCell.textLabel.text = NSLocalizedString(@"More", @"");
             return loadMoreCell;
         }
         
@@ -274,7 +276,7 @@
             if (actionsCell == nil) {
                 actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
             }
-            actionsCell.textLabel.text = @"Antworten";
+            actionsCell.textLabel.text = NSLocalizedString(@"Answer", @"");
             actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
             return actionsCell;
         }
@@ -284,6 +286,7 @@
 			contentCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier] autorelease];
 		}
         contentCell.textView.text = p.content;
+        contentCell.textView.scrollEnabled = NO;
         contentCell.delegate = self;
 		return contentCell;
 	} 
@@ -292,7 +295,7 @@
 		if (actionsCell == nil) {
 			actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
 		}
-		actionsCell.textLabel.text = @"Antworten";
+		actionsCell.textLabel.text = NSLocalizedString(@"Answer", @"");
         actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
 		return actionsCell;
 	}
@@ -302,7 +305,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
-        [self post];
+        [self reply];
     }
     
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
