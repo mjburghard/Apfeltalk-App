@@ -118,6 +118,23 @@ NSString * encodeString(NSString *aString) {
     [alertView release];
 }
 
+- (void)logout {
+    self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Login", @"");
+    self.navigationItem.rightBarButtonItem.action = @selector(login);
+    
+    NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
+    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>logout_user</methodName></methodCall>"];
+    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:data];
+    [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+    [connection start];
+    [[User sharedUser] setLoggedIn:NO];
+}
+
 #pragma mark -
 #pragma mark UIAlertViewDelegate
 
@@ -161,10 +178,14 @@ NSString * encodeString(NSString *aString) {
     if (isLoggedIn) {
         NSLog(@"YES");
         self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Logout", @"");
+        self.navigationItem.rightBarButtonItem.action = @selector(logout);
         [usernameTextField release];
         [passwordTextField release];
     } else {
         NSLog(@"NO");
+        [userXMLParser abortParsing];
+        [userXMLParser release];
+        userXMLParser = nil;
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") 
                                                         message:NSLocalizedString(@"Wrong username or password", @"") 
                                                        delegate:self 
@@ -217,13 +238,16 @@ NSString * encodeString(NSString *aString) {
     self.navigationItem.backBarButtonItem = backButton;
     [backButton release];
     NSString *buttonTitle;
+    SEL selector;
     if ([[User sharedUser] isLoggedIn]) {
         buttonTitle = NSLocalizedString(@"Logout", @"");
+        selector = @selector(logout);
     } else {
         buttonTitle = NSLocalizedString(@"Login", @"");
+        selector = @selector(login);
     }
     
-    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(login)];
+    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStyleBordered target:self action:selector];
     self.navigationItem.rightBarButtonItem = loginButton;
     
     [self loadData];

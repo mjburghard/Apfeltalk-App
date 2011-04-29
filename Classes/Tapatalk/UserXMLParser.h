@@ -24,6 +24,7 @@
     NSMutableString *currentString;
     NSMutableData *receivedData;
     NSString *path;
+    NSXMLParser *parser;
     id <UserXMLParserDelegate> delegate;
     
     BOOL isResult;
@@ -33,7 +34,8 @@
 @property (retain) NSMutableData *receivedData;
 @property (retain) NSString *path;
 @property (retain) id <UserXMLParserDelegate> delegate;
+@property (retain) NSXMLParser *parser;
 
 - (id)initWithRequest:(NSURLRequest *)request delegate:(id)theDelegate;
-
+- (void)abortParsing;
 @end

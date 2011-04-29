@@ -11,7 +11,7 @@
 
 
 @implementation UserXMLParser
-@synthesize currentString, receivedData, path, delegate;
+@synthesize currentString, receivedData, path, delegate, parser;
 
 #pragma mark-
 #pragma mark init & dealloc
@@ -28,7 +28,12 @@
     return self;
 }
 
+- (void)abortParsing {
+    [self.parser abortParsing];
+}
+
 - (void)dealloc {
+    self.parser = nil;
     self.delegate = nil;
     self.path = nil;
     self.receivedData = nil;
@@ -54,7 +59,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:self.receivedData];
+    parser = [[NSXMLParser alloc] initWithData:self.receivedData];
     [parser setDelegate:self];
     [parser parse];
 }
