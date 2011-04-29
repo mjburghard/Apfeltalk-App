@@ -44,7 +44,7 @@
 
 - (IBAction)share:(UIBarButtonItem *)sender {
     
-	SHKItem *item = [SHKItem URL:self.url title:@"ShareKit is Awesome!"];
+	SHKItem *item = [SHKItem URL:self.url title:@"Hat einen interessanten Link für Dich!"];
 	SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
 	[actionSheet showFromToolbar:self.toolbar];
 }
