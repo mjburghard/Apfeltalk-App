@@ -68,7 +68,12 @@
 }
 
 - (void)reply {
-    if (![[User sharedUser] isLoggedIn]) return;
+    if (![[User sharedUser] isLoggedIn]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Please login...", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil, nil];
+        [alertView show];
+        [alertView release];
+        return;
+    }
     
     NSLog(@"Content: %@", answerCell.textView.text);
     
@@ -305,7 +310,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
-        [self reply];
+        if (indexPath.row == 1) {
+            [self reply];
+        }
     }
     
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
