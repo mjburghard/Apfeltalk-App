@@ -42,6 +42,7 @@
 #pragma mark Private Methods
 
 - (void)loadStandartTopics {
+    NSLog(@"Started loading standart Topics");
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string></string></value></param></params></methodCall>", self.subForum.forumID];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
@@ -60,6 +61,7 @@
 }
 
 - (void)loadPinnedTopics {
+    NSLog(@"Started loading pinned Topics");
     self.isLoadingPinnedTopics = YES;
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string>TOP</string></value></param></params></methodCall>", self.subForum.forumID];
