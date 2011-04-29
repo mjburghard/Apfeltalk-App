@@ -96,11 +96,11 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)login {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Bitte melde Dich an...", @"") 
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Please login...", @"") 
                                                         message:@"\n\n\n" 
                                                        delegate:self 
-                                              cancelButtonTitle:NSLocalizedString(@"Abbrechen", @"") 
-                                              otherButtonTitles:NSLocalizedString(@"Anmelden", @""), nil];
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"") 
+                                              otherButtonTitles:NSLocalizedString(@"Login", @""), nil];
     alertView.tag = 0;
     usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
     [usernameTextField setBackgroundColor:[UIColor whiteColor]];
@@ -165,7 +165,7 @@ NSString * encodeString(NSString *aString) {
         [passwordTextField release];
     } else {
         NSLog(@"NO");
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Fehler", @"") 
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") 
                                                         message:NSLocalizedString(@"Wrong username or password", @"") 
                                                        delegate:self 
                                               cancelButtonTitle:NSLocalizedString(@"Cancel", @"") 
