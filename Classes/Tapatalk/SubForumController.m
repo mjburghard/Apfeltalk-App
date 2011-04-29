@@ -9,7 +9,7 @@
 #import "SubForumController.h"
 
 @implementation SubForumController
-@synthesize subForum, currentTopic, topics;
+@synthesize subForum, currentTopic, topics, isLoadingPinnedTopics;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil subForum:(SubForum *)aSubForum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -23,6 +23,7 @@
 
 - (void)dealloc
 {
+    self.isLoadingPinnedTopics = NO;
     self.subForum = nil;
     self.currentTopic = nil;
     self.topics = nil;
@@ -59,6 +60,7 @@
 }
 
 - (void)loadPinnedTopics {
+    self.isLoadingPinnedTopics = YES;
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string>TOP</string></value></param></params></methodCall>", self.subForum.forumID];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
@@ -172,6 +174,11 @@
     if (section == 0 && [self.subForum.subFora count] != 0) {
         return [self.subForum.subFora count];
     }
+    
+    if ([self.topics count] == 0) {
+        return 1;
+    }
+    
     return [self.topics count];
 }
 
@@ -189,6 +196,14 @@
         cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
+    }
+    
+    if ([self.topics count] == 0) {
+        if(loadingCell == nil) {
+			[[NSBundle mainBundle] loadNibNamed:@"LoadingCell" owner:self options:nil];
+		}
+		
+		return loadingCell;
     }
     
     cell.textLabel.text = [(Topic *)[self.topics objectAtIndex:indexPath.row] title];
@@ -331,8 +346,12 @@
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
+    if (self.isLoadingPinnedTopics) {
+        self.isLoadingPinnedTopics = NO;
+        [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
+        return;
+    }
     [super parserDidEndDocument:parser];
-    [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
 }
 
 @end

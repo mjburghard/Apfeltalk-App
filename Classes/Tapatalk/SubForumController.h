@@ -18,6 +18,7 @@
     NSMutableArray *topics;
     
     BOOL isTopicID, isTopicTitle, isPrefixes;
+    BOOL isLoadingPinnedTopics;
     
 }
 
@@ -25,6 +26,7 @@
 @property (retain) SubForum *subForum;
 @property (retain) Topic *currentTopic;
 @property (retain) NSMutableArray *topics;
+@property (assign) BOOL isLoadingPinnedTopics;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil subForum:(SubForum *)aSubForum;
 
