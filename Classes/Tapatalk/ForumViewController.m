@@ -221,6 +221,7 @@ NSString * encodeString(NSString *aString) {
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     self.receivedData = nil;
     NSLog(@"%@", [error localizedDescription]);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil, nil];
 }
 
 #pragma mark -
