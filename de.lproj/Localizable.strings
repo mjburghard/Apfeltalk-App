@@ -24,7 +24,7 @@
 
 "Cancel" = "Abbrechen";
 "LivetickerController.noTicker" = "Kein Liveticker";
-"NewsController.TableView.DeleteButtonLabel" = "Löschen";
+"NewsController.TableView.DeleteButtonLabel" = "L√∂schen";
 "Parsing Error" = "Parser Fehler";
 "Logout" = "Abmelden";
 "Login" = "Anmelden";
@@ -43,7 +43,7 @@
 "Options" = "Optionen";
 "Saved News" = "Gespeicherte News";
 "Mark all news as read" = "Alle News als gel. mark.";
-"Delete all saved news" = "Alle gesp. News löschen";
+"Delete all saved news" = "Alle gesp. News l√∂schen";
 "Contact" = "Kontakt";
 "Error" = "Fehler";
 "Please login..." = "Bitte melde Dich an...";
