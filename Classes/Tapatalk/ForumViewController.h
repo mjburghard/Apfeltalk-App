@@ -25,6 +25,7 @@
     Section *currentSection;
     SubForum *currentSubForum;
     SubForum *currentSubSubForum;
+    SubForum *currentSubSubSubForum;
     
     BOOL isForumName;
     BOOL isDescription;
@@ -36,6 +37,8 @@
     
     BOOL isChildChildForumName, isChildChildDescription, isChildChildSubForum, isChildChildSubOnly, isChildChildForumID;
     
+    BOOL isChildChildChildForumName, isChildChildChildDescription, isChildChildChildSubForum, isChildChildChildSubOnly, isChildChildChildForumID;
+    
 }
 
 @property (retain) NSMutableString *currentString;
@@ -46,6 +49,7 @@
 @property (retain) Section *currentSection;
 @property (retain) SubForum *currentSubForum;
 @property (retain) SubForum *currentSubSubForum;
+@property (retain) SubForum *currentSubSubSubForum;
 
 NSString * decodeString(NSString *aString);
 NSString * encodeString(NSString *aString);

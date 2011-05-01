@@ -15,12 +15,13 @@
 #import "UserXMLParser.h"
 
 @implementation ForumViewController
-@synthesize receivedData, sections, currentString, path, currentSection, currentSubForum, currentSubSubForum;
+@synthesize receivedData, sections, currentString, path, currentSection, currentSubForum, currentSubSubForum, currentSubSubSubForum;
 
 #pragma mark -
 #pragma mark init & dealloc
 
 - (void)dealloc {
+    self.currentSubSubSubForum = nil;
     self.currentSubSubForum = nil;
     self.path = nil;
     self.currentSection = nil;
@@ -408,6 +409,9 @@ NSString * encodeString(NSString *aString) {
         self.currentSubForum.subFora = [NSMutableArray array];
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data"]) {
         self.currentSubSubForum = [[SubForum alloc] init];
+        self.currentSubSubForum.subFora = [NSMutableArray array];
+    }else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data"]) {
+        self.currentSubSubSubForum = [[SubForum alloc] init];
     }
     
     self.path = [self.path stringByAppendingPathComponent:elementName];
@@ -538,6 +542,44 @@ NSString * encodeString(NSString *aString) {
                 self.currentSubSubForum.subForaOnly = NO;
             }
         }
+    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/name"]) {
+        if ([self.currentString isEqualToString:@"forum_name"]) {
+            isChildChildChildForumName = YES;
+        } else if ([self.currentString isEqualToString:@"description"]) {
+            isChildChildChildDescription = YES;
+        } else if ([self.currentString isEqualToString:@"sub_only"]) {
+            isChildChildChildSubOnly = YES;
+        } else if ([self.currentString isEqualToString:@"forum_id"]) {
+            isChildChildChildForumID = YES;
+        }
+    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/base64"]) {
+        // First decode base64 data
+        
+        self.currentString = (NSMutableString *)decodeString(self.currentString);
+        if (isChildChildChildForumName) {
+            isChildChildChildForumName = NO;
+            self.currentSubSubSubForum.name = self.currentString;
+        }
+        
+        if (isChildChildChildDescription) {
+            isChildChildChildDescription = NO;
+            
+            self.currentSubSubSubForum.description = self.currentString;
+        }
+    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/string"]) {
+        if (isChildChildChildForumID) {
+            isChildChildChildForumID = NO;
+            self.currentSubSubSubForum.forumID = [self.currentString intValue];
+        }
+    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
+        if (isChildChildChildSubOnly) {
+            isChildChildChildSubOnly = NO;
+            if ([self.currentString isEqualToString:@"1"]) {
+                self.currentSubSubSubForum.subForaOnly = YES;
+            } else {
+                self.currentSubSubSubForum.subForaOnly = NO;
+            }
+        }
     } 
     
     
@@ -548,6 +590,8 @@ NSString * encodeString(NSString *aString) {
         [self.currentSection.subFora addObject:self.currentSubForum];
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data"]) {
         [self.currentSubForum.subFora addObject:self.currentSubSubForum];
+    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data"]) {
+        [self.currentSubSubForum.subFora addObject:self.currentSubSubSubForum];
     }
     
     self.currentString = nil;
