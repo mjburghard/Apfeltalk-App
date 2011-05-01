@@ -10,9 +10,10 @@
 
 
 @implementation Post
-@synthesize postID, title, content, author, authorID;
+@synthesize postID, title, content, author, authorID, postDate;
 
 - (void)dealloc {
+    self.postDate = nil;
     self.authorID = 0;
     self.postID = 0;
     self.title = nil;

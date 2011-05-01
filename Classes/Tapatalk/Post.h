@@ -14,6 +14,7 @@
     NSString *title;
     NSString *content;
     NSString *author;
+    NSDate *postDate;
     int authorID;
 }
 
@@ -22,6 +23,7 @@
 @property (copy) NSString *title;
 @property (copy) NSString *content;
 @property (copy) NSString *author;
+@property (retain) NSDate *postDate;
 
 
 @end
