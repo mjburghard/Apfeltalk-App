@@ -33,7 +33,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,0.0, 300.0, self.frame.size.height)];
+        self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,7.0, 300.0, self.frame.size.height-7.0)];
         self.textView.scrollEnabled = NO;
         self.textView.layer.masksToBounds = YES;
         self.textView.layer.cornerRadius = 10.0;
