@@ -44,10 +44,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	savedStories = [[NSKeyedUnarchiver unarchiveObjectWithFile:[self savedStoryFilepath]] mutableCopy];
 	[super viewWillAppear:animated];
 		
-	UIBarButtonItem *safariButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Options", @"")
-																	 style:UIBarButtonItemStyleBordered
-																	target:self
-																	action:@selector(openSafari:)];
+	UIBarButtonItem *safariButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openSafari:)];
 	self.navigationItem.leftBarButtonItem = safariButton;
 	[safariButton release];
 }
@@ -191,6 +188,17 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 
 - (void)changeStory:(id)sender
 {
+	
+	//Animation
+	/*
+	CATransition *animation = [CATransition animation];
+	[animation setDuration:0.3];
+	[animation setType:kCATransitionFade];
+	[animation setSubtype:kCATransitionFromTop];
+	[animation setRemovedOnCompletion:YES];
+	[[textView layer] addAnimation:animation forKey:nil];
+	 */
+
     NSUInteger  newIndex = [self displayedStoryIndex];
     NSArray    *storiesArray;
     Story      *newStory;
@@ -315,9 +323,9 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	myMenu = [[UIActionSheet alloc]
 							 initWithTitle: nil
 							 delegate:self
-              cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
+              cancelButtonTitle:NSLocalizedString(@"Abbrechen", @"")
 							 destructiveButtonTitle:nil
-							 otherButtonTitles:NSLocalizedString(@"Mark all news as read", @""), NSLocalizedString(@"Delete all saved news", @""),nil];
+							 otherButtonTitles:NSLocalizedString(@"Alle News als gel. markieren", @""), NSLocalizedString(@"Alle gesp. News löschen", @""),nil];
 	
     [myMenu showFromTabBar:[[appDelegate tabBarController] tabBar]];
 }
@@ -387,6 +395,9 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	}
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+}
 - (void) dealloc {
 	[savedStories release];
 	[super dealloc];
