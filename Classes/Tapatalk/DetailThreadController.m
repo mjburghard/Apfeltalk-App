@@ -181,12 +181,12 @@
     if ([self.posts count] != 0 && indexPath.row == 0) {
         if (indexPath.section == [self.posts count]) return 100.0;
         if (indexPath.section == [self.posts count]) return DEFAULT_ROW_HEIGHT;
-        return 22.0;
+        return 30.0;
     } else if (indexPath.row == 1) {
         if (indexPath.section == [self.posts count]) return DEFAULT_ROW_HEIGHT;
         ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell"];
         contentCell.textView.text = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
-        CGFloat height = contentCell.textView.contentSize.height;
+        CGFloat height = contentCell.textView.contentSize.height+7;
         [contentCell release];
         return height;
     }
@@ -197,7 +197,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == [self.posts count]) {
         if ([self.posts count] != 0) 
-            return NSLocalizedString(@"Direktantwort", @"");
+            return NSLocalizedString(@"Direct response", @"");
         return nil;
     } else if (section == [self.posts count] +1) return nil;
     return [(Post *)[self.posts objectAtIndex:section] title];
@@ -269,9 +269,12 @@
 		if (authorCell == nil) {
 			authorCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:AuthorCellIdentifier] autorelease];
 		}
+        
+        NSDateFormatter *outFormatter = [[NSDateFormatter alloc] init];
+        [outFormatter setDateFormat:@"dd.MM.yyyy HH:mm"];
 		authorCell.textLabel.text = p.author;
         authorCell.detailTextLabel.textColor = authorCell.textLabel.textColor;
-        authorCell.detailTextLabel.text = @"Datum";
+        authorCell.detailTextLabel.text = [outFormatter stringFromDate:p.postDate];
         
 		return authorCell;
 	}
@@ -376,6 +379,14 @@
         }
         
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
+    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/dateTime.iso8601"]) {
+        self.currentString = (NSMutableString *)[self.currentString stringByReplacingOccurrencesOfString:@":" withString:@"" options:0 range:NSMakeRange(20, 1)];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"de_DE"];
+        [dateFormatter setLocale:locale];
+        NSString *dateFormat = @"yyyyMMdd'T'HH:mm:ssZZZ";
+        [dateFormatter setDateFormat:dateFormat];
+        self.currentPost.postDate = [dateFormatter dateFromString:self.currentString];
     }
     
     self.path = [self.path stringByDeletingLastPathComponent];
