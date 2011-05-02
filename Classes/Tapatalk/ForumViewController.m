@@ -15,17 +15,23 @@
 #import "UserXMLParser.h"
 
 @implementation ForumViewController
-@synthesize receivedData, sections, currentString, path, currentSection, currentSubForum, currentSubSubForum, currentSubSubSubForum;
+@synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject;
+
+NSString* const kSectionPath = @"methodResponse/params/param/value/array/data";
+NSString* const kFirstLevelForumPath = @"methodResponse/params/param/value/array/data/value/struct/member/value/array/data";
+NSString* const kSecondLevelForumPath = @"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data";
+NSString* const kThirdLevelForumPath = @"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data";
 
 #pragma mark -
 #pragma mark init & dealloc
 
 - (void)dealloc {
-    self.currentSubSubSubForum = nil;
-    self.currentSubSubForum = nil;
+    self.currentObject = nil;
+    self.currentThirdLevelForum = nil;
+    self.currentSecondLevelForum = nil;
     self.path = nil;
     self.currentSection = nil;
-    self.currentSubForum = nil;
+    self.currentFirstLevelForum = nil;
     self.currentString = nil;
     self.sections = nil;
     self.receivedData = nil;
@@ -399,19 +405,27 @@ NSString * encodeString(NSString *aString) {
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qualifiedName 
     attributes:(NSDictionary *)attributeDict {
-    self.currentString = [NSMutableString new];
+    self.currentString = [[NSMutableString alloc] init];
     
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data"]) {
+    if ([self.path isEqualToString:kSectionPath]) {
+        isSection = YES;
         self.currentSection = [[Section alloc] init];
         self.currentSection.subFora = [NSMutableArray array];
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data"]) {
-        self.currentSubForum = [[SubForum alloc] init];
-        self.currentSubForum.subFora = [NSMutableArray array];
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data"]) {
-        self.currentSubSubForum = [[SubForum alloc] init];
-        self.currentSubSubForum.subFora = [NSMutableArray array];
-    }else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data"]) {
-        self.currentSubSubSubForum = [[SubForum alloc] init];
+        self.currentObject = (SubForum *)self.currentSection;
+    } else if ([self.path isEqualToString:kFirstLevelForumPath]) {
+        isFirstLevelForum = YES;
+        self.currentFirstLevelForum = [[SubForum alloc] init];
+        self.currentFirstLevelForum.subFora = [NSMutableArray array];
+        self.currentObject = self.currentFirstLevelForum;
+    } else if ([self.path isEqualToString:kSecondLevelForumPath]) {
+        isSecondLevelForum = YES;
+        self.currentSecondLevelForum = [[SubForum alloc] init];
+        self.currentSecondLevelForum.subFora = [NSMutableArray array];
+        self.currentObject = self.currentSecondLevelForum;
+    }else if ([self.path isEqualToString:kThirdLevelForumPath]) {
+        isThirdLevelForum = YES;
+        self.currentThirdLevelForum = [[SubForum alloc] init];
+        self.currentObject = self.currentThirdLevelForum;
     }
     
     self.path = [self.path stringByAppendingPathComponent:elementName];
@@ -426,6 +440,45 @@ NSString * encodeString(NSString *aString) {
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qName {
     
+    if ([elementName isEqualToString:@"name"]) {
+        if ([self.currentString isEqualToString:@"forum_name"]) {
+            isForumName = YES;
+        } else if ([self.currentString isEqualToString:@"description"]) {
+            isDescription = YES;
+        } else if ([self.currentString isEqualToString:@"sub_only"]) {
+            isSubOnly = YES;
+        } else if ([self.currentString isEqualToString:@"forum_id"]) {
+            isForumID = YES;
+        }
+    }
+    
+    if ([elementName isEqualToString:@"base64"]) {
+        // First decode base64 data
+        
+        self.currentString = (NSMutableString *)decodeString(self.currentString);
+        
+        if (isForumName) {
+            isForumName = NO;
+            self.currentObject.name = self.currentString;
+        } else if (isDescription) {
+            isDescription = NO;
+        }
+    } else if ([elementName isEqualToString:@"string"]) {
+        if (isForumID) {
+            isForumID = NO;
+            self.currentObject.forumID = [self.currentString intValue];
+        }
+    } else if ([elementName isEqualToString:@"boolean"]) {
+        if (isSubOnly) {
+            isSubOnly = NO;
+            if ([self.currentString isEqualToString:@"1"]) {
+                self.currentObject.subForaOnly = YES;
+            } else {
+                self.currentObject.subForaOnly = NO;
+            }
+        }
+    } 
+    /*
     if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/name"]) {
         if ([self.currentString isEqualToString:@"forum_name"]) {
             isForumName = YES;
@@ -482,26 +535,26 @@ NSString * encodeString(NSString *aString) {
         self.currentString = (NSMutableString *)decodeString(self.currentString);
         if (isChildForumName) {
             isChildForumName = NO;
-            self.currentSubForum.name = self.currentString;
+            self.currentFirstLevelForum.name = self.currentString;
         }
         
         if (isChildDescription) {
             isChildDescription = NO;
             
-            self.currentSubForum.description = self.currentString;
+            self.currentFirstLevelForum.description = self.currentString;
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/string"]) {
         if (isChildForumID) {
             isChildForumID = NO;
-            self.currentSubForum.forumID = [self.currentString intValue];
+            self.currentFirstLevelForum.forumID = [self.currentString intValue];
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
         if (isChildSubOnly) {
             isChildSubOnly = NO;
             if ([self.currentString isEqualToString:@"1"]) {
-                self.currentSubForum.subForaOnly = YES;
+                self.currentFirstLevelForum.subForaOnly = YES;
             } else {
-                self.currentSubForum.subForaOnly = NO;
+                self.currentFirstLevelForum.subForaOnly = NO;
             }
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/name"]) {
@@ -520,26 +573,26 @@ NSString * encodeString(NSString *aString) {
         self.currentString = (NSMutableString *)decodeString(self.currentString);
         if (isChildChildForumName) {
             isChildChildForumName = NO;
-            self.currentSubSubForum.name = self.currentString;
+            self.currentSecondLevelForum.name = self.currentString;
         }
         
         if (isChildChildDescription) {
             isChildChildDescription = NO;
             
-            self.currentSubSubForum.description = self.currentString;
+            self.currentSecondLevelForum.description = self.currentString;
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/string"]) {
         if (isChildChildForumID) {
             isChildChildForumID = NO;
-            self.currentSubSubForum.forumID = [self.currentString intValue];
+            self.currentSecondLevelForum.forumID = [self.currentString intValue];
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
         if (isChildChildSubOnly) {
             isChildChildSubOnly = NO;
             if ([self.currentString isEqualToString:@"1"]) {
-                self.currentSubSubForum.subForaOnly = YES;
+                self.currentSecondLevelForum.subForaOnly = YES;
             } else {
-                self.currentSubSubForum.subForaOnly = NO;
+                self.currentSecondLevelForum.subForaOnly = NO;
             }
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/name"]) {
@@ -558,42 +611,46 @@ NSString * encodeString(NSString *aString) {
         self.currentString = (NSMutableString *)decodeString(self.currentString);
         if (isChildChildChildForumName) {
             isChildChildChildForumName = NO;
-            self.currentSubSubSubForum.name = self.currentString;
+            self.currentThirdLevelForum.name = self.currentString;
         }
         
         if (isChildChildChildDescription) {
             isChildChildChildDescription = NO;
             
-            self.currentSubSubSubForum.description = self.currentString;
+            self.currentThirdLevelForum.description = self.currentString;
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/string"]) {
         if (isChildChildChildForumID) {
             isChildChildChildForumID = NO;
-            self.currentSubSubSubForum.forumID = [self.currentString intValue];
+            self.currentThirdLevelForum.forumID = [self.currentString intValue];
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
         if (isChildChildChildSubOnly) {
             isChildChildChildSubOnly = NO;
             if ([self.currentString isEqualToString:@"1"]) {
-                self.currentSubSubSubForum.subForaOnly = YES;
+                self.currentThirdLevelForum.subForaOnly = YES;
             } else {
-                self.currentSubSubSubForum.subForaOnly = NO;
+                self.currentThirdLevelForum.subForaOnly = NO;
             }
         }
     } 
     
-    
+    */
     self.path = [self.path stringByDeletingLastPathComponent];
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data"]) {
-        [self.sections addObject:self.currentSection];
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data"]) {
-        [self.currentSection.subFora addObject:self.currentSubForum];
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data"]) {
-        [self.currentSubForum.subFora addObject:self.currentSubSubForum];
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data/value/struct/member/value/array/data"]) {
-        [self.currentSubSubForum.subFora addObject:self.currentSubSubSubForum];
-    }
     
+    if ([self.path isEqualToString:kSectionPath]) {
+        isSection = NO;
+        [self.sections addObject:self.currentSection];
+    } else if ([self.path isEqualToString:kFirstLevelForumPath]) {
+        isFirstLevelForum = NO;
+        [self.currentSection.subFora addObject:self.currentFirstLevelForum];
+    } else if ([self.path isEqualToString:kSecondLevelForumPath]) {
+        isSecondLevelForum = NO;
+        [self.currentFirstLevelForum.subFora addObject:self.currentSecondLevelForum];
+    } else if ([self.path isEqualToString:kThirdLevelForumPath]) {
+        isThirdLevelForum = NO;
+        [self.currentSecondLevelForum.subFora addObject:self.currentThirdLevelForum];
+    }
     self.currentString = nil;
 }
 

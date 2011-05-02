@@ -22,23 +22,19 @@
     UITableViewCell *loadingCell;
     UserXMLParser *userXMLParser;
     
+    SubForum *currentObject;
     Section *currentSection;
-    SubForum *currentSubForum;
-    SubForum *currentSubSubForum;
-    SubForum *currentSubSubSubForum;
+    SubForum *currentFirstLevelForum;
+    SubForum *currentSecondLevelForum;
+    SubForum *currentThirdLevelForum;
+    
+    BOOL isSection, isFirstLevelForum, isSecondLevelForum, isThirdLevelForum;
     
     BOOL isForumName;
     BOOL isDescription;
-    BOOL isChild;
     BOOL isSubForum;
     BOOL isSubOnly;
     BOOL isForumID;
-    BOOL isChildForumName, isChildDescription, isChildSubForum, isChildSubOnly, isChildForumID;
-    
-    BOOL isChildChildForumName, isChildChildDescription, isChildChildSubForum, isChildChildSubOnly, isChildChildForumID;
-    
-    BOOL isChildChildChildForumName, isChildChildChildDescription, isChildChildChildSubForum, isChildChildChildSubOnly, isChildChildChildForumID;
-    
 }
 
 @property (retain) NSMutableString *currentString;
@@ -46,10 +42,11 @@
 @property (retain) NSMutableArray *sections;
 @property (retain) NSString *path;
 
+@property (retain) SubForum *currentObject;
 @property (retain) Section *currentSection;
-@property (retain) SubForum *currentSubForum;
-@property (retain) SubForum *currentSubSubForum;
-@property (retain) SubForum *currentSubSubSubForum;
+@property (retain) SubForum *currentFirstLevelForum;
+@property (retain) SubForum *currentSecondLevelForum;
+@property (retain) SubForum *currentThirdLevelForum;
 
 NSString * decodeString(NSString *aString);
 NSString * encodeString(NSString *aString);
