@@ -171,7 +171,7 @@
     if ([stories count])
         return nil;
     else
-        return NSLocalizedString(@"LivetickerController.noTicker", nil);
+        return NSLocalizedStringFromTable(@"LivetickerController.noTicker", @"ATLocalizable", @"");
 }
 
 
@@ -224,7 +224,7 @@
 {
     [(LivetickerNavigationController *)[self navigationController] setReloadTimer:nil];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Content konnte nicht geladen werden", nil) message:@"Der Feed ist im Moment nicht verfügbar. Versuche es bitte später erneut."
-													   delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:nil];
+													   delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") otherButtonTitles:nil];
     [alertView show];
     [alertView release];
 }

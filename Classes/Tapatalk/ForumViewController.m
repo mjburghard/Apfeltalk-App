@@ -103,18 +103,18 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)login {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Please login...", @"") 
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Please login...", @"ATLocalizable", @"") 
                                                         message:@"\n\n\n" 
                                                        delegate:self 
-                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"") 
-                                              otherButtonTitles:NSLocalizedString(@"Login", @""), nil];
+                                              cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") 
+                                              otherButtonTitles:NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @""), nil];
     alertView.tag = 0;
     usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
     [usernameTextField setBackgroundColor:[UIColor whiteColor]];
     passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 75.0, 260.0, 25.0)];
     [passwordTextField setBackgroundColor:[UIColor whiteColor]];
-    usernameTextField.placeholder = NSLocalizedString(@"Username", @"");
-    passwordTextField.placeholder = NSLocalizedString(@"Password", @"");
+    usernameTextField.placeholder = NSLocalizedStringFromTable(@"Username", @"ATLocalizable", @"");
+    passwordTextField.placeholder = NSLocalizedStringFromTable(@"Password", @"ATLocalizable", @"");
     passwordTextField.secureTextEntry = YES;
     
     [alertView addSubview:usernameTextField];
@@ -126,7 +126,7 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)logout {
-    self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Login", @"");
+    self.navigationItem.rightBarButtonItem.title = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
     self.navigationItem.rightBarButtonItem.action = @selector(login);
     
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
@@ -181,7 +181,7 @@ NSString * encodeString(NSString *aString) {
 - (void)userIsLoggedIn:(BOOL)isLoggedIn {
     if (isLoggedIn) {
         NSLog(@"YES");
-        self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Logout", @"");
+        self.navigationItem.rightBarButtonItem.title = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
         self.navigationItem.rightBarButtonItem.action = @selector(logout);
         [usernameTextField release];
         [passwordTextField release];
@@ -190,11 +190,11 @@ NSString * encodeString(NSString *aString) {
         [userXMLParser abortParsing];
         [userXMLParser release];
         userXMLParser = nil;
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") 
-                                                        message:NSLocalizedString(@"Wrong username or password", @"") 
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") 
+                                                        message:NSLocalizedStringFromTable(@"Wrong username or password", @"ATLocalizable", @"") 
                                                        delegate:self 
-                                              cancelButtonTitle:NSLocalizedString(@"Cancel", @"") 
-                                              otherButtonTitles:NSLocalizedString(@"Retry", @""), nil];
+                                              cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") 
+                                              otherButtonTitles:NSLocalizedStringFromTable(@"Retry", @"ATLocalizable", @""), nil];
         alertView.tag = 1;
         [alertView show];
         [alertView release];
@@ -225,7 +225,7 @@ NSString * encodeString(NSString *aString) {
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     self.receivedData = nil;
     NSLog(@"%@", [error localizedDescription]);
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil, nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil, nil];
     [alertView show];
     [alertView release];
 }
@@ -241,16 +241,16 @@ NSString * encodeString(NSString *aString) {
     self.path = @"";
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
-    backButton.title = NSLocalizedString(@"Back", @"");
+    backButton.title = NSLocalizedStringFromTable(@"Back", @"ATLocalizable", @"");
     self.navigationItem.backBarButtonItem = backButton;
     [backButton release];
     NSString *buttonTitle;
     SEL selector;
     if ([[User sharedUser] isLoggedIn]) {
-        buttonTitle = NSLocalizedString(@"Logout", @"");
+        buttonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
         selector = @selector(logout);
     } else {
-        buttonTitle = NSLocalizedString(@"Login", @"");
+        buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
         selector = @selector(login);
     }
     

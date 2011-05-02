@@ -68,7 +68,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)reply {
     if (![[User sharedUser] isLoggedIn]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") message:NSLocalizedString(@"Please login...", @"") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"") otherButtonTitles:nil, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") message:NSLocalizedStringFromTable(@"Please login...", @"ATLocalizable", @"") delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil, nil];
         [alertView show];
         [alertView release];
         return;
@@ -132,6 +132,8 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)contentCellDidBeginEditing:(ContentCell *)cell {
+    [self.tableView scrollRectToVisible:[self.tableView rectForSection:[self.tableView numberOfSections] -2] animated:YES];
+    
     activeView = cell.textView;
     if (self.navigationItem.hidesBackButton) {
         return;
@@ -196,7 +198,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == [self.posts count]) {
         if ([self.posts count] != 0) 
-            return NSLocalizedString(@"Direct response", @"");
+            return NSLocalizedStringFromTable(@"Direct response", @"ATLocalizable", @"");
         return nil;
     } else if (section == [self.posts count] +1) return nil;
     return [(Post *)[self.posts objectAtIndex:section] title];
@@ -250,7 +252,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             if (loadMoreCell == nil) {
                 loadMoreCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             }
-            loadMoreCell.textLabel.text = NSLocalizedString(@"More", @"");
+            loadMoreCell.textLabel.text = NSLocalizedStringFromTable(@"More", @"ATLocalizable", @"");
             return loadMoreCell;
         }
         
@@ -283,7 +285,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             if (actionsCell == nil) {
                 actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
             }
-            actionsCell.textLabel.text = NSLocalizedString(@"Answer", @"");
+            actionsCell.textLabel.text = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
             actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
             return actionsCell;
         }
@@ -302,7 +304,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 		if (actionsCell == nil) {
 			actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
 		}
-		actionsCell.textLabel.text = NSLocalizedString(@"Answer", @"");
+		actionsCell.textLabel.text = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
         actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
 		return actionsCell;
 	}
@@ -312,6 +314,9 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
+        if (indexPath.row == 0) {
+            [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        }
         if (indexPath.row == 1) {
             [self reply];
         }

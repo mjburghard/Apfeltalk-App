@@ -152,9 +152,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if ([self.subForum.subFora count] != 0 && section == 0) {
-        return NSLocalizedString(@"Subforums", @"");
+        return NSLocalizedStringFromTable(@"Subforums", @"ATLocalizable", @"");
     }
-    return NSLocalizedString(@"Threads", @"");
+    return NSLocalizedStringFromTable(@"Threads", @"ATLocalizable", @"");
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -260,6 +260,7 @@
 {
     // Navigation logic may go here. Create and push another view controller.
     
+    
     if (indexPath.section == 0 && [self.subForum.subFora count] != 0) {
         SubForumController *subForumController = [[SubForumController alloc] initWithNibName:@"SubForumController" 
                                                                                       bundle:nil 
@@ -269,6 +270,11 @@
         [subForumController release];
         return;
     }
+    
+    if ([self.topics count] == 0) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
     DetailThreadController *detailThreadController = [[DetailThreadController alloc] initWithNibName:@"DetailThreadController" bundle:nil topic:(Topic *)[self.topics objectAtIndex:indexPath.row]];
     [self.navigationController pushViewController:detailThreadController animated:YES];
     [detailThreadController release];

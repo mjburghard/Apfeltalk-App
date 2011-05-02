@@ -51,8 +51,8 @@
 						  initWithTitle:@"Impressum"
 						  message:@"Diese App ist ein Community-Projekt und steht unter der Lizenz GPL v2. Entwickelt wurde sie mit freundlicher Unterstützung der Apfeltalk GmbH. \n\nDie Forenzugriffs-Schnittstelle stammt von Tapatalk. \n\n Liste der Entwickler unter Einstellungen..."
 						  delegate:self
-						  cancelButtonTitle:NSLocalizedString(@"OK", @"")
-						  otherButtonTitles:NSLocalizedString(@"Contact", @"")
+						  cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"")
+						  otherButtonTitles:NSLocalizedStringFromTable(@"Contact", @"ATLocalizable", @"")
 						  ,nil];
 	[alert show];
 	[alert release];
@@ -159,10 +159,10 @@
 		
 		// This code could be resued in the News Controller
 		if (error != SQLITE_OK) {
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString (@"Database error", @"")
-															message:NSLocalizedString (@"An unknown error occurred.", @"")
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Database error", @"ATLocalizable", @"")
+															message:NSLocalizedStringFromTable(@"An unknown error occurred.", @"ATLocalizable", @"")
 														   delegate:nil
-												  cancelButtonTitle:NSLocalizedString (@"OK", @"") otherButtonTitles:nil];
+												  cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
 			[alert show];
 			[alert release];
 		}
@@ -484,7 +484,7 @@
     NSLog(@"%@", [parseError localizedDescription]);
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Content konnte nicht geladen werden", nil)
                                                         message:@"Der Feed ist im Moment nicht verfügbar. Versuche es bitte später erneut."
-													   delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:nil];
+													   delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") otherButtonTitles:nil];
     [alertView show];
     [alertView release];
 }

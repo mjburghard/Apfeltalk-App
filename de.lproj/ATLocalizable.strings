@@ -1,0 +1,52 @@
+//
+//  Localizable.strings
+//  Apfeltalk Magazin
+//
+//	Apfeltalk Magazin -- An iPhone Application for the site http://apfeltalk.de
+//	Copyright (C) 2009	Stephan König (stephankoenig at mac dot com), Stefan Kofler
+//						Alexander von Below, Andreas Rami, Michael Fenske, Jesper (Graphics),
+//						Patrick Rollbis (Graphics),
+//						
+//	This program is free software; you can redistribute it and/or
+//	modify it under the terms of the GNU General Public License
+//	as published by the Free Software Foundation; either version 2
+//	of the License, or (at your option) any later version.
+//
+//	This program is distributed in the hope that it will be useful,
+//	but WITHOUT ANY WARRANTY; without even the implied warranty of
+//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//	GNU General Public License for more details.
+//
+//	You should have received a copy of the GNU General Public License
+//	along with this program; if not, write to the Free Software
+//	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.//
+//
+
+"Cancel" = "Abbrechen";
+"LivetickerController.noTicker" = "Kein Liveticker";
+"NewsController.TableView.DeleteButtonLabel" = "Löschen";
+"Parsing Error" = "Parser Fehler";
+"Logout" = "Abmelden";
+"Login" = "Anmelden";
+"Wrong username or password" = "Falscher Nutzername oder Passwort";
+"Retry" = "Wiederholen";
+"Answer" = "Antworten";
+"Back" = "Zurück";
+"More" = "Mehr";
+"Threads" = "Themen";
+"Subforums" = "Unterforen";
+"Username" = "Benutzername";
+"Password" = "Passwort";
+"Database error" = "Datenbank Fehler";
+"An unknown error occurred" = "Ein unerwarteter Fehler ist aufgetreten";
+"OK" = "OK";
+"Options" = "Optionen";
+"Saved News" = "Gespeicherte News";
+"Mark all news as read" = "Alle News als gel. mark.";
+"Delete all saved news" = "Alle gesp. News löschen";
+"Contact" = "Kontakt";
+"Error" = "Fehler";
+"Please login..." = "Bitte melde Dich an...";
+"Direct response" = "Direktantwort";
+"Save" = "Speichern";
+"Send Mail" = "Per Mail versenden";

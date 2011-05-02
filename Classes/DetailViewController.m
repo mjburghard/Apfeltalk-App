@@ -161,7 +161,7 @@
 
 
 - (NSString *) rightBarButtonTitle {
-	return NSLocalizedString (@"Optionen", @"");
+	return NSLocalizedStringFromTable(@"Options", @"ATLocalizable", @"");
 }
 
 

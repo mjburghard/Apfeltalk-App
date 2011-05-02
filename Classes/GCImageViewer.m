@@ -108,10 +108,10 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", @"") 
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") 
 													message:@"Vorgang nicht möglich, du bist nicht mit dem Internet verbunden." 
 												   delegate:self 
-										  cancelButtonTitle:NSLocalizedString(@"OK", @"")
+										  cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"")
 										  otherButtonTitles:nil];
 	[alert show];
 	[alert release];

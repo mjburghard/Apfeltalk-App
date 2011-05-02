@@ -59,7 +59,7 @@
     if (![self showSave]) {
 		return nil;
 	} else {
-		return @"Speichern";
+		return NSLocalizedStringFromTable(@"Save", @"ATLocalizable", @"");
 	}
 }
 
@@ -116,12 +116,12 @@
     myMenu = [[UIActionSheet alloc] init];
     myMenu.title = nil;
     myMenu.delegate = self;
-    [myMenu addButtonWithTitle:NSLocalizedString (@"Per Mail versenden", @"")];
+    [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Send Mail", @"ATLocalizable", @"")];
     if ([self Mailsendecode]) // :below:20100101 This is something of a hack
         [myMenu addButtonWithTitle:[self Mailsendecode]];
-    [myMenu addButtonWithTitle:NSLocalizedString (@"Twitter", @"")];
-    [myMenu addButtonWithTitle:NSLocalizedString (@"Facebook", @"")];
-    [myMenu addButtonWithTitle:NSLocalizedString (@"Abbrechen", @"")];
+    [myMenu addButtonWithTitle:@"Twitter"];
+    [myMenu addButtonWithTitle:@"Facebook"];
+    [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")];
     if ([self Mailsendecode])
         myMenu.cancelButtonIndex = 4;
     else
@@ -197,7 +197,7 @@
 	[segControl setSegmentedControlStyle:UISegmentedControlStyleBar];
 	[segControl setMomentary:YES];
 
-    UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString (@"Optionen", @"") style:UIBarButtonItemStyleBordered target:[[[self navigationController] viewControllers] lastObject] action:@selector(speichern:)];
+    UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Options", @"ATLocalizable", @"") style:UIBarButtonItemStyleBordered target:[[[self navigationController] viewControllers] lastObject] action:@selector(speichern:)];
 
     [[self navigationItem] setTitleView:segControl];
     [[self navigationItem] setRightBarButtonItem:rightItem];

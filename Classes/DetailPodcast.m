@@ -120,7 +120,7 @@
 	if (success == NO || (flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString (@"Mobiles Netzwerk", @"")
 														message:NSLocalizedString (@"Videos sind nicht über ein mobiles Netzwerk verfügbar. Bitte verbinden Sie sich mit einem WLAN Netzwerk", @"")
-													   delegate:nil cancelButtonTitle:NSLocalizedString (@"OK", @"")
+													   delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"")
 											  otherButtonTitles:nil];
 		[alert show];
 		[alert release];
