@@ -236,6 +236,7 @@
 		5AD2AAF21353171C008D4EAB /* apfelshow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apfelshow@2x.png"; sourceTree = "<group>"; };
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
+		5E6482C4136DFAAD0096693C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5E6EE0AA135112D7004B6618 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5E8D90851352355700274017 /* SHKOAuthSharer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKOAuthSharer.h; sourceTree = "<group>"; };
 		5E8D90861352355700274017 /* SHKOAuthSharer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKOAuthSharer.m; sourceTree = "<group>"; };
@@ -395,7 +396,6 @@
 		5EC2660C1369AAE1006A10DE /* ATWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATWebViewController.m; sourceTree = "<group>"; };
 		5EC2660E1369AB18006A10DE /* ATWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ATWebViewController.xib; sourceTree = "<group>"; };
 		5EC26622136A0A17006A10DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		5EC26624136A0A2D006A10DE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB15C87910498EBF00360BDC /* NewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsController.h; sourceTree = "<group>"; };
 		CB15C87A10498EBF00360BDC /* NewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsController.m; sourceTree = "<group>"; };
@@ -1320,7 +1320,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				5EC26622136A0A17006A10DE /* en */,
-				5EC26624136A0A2D006A10DE /* de */,
+				5E6482C4136DFAAD0096693C /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
