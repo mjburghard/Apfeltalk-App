@@ -10,11 +10,10 @@
 #import "User.h"
 #import "ATWebViewController.h"
 
-#define DEFAULT_ROW_HEIGHT 44.0
-
-
 @implementation DetailThreadController
 @synthesize topic, posts, currentPost;
+
+const CGFloat kDefaultRowHeight = 44.0;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -174,16 +173,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.posts count] == 0) {
-        return DEFAULT_ROW_HEIGHT;
+        return kDefaultRowHeight;
     }
     
-    if (indexPath.section == [self.posts count] +1) return DEFAULT_ROW_HEIGHT;
+    if (indexPath.section == [self.posts count] +1) return kDefaultRowHeight;
     if ([self.posts count] != 0 && indexPath.row == 0) {
         if (indexPath.section == [self.posts count]) return 100.0;
-        if (indexPath.section == [self.posts count]) return DEFAULT_ROW_HEIGHT;
+        if (indexPath.section == [self.posts count]) return kDefaultRowHeight;
         return 30.0;
     } else if (indexPath.row == 1) {
-        if (indexPath.section == [self.posts count]) return DEFAULT_ROW_HEIGHT;
+        if (indexPath.section == [self.posts count]) return kDefaultRowHeight;
         ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell"];
         contentCell.textView.text = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
         CGFloat height = contentCell.textView.contentSize.height+7;
@@ -191,7 +190,7 @@
         return height;
     }
     
-    return DEFAULT_ROW_HEIGHT;
+    return kDefaultRowHeight;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -379,6 +378,7 @@
         }
         
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
+        
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/dateTime.iso8601"]) {
         self.currentString = (NSMutableString *)[self.currentString stringByReplacingOccurrencesOfString:@":" withString:@"" options:0 range:NSMakeRange(20, 1)];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
