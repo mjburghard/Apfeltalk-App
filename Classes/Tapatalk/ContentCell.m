@@ -42,6 +42,7 @@
         self.textView.bounces = NO;
         self.textView.dataDetectorTypes = UIDataDetectorTypeLink;
         self.textView.delegate = self;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     
         [self.contentView addSubview:self.textView];
     }
