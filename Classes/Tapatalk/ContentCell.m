@@ -9,7 +9,7 @@
 @interface UITextView (Additions)
 @end
 
-@class WebView, WebFrame;
+@class WebView, WebFrame, ContentCell;
 @protocol WebPolicyDecisionListener
 
 - (BOOL)textView:(UITextView *)textView shouldLoadRequest:(NSURLRequest *)request;
@@ -20,7 +20,7 @@
 
 - (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener
 {
-    [self.delegate textView:self shouldLoadRequest:request];
+    [(ContentCell *)self.delegate textView:self shouldLoadRequest:request];
 }
 @end
 
