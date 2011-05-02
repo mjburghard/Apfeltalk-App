@@ -73,7 +73,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	if (section != SAVED_MESSAGES_SECTION_INDEX)
 		return @"";
 	
-	return NSLocalizedString (@"Saved News", @"");
+	return NSLocalizedStringFromTable(@"Saved News", @"ATLocalizable", @"");
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -115,7 +115,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 
 //localize the delete button
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return NSLocalizedString(@"NewsController.TableView.DeleteButtonLabel", @"");
+	return NSLocalizedStringFromTable(@"NewsController.TableView.DeleteButtonLabel", @"ATLocalizable", @"");
 }
 
 //handle tab on delete button
@@ -323,9 +323,9 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	myMenu = [[UIActionSheet alloc]
 							 initWithTitle: nil
 							 delegate:self
-              cancelButtonTitle:NSLocalizedString(@"Abbrechen", @"")
+              cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")
 							 destructiveButtonTitle:nil
-							 otherButtonTitles:NSLocalizedString(@"Alle News als gel. markieren", @""), NSLocalizedString(@"Alle gesp. News löschen", @""),nil];
+							 otherButtonTitles:NSLocalizedStringFromTable(@"Mark all news as read", @"ATLocalizable", @""), NSLocalizedStringFromTable(@"Delete all saved news", @"ATLocalizable", @""),nil];
 	
     [myMenu showFromTabBar:[[appDelegate tabBarController] tabBar]];
 }
@@ -355,10 +355,10 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 					error = sqlite3_finalize(insert_statement);	
 				
 				if (error != SQLITE_OK) {
-					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString (@"Datenbank Fehler", @"")
-																	message:NSLocalizedString (@"An unknown error occurred", @"")
+					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Database error", @"ATLocalizable", @"")
+																	message:NSLocalizedStringFromTable(@"An unknown error occurred", @"ATLocalizable", @"")
 																   delegate:nil
-														  cancelButtonTitle:NSLocalizedString (@"OK", @"") otherButtonTitles:nil];
+														  cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
 					[alert show];
 					[alert release];
 				}
