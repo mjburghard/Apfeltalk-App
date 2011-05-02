@@ -23,7 +23,6 @@
 		22FB60C5104DBD5100A0F65A /* Icon-Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FB60C4104DBD5100A0F65A /* Icon-Settings.png */; };
 		22FB60DE104DC15600A0F65A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22FB60DD104DC15600A0F65A /* Settings.bundle */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
-		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
 		4C42FF4F10533731002CC1E8 /* ATXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C42FF4E10533731002CC1E8 /* ATXMLParser.m */; };
 		4C64415F106548620007715D /* TickerThumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C64415E106548620007715D /* TickerThumbnail.png */; };
 		4C6788341052C74E00635F55 /* LivetickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C6788331052C74E00635F55 /* LivetickerController.m */; };
@@ -123,13 +122,11 @@
 		5EC265E3136999D3006A10DE /* ContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265B9136999D3006A10DE /* ContentCell.m */; };
 		5EC265E4136999D3006A10DE /* DetailThreadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265BB136999D3006A10DE /* DetailThreadController.m */; };
 		5EC265E5136999D3006A10DE /* DetailThreadController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC265BC136999D3006A10DE /* DetailThreadController.xib */; };
-		5EC265E8136999D3006A10DE /* ForumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC265C1136999D3006A10DE /* ForumViewController.xib */; };
 		5EC265EC136999D3006A10DE /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265C9136999D3006A10DE /* Post.m */; };
 		5EC265ED136999D3006A10DE /* ForumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265CB136999D3006A10DE /* ForumViewController.m */; };
 		5EC265EE136999D3006A10DE /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265CD136999D3006A10DE /* Section.m */; };
 		5EC265EF136999D3006A10DE /* SubForum.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265CF136999D3006A10DE /* SubForum.m */; };
 		5EC265F0136999D3006A10DE /* SubForumController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265D1136999D3006A10DE /* SubForumController.m */; };
-		5EC265F1136999D3006A10DE /* SubForumController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC265D2136999D3006A10DE /* SubForumController.xib */; };
 		5EC265F2136999D3006A10DE /* SubjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265D4136999D3006A10DE /* SubjectCell.m */; };
 		5EC265F5136999D3006A10DE /* Topic.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265DB136999D3006A10DE /* Topic.m */; };
 		5EC265F7136999D3006A10DE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265DF136999D3006A10DE /* User.m */; };
@@ -137,6 +134,10 @@
 		5EC2660D1369AAE1006A10DE /* ATWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC2660C1369AAE1006A10DE /* ATWebViewController.m */; };
 		5EC2660F1369AB18006A10DE /* ATWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC2660E1369AB18006A10DE /* ATWebViewController.xib */; };
 		5EC26621136A0A17006A10DE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5EC26623136A0A17006A10DE /* Localizable.strings */; };
+		5ED68E98136F379600AB9E4F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E99136F379600AB9E4F /* MainWindow.xib */; };
+		5ED68E9A136F37A500AB9E4F /* ForumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */; };
+		5ED68E9C136F37B100AB9E4F /* SubForumController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E9D136F37B100AB9E4F /* SubForumController.xib */; };
+		5ED68EA0136F437600AB9E4F /* ATLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68EA2136F437600AB9E4F /* ATLocalizable.strings */; };
 		CB15C87B10498EBF00360BDC /* NewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15C87A10498EBF00360BDC /* NewsController.m */; };
 		CB15C89C1049950900360BDC /* DetailNews.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15C89B1049950900360BDC /* DetailNews.m */; };
 		CB15C8CE1049A0CF00360BDC /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15C8CD1049A0CF00360BDC /* Story.m */; };
@@ -196,7 +197,6 @@
 		22FB60DD104DC15600A0F65A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* Apfeltalk_Magazin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Apfeltalk_Magazin_Prefix.pch; sourceTree = "<group>"; };
-		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4C42FF4D10533731002CC1E8 /* ATXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATXMLParser.h; sourceTree = "<group>"; };
 		4C42FF4E10533731002CC1E8 /* ATXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATXMLParser.m; sourceTree = "<group>"; };
@@ -371,7 +371,6 @@
 		5EC265BA136999D3006A10DE /* DetailThreadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailThreadController.h; sourceTree = "<group>"; };
 		5EC265BB136999D3006A10DE /* DetailThreadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailThreadController.m; sourceTree = "<group>"; };
 		5EC265BC136999D3006A10DE /* DetailThreadController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DetailThreadController.xib; path = Classes/Tapatalk/DetailThreadController.xib; sourceTree = "<group>"; };
-		5EC265C2136999D3006A10DE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ForumViewController.xib; sourceTree = "<group>"; };
 		5EC265C8136999D3006A10DE /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
 		5EC265C9136999D3006A10DE /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		5EC265CA136999D3006A10DE /* ForumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForumViewController.h; sourceTree = "<group>"; };
@@ -382,7 +381,6 @@
 		5EC265CF136999D3006A10DE /* SubForum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubForum.m; sourceTree = "<group>"; };
 		5EC265D0136999D3006A10DE /* SubForumController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubForumController.h; sourceTree = "<group>"; };
 		5EC265D1136999D3006A10DE /* SubForumController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubForumController.m; sourceTree = "<group>"; };
-		5EC265D2136999D3006A10DE /* SubForumController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SubForumController.xib; path = Classes/Tapatalk/SubForumController.xib; sourceTree = "<group>"; };
 		5EC265D3136999D3006A10DE /* SubjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectCell.h; sourceTree = "<group>"; };
 		5EC265D4136999D3006A10DE /* SubjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectCell.m; sourceTree = "<group>"; };
 		5EC265D5136999D3006A10DE /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
@@ -396,6 +394,11 @@
 		5EC2660C1369AAE1006A10DE /* ATWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATWebViewController.m; sourceTree = "<group>"; };
 		5EC2660E1369AB18006A10DE /* ATWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ATWebViewController.xib; sourceTree = "<group>"; };
 		5EC26622136A0A17006A10DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5ED68E99136F379600AB9E4F /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ForumViewController.xib; path = Classes/Tapatalk/ForumViewController.xib; sourceTree = "<group>"; };
+		5ED68E9D136F37B100AB9E4F /* SubForumController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SubForumController.xib; path = Classes/Tapatalk/SubForumController.xib; sourceTree = "<group>"; };
+		5ED68EA1136F437600AB9E4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
+		5ED68EA3136F437D00AB9E4F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB15C87910498EBF00360BDC /* NewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsController.h; sourceTree = "<group>"; };
 		CB15C87A10498EBF00360BDC /* NewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsController.m; sourceTree = "<group>"; };
@@ -547,9 +550,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5EC265D2136999D3006A10DE /* SubForumController.xib */,
+				5ED68E9D136F37B100AB9E4F /* SubForumController.xib */,
 				5EC265BC136999D3006A10DE /* DetailThreadController.xib */,
-				5EC265C1136999D3006A10DE /* ForumViewController.xib */,
+				5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */,
 				CBBD046610DE4C020056C183 /* LoadingCell.xib */,
 				CB1E3BC610CC674600B01120 /* Entitlements.plist */,
 				F6730BA113490EE70045B876 /* default.css */,
@@ -557,12 +560,13 @@
 				F6730BE3134A70B40045B876 /* GCImageViewer.xib */,
 				F6FB7DD5104EDE2F007F5A54 /* Fullscreen.xib */,
 				F634304A10362AA4004ACF93 /* DetailView.xib */,
-				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
+				5ED68E99136F379600AB9E4F /* MainWindow.xib */,
 				CB9E946D104490B700768B8B /* gelesen.db */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				22FB60DD104DC15600A0F65A /* Settings.bundle */,
 				5EC2660E1369AB18006A10DE /* ATWebViewController.xib */,
 				5EC26623136A0A17006A10DE /* Localizable.strings */,
+				5ED68EA2136F437600AB9E4F /* ATLocalizable.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1130,7 +1134,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */,
+				5ED68E98136F379600AB9E4F /* MainWindow.xib in Resources */,
 				F634305410362AA4004ACF93 /* DetailView.xib in Resources */,
 				F634306510362AC6004ACF93 /* Default.png in Resources */,
 				F634306610362AC6004ACF93 /* icon.png in Resources */,
@@ -1177,10 +1181,11 @@
 				5AB3DCA21353546800E0D3CA /* whiteArrow.png in Resources */,
 				5AB3DCA31353546800E0D3CA /* whiteArrow@2x.png in Resources */,
 				5EC265E5136999D3006A10DE /* DetailThreadController.xib in Resources */,
-				5EC265E8136999D3006A10DE /* ForumViewController.xib in Resources */,
-				5EC265F1136999D3006A10DE /* SubForumController.xib in Resources */,
+				5ED68E9A136F37A500AB9E4F /* ForumViewController.xib in Resources */,
+				5ED68E9C136F37B100AB9E4F /* SubForumController.xib in Resources */,
 				5EC2660F1369AB18006A10DE /* ATWebViewController.xib in Resources */,
 				5EC26621136A0A17006A10DE /* Localizable.strings in Resources */,
+				5ED68EA0136F437600AB9E4F /* ATLocalizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,16 +1311,6 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		5EC265C1136999D3006A10DE /* ForumViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5EC265C2136999D3006A10DE /* en */,
-			);
-			name = ForumViewController.xib;
-			path = Classes/Tapatalk;
-			sourceTree = "<group>";
-			usesTabs = 0;
-		};
 		5EC26623136A0A17006A10DE /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1323,6 +1318,15 @@
 				5E6482C4136DFAAD0096693C /* de */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		5ED68EA2136F437600AB9E4F /* ATLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5ED68EA1136F437600AB9E4F /* en */,
+				5ED68EA3136F437D00AB9E4F /* de */,
+			);
+			name = ATLocalizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
