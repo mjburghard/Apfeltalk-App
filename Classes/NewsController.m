@@ -396,7 +396,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return YES;
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 - (void) dealloc {
 	[savedStories release];
