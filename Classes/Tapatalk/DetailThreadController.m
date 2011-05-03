@@ -284,8 +284,6 @@ const CGFloat kDefaultRowHeight = 44.0;
     static NSString *AuthorCellIdentifier = @"AuthorCell";
     static NSString *ContentCellIdentifier = @"ContentCell";
     static NSString *ActionsCellIdentifier = @"ActionsCell";
-    static NSString *CellIdentifier = @"Cell"; // Will be removed in the final app!
-    
     Post *p;
     
     if ([self.posts count] != 0 && indexPath.section < [self.posts count]) {
@@ -321,7 +319,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 		authorCell.textLabel.text = p.author;
         authorCell.detailTextLabel.textColor = authorCell.textLabel.textColor;
         authorCell.detailTextLabel.text = [outFormatter stringFromDate:p.postDate];
-        authorCell.textLabel.font = [UIFont boldSystemFontOfSize:12.0];
+        authorCell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12.0];
         
 		return authorCell;
 	}
