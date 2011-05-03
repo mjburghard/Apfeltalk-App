@@ -258,6 +258,7 @@
     
     if ([self.topics count] == 0) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
     }
     
     DetailThreadController *detailThreadController = [[DetailThreadController alloc] initWithNibName:@"DetailThreadController" bundle:nil topic:(Topic *)[self.topics objectAtIndex:indexPath.row]];
