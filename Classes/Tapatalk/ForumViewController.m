@@ -246,6 +246,13 @@ NSString * encodeString(NSString *aString) {
     self.sections = [NSMutableArray array];
     self.path = @"";
     
+    [self loadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
     backButton.title = NSLocalizedStringFromTable(@"Back", @"ATLocalizable", @"");
     self.navigationItem.backBarButtonItem = backButton;
@@ -262,13 +269,6 @@ NSString * encodeString(NSString *aString) {
     
     UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStyleBordered target:self action:selector];
     self.navigationItem.rightBarButtonItem = loginButton;
-    
-    [self loadData];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
