@@ -11,7 +11,7 @@
 #import "ATWebViewController.h"
 
 @implementation DetailThreadController
-@synthesize topic, posts, currentPost;
+@synthesize topic, posts, currentPost, site;
 
 const CGFloat kDefaultRowHeight = 44.0;
 
@@ -21,11 +21,13 @@ const CGFloat kDefaultRowHeight = 44.0;
         // Custom initialization
         self.topic = aTopic;
         self.posts = [NSMutableArray array];
+        self.site = 0;
     }
     return self;
 }
 
 - (void)dealloc {
+    self.site = 0;
     self.currentPost = nil;
     self.posts = nil;
     self.topic = nil;
@@ -44,7 +46,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)loadData {
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
-    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_thread</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param></params></methodCall>", self.topic.topicID];
+    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_thread</methodName><params><param><value><string>%i</string></value></param><param><value><int>%i</int></value></param><param><value><int>%i</int></value></param></params></methodCall>", self.topic.topicID, self.site*10, self.site*10+9];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
@@ -96,8 +98,22 @@ const CGFloat kDefaultRowHeight = 44.0;
     [self endEditing:nil];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    [super connectionDidFinishLoading:connection];
+- (void)back {
+    if (site > 0) {
+        site--;
+    }
+    [self loadData];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)last {
+    
+}
+
+- (void)next {
+    site++;
+    [self loadData];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 #pragma mark -
@@ -172,6 +188,45 @@ const CGFloat kDefaultRowHeight = 44.0;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == [self.posts count] && [self.posts count] != 0) {
+        return 57.0;
+    }
+    return 0.0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == [self.posts count] && [self.posts count] != 0) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 47.0)];
+        view.backgroundColor = [UIColor clearColor];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitle:NSLocalizedStringFromTable(@"Back", @"ATLocalizable", @"") forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        [button setFrame:CGRectMake(10, 10, 280/3.0, 37.0)];
+        [view addSubview:button];
+        
+        button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitle:NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @"") forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(last) forControlEvents:UIControlEventTouchUpInside];
+        [button setFrame:CGRectMake(280/3.0 + 20, 10, 280/3.0, 37.0)];
+        button.enabled = NO;
+        [view addSubview:button];
+        
+        button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitle:NSLocalizedStringFromTable(@"Next", @"ATLocalizable", @"") forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+        [button setFrame:CGRectMake(310 - 280/3.0, 10, 280/3.0, 37.0)];
+        [view addSubview:button];
+        
+        return view;
+    }
+    return nil;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.posts count] == 0) {
         return kDefaultRowHeight;
@@ -208,7 +263,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     if ([self.posts count] == 0) {
         return 1;
     }
-    return [self.posts count]+2;
+    return [self.posts count]+1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -246,15 +301,6 @@ const CGFloat kDefaultRowHeight = 44.0;
             return loadingCell;
 		}
         
-        if (indexPath.section == [self.posts count] +1) {
-            UITableViewCell *loadMoreCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-            if (loadMoreCell == nil) {
-                loadMoreCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-            }
-            loadMoreCell.textLabel.text = NSLocalizedStringFromTable(@"More", @"ATLocalizable", @"");
-            return loadMoreCell;
-        }
-        
         if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
             answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:ContentCellIdentifier];
             if (answerCell == nil) {
@@ -275,6 +321,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 		authorCell.textLabel.text = p.author;
         authorCell.detailTextLabel.textColor = authorCell.textLabel.textColor;
         authorCell.detailTextLabel.text = [outFormatter stringFromDate:p.postDate];
+        authorCell.textLabel.font = [UIFont boldSystemFontOfSize:12.0];
         
 		return authorCell;
 	}
@@ -320,12 +367,19 @@ const CGFloat kDefaultRowHeight = 44.0;
             [self reply];
         }
     }
+    if (indexPath.section == [self.posts count] +1) {
+        [self loadData];
+    }
     
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark-
 #pragma mark NSXMLParserDelegate
+
+- (void)parserDidStartDocument:(NSXMLParser *)parser {
+    self.posts = [NSMutableArray array];
+}
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI 

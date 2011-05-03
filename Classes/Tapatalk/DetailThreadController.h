@@ -20,6 +20,7 @@
     Post *currentPost;
     UIView *activeView;
     ContentCell *answerCell;
+    NSInteger site;
     
     BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent;
 }
@@ -27,6 +28,7 @@
 @property (retain) Topic *topic;
 @property (retain) NSMutableArray *posts;
 @property (retain) Post *currentPost;
+@property (assign) NSInteger site;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic;
 
