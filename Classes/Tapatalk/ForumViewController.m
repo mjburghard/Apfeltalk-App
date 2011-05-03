@@ -96,7 +96,6 @@ NSString * encodeString(NSString *aString) {
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
     
     if (connection) {
-        self.receivedData = [[NSMutableData alloc] init];
     }
     
     [connection start];
@@ -209,6 +208,7 @@ NSString * encodeString(NSString *aString) {
 #pragma mark NSURLConnectionDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+	self.receivedData = [[NSMutableData alloc] init];
 }
 
 - (void)connection:(NSURLConnection *)connvection didReceiveData:(NSData *)data {
@@ -217,9 +217,15 @@ NSString * encodeString(NSString *aString) {
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     //NSLog(@"%@", [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding]);
-    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
-    [thread start];
-    [thread release];
+    unsigned long length = [self.receivedData length];
+    NSLog(@"Received length: %lu", length);
+    if ([self.receivedData length] != 0) {
+        NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
+        [thread start];
+        [thread release];
+    } else {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -288,17 +294,26 @@ NSString * encodeString(NSString *aString) {
  */
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if ([self.sections count] == 0) {
+        return nil;
+    }
     return [(Section *)[self.sections objectAtIndex:section] name];
 }
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if ([self.sections count] == 0) {
+        return 1;
+    }
     return [self.sections count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if ([self.sections count] == 0) {
+        return 1;
+    }
     return [[(Section *)[self.sections objectAtIndex:section] subFora] count];
 }
 

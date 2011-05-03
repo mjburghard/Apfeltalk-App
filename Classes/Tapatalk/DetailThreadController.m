@@ -54,7 +54,6 @@ const CGFloat kDefaultRowHeight = 44.0;
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
     
     if (connection) {
-        self.receivedData = [[NSMutableData alloc] init];
     }
     
     [connection start];

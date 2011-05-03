@@ -72,7 +72,6 @@
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
     
     if (connection) {
-        self.receivedData = [[NSMutableData alloc] init];
     }
     
     [connection start];
@@ -85,22 +84,8 @@
 #pragma mark-
 #pragma mark NSURLConnectionDelegate
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-}
-
 - (void)connection:(NSURLConnection *)connvection didReceiveData:(NSData *)data {
     [self.receivedData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    //NSLog(@"%@", [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding]);
-    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
-    [thread start];
-    [thread release];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"%@", [error localizedDescription]);
 }
 
 #pragma mark - View lifecycle
@@ -357,7 +342,7 @@
         [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
         return;
     }
-    [super parserDidEndDocument:parser];
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 @end
