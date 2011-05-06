@@ -61,6 +61,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSLog(@"Test");
     UIButton *pictureButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 95, 275, 181)];
     pictureButton.backgroundColor = [UIColor clearColor];
     [pictureButton addTarget:self action:@selector(showFullscreen) forControlEvents:UIControlEventTouchUpInside];
