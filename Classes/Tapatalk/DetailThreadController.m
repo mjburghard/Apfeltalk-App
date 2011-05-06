@@ -168,18 +168,41 @@ const CGFloat kDefaultRowHeight = 44.0;
                                      animated:YES];
 }
 
+#pragma mark -
+#pragma mark UISwipeGestureRecognizer
+
+- (void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer {
+    if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
+        [self next];
+    }
+    else if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+        if (site >0 ) {
+            [self back];
+        }
+    }
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = topic.title;
+    UISwipeGestureRecognizer *leftSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    leftSwipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    
+    [self.tableView addGestureRecognizer:leftSwipeGestureRecognizer];
+    [leftSwipeGestureRecognizer release];
+    
+    UISwipeGestureRecognizer *rightSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    rightSwipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    
+    [self.tableView addGestureRecognizer:rightSwipeGestureRecognizer];
+    [rightSwipeGestureRecognizer release];
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -187,7 +210,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
+/*
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (section == [self.posts count] && [self.posts count] != 0) {
         return 57.0;
@@ -226,7 +249,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     }
     return nil;
 }
-
+*/
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.posts count] == 0) {
         return kDefaultRowHeight;
