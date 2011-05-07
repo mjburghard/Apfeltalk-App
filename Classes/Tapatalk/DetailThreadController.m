@@ -9,9 +9,10 @@
 #import "DetailThreadController.h"
 #import "User.h"
 #import "ATWebViewController.h"
+#import "ATActivityIndicator.h"
 
 @implementation DetailThreadController
-@synthesize topic, posts, currentPost, site;
+@synthesize topic, posts, currentPost, site, numberOfPosts;
 
 const CGFloat kDefaultRowHeight = 44.0;
 
@@ -22,12 +23,14 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.topic = aTopic;
         self.posts = [NSMutableArray array];
         self.site = 0;
+        self.numberOfPosts = 0;
     }
     return self;
 }
 
 - (void)dealloc {
     self.site = 0;
+    self.numberOfPosts = 0;
     self.currentPost = nil;
     self.posts = nil;
     self.topic = nil;
@@ -56,6 +59,8 @@ const CGFloat kDefaultRowHeight = 44.0;
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
     
     if (connection) {
+        self.posts = [NSMutableArray array];
+        [self.tableView reloadData];
     }
     
     [connection start];
@@ -75,7 +80,6 @@ const CGFloat kDefaultRowHeight = 44.0;
         return;
     }
     
-    NSLog(@"Content: %@", answerCell.textView.text);
     
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>reply_post</methodName><params><param><value><string>%i</string></value></param><param><value><string>%i</string></value></param><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", self.topic.forumID, 
@@ -92,18 +96,27 @@ const CGFloat kDefaultRowHeight = 44.0;
     [connection start];
     
     if (connection) {
-        self.receivedData = [[NSMutableData alloc] init];
     }
-    
+    answerCell.textView.text = @"";
     [self endEditing:nil];
 }
 
 - (void)back {
     if (site > 0) {
         site--;
+        [self loadData];
+        ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
+        int numberOfSites;
+        if (numberOfPosts % 10 == 0) {
+            numberOfSites = numberOfPosts / 10;
+        } else {
+            numberOfSites = numberOfPosts / 10 + 1;
+        }
+        at.message = [NSString stringWithFormat:@"Loading %i of %i", site+1, numberOfSites];
+        [at showSpinner];
+        [at show];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
-    [self loadData];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)last {
@@ -111,9 +124,22 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)next {
-    site++;
-    [self loadData];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    int numberOfSites;
+    if (numberOfPosts % 10 == 0) {
+        numberOfSites = numberOfPosts / 10;
+    } else {
+        numberOfSites = numberOfPosts / 10 + 1;
+    }
+    if (site < numberOfSites-1) {
+        site++;
+        [self loadData];
+        ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
+        
+        at.message = [NSString stringWithFormat:@"Loading %i of %i", site+1, numberOfSites];
+        [at showSpinner];
+        [at show];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
 }
 
 #pragma mark -
@@ -343,6 +369,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         authorCell.detailTextLabel.textColor = authorCell.textLabel.textColor;
         authorCell.detailTextLabel.text = [outFormatter stringFromDate:p.postDate];
         authorCell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
+        authorCell.selectionStyle = UITableViewCellSelectionStyleNone;
         
 		return authorCell;
 	}
@@ -398,10 +425,6 @@ const CGFloat kDefaultRowHeight = 44.0;
 #pragma mark-
 #pragma mark NSXMLParserDelegate
 
-- (void)parserDidStartDocument:(NSXMLParser *)parser {
-    self.posts = [NSMutableArray array];
-}
-
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qualifiedName 
@@ -419,6 +442,17 @@ const CGFloat kDefaultRowHeight = 44.0;
  didEndElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qName {
+    
+    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"]) {
+        if ([self.currentString isEqualToString:@"total_post_num"]) {
+            isNumberOfPosts = YES;
+        }
+    }
+    
+    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/int"] && isNumberOfPosts) {
+        isNumberOfPosts = NO;
+        self.numberOfPosts = [self.currentString integerValue];
+    }
     
     if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/name"]) {
         if ([self.currentString isEqualToString:@"post_id"]) {
