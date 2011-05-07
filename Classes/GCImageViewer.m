@@ -54,6 +54,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     self.navBarColor = navigationBar.tintColor;
     navigationBar.tintColor = nil;
@@ -69,6 +70,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [self setTimer:nil];
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     navigationBar.tintColor = self.navBarColor;
@@ -76,7 +78,6 @@
 	[[self navigationController] setNavigationBarHidden:NO animated:NO];
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleDefault animated:YES];
-    
 }
 
 
