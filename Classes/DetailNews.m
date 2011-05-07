@@ -25,8 +25,8 @@
 #import "DetailNews.h"
 #import "NewsController.h"
 #import "Apfeltalk_MagazinAppDelegate.h"
-#import "SHK.h"
 
+#import "SHK.h"
 #import "SHKTwitter.h"
 #import "SHKFacebook.h"
 #import "SHKFBStreamDialog.h"
@@ -63,46 +63,6 @@
 	}
 }
 
-/*- (void) postTweet {
-	TwitterRequest * t = [[TwitterRequest alloc] init];
-	t.username = usernameTextField.text;
-	t.password = passwordTextField.text;
-	
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *twitter = [documentsDirectory stringByAppendingPathComponent:@"Twitter.plist"];
-	NSArray * savedata = [NSArray arrayWithObjects:usernameTextField.text, passwordTextField.text,nil];
-	[savedata writeToFile:twitter atomically:YES];
-	
-	NSString *link = [[self story] link];
-	
-	NSMutableURLRequest *postRequest = [NSMutableURLRequest new];
-	
-	[postRequest setHTTPMethod:@"GET"];
-	
-	[postRequest setURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.bit.ly/shorten?version=2.0.1&longUrl=%@&login=apfeltalk&apiKey=R_c9aabb37645e874c9e99aebe9ba12cb8", link]]];
-	
-	NSData *responseData;
-	NSHTTPURLResponse *response;
-	
-	//==== Synchronous call to upload
-	responseData = [ NSURLConnection sendSynchronousRequest:postRequest returningResponse:&response error:nil];
-	[postRequest release];
-    postRequest = nil;
-    
-	NSString *shortLink = [[[NSString alloc] initWithData:responseData encoding:NSASCIIStringEncoding]
-                           autorelease]; // :below:20091218 Do we know if this is ASCII?
-	
-	NSRange pos1 = [shortLink rangeOfString: @"shortUrl"];
-	NSRange pos2 = [shortLink rangeOfString: @"userHash"];
-	NSRange range = NSMakeRange(pos1.location + 12,pos2.location - 17 - (pos1.location + 12));
-	shortLink = [shortLink substringWithRange:range];
-		
-	loadingActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString (@"Sende Tweet…", @"") delegate:nil 
-											cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
-	[loadingActionSheet showInView:self.view];
-	[t statuses_update:[NSString stringWithFormat:NSLocalizedString (@"Newstipp: %@ %@", @""), [[self story] title], shortLink] delegate:self requestSelector:@selector(status_updateCallback:)];
-}*/
 - (void) status_updateCallback: (NSData *) content {
 	[loadingActionSheet dismissWithClickedButtonIndex:0 animated:YES];
 	[loadingActionSheet release];
