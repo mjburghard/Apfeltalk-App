@@ -59,18 +59,31 @@
     [galleryImageViewController release];
 }
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
+{
+    
+    NSString *str = [[self story] summary];
+    NSString *thumbLink = extractTextFromHTMLForQuery(str, @"//img/attribute::src");
+    
+    thumbLink = [thumbLink stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
+    
+    NSURL *loadURL = [[request URL] retain]; // retain the loadURL for use
+   
+    if ([[loadURL absoluteString] isEqualToString:thumbLink]) {
+        if (![webView isLoading]) {
+            [self showFullscreen];
+        }
+        return NO;
+    }
+    [ loadURL release ];
+    return YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    NSLog(@"Test");
-    UIButton *pictureButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 95, 275, 181)];
-    pictureButton.backgroundColor = [UIColor clearColor];
-    [pictureButton addTarget:self action:@selector(showFullscreen) forControlEvents:UIControlEventTouchUpInside];
-    
-    [webview addSubview:pictureButton];
-    [pictureButton release];
 }
 
 - (NSString *)strip_tags:(NSString *)data :(NSArray *)valid_tags
@@ -169,8 +182,7 @@ void endElement (void *userData, const xmlChar *name) {
 	free (htmlDoc);
 	[elementString release];
 	NSString *str = [[[self story] thumbnailLink] stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
-	NSString *showpicture = [NSString stringWithFormat:@"<img src=\"%@\" width=\"275\" height=\"181\" alt=\"No Medium Picture.\" /> ", str];
-
+	NSString *showpicture = [NSString stringWithFormat:@"<a href=\"%@\"><img src=\"%@\" width=\"275\" height=\"181\" alt=\"No Medium Picture.\" /></a> ", str, str];
 	NSString *resultString = [NSString stringWithFormat:@"%@<br/>%@", showpicture, cleanedString];
     resultString = [[self baseHtmlString] stringByReplacingOccurrencesOfString:@"%@" withString:resultString];
 	[cleanedString release];
@@ -195,7 +207,7 @@ void endElement (void *userData, const xmlChar *name) {
 	myMenu = [[UIActionSheet alloc]
 							 initWithTitle: nil
 							 delegate:self
-							 cancelButtonTitle:@"Abbrechen"
+							 cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")
 							 destructiveButtonTitle:nil
 							 otherButtonTitles:@"Per Mail versenden", @"Bild speichern", @"Zeige Bild",nil];
 
@@ -232,7 +244,7 @@ void endElement (void *userData, const xmlChar *name) {
             UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL: [NSURL URLWithString:imageLink]]];
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil); 
             
-            UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:@"Bild gespeichert" message:@"Das Bild wurde erfolgreich in deine Fotogallerie gespeichert." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:@"Bild gespeichert" message:@"Das Bild wurde erfolgreich in deine Fotogallerie gespeichert." delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
             [errorAlert show];
             [errorAlert release];
             
