@@ -53,6 +53,7 @@
 		5AD2AAEF13531702008D4EAB /* ticker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AD2AAEE13531702008D4EAB /* ticker@2x.png */; };
 		5AD2AAF113531711008D4EAB /* gallery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AD2AAF013531711008D4EAB /* gallery@2x.png */; };
 		5AD2AAF31353171C008D4EAB /* apfelshow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AD2AAF21353171C008D4EAB /* apfelshow@2x.png */; };
+		5AD94B951377057900C56F82 /* Team.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5AD94B941377057900C56F82 /* Team.plist */; };
 		5AFB72DC1348A0270027752A /* thread_dot_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DA1348A0270027752A /* thread_dot_hot.png */; };
 		5AFB72DD1348A0270027752A /* thread_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DB1348A0270027752A /* thread_dot.png */; };
 		5E6EE0AB135112D7004B6618 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E6EE0AA135112D7004B6618 /* Security.framework */; };
@@ -235,6 +236,7 @@
 		5AD2AAEE13531702008D4EAB /* ticker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ticker@2x.png"; sourceTree = "<group>"; };
 		5AD2AAF013531711008D4EAB /* gallery@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery@2x.png"; sourceTree = "<group>"; };
 		5AD2AAF21353171C008D4EAB /* apfelshow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apfelshow@2x.png"; sourceTree = "<group>"; };
+		5AD94B941377057900C56F82 /* Team.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Team.plist; path = Settings.bundle/Team.plist; sourceTree = "<group>"; };
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
 		5E6482C4136DFAAD0096693C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -530,6 +532,7 @@
 		29B97314FDCFA39411CA2CEA /* Apfeltalk Magazin */ = {
 			isa = PBXGroup;
 			children = (
+				5AD94B941377057900C56F82 /* Team.plist */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -1191,6 +1194,7 @@
 				5EC2660F1369AB18006A10DE /* ATWebViewController.xib in Resources */,
 				5EC26621136A0A17006A10DE /* Localizable.strings in Resources */,
 				5ED68EA0136F437600AB9E4F /* ATLocalizable.strings in Resources */,
+				5AD94B951377057900C56F82 /* Team.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
