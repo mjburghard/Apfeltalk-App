@@ -112,7 +112,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         } else {
             numberOfSites = numberOfPosts / 10 + 1;
         }
-        at.message = [NSString stringWithFormat:@"Loading %i of %i", site+1, numberOfSites];
+        at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, numberOfSites];
         [at showSpinner];
         [at show];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -134,8 +134,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         site++;
         [self loadData];
         ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
-        
-        at.message = [NSString stringWithFormat:@"Loading %i of %i", site+1, numberOfSites];
+        at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, numberOfSites];
         [at showSpinner];
         [at show];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
