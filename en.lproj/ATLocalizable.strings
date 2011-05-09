@@ -51,7 +51,11 @@
 "Save" = "Save";
 "Send Mail" = "Send Mail";
 <<<<<<< HEAD
+<<<<<<< HEAD
 "Loading %i of %i" = "Loading %i of %i";
 =======
 "Site %i of %i" = "Site %i of %i";
 >>>>>>> 4642d5fcb206ff0e2a3ca4d1f756327b06a58cdf
+=======
+"Site %i of %i" = "Site %i of %i";
+>>>>>>> 779ba72f2e2906e27ad883e66dba1a67951aa41e

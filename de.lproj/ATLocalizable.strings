@@ -50,8 +50,4 @@
 "Direct response" = "Direktantwort";
 "Save" = "Speichern";
 "Send Mail" = "Per Mail versenden";
-<<<<<<< HEAD
-"Loading %i of %i" = "Seite %i von %i";
-=======
 "Site %i of %i" = "Seite %i von %i";
->>>>>>> 4642d5fcb206ff0e2a3ca4d1f756327b06a58cdf
