@@ -18,7 +18,7 @@
 		<string>icon@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>de.apfeltalk.togo</string>
+	<string>com.atmobile.de</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -30,7 +30,7 @@
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>2.0b</string>
+	<string>2.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
