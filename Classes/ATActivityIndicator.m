@@ -63,6 +63,7 @@
     }
     [self addSubview:spinner];
     [spinner startAnimating];
+    [spinner release];
 }
 
 - (void)dealloc
