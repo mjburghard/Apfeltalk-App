@@ -1,5 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict/>
+    <dict>
+        <key>PreferenceSpecifiers</key>
+        <array>
+            <dict>
+                <key>FooterText</key>
+                <string>Apfeltalk Mobile Entwicklerliste</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Idee:</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Stephan König</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Administration / Kommunikation:</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Stephan König</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Programmierung:</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Alexander von Below, Stefan Kofler, Manuel Burghard, Andreas Rami, Stephan König, Michael Fenske,&#xA;Andreas Grauel, Lukas Besch,&#xA;Michael Ochs, Marc Zitzmann</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Integration Forum:</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Manuel Burghard</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Grafik:</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Stephan König (Retinaanpassungen), Laurids Düllmann, Patrick Rollbis,&#xA;Jesper Frommherz</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Administration Apfeltalk GmbH:</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Gerd Pleyer, Sylvia Steffens,&#xA;Jesper Frommherz</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Public Relations:</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Felix Rieseberg, Christian Blum</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+                <key>DoNotLocalize</key>
+                <true/>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Bemerkungen:</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+            </dict>
+            <dict>
+                <key>FooterText</key>
+                <string>Die Tapatalk-API welche für den Forenzugriff eingesetzt wird ist ein Produkt der Quoord Systems Limited, Main Office:&#xA;15B, Haven Commercial Building&#xA;6-8 Tsing Fung St.&#xA;Tin Hau, Hong Kong S.A.R.</string>
+                <key>Type</key>
+                <string>PSGroupSpecifier</string>
+            </dict>
+        </array>
+        <key>StringsTable</key>
+        <string>Team</string>
+    </dict>
 </plist>
