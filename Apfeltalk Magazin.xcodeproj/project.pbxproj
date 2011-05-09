@@ -56,6 +56,7 @@
 		5AFB72DC1348A0270027752A /* thread_dot_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DA1348A0270027752A /* thread_dot_hot.png */; };
 		5AFB72DD1348A0270027752A /* thread_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DB1348A0270027752A /* thread_dot.png */; };
 		5E6EE0AB135112D7004B6618 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E6EE0AA135112D7004B6618 /* Security.framework */; };
+		5E80BADC1375786700F524B6 /* ATLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E80BADA1375762500F524B6 /* ATLocalizable.strings */; };
 		5E8D91201352355700274017 /* SHKOAuthSharer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D90861352355700274017 /* SHKOAuthSharer.m */; };
 		5E8D91211352355700274017 /* SHKSharer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D90881352355700274017 /* SHKSharer.m */; };
 		5E8D91221352355700274017 /* UIWebView+SHK.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D908B1352355700274017 /* UIWebView+SHK.m */; };
@@ -134,11 +135,9 @@
 		5EC265F8136999D3006A10DE /* UserXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265E1136999D3006A10DE /* UserXMLParser.m */; };
 		5EC2660D1369AAE1006A10DE /* ATWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC2660C1369AAE1006A10DE /* ATWebViewController.m */; };
 		5EC2660F1369AB18006A10DE /* ATWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC2660E1369AB18006A10DE /* ATWebViewController.xib */; };
-		5EC26621136A0A17006A10DE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5EC26623136A0A17006A10DE /* Localizable.strings */; };
 		5ED68E98136F379600AB9E4F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E99136F379600AB9E4F /* MainWindow.xib */; };
 		5ED68E9A136F37A500AB9E4F /* ForumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */; };
 		5ED68E9C136F37B100AB9E4F /* SubForumController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E9D136F37B100AB9E4F /* SubForumController.xib */; };
-		5ED68EA0136F437600AB9E4F /* ATLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68EA2136F437600AB9E4F /* ATLocalizable.strings */; };
 		CB15C87B10498EBF00360BDC /* NewsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15C87A10498EBF00360BDC /* NewsController.m */; };
 		CB15C89C1049950900360BDC /* DetailNews.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15C89B1049950900360BDC /* DetailNews.m */; };
 		CB15C8CE1049A0CF00360BDC /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = CB15C8CD1049A0CF00360BDC /* Story.m */; };
@@ -237,8 +236,9 @@
 		5AD2AAF21353171C008D4EAB /* apfelshow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apfelshow@2x.png"; sourceTree = "<group>"; };
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
-		5E6482C4136DFAAD0096693C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5E6EE0AA135112D7004B6618 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		5E80BAD91375762500F524B6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
+		5E80BADB1375762C00F524B6 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
 		5E8D90851352355700274017 /* SHKOAuthSharer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKOAuthSharer.h; sourceTree = "<group>"; };
 		5E8D90861352355700274017 /* SHKOAuthSharer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKOAuthSharer.m; sourceTree = "<group>"; };
 		5E8D90871352355700274017 /* SHKSharer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKSharer.h; sourceTree = "<group>"; };
@@ -396,12 +396,9 @@
 		5EC2660B1369AAE0006A10DE /* ATWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATWebViewController.h; path = Tapatalk/ATWebViewController.h; sourceTree = "<group>"; };
 		5EC2660C1369AAE1006A10DE /* ATWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATWebViewController.m; path = Tapatalk/ATWebViewController.m; sourceTree = "<group>"; };
 		5EC2660E1369AB18006A10DE /* ATWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ATWebViewController.xib; sourceTree = "<group>"; };
-		5EC26622136A0A17006A10DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5ED68E99136F379600AB9E4F /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ForumViewController.xib; path = Classes/Tapatalk/ForumViewController.xib; sourceTree = "<group>"; };
 		5ED68E9D136F37B100AB9E4F /* SubForumController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SubForumController.xib; path = Classes/Tapatalk/SubForumController.xib; sourceTree = "<group>"; };
-		5ED68EA1136F437600AB9E4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
-		5ED68EA3136F437D00AB9E4F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB15C87910498EBF00360BDC /* NewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsController.h; sourceTree = "<group>"; };
 		CB15C87A10498EBF00360BDC /* NewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsController.m; sourceTree = "<group>"; };
@@ -570,8 +567,7 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				22FB60DD104DC15600A0F65A /* Settings.bundle */,
 				5EC2660E1369AB18006A10DE /* ATWebViewController.xib */,
-				5EC26623136A0A17006A10DE /* Localizable.strings */,
-				5ED68EA2136F437600AB9E4F /* ATLocalizable.strings */,
+				5E80BADA1375762500F524B6 /* ATLocalizable.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1189,8 +1185,7 @@
 				5ED68E9A136F37A500AB9E4F /* ForumViewController.xib in Resources */,
 				5ED68E9C136F37B100AB9E4F /* SubForumController.xib in Resources */,
 				5EC2660F1369AB18006A10DE /* ATWebViewController.xib in Resources */,
-				5EC26621136A0A17006A10DE /* Localizable.strings in Resources */,
-				5ED68EA0136F437600AB9E4F /* ATLocalizable.strings in Resources */,
+				5E80BADC1375786700F524B6 /* ATLocalizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1308,6 +1303,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		5E80BADA1375762500F524B6 /* ATLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5E80BAD91375762500F524B6 /* en */,
+				5E80BADB1375762C00F524B6 /* de */,
+			);
+			name = ATLocalizable.strings;
+			sourceTree = "<group>";
+		};
 		5E8D90C61352355700274017 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1315,24 +1319,6 @@
 				5E8D90C81352355700274017 /* en */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		5EC26623136A0A17006A10DE /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5EC26622136A0A17006A10DE /* en */,
-				5E6482C4136DFAAD0096693C /* de */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		5ED68EA2136F437600AB9E4F /* ATLocalizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5ED68EA1136F437600AB9E4F /* en */,
-				5ED68EA3136F437D00AB9E4F /* de */,
-			);
-			name = ATLocalizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
