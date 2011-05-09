@@ -1,5 +1,5 @@
 //
-//  Localizable.strings
+//  ATLocalizable.strings
 //  Apfeltalk Magazin
 //
 //	Apfeltalk Magazin -- An iPhone Application for the site http://apfeltalk.de
@@ -50,3 +50,4 @@
 "Direct response" = "Direktantwort";
 "Save" = "Speichern";
 "Send Mail" = "Per Mail versenden";
+"Site %i of %i" = "Seite %i von %i";
