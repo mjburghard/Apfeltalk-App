@@ -126,7 +126,7 @@ Jesper Frommherz (jesfro)</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Die Tapatalk-API welche für den Forenzugriff eingesetzt wird ist ein Produkt der</string>
+			<string>Die Tapatalk-API welche für den Forenzugriff eingesetzt wird ist ein Produkt der:</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
