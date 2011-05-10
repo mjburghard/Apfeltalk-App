@@ -148,7 +148,7 @@ Jesper Frommherz (jesfro)</string>
 			<key>DoNotLocalize</key>
 			<string>YES</string>
 			<key>FooterText</key>
-			<string>Für die sozialen Netzwerke verwenden wir ShareKit, welches ein Produkt von Nate Weiner ist. Der Lizenz entsprechend werden sie auf folgendes aufmerksam gemacht:</string>
+			<string>Für den Zugriff auf die sozialen Netzwerke verwenden wir ShareKit, welches ein Produkt von Nate Weiner ist. Der Lizenz entsprechend werden sie auf folgendes aufmerksam gemacht:</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
