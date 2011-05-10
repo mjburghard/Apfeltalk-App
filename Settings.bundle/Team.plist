@@ -126,7 +126,13 @@ Jesper Frommherz (jesfro)</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Die Tapatalk-API welche für den Forenzugriff eingesetzt wird ist ein Produkt der Quoord Systems Limited, Main Office:
+			<string>Die Tapatalk-API welche für den Forenzugriff eingesetzt wird ist ein Produkt der</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string> Quoord Systems Limited, Main Office:
 15B, Haven Commercial Building
 6-8 Tsing Fung St.
 Tin Hau, Hong Kong S.A.R.</string>
