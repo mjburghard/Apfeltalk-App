@@ -211,6 +211,22 @@ Tin Hau, Hong Kong S.A.R.</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Für die Richtigkeit der Inhalte wird nicht gehaftet.</string>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>© 2011 Apfeltalk GmbH</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Team</string>
