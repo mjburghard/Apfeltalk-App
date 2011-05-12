@@ -55,6 +55,12 @@
 		5AD2AAEF13531702008D4EAB /* ticker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AD2AAEE13531702008D4EAB /* ticker@2x.png */; };
 		5AD2AAF113531711008D4EAB /* gallery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AD2AAF013531711008D4EAB /* gallery@2x.png */; };
 		5AD2AAF31353171C008D4EAB /* apfelshow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AD2AAF21353171C008D4EAB /* apfelshow@2x.png */; };
+		5AE35B1B137AA0D5001779A0 /* Left.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B19137AA0D5001779A0 /* Left.png */; };
+		5AE35B1C137AA0D5001779A0 /* Left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B1A137AA0D5001779A0 /* Left@2x.png */; };
+		5AE35B20137AA0EB001779A0 /* Right.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B1E137AA0EB001779A0 /* Right.png */; };
+		5AE35B21137AA0EB001779A0 /* Right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B1F137AA0EB001779A0 /* Right@2x.png */; };
+		5AE35B23137B4065001779A0 /* thread_dot_hot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B22137B4064001779A0 /* thread_dot_hot@2x.png */; };
+		5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B24137B4073001779A0 /* thread_dot@2x.png */; };
 		5AFB72DC1348A0270027752A /* thread_dot_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DA1348A0270027752A /* thread_dot_hot.png */; };
 		5AFB72DD1348A0270027752A /* thread_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DB1348A0270027752A /* thread_dot.png */; };
 		5E6EE0AB135112D7004B6618 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E6EE0AA135112D7004B6618 /* Security.framework */; };
@@ -238,6 +244,12 @@
 		5AD2AAEE13531702008D4EAB /* ticker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ticker@2x.png"; sourceTree = "<group>"; };
 		5AD2AAF013531711008D4EAB /* gallery@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gallery@2x.png"; sourceTree = "<group>"; };
 		5AD2AAF21353171C008D4EAB /* apfelshow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apfelshow@2x.png"; sourceTree = "<group>"; };
+		5AE35B19137AA0D5001779A0 /* Left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Left.png; sourceTree = "<group>"; };
+		5AE35B1A137AA0D5001779A0 /* Left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Left@2x.png"; sourceTree = "<group>"; };
+		5AE35B1E137AA0EB001779A0 /* Right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Right.png; sourceTree = "<group>"; };
+		5AE35B1F137AA0EB001779A0 /* Right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Right@2x.png"; sourceTree = "<group>"; };
+		5AE35B22137B4064001779A0 /* thread_dot_hot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot_hot@2x.png"; sourceTree = "<group>"; };
+		5AE35B24137B4073001779A0 /* thread_dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot@2x.png"; sourceTree = "<group>"; };
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
 		5E6EE0AA135112D7004B6618 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -994,6 +1006,12 @@
 		CB1434AE1058616500B5FF14 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5AE35B24137B4073001779A0 /* thread_dot@2x.png */,
+				5AE35B22137B4064001779A0 /* thread_dot_hot@2x.png */,
+				5AE35B1E137AA0EB001779A0 /* Right.png */,
+				5AE35B1F137AA0EB001779A0 /* Right@2x.png */,
+				5AE35B19137AA0D5001779A0 /* Left.png */,
+				5AE35B1A137AA0D5001779A0 /* Left@2x.png */,
 				5A134CF813792FF30055183E /* Up@2x.png */,
 				5A134CF513792FE30055183E /* Down@2x.png */,
 				5AB3DC941353546800E0D3CA /* blackArrow.png */,
@@ -1194,6 +1212,12 @@
 				5E80BADC1375786700F524B6 /* ATLocalizable.strings in Resources */,
 				5A134CF613792FE30055183E /* Down@2x.png in Resources */,
 				5A134CF913792FF30055183E /* Up@2x.png in Resources */,
+				5AE35B1B137AA0D5001779A0 /* Left.png in Resources */,
+				5AE35B1C137AA0D5001779A0 /* Left@2x.png in Resources */,
+				5AE35B20137AA0EB001779A0 /* Right.png in Resources */,
+				5AE35B21137AA0EB001779A0 /* Right@2x.png in Resources */,
+				5AE35B23137B4065001779A0 /* thread_dot_hot@2x.png in Resources */,
+				5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1363,7 +1387,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Stephan Koenig";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stephan Koenig (CU3AUBYQNK)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Apfeltalk_Magazin_Prefix.pch;
@@ -1378,7 +1402,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "Apfeltalk Magazin";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3E9F749A-FC08-4D69-AB43-82455BD5276B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6B871B12-8E9A-4620-8FA6-F3B98B665282";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -1412,7 +1436,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Stephan Koenig";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Stephan Koenig";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1429,8 +1453,8 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = ApfeltalkMagazin;
-				PROVISIONING_PROFILE = "3E9F749A-FC08-4D69-AB43-82455BD5276B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "F140BCC7-89AD-47A2-96D1-CE27F3E7DFAF";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F140BCC7-89AD-47A2-96D1-CE27F3E7DFAF";
 				SDKROOT = iphoneos;
 			};
 			name = Distribution;

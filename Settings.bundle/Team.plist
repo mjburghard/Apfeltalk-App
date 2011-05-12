@@ -5,12 +5,16 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
 			<key>FooterText</key>
 			<string>Apfeltalk Mobile Entwicklerliste (Usernamen in Klammern)</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
 			<key>FooterText</key>
 			<string>Idee:</string>
 			<key>Type</key>
@@ -41,6 +45,8 @@
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
 			<key>FooterText</key>
 			<string>Programmierung:</string>
 			<key>Type</key>
@@ -73,6 +79,8 @@ Michael Ochs (mad boy), Marc Zitzmann (mzitzmann), Nico Reese (branco145)</strin
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
 			<key>FooterText</key>
 			<string>Grafik:</string>
 			<key>Type</key>
@@ -88,6 +96,8 @@ Jesper Frommherz (jesfro)</string>
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
 			<key>FooterText</key>
 			<string>Administration Apfeltalk GmbH:</string>
 			<key>Type</key>
@@ -119,18 +129,48 @@ Jesper Frommherz (jesfro)</string>
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
 			<key>FooterText</key>
-			<string>Bemerkungen:</string>
+			<string>Copyrightbestimmungen:</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>Die Grafiken für die einzelnen Sektionen &quot;Magazin&quot;, &quot;Gallery&quot;, &quot;Forum&quot; und &quot;Liveticker&quot; sowie das Apfeltalk Logo unterliegen dem Copyright der Apfeltalk GmbH. Dies gilt auch für die angepassten Grafiken in der gesamten App sowie einzelnen Beiträgen, welche die Apfeltalk GmbH repräsentieren.</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>Für den Zugriff auf die sozialen Netzwerke verwenden wir ShareKit, welches ein Produkt von Nate Weiner ist. Der Lizenz entsprechend werden sie auf folgendes aufmerksam gemacht:</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>Hiermit wird unentgeltlich, jeder Person, die eine Kopie der Software und der zugehörigen Dokumentationen (die &quot;Software&quot;) erhält, die Erlaubnis erteilt, uneingeschränkt zu benutzen, inklusive und ohne Ausnahme, dem Recht, sie zu verwenden, kopieren, ändern, fusionieren, verlegen, verbreiten, unterlizenzieren und/oder zu verkaufen, und Personen, die diese Software erhalten, diese Rechte zu geben, unter den folgenden Bedingungen: Der obige Urheberrechtsvermerk und dieser Erlaubnisvermerk sind in allen Kopien oder Teilkopien der Software beizulegen. Die Software wird ohne jede ausdrückliche oder implizierte Garantie bereitgestellt, einschliesslich der Garantie zur Benutzung für jeden vorgesehenen oder einem bestimmten Zweck sowie jeglicher Rechtsverletzung, jedoch nicht darauf beschränkt. In keinem Fall sind die Autoren oder Copyrightinhaber für jeglichen Schaden oder sonstige Ansprüche haftbar zu machen, ob infolge der Erfüllung eines Vertrages, eines Deliktes oder anders im Zusammenhang mit der Software oder sonstiger Verwendung der Software entstanden.</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
 			<key>FooterText</key>
 			<string>Die Tapatalk-API welche für den Forenzugriff eingesetzt wird ist ein Produkt der:</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
 			<key>FooterText</key>
 			<string> Quoord Systems Limited, Main Office:
 15B, Haven Commercial Building
@@ -140,6 +180,8 @@ Tin Hau, Hong Kong S.A.R.</string>
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
 			<key>FooterText</key>
 			<string>Lizenz:</string>
 			<key>Type</key>
@@ -149,7 +191,39 @@ Tin Hau, Hong Kong S.A.R.</string>
 			<key>DoNotLocalize</key>
 			<true/>
 			<key>FooterText</key>
-			<string>Die Apfeltalk Mobile App steht unter der GPL v2 Lizenz, und ist somit Opensource. Der Code kann unter der Voraussetzung, dass die GPL v2 Lizenz weitergegeben wird uneingeschränkt genutzt werden. Der Source-Code ist unter www.github.com/stephandev/Apfeltalk-App frei zugänglich.</string>
+			<string>Die Apfeltalk Mobile App steht unter der GPL v2 Lizenz, und ist somit opensource. Der Code kann unter der Voraussetzung, dass die GPL v2 Lizenz weitergegeben wird uneingeschränkt genutzt werden. Der Source-Code ist unter:</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>www.github.com/stephandev/Apfeltalk-App</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>frei zugänglich.</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Für die Richtigkeit der Inhalte wird nicht gehaftet.</string>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>© 2009 - 2011 Apfeltalk GmbH</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
