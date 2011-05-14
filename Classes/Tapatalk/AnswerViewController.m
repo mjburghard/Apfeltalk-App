@@ -7,9 +7,7 @@
 //
 
 #import "AnswerViewController.h"
-#import "User.h"
-#import "ContentTranslator.h"
-#import "ForumViewController.h"
+#import "DetailThreadController.h"
 
 
 @implementation AnswerViewController
@@ -17,10 +15,18 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.hidesBottomBarWhenPushed = YES;
         self.topic = aTopic;
+    }
+    return self;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
@@ -73,6 +79,8 @@
     if (connection) {
     }
     self.textView.text = @"";
+    NSArray *viewControllers = self.navigationController.viewControllers;
+    [(DetailThreadController *)[viewControllers objectAtIndex:[viewControllers count]-2] loadData];
     [self cancel];
 }
 
@@ -92,6 +100,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
     
     self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0, 10.0, self.view.frame.size.width, self.view.frame.size.height-270.0)];
+    self.textView.font = [UIFont fontWithName:@"Helvetica" size:15.0];
     
     [self.view addSubview: self.textView];
     [self.textView becomeFirstResponder];

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Topic.h"
+#import "User.h"
+#import "ContentTranslator.h"
+#import "ForumViewController.h"
 
 
 @interface AnswerViewController : UIViewController <UIAlertViewDelegate> {
@@ -17,5 +20,7 @@
 
 @property (retain) UITextView *textView;
 @property (retain) Topic *topic;
+
+- (void)cancel;
 
 @end
