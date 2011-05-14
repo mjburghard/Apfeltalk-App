@@ -149,7 +149,7 @@
     if (divRange.location == NSNotFound)
 		return NSLocalizedString (@"Nachricht konnte nicht angezeigt werden", @"");
     
-    NSString *extractedString = [bodyString substringToIndex:divRange.location];
+    NSString *extractedString = [NSString stringWithFormat:@"%@%@", [bodyString substringToIndex:divRange.location], @"<br/>"];
     
     // NSString *queryString = extractTextFromHTMLForQuery(bodyString, @"//div[1]"); not used
     // This does not work, as the query specifically extracts text
