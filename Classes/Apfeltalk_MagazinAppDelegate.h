@@ -23,10 +23,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserXMLParser.h"
 
-@interface Apfeltalk_MagazinAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+@interface Apfeltalk_MagazinAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UserXMLParserDelegate> {
     UIWindow *window;
     UITabBarController *tabBarController;
+    UserXMLParser *userXMLParser;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
