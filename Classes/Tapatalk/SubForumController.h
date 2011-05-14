@@ -17,7 +17,7 @@
     Topic *currentTopic;
     NSMutableArray *topics;
     
-    BOOL isTopicID, isTopicTitle, isPrefixes;
+    BOOL isTopicID, isTopicTitle, isPrefixes, isNewPost, isReplyNumber;
     BOOL isLoadingPinnedTopics;
     
 }

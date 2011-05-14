@@ -176,6 +176,8 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
+    cell.imageView.image = nil;
+    
     if (indexPath.section == 0 && [self.subForum.subFora count] != 0) {
         cell.textLabel.text = [(SubForum *)[self.subForum.subFora objectAtIndex:indexPath.row] name];
         cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
@@ -190,12 +192,17 @@
 		
 		return loadingCell;
     }
+    Topic *t = (Topic *)[self.topics objectAtIndex:indexPath.row];
     
-    cell.textLabel.text = [(Topic *)[self.topics objectAtIndex:indexPath.row] title];
+    cell.textLabel.text = [t title];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
-    // Configure the cell...
+    if (t.hasNewPost) {
+        cell.imageView.image = [UIImage imageNamed:@"thread_dot_hot.png"];
+    } else {
+        cell.imageView.image = [UIImage imageNamed:@"thread_dot.png"];
+    }
     
     return cell;
 }
@@ -268,7 +275,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    [self tableView:tableView didSelectRowAtIndexPath:indexPath];
+    DetailThreadController *detailThreadController = [[DetailThreadController alloc] initWithNibName:@"DetailThreadController" bundle:nil topic:(Topic *)[self.topics objectAtIndex:indexPath.row]];
+    [detailThreadController loadLastSite];
+    [self.navigationController pushViewController:detailThreadController animated:YES];
+    [detailThreadController release];
 }
 #pragma mark-
 #pragma mark NSXMLParserDelegate
@@ -299,7 +309,11 @@
             isTopicTitle = YES;
         } else if ([self.currentString isEqualToString:@"forum_id"]) {
             isForumID = YES;
-        } 
+        } else if ([self.currentString isEqualToString:@"new_post"]) {
+            isNewPost = YES;
+        } else if ([self.currentString isEqualToString:@"reply_number"]) {
+            isReplyNumber = YES;
+        }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/base64"]) {
         // First decode base64 data
         self.currentString = (NSMutableString *)decodeString(self.currentString);
@@ -320,9 +334,21 @@
         }
         
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
-        
+        if (isNewPost) {
+            isNewPost = NO;
+            if ([self.currentString isEqualToString:@"1"]) {
+                self.currentTopic.hasNewPost = YES;
+            } else {
+                self.currentTopic.hasNewPost = NO;
+            }
+        }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"prefixes"]) {
         isPrefixes = YES;
+    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/int"]) {
+        if (isReplyNumber) {
+            isReplyNumber = NO;
+            self.currentTopic.numberOfPosts = [self.currentString integerValue]+1;
+        }
     }
     
     self.path = [self.path stringByDeletingLastPathComponent];

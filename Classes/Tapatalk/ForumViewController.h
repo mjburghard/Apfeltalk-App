@@ -52,5 +52,6 @@ NSString * decodeString(NSString *aString);
 NSString * encodeString(NSString *aString);
 - (NSString *)decodeString:(NSString *)aString;
 - (NSString *)tapatalkPluginPath;
+- (void)login;
 
 @end

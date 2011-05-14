@@ -23,6 +23,8 @@
 //
 
 #import "Apfeltalk_MagazinAppDelegate.h"
+#import "SFHFKeychainUtils.h"
+#import "ForumViewController.h"
 
 
 @implementation Apfeltalk_MagazinAppDelegate
@@ -42,10 +44,33 @@
 	} 
 }
 
+- (void)login {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] && ![(NSString *)[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] isEqualToString:@""]) {
+        NSError *error = nil;
+        NSString *username = (NSString *)[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"];
+        NSString *password = [SFHFKeychainUtils getPasswordForUsername:username andServiceName:@"Apfeltalk" error:&error];
+        
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+        }
+        NSURL *url = [NSURL URLWithString:@"http://apfeltalk.de/forum/mobiquo/mobiquo.php/"];
+        NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>login</methodName><params><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", encodeString(username), encodeString(password)];
+        NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:data];
+        [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
+        userXMLParser = nil;
+        userXMLParser = [[UserXMLParser alloc] initWithRequest:request delegate:self];
+    }
+}
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	[self setApplicationDefaults];
     // Add the tab bar controller's current view as a subview of the window
     [window addSubview:tabBarController.view];
+    [self login];
 }
 
 
@@ -60,6 +85,14 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
 }
 */
+
+- (void)userIsLoggedIn:(BOOL)isLoggedIn {
+    
+}
+
+- (void)userXMLParserDidFinish {
+    [userXMLParser release];
+}
 
 
 - (void)dealloc {

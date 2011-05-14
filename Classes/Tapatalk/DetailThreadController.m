@@ -10,6 +10,8 @@
 #import "User.h"
 #import "ATWebViewController.h"
 #import "ATActivityIndicator.h"
+#import "ContentTranslator.h"
+#import "AnswerViewController.h"
 
 @implementation DetailThreadController
 @synthesize topic, posts, currentPost, site, numberOfPosts;
@@ -23,7 +25,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.topic = aTopic;
         self.posts = [NSMutableArray array];
         self.site = 0;
-        self.numberOfPosts = 0;
+        self.numberOfPosts = self.topic.numberOfPosts;
     }
     return self;
 }
@@ -45,7 +47,17 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 #pragma mark -
-#pragma mark Private Methods
+#pragma mark Private and Public Methods
+
+- (void)loadLastSite {
+    int numberOfSites;
+    if (numberOfPosts % 10 == 0) {
+        numberOfSites = numberOfPosts / 10;
+    } else {
+        numberOfSites = numberOfPosts / 10 + 1;
+    }
+    site = numberOfSites-1; 
+}
 
 - (void)loadData {
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
@@ -80,25 +92,29 @@ const CGFloat kDefaultRowHeight = 44.0;
         return;
     }
     
+    ContentTranslator *translator = [ContentTranslator new];
+    
+    NSString *content = [translator translateStringForAT:answerCell.textView.text];
     
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>reply_post</methodName><params><param><value><string>%i</string></value></param><param><value><string>%i</string></value></param><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", self.topic.forumID, 
                            self.topic.topicID, 
                            encodeString(@"answer"), 
-                           encodeString(answerCell.textView.text)];
+                           encodeString(content)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:nil];
     [connection start];
     
     if (connection) {
     }
     answerCell.textView.text = @"";
     [self endEditing:nil];
+    [self loadData];
 }
 
 - (void)back {
@@ -120,7 +136,19 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)last {
-    
+    int numberOfSites;
+    if (numberOfPosts % 10 == 0) {
+        numberOfSites = numberOfPosts / 10;
+    } else {
+        numberOfSites = numberOfPosts / 10 + 1;
+    }
+    site = numberOfSites-1;
+    [self loadData];
+    ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
+    at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, numberOfSites];
+    [at showSpinner];
+    [at show];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)next {
@@ -324,7 +352,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     if (section == [self.posts count]+1) {
         return 1;
     }
-    return 3;
+    return 2;
 }
 
 // Customize the appearance of table view cells.
@@ -380,6 +408,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             }
             actionsCell.textLabel.text = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
             actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
+            actionsCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             return actionsCell;
         }
         
@@ -419,6 +448,12 @@ const CGFloat kDefaultRowHeight = 44.0;
     }
     
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    AnswerViewController *answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
+    [self.navigationController pushViewController:answerViewController animated:YES];
+    [answerViewController release];
 }
 
 #pragma mark-
@@ -464,7 +499,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             isPostAuthorID = YES;
         } else if ([self.currentString isEqualToString:@"post_author_name"]) {
             isPostAuthor = YES;
-        }
+        } 
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/base64"]) {
         // First decode base64 data
         
@@ -475,7 +510,8 @@ const CGFloat kDefaultRowHeight = 44.0;
             self.currentPost.title = self.currentString;
         } else if (isPostContent) {
             isPostContent = NO;
-            self.currentPost.content = self.currentString;
+            ContentTranslator *translator = [ContentTranslator new];
+            self.currentPost.content = [translator translateStringForiOS:self.currentString];
         } else if (isPostAuthor) {
             self.currentPost.author = self.currentString;
         }

@@ -33,5 +33,6 @@
 @property (assign) NSInteger numberOfPosts;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic;
+- (void)loadLastSite;
 
 @end
