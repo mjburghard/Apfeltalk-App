@@ -66,6 +66,8 @@
 		5E1DC1F0137C59D100BE82AC /* ContentTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1DC1EF137C59D100BE82AC /* ContentTranslator.m */; };
 		5E2A1863137E8ACA00F6EF86 /* AnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A1861137E8ACA00F6EF86 /* AnswerViewController.m */; };
 		5E2A1864137E8ACA00F6EF86 /* AnswerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E2A1862137E8ACA00F6EF86 /* AnswerViewController.xib */; };
+		5E2A1869137EED6F00F6EF86 /* NewTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A1867137EED6D00F6EF86 /* NewTopicViewController.m */; };
+		5E2A186A137EED6F00F6EF86 /* NewTopicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E2A1868137EED6E00F6EF86 /* NewTopicViewController.xib */; };
 		5E460621137D5EB6000A5D20 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E460620137D5EB6000A5D20 /* CoreFoundation.framework */; };
 		5E460627137D6260000A5D20 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E460626137D6260000A5D20 /* RegexKitLite.m */; };
 		5E6EE0AB135112D7004B6618 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E6EE0AA135112D7004B6618 /* Security.framework */; };
@@ -262,6 +264,9 @@
 		5E2A1860137E8ACA00F6EF86 /* AnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswerViewController.h; sourceTree = "<group>"; };
 		5E2A1861137E8ACA00F6EF86 /* AnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerViewController.m; sourceTree = "<group>"; };
 		5E2A1862137E8ACA00F6EF86 /* AnswerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AnswerViewController.xib; path = Classes/Tapatalk/AnswerViewController.xib; sourceTree = "<group>"; };
+		5E2A1866137EED6C00F6EF86 /* NewTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewTopicViewController.h; sourceTree = "<group>"; };
+		5E2A1867137EED6D00F6EF86 /* NewTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewTopicViewController.m; sourceTree = "<group>"; };
+		5E2A1868137EED6E00F6EF86 /* NewTopicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewTopicViewController.xib; path = Classes/Tapatalk/NewTopicViewController.xib; sourceTree = "<group>"; };
 		5E460620137D5EB6000A5D20 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		5E460625137D6260000A5D20 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		5E460626137D6260000A5D20 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
@@ -584,6 +589,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5E2A1868137EED6E00F6EF86 /* NewTopicViewController.xib */,
 				5E2A1862137E8ACA00F6EF86 /* AnswerViewController.xib */,
 				5ED68E9D136F37B100AB9E4F /* SubForumController.xib */,
 				5EC265BC136999D3006A10DE /* DetailThreadController.xib */,
@@ -1021,6 +1027,8 @@
 				5E1DC1EF137C59D100BE82AC /* ContentTranslator.m */,
 				5E2A1860137E8ACA00F6EF86 /* AnswerViewController.h */,
 				5E2A1861137E8ACA00F6EF86 /* AnswerViewController.m */,
+				5E2A1866137EED6C00F6EF86 /* NewTopicViewController.h */,
+				5E2A1867137EED6D00F6EF86 /* NewTopicViewController.m */,
 			);
 			path = Tapatalk;
 			sourceTree = "<group>";
@@ -1241,6 +1249,7 @@
 				5AE35B23137B4065001779A0 /* thread_dot_hot@2x.png in Resources */,
 				5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */,
 				5E2A1864137E8ACA00F6EF86 /* AnswerViewController.xib in Resources */,
+				5E2A186A137EED6F00F6EF86 /* NewTopicViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1355,6 +1364,7 @@
 				5E1DC1F0137C59D100BE82AC /* ContentTranslator.m in Sources */,
 				5E460627137D6260000A5D20 /* RegexKitLite.m in Sources */,
 				5E2A1863137E8ACA00F6EF86 /* AnswerViewController.m in Sources */,
+				5E2A1869137EED6F00F6EF86 /* NewTopicViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
