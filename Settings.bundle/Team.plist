@@ -180,7 +180,7 @@ Jesper Frommherz (jesfro)</string>
 			<key>DoNotLocalize</key>
 			<string>YES</string>
 			<key>FooterText</key>
-			<string>2. Weitergabe in binärer Form müssen den obigen Copyright-Hinweis, diese Liste der Bedingungen und den folgenden Haftungsausschluss in der Dokumentation und / oder anderen Materialien mit dem Vertrieb beinhalten.</string>
+			<string>2. Weitergabe in binärer Form muss den obigen Copyright-Hinweis, diese Liste der Bedingungen und den folgenden Haftungsausschluss in der Dokumentation und / oder anderen Materialien mit dem Vertrieb beinhalten.</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
