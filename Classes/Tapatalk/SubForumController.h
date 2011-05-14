@@ -12,16 +12,14 @@
 #import "Topic.h"
 #import "DetailThreadController.h"
 
-@interface SubForumController : ForumViewController {
+@interface SubForumController : ForumViewController <UIActionSheetDelegate> {
     SubForum *subForum;
     Topic *currentTopic;
     NSMutableArray *topics;
     
     BOOL isTopicID, isTopicTitle, isPrefixes, isNewPost, isReplyNumber;
     BOOL isLoadingPinnedTopics;
-    
 }
-
 
 @property (retain) SubForum *subForum;
 @property (retain) Topic *currentTopic;

@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "UserXMLParser.h"
+#import "SFHFKeychainUtils.h"
+#import "User.h"
 
 @class Section;
 @class SubForum;
-@class User;
 
-@interface ForumViewController : UITableViewController <NSXMLParserDelegate, UserXMLParserDelegate> {
+@interface ForumViewController : UITableViewController <NSXMLParserDelegate, UserXMLParserDelegate, UIAlertViewDelegate> {
     NSMutableString *currentString;
     NSMutableData *receivedData;
     NSMutableArray *sections;
@@ -53,5 +54,7 @@ NSString * encodeString(NSString *aString);
 - (NSString *)decodeString:(NSString *)aString;
 - (NSString *)tapatalkPluginPath;
 - (void)login;
+- (void)logout;
+- (void)loadData;
 
 @end

@@ -12,6 +12,7 @@
 #import "ATActivityIndicator.h"
 #import "ContentTranslator.h"
 #import "AnswerViewController.h"
+#import "SFHFKeychainUtils.h"
 
 @implementation DetailThreadController
 @synthesize topic, posts, currentPost, site, numberOfPosts;
@@ -86,7 +87,8 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)reply {
     if (![[User sharedUser] isLoggedIn]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") message:NSLocalizedStringFromTable(@"Please login...", @"ATLocalizable", @"") delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") message:NSLocalizedStringFromTable(@"Please login...", @"ATLocalizable", @"") delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil, nil];
+        alertView.tag = 2;
         [alertView show];
         [alertView release];
         return;
@@ -166,6 +168,97 @@ const CGFloat kDefaultRowHeight = 44.0;
         [at showSpinner];
         [at show];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
+}
+
+- (void)logout {
+    NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
+    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>logout_user</methodName></methodCall>"];
+    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:data];
+    [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+    [connection start];
+    [[User sharedUser] setLoggedIn:NO];
+    NSError *error = nil;
+    [SFHFKeychainUtils deleteItemForUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] andServiceName:@"Apfeltalk" error:&error];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ATUsername"];
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+- (void)showActionSheet {
+    NSString *buttonTitle;
+    if ([[User sharedUser] isLoggedIn]) {
+        buttonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
+    } else {
+        buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
+    }
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @""), NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @""), nil];
+    [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
+    [actionSheet release];
+}
+
+#pragma mark -
+#pragma mark UserXMLParserDelegate
+
+- (void)userIsLoggedIn:(BOOL)isLoggedIn {
+    if (isLoggedIn) {
+        NSError *error = nil;
+        [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"ATUsername"];
+        [SFHFKeychainUtils storeUsername:usernameTextField.text
+                             andPassword:passwordTextField.text forServiceName:@"Apfeltalk" updateExisting:NO error:&error];
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+        }
+        [usernameTextField release];
+        [passwordTextField release];
+    } else {
+        [super userIsLoggedIn:isLoggedIn];
+    }
+    
+}
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    AnswerViewController *answerViewController;
+    switch (buttonIndex) {
+        case 0:
+            if ([[User sharedUser] isLoggedIn]) {
+                [self logout];
+            } else {
+                [self login];
+            } 
+            break;
+        case 1:
+            [self last];
+            break;
+        case 2:
+            answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
+            [self.navigationController pushViewController:answerViewController animated:YES];
+            [answerViewController release]; 
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark -
+#pragma mark UIAlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 2) {
+        [self login];
+        return;
+    } else {
+        [super alertView:alertView didDismissWithButtonIndex:buttonIndex];
     }
 }
 
@@ -258,51 +351,19 @@ const CGFloat kDefaultRowHeight = 44.0;
     // Release any retained subviews of the main view.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+    self.navigationItem.rightBarButtonItem = rightButton;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-/*
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == [self.posts count] && [self.posts count] != 0) {
-        return 57.0;
-    }
-    return 0.0;
-}
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (section == [self.posts count] && [self.posts count] != 0) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 47.0)];
-        view.backgroundColor = [UIColor clearColor];
-        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button setTitle:NSLocalizedStringFromTable(@"Back", @"ATLocalizable", @"") forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-        [button setFrame:CGRectMake(10, 10, 280/3.0, 37.0)];
-        [view addSubview:button];
-        
-        button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button setTitle:NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @"") forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(last) forControlEvents:UIControlEventTouchUpInside];
-        [button setFrame:CGRectMake(280/3.0 + 20, 10, 280/3.0, 37.0)];
-        button.enabled = NO;
-        [view addSubview:button];
-        
-        button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button setTitle:NSLocalizedStringFromTable(@"Next", @"ATLocalizable", @"") forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
-        [button setFrame:CGRectMake(310 - 280/3.0, 10, 280/3.0, 37.0)];
-        [view addSubview:button];
-        
-        return view;
-    }
-    return nil;
-}
-*/
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.posts count] == 0) {
         return kDefaultRowHeight;
@@ -353,6 +414,20 @@ const CGFloat kDefaultRowHeight = 44.0;
         return 1;
     }
     return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    if (section == [tableView numberOfSections]-1) {
+        int numberOfSites;
+        if (numberOfPosts % 10 == 0) {
+            numberOfSites = numberOfPosts / 10;
+        } else {
+            numberOfSites = numberOfPosts / 10 + 1;
+        }
+        return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, numberOfSites];
+    }
+    
+    return nil;
 }
 
 // Customize the appearance of table view cells.

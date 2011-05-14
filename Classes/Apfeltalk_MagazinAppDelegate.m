@@ -25,6 +25,7 @@
 #import "Apfeltalk_MagazinAppDelegate.h"
 #import "SFHFKeychainUtils.h"
 #import "ForumViewController.h"
+#import "User.h"
 
 
 @implementation Apfeltalk_MagazinAppDelegate
@@ -61,18 +62,29 @@
         [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:data];
         [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
+        [userXMLParser release];
         userXMLParser = nil;
         userXMLParser = [[UserXMLParser alloc] initWithRequest:request delegate:self];
     }
 }
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
+/*- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	[self setApplicationDefaults];
     // Add the tab bar controller's current view as a subview of the window
     [window addSubview:tabBarController.view];
     [self login];
+}*/
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self setApplicationDefaults];
+    // Add the tab bar controller's current view as a subview of the window
+    [window addSubview:tabBarController.view];
+    return YES;
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [self login];
+}
 
 /*
 // Optional UITabBarControllerDelegate method

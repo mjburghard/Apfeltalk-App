@@ -7,6 +7,7 @@
 //
 
 #import "SubForumController.h"
+#import "NewTopicViewController.h"
 
 @implementation SubForumController
 @synthesize subForum, currentTopic, topics, isLoadingPinnedTopics;
@@ -78,7 +79,99 @@
 }
 
 - (void)loadData {
+    self.topics = [NSMutableArray array];
     [self loadPinnedTopics];
+}
+
+- (void)newTopic {
+    NewTopicViewController *newTopicViewController = [[NewTopicViewController alloc] initWithNibName:@"NewTopicViewController" bundle:nil forum:self.subForum];
+    [self.navigationController pushViewController:newTopicViewController animated:YES];
+    [newTopicViewController release];
+}
+
+- (void)logout {
+    NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
+    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>logout_user</methodName></methodCall>"];
+    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:data];
+    [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+    [connection start];
+    [[User sharedUser] setLoggedIn:NO];
+    NSError *error = nil;
+    [SFHFKeychainUtils deleteItemForUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] andServiceName:@"Apfeltalk" error:&error];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ATUsername"];
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+- (void)showActionSheet {
+    NSString *buttonTitle;
+    if ([[User sharedUser] isLoggedIn]) {
+        buttonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
+    } else {
+        buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
+    }
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"New", @"ATLocalizable", @""), nil];
+    [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
+    [actionSheet release];
+}
+
+#pragma mark -
+#pragma mark UserXMLParserDelegate
+
+- (void)userIsLoggedIn:(BOOL)isLoggedIn {
+    if (isLoggedIn) {
+        NSError *error = nil;
+        [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"ATUsername"];
+        [SFHFKeychainUtils storeUsername:usernameTextField.text
+                             andPassword:passwordTextField.text forServiceName:@"Apfeltalk" updateExisting:NO error:&error];
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+        }
+        [usernameTextField release];
+        [passwordTextField release];
+    } else {
+        [super userIsLoggedIn:isLoggedIn];
+    }
+    
+}
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+            if ([[User sharedUser] isLoggedIn]) {
+                [self logout];
+            } else {
+                [self login];
+            } 
+            break;
+        case 1:
+            [self newTopic];
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark -
+#pragma mark UIAlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 2) {
+        [self login];
+        return;
+    } else {
+        [super alertView:alertView didDismissWithButtonIndex:buttonIndex];
+    }
 }
 
 #pragma mark-
@@ -94,10 +187,7 @@
 {
     [super viewDidLoad];
     self.title = self.subForum.name;
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    
 }
 
 - (void)viewDidUnload
@@ -107,9 +197,11 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+    self.navigationItem.rightBarButtonItem = rightButton;
 }
 
 - (void)viewDidAppear:(BOOL)animated
