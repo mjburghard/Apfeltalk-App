@@ -63,6 +63,11 @@
 		5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B24137B4073001779A0 /* thread_dot@2x.png */; };
 		5AFB72DC1348A0270027752A /* thread_dot_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DA1348A0270027752A /* thread_dot_hot.png */; };
 		5AFB72DD1348A0270027752A /* thread_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DB1348A0270027752A /* thread_dot.png */; };
+		5E1DC1F0137C59D100BE82AC /* ContentTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1DC1EF137C59D100BE82AC /* ContentTranslator.m */; };
+		5E2A1863137E8ACA00F6EF86 /* AnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A1861137E8ACA00F6EF86 /* AnswerViewController.m */; };
+		5E2A1864137E8ACA00F6EF86 /* AnswerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E2A1862137E8ACA00F6EF86 /* AnswerViewController.xib */; };
+		5E460621137D5EB6000A5D20 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E460620137D5EB6000A5D20 /* CoreFoundation.framework */; };
+		5E460627137D6260000A5D20 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E460626137D6260000A5D20 /* RegexKitLite.m */; };
 		5E6EE0AB135112D7004B6618 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E6EE0AA135112D7004B6618 /* Security.framework */; };
 		5E80BADC1375786700F524B6 /* ATLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E80BADA1375762500F524B6 /* ATLocalizable.strings */; };
 		5E8D91201352355700274017 /* SHKOAuthSharer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D90861352355700274017 /* SHKOAuthSharer.m */; };
@@ -252,6 +257,14 @@
 		5AE35B24137B4073001779A0 /* thread_dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot@2x.png"; sourceTree = "<group>"; };
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
+		5E1DC1EE137C59D100BE82AC /* ContentTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentTranslator.h; sourceTree = "<group>"; };
+		5E1DC1EF137C59D100BE82AC /* ContentTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentTranslator.m; sourceTree = "<group>"; };
+		5E2A1860137E8ACA00F6EF86 /* AnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswerViewController.h; sourceTree = "<group>"; };
+		5E2A1861137E8ACA00F6EF86 /* AnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerViewController.m; sourceTree = "<group>"; };
+		5E2A1862137E8ACA00F6EF86 /* AnswerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AnswerViewController.xib; path = Classes/Tapatalk/AnswerViewController.xib; sourceTree = "<group>"; };
+		5E460620137D5EB6000A5D20 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		5E460625137D6260000A5D20 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		5E460626137D6260000A5D20 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		5E6EE0AA135112D7004B6618 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5E80BAD91375762500F524B6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
 		5E80BADB1375762C00F524B6 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
@@ -469,6 +482,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E460621137D5EB6000A5D20 /* CoreFoundation.framework in Frameworks */,
 				5E6EE0AB135112D7004B6618 /* Security.framework in Frameworks */,
 				F6730BEA134A71E40045B876 /* QuartzCore.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -557,6 +571,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5E460625137D6260000A5D20 /* RegexKitLite.h */,
+				5E460626137D6260000A5D20 /* RegexKitLite.m */,
 				28A0AB4B0D9B1048005BE974 /* Apfeltalk_Magazin_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				CBC2B8D71068104200040255 /* ATMXMLUtilities.h */,
@@ -568,6 +584,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5E2A1862137E8ACA00F6EF86 /* AnswerViewController.xib */,
 				5ED68E9D136F37B100AB9E4F /* SubForumController.xib */,
 				5EC265BC136999D3006A10DE /* DetailThreadController.xib */,
 				5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */,
@@ -591,6 +608,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5E460620137D5EB6000A5D20 /* CoreFoundation.framework */,
 				5E6EE0AA135112D7004B6618 /* Security.framework */,
 				F6730BE9134A71E30045B876 /* QuartzCore.framework */,
 				CBC26120108B9DC500E5F36B /* SystemConfiguration.framework */,
@@ -999,6 +1017,10 @@
 				5EC265C9136999D3006A10DE /* Post.m */,
 				5EC265E0136999D3006A10DE /* UserXMLParser.h */,
 				5EC265E1136999D3006A10DE /* UserXMLParser.m */,
+				5E1DC1EE137C59D100BE82AC /* ContentTranslator.h */,
+				5E1DC1EF137C59D100BE82AC /* ContentTranslator.m */,
+				5E2A1860137E8ACA00F6EF86 /* AnswerViewController.h */,
+				5E2A1861137E8ACA00F6EF86 /* AnswerViewController.m */,
 			);
 			path = Tapatalk;
 			sourceTree = "<group>";
@@ -1218,6 +1240,7 @@
 				5AE35B21137AA0EB001779A0 /* Right@2x.png in Resources */,
 				5AE35B23137B4065001779A0 /* thread_dot_hot@2x.png in Resources */,
 				5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */,
+				5E2A1864137E8ACA00F6EF86 /* AnswerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1329,6 +1352,9 @@
 				5EC265F8136999D3006A10DE /* UserXMLParser.m in Sources */,
 				5EC2660D1369AAE1006A10DE /* ATWebViewController.m in Sources */,
 				5EAACB5F137437ED00421338 /* ATActivityIndicator.m in Sources */,
+				5E1DC1F0137C59D100BE82AC /* ContentTranslator.m in Sources */,
+				5E460627137D6260000A5D20 /* RegexKitLite.m in Sources */,
+				5E2A1863137E8ACA00F6EF86 /* AnswerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1376,6 +1402,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "Apfeltalk Magazin";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1401,6 +1428,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "Apfeltalk Magazin";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6B871B12-8E9A-4620-8FA6-F3B98B665282";
 				SDKROOT = iphoneos;
@@ -1452,6 +1480,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = ApfeltalkMagazin;
 				PROVISIONING_PROFILE = "F140BCC7-89AD-47A2-96D1-CE27F3E7DFAF";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F140BCC7-89AD-47A2-96D1-CE27F3E7DFAF";
