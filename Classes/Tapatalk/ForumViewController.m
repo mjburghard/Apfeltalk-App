@@ -11,9 +11,7 @@
 #import "SubForum.h"
 #import "Section.h"
 #import "SubForumController.h"
-#import "User.h"
 #import "UserXMLParser.h"
-#import "SFHFKeychainUtils.h"
 
 @implementation ForumViewController
 @synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject;
@@ -141,7 +139,6 @@ NSString * encodeString(NSString *aString) {
     [connection start];
     [[User sharedUser] setLoggedIn:NO];
     NSError *error = nil;
-    [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"Username"];
     [SFHFKeychainUtils deleteItemForUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] andServiceName:@"Apfeltalk" error:&error];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ATUsername"];
     if (error) {
@@ -166,8 +163,11 @@ NSString * encodeString(NSString *aString) {
                 [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
                 userXMLParser = nil;
                 userXMLParser = [[UserXMLParser alloc] initWithRequest:request delegate:self];
-                
+                [usernameTextField resignFirstResponder];
+                [passwordTextField resignFirstResponder];
             } else if (buttonIndex == 0 ) {
+                [usernameTextField resignFirstResponder];
+                [passwordTextField resignFirstResponder];
                 [usernameTextField release];
                 [passwordTextField release];
             }
@@ -196,6 +196,8 @@ NSString * encodeString(NSString *aString) {
         if (error) {
             NSLog(@"%@", [error localizedDescription]);
         }
+        [usernameTextField resignFirstResponder];
+        [passwordTextField resignFirstResponder];
         [usernameTextField release];
         [passwordTextField release];
     } else {
@@ -265,7 +267,6 @@ NSString * encodeString(NSString *aString) {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] init];
     backButton.title = NSLocalizedStringFromTable(@"Back", @"ATLocalizable", @"");
     self.navigationItem.backBarButtonItem = backButton;
