@@ -13,6 +13,7 @@
 #import "SubForumController.h"
 #import "User.h"
 #import "UserXMLParser.h"
+#import "SFHFKeychainUtils.h"
 
 @implementation ForumViewController
 @synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject;
@@ -139,6 +140,13 @@ NSString * encodeString(NSString *aString) {
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
     [connection start];
     [[User sharedUser] setLoggedIn:NO];
+    NSError *error = nil;
+    [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"Username"];
+    [SFHFKeychainUtils deleteItemForUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] andServiceName:@"Apfeltalk" error:&error];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ATUsername"];
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
 }
 
 #pragma mark -
@@ -179,13 +187,18 @@ NSString * encodeString(NSString *aString) {
 
 - (void)userIsLoggedIn:(BOOL)isLoggedIn {
     if (isLoggedIn) {
-        NSLog(@"YES");
         self.navigationItem.rightBarButtonItem.title = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
         self.navigationItem.rightBarButtonItem.action = @selector(logout);
+        NSError *error = nil;
+        [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"ATUsername"];
+        [SFHFKeychainUtils storeUsername:usernameTextField.text
+                             andPassword:passwordTextField.text forServiceName:@"Apfeltalk" updateExisting:NO error:&error];
+        if (error) {
+            NSLog(@"%@", [error localizedDescription]);
+        }
         [usernameTextField release];
         [passwordTextField release];
     } else {
-        NSLog(@"NO");
         [userXMLParser abortParsing];
         [userXMLParser release];
         userXMLParser = nil;
