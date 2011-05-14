@@ -148,7 +148,55 @@ Jesper Frommherz (jesfro)</string>
 			<key>DoNotLocalize</key>
 			<string>YES</string>
 			<key>FooterText</key>
-			<string>Für den Zugriff auf die sozialen Netzwerke verwenden wir ShareKit, welches ein Produkt von Nate Weiner ist. Der Lizenz entsprechend werden sie auf folgendes aufmerksam gemacht:</string>
+			<string>Für den Zugriff auf die sozialen Netzwerke verwenden wir ShareKit, welches ein Produkt von Nate Weiner ist. Der Lizenz entsprechend werden sie auf folgendes aufmerksam gemacht (Gilt auch für RegexKit und EGOTableViewPullRefresh):</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>Für RegexKit gilt zusätzlich folgende Bestimmung:</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>Weiterverbreitung und Verwendung in Quell-und binärer Form mit oder ohne Änderungen, sind zulässig, sofern folgende Voraussetzungen erfüllt sind:</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>1. Weitergabe des Quellcodes muss den obigen Copyrighthinweis, diese Liste der Bedingungen und den folgenden Haftungsausschluss beinhalten.</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>2. Weitergabe in binärer Form müssen den obigen Copyright-Hinweis, diese Liste der Bedingungen und den folgenden Haftungsausschluss in der Dokumentation und / oder anderen Materialien mit dem Vertrieb beinhalten.</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>3. Der Name des Autors darf nicht zur Verkaufsförderung oder Werbung für Produkte aus dieser Software ohne vorherige schriftliche Erlaubnis abgeleitet werden.</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>BSD-Lizenz zu ShareKit, RegexKit, und EGOTableViewPullRefresh:</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -191,7 +239,7 @@ Tin Hau, Hong Kong S.A.R.</string>
 			<key>DoNotLocalize</key>
 			<true/>
 			<key>FooterText</key>
-			<string>Die Apfeltalk Mobile App steht unter der GPL v2 Lizenz, und ist somit opensource. Der Code kann unter der Voraussetzung, dass die GPL v2 Lizenz weitergegeben wird uneingeschränkt genutzt werden. Der Source-Code ist unter:</string>
+			<string>Die Apfeltalk Mobile App steht unter der GPL v2 Lizenz, und ist somit opensource. Der Code kann unter der Voraussetzung, dass die GPL v2 Lizenz weitergegeben wird uneingeschränkt genutzt werden. Allfällige andere Lizenzen müssen bei der Weiterverbreitung beachtet werden. Der Source-Code ist unter:</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -212,10 +260,10 @@ Tin Hau, Hong Kong S.A.R.</string>
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>FooterText</key>
-			<string>Für die Richtigkeit der Inhalte wird nicht gehaftet.</string>
 			<key>DoNotLocalize</key>
 			<string>YES</string>
+			<key>FooterText</key>
+			<string>Für die Richtigkeit der Inhalte wird nicht gehaftet.</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
