@@ -8,7 +8,7 @@
 
 #import "UserXMLParser.h"
 #import "User.h"
-#import "Apfeltalk_MagazinAppDelegate.h"
+
 
 
 @implementation UserXMLParser
