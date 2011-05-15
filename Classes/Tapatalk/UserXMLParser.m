@@ -45,13 +45,11 @@
 #pragma mark NSURLConnectionDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    /*NSDictionary *headerFields = [(NSHTTPURLResponse *)response allHeaderFields];
-     for (NSString *s in [headerFields allKeys]) {
-     NSLog(@"%@", s);
-     }
-     for (NSString *s in [headerFields allValues]) {
-     NSLog(@"%@", s);
-     }*/
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:[httpResponse allHeaderFields] forURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    if ([all count] > 0) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://apfeltalk.de"] mainDocumentURL:nil]; 
+    }
 }
 
 - (void)connection:(NSURLConnection *)connvection didReceiveData:(NSData *)data {

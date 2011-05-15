@@ -11,7 +11,7 @@
 
 
 @implementation NewTopicViewController
-@synthesize forum, receivedData, topicField;
+@synthesize forum, topicField;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forum:(SubForum *)aForum
 {
@@ -25,7 +25,6 @@
 - (void)dealloc
 {
     self.topicField = nil;
-    self.receivedData = nil;
     self.forum = nil;
     [super dealloc];
 }
@@ -60,9 +59,14 @@
                            encodeString(title), 
                            encodeString(content)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
+    
+    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
+    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
-    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+    [request setAllHTTPHeaderFields:headers];
+    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];    
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
@@ -90,6 +94,14 @@
 #pragma mark-
 #pragma mark NSURLConnectionDelegate
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:[httpResponse allHeaderFields] forURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    if ([all count] > 0) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://apfeltalk.de"] mainDocumentURL:nil]; 
+    }
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [self.receivedData appendData:data];
 }
@@ -111,6 +123,7 @@
     // Do any additional setup after loading the view from its nib.
     self.topicField = [[UITextField alloc] initWithFrame:CGRectMake(10.0, 0, self.view.frame.size.width-20.0, 31)];
     self.topicField.placeholder = NSLocalizedStringFromTable(@"Title", @"ATLocalizable", @"");
+    [self.textView resignFirstResponder];
     [self.topicField becomeFirstResponder];
     
     [self.view addSubview:self.topicField];

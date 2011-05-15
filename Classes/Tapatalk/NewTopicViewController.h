@@ -12,12 +12,10 @@
 
 @interface NewTopicViewController : AnswerViewController <NSXMLParserDelegate> {
     SubForum *forum;
-    NSMutableData *receivedData;
     UITextField *topicField;
 }
 
 @property (retain) SubForum *forum;
-@property (retain) NSMutableData *receivedData;
 @property (retain) UITextField *topicField;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forum:(SubForum *)aForum;

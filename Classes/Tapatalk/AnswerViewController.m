@@ -11,7 +11,7 @@
 
 
 @implementation AnswerViewController
-@synthesize textView, topic;
+@synthesize textView, topic, receivedData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic
 {
@@ -33,6 +33,7 @@
 
 - (void)dealloc
 {
+    self.receivedData = nil;
     self.textView = nil;
     self.topic = nil;
     [super dealloc];
@@ -68,15 +69,21 @@
                            encodeString(@"answer"), 
                            encodeString(content)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
+    
+    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
+    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
-    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+    [request setAllHTTPHeaderFields:headers];
+    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];    
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:nil];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [connection start];
     
     if (connection) {
+        self.receivedData = [[NSMutableData alloc] init];
     }
     self.textView.text = @"";
     NSArray *viewControllers = self.navigationController.viewControllers;
@@ -87,6 +94,26 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     ForumViewController *forumViewController = (ForumViewController *)[self.navigationController.viewControllers objectAtIndex:0];
     [forumViewController login];
+}
+
+#pragma mark-
+#pragma mark NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:[httpResponse allHeaderFields] forURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    if ([all count] > 0) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://apfeltalk.de"] mainDocumentURL:nil]; 
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.receivedData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSString *s = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", s);
 }
 
 #pragma mark - View lifecycle

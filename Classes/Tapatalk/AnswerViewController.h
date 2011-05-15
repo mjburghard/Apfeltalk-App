@@ -16,10 +16,12 @@
 @interface AnswerViewController : UIViewController <UIAlertViewDelegate> {
     UITextView *textView;
     Topic *topic;
+    NSMutableData *receivedData;
 }
 
 @property (retain) UITextView *textView;
 @property (retain) Topic *topic;
+@property (retain) NSMutableData *receivedData;
 
 - (void)cancel;
 

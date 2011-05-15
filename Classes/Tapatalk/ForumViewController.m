@@ -224,6 +224,12 @@ NSString * encodeString(NSString *aString) {
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
 	self.receivedData = [[NSMutableData alloc] init];
+    
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:[httpResponse allHeaderFields] forURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    if ([all count] > 0) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://apfeltalk.de"] mainDocumentURL:nil]; 
+    }
 }
 
 - (void)connection:(NSURLConnection *)connvection didReceiveData:(NSData *)data {
