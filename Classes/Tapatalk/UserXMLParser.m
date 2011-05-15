@@ -12,7 +12,7 @@
 
 
 @implementation UserXMLParser
-@synthesize currentString, receivedData, path, delegate, parser;
+@synthesize currentString, receivedData, path, delegate, parser, connection;
 
 #pragma mark-
 #pragma mark init & dealloc
@@ -24,8 +24,9 @@
         self.path = @"";
         self.receivedData = [NSMutableData data];
         //sNSLog(@"Request %@", [request allHTTPHeaderFields]);
-        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        [connection start];
+        self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        [self.connection start];
+        isLoading = YES;
     }
     return self;
 }
@@ -35,12 +36,17 @@
 }
 
 - (void)dealloc {
+    self.connection = nil;
     self.parser = nil;
     self.delegate = nil;
     self.path = nil;
     self.receivedData = nil;
     self.currentString = nil;
     [super dealloc];
+}
+
+- (BOOL)isWorking {
+    return (isParsing || isLoading);
 }
 
 #pragma mark-
@@ -61,8 +67,10 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    parser = [[NSXMLParser alloc] initWithData:self.receivedData];
+    self.parser = [[NSXMLParser alloc] initWithData:self.receivedData];
     [parser setDelegate:self];
+    isParsing = YES;
+    isLoading = NO;
     [parser parse];
 }
 
@@ -109,6 +117,7 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     [self.delegate userXMLParserDidFinish];
+    isParsing = NO;
 }
 
 @end

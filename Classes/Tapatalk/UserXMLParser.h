@@ -25,9 +25,12 @@
     NSMutableData *receivedData;
     NSString *path;
     NSXMLParser *parser;
+    NSURLConnection *connection;
     id <UserXMLParserDelegate> delegate;
     
     BOOL isResult;
+    BOOL isParsing;
+    BOOL isLoading;
 }
 
 @property (retain) NSMutableString *currentString;
@@ -35,7 +38,9 @@
 @property (retain) NSString *path;
 @property (retain) id <UserXMLParserDelegate> delegate;
 @property (retain) NSXMLParser *parser;
+@property (retain) NSURLConnection *connection;
 
 - (id)initWithRequest:(NSURLRequest *)request delegate:(id)theDelegate;
 - (void)abortParsing;
+- (BOOL)isWorking;
 @end

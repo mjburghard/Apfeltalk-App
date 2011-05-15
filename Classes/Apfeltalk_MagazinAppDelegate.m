@@ -31,7 +31,7 @@
 @implementation Apfeltalk_MagazinAppDelegate
 
 @synthesize window;
-@synthesize tabBarController;
+@synthesize tabBarController, userXMLParser;
 
 
 - (void)setApplicationDefaults {
@@ -46,6 +46,9 @@
 }
 
 - (void)login {
+    if ([userXMLParser isWorking]) {
+        return;
+    }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] && ![(NSString *)[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] isEqualToString:@""]) {
         NSError *error = nil;
         NSString *username = (NSString *)[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"];
@@ -62,9 +65,7 @@
         [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:data];
         [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-        [userXMLParser release];
-        userXMLParser = nil;
-        userXMLParser = [[UserXMLParser alloc] initWithRequest:request delegate:self];
+        self.userXMLParser = [[UserXMLParser alloc] initWithRequest:request delegate:self];
     }
 }
 
@@ -103,11 +104,12 @@
 }
 
 - (void)userXMLParserDidFinish {
-    [userXMLParser release];
+    self.userXMLParser = nil;
 }
 
 
 - (void)dealloc {
+    self.userXMLParser = nil;
     [tabBarController release];
     [window release];
     [super dealloc];
