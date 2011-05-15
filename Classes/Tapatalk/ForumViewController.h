@@ -36,6 +36,7 @@
     BOOL isSubForum;
     BOOL isSubOnly;
     BOOL isForumID;
+    BOOL isError;
 }
 
 @property (retain) NSMutableString *currentString;

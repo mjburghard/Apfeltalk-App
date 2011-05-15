@@ -13,6 +13,7 @@
 #import "ContentTranslator.h"
 #import "AnswerViewController.h"
 #import "SFHFKeychainUtils.h"
+#import "Apfeltalk_MagazinAppDelegate.h"
 
 @implementation DetailThreadController
 @synthesize topic, posts, currentPost, site, numberOfPosts;
@@ -70,13 +71,11 @@ const CGFloat kDefaultRowHeight = 44.0;
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    
+    [connection start];
     if (connection) {
         self.posts = [NSMutableArray array];
         [self.tableView reloadData];
     }
-    
-    [connection start];
 }
 
 - (void)endEditing:(UIBarButtonItem *)sender {
@@ -93,11 +92,8 @@ const CGFloat kDefaultRowHeight = 44.0;
         [alertView release];
         return;
     }
-    
     ContentTranslator *translator = [ContentTranslator new];
-    
     NSString *content = [translator translateStringForAT:answerCell.textView.text];
-    
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>reply_post</methodName><params><param><value><string>%i</string></value></param><param><value><string>%i</string></value></param><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", self.topic.forumID, 
                            self.topic.topicID, 
@@ -105,20 +101,20 @@ const CGFloat kDefaultRowHeight = 44.0;
                            encodeString(content)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     
-    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
-    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
+    /*NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];*/
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
-    [request setAllHTTPHeaderFields:headers];
+    //[request setAllHTTPHeaderFields:headers];
     [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];    
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-    
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [connection start];
     
-    if (connection) {
+    if (!connection) {
+        NSLog(@"No connection");
     }
     answerCell.textView.text = @"";
     [self endEditing:nil];
@@ -204,10 +200,23 @@ const CGFloat kDefaultRowHeight = 44.0;
     } else {
         buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
     }
-    
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @""), NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @""), nil];
     [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
     [actionSheet release];
+}
+
+#pragma mark-
+#pragma mark NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    [super connection:connection didReceiveResponse:response];
+    
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+    NSDictionary *headers = [httpResponse allHeaderFields];
+    
+    if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
+        [(Apfeltalk_MagazinAppDelegate *)[UIApplication sharedApplication].delegate login];
+    }
 }
 
 #pragma mark -
@@ -227,7 +236,6 @@ const CGFloat kDefaultRowHeight = 44.0;
     } else {
         [super userIsLoggedIn:isLoggedIn];
     }
-    
 }
 
 #pragma mark -
@@ -299,7 +307,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)contentCellDidBeginEditing:(ContentCell *)cell {
-    [self.tableView scrollRectToVisible:[self.tableView rectForSection:[self.tableView numberOfSections] -2] animated:YES];
+    [self.tableView scrollRectToVisible:[self.tableView rectForSection:[self.tableView numberOfSections]-1] animated:YES];
     
     activeView = cell.textView;
     if (self.navigationItem.hidesBackButton) {
@@ -548,6 +556,8 @@ const CGFloat kDefaultRowHeight = 44.0;
     
     if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
         self.currentPost = [[Post alloc] init];
+    } else if ([self.path isEqualToString:@"methodResponse/fault"]) {
+        isError = YES;
     }
     
     self.path = [self.path stringByAppendingPathComponent:elementName];
@@ -557,6 +567,10 @@ const CGFloat kDefaultRowHeight = 44.0;
  didEndElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qName {
+    if (isError && [self.path isEqualToString:@"methodResponse/fault/value/struct/member/value/string"]) {
+        isError = NO;
+        NSLog(@"Error: %@", self.currentString);
+    }
     
     if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"]) {
         if ([self.currentString isEqualToString:@"total_post_num"]) {

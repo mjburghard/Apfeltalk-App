@@ -8,6 +8,7 @@
 
 #import "UserXMLParser.h"
 #import "User.h"
+#import "Apfeltalk_MagazinAppDelegate.h"
 
 
 @implementation UserXMLParser
@@ -22,6 +23,7 @@
         self.delegate = theDelegate;
         self.path = @"";
         self.receivedData = [NSMutableData data];
+        //sNSLog(@"Request %@", [request allHTTPHeaderFields]);
         NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         [connection start];
     }
@@ -46,7 +48,9 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:[httpResponse allHeaderFields] forURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    NSDictionary *headers = [httpResponse allHeaderFields];
+    //NSLog(@"Response: %@", headers);
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
     if ([all count] > 0) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://apfeltalk.de"] mainDocumentURL:nil]; 
     }
