@@ -178,6 +178,11 @@ const CGFloat kDefaultRowHeight = 44.0;
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>logout_user</methodName></methodCall>"];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    /*NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
+    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:cookies];
+    [request setAllHTTPHeaderFields:headers];
+    */
     [request setHTTPMethod:@"POST"];
     [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:data];
@@ -210,13 +215,6 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     [super connection:connection didReceiveResponse:response];
-    
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-    NSDictionary *headers = [httpResponse allHeaderFields];
-    
-    if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
-        [(Apfeltalk_MagazinAppDelegate *)[UIApplication sharedApplication].delegate login];
-    }
 }
 
 #pragma mark -
