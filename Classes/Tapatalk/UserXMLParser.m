@@ -17,16 +17,25 @@
 #pragma mark-
 #pragma mark init & dealloc
 
-- (id)initWithRequest:(NSURLRequest *)request delegate:(id)theDelegate {
+- (id)init {
     self = [super init];
+    if (self) {
+        isLoading = NO;
+        isParsing = NO;
+    }
+    return self;
+}
+
+- (id)initWithRequest:(NSURLRequest *)request delegate:(id)theDelegate {
+    self = [self init];
     if (self) {
         self.delegate = theDelegate;
         self.path = @"";
         self.receivedData = [NSMutableData data];
-        //sNSLog(@"Request %@", [request allHTTPHeaderFields]);
         self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         [self.connection start];
         isLoading = YES;
+        isParsing = NO;
     }
     return self;
 }
@@ -46,7 +55,13 @@
 }
 
 - (BOOL)isWorking {
-    return (isParsing || isLoading);
+    BOOL isWorking = isParsing || isLoading;
+    if (isWorking) {
+        NSLog(@"Is working");
+    } else {
+        NSLog(@"Is not working");
+    }
+    return isWorking;
 }
 
 #pragma mark-
@@ -55,10 +70,10 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     NSDictionary *headers = [httpResponse allHeaderFields];
-    //NSLog(@"Response: %@", headers);
-    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    NSLog(@"Response: %@", headers);
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
     if ([all count] > 0) {
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://apfeltalk.de"] mainDocumentURL:nil]; 
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://.apfeltalk.de"] mainDocumentURL:nil]; 
     }
 }
 
