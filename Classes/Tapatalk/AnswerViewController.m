@@ -138,6 +138,7 @@
     
     [self.view addSubview: self.textView];
     [self.textView becomeFirstResponder];
+    [(Apfeltalk_MagazinAppDelegate *)[UIApplication sharedApplication].delegate login];
 }
 
 - (void)viewDidUnload
