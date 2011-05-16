@@ -307,8 +307,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)contentCellDidBeginEditing:(ContentCell *)cell {
-    [self.tableView scrollRectToVisible:[self.tableView rectForSection:[self.tableView numberOfSections]-1] animated:YES];
-    
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:[self.tableView numberOfSections]-1] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     activeView = cell.textView;
     if (self.navigationItem.hidesBackButton) {
         return;
