@@ -23,7 +23,7 @@
     ContentCell *answerCell;
     NSInteger site;
     
-    BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts;
+    BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts, isCanReply;
 }
 
 @property (retain) Topic *topic;
