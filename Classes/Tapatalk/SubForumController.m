@@ -43,39 +43,14 @@
 #pragma mark Private Methods
 
 - (void)loadStandartTopics {
-    NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string></string></value></param></params></methodCall>", self.subForum.forumID];
-    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    
-    if (connection) {
-        self.receivedData = [[NSMutableData alloc] init];
-    }
-    
-    [connection start];
+    [self sendRequestWithXMLString:xmlString cookies:YES];
 }
 
 - (void)loadPinnedTopics {
     self.isLoadingPinnedTopics = YES;
-    NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string>TOP</string></value></param></params></methodCall>", self.subForum.forumID];
-    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
-    
-    if (connection) {
-    }
-    
-    [connection start];
+    [self sendRequestWithXMLString:xmlString cookies:YES];
 }
 
 - (void)loadData {
@@ -120,26 +95,6 @@
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"New", @"ATLocalizable", @""), nil];
     [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
     [actionSheet release];
-}
-
-#pragma mark -
-#pragma mark UserXMLParserDelegate
-
-- (void)userIsLoggedIn:(BOOL)isLoggedIn {
-    if (isLoggedIn) {
-        NSError *error = nil;
-        [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"ATUsername"];
-        [SFHFKeychainUtils storeUsername:usernameTextField.text
-                             andPassword:passwordTextField.text forServiceName:@"Apfeltalk" updateExisting:NO error:&error];
-        if (error) {
-            NSLog(@"%@", [error localizedDescription]);
-        }
-        [usernameTextField release];
-        [passwordTextField release];
-    } else {
-        [super userIsLoggedIn:isLoggedIn];
-    }
-    
 }
 
 #pragma mark -
@@ -199,9 +154,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
-    self.navigationItem.rightBarButtonItem = rightButton;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -428,11 +380,7 @@
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
         if (isNewPost) {
             isNewPost = NO;
-            if ([self.currentString isEqualToString:@"1"]) {
-                self.currentTopic.hasNewPost = YES;
-            } else {
-                self.currentTopic.hasNewPost = NO;
-            }
+            self.currentTopic.hasNewPost = [self.currentString boolValue];
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"prefixes"]) {
         isPrefixes = YES;

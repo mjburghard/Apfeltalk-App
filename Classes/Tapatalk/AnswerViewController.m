@@ -71,12 +71,12 @@
                            encodeString(content)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     
-    /*NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
-    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];*/
+    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
-    //[request setAllHTTPHeaderFields:headers];
+    [request setAllHTTPHeaderFields:headers];
     [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];    
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
@@ -109,9 +109,9 @@
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://.apfeltalk.de"] mainDocumentURL:nil]; 
     }
     
-    if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
+    /*if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
         [(Apfeltalk_MagazinAppDelegate *)[UIApplication sharedApplication].delegate login];
-    }
+    }*/
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {

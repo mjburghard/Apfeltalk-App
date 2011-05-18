@@ -23,15 +23,20 @@
 //
 
 #import "Apfeltalk_MagazinAppDelegate.h"
-#import "SFHFKeychainUtils.h"
-#import "ForumViewController.h"
 #import "User.h"
 
 
 @implementation Apfeltalk_MagazinAppDelegate
 
 @synthesize window;
-@synthesize tabBarController, userXMLParser;
+@synthesize tabBarController;
+
+- (id)init {
+    self = [super init];
+    if (self) {
+    }
+    return self;
+}
 
 
 - (void)setApplicationDefaults {
@@ -46,26 +51,13 @@
 }
 
 - (void)login {
-    if ([userXMLParser isWorking]) {
-        return;
-    }
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] && ![(NSString *)[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] isEqualToString:@""]) {
-        NSError *error = nil;
-        NSString *username = (NSString *)[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"];
-        NSString *password = [SFHFKeychainUtils getPasswordForUsername:username andServiceName:@"Apfeltalk" error:&error];
-        
-        if (error) {
-            NSLog(@"%@", [error localizedDescription]);
-        }
-        NSURL *url = [NSURL URLWithString:@"http://apfeltalk.de/forum/mobiquo/mobiquo.php/"];
-        NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>login</methodName><params><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", encodeString(username), encodeString(password)];
-        NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
-        [request setHTTPBody:data];
-        [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-        self.userXMLParser = [[UserXMLParser alloc] initWithRequest:request delegate:self];
+    [[User sharedUser] login];
+}
+
+- (void)deleteCookies {
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
+    for (NSHTTPCookie *c in cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:c];
     }
 }
 
@@ -84,9 +76,19 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    [self deleteCookies];
     [self login];
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [self deleteCookies];
+    [[User sharedUser] setLoggedIn:NO];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [self deleteCookies];
+    [[User sharedUser] setLoggedIn:NO];
+}
 /*
 // Optional UITabBarControllerDelegate method
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
@@ -99,17 +101,8 @@
 }
 */
 
-- (void)userIsLoggedIn:(BOOL)isLoggedIn {
-    
-}
-
-- (void)userXMLParserDidFinish {
-    self.userXMLParser = nil;
-}
-
 
 - (void)dealloc {
-    self.userXMLParser = nil;
     [tabBarController release];
     [window release];
     [super dealloc];

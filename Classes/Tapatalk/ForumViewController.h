@@ -7,21 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserXMLParser.h"
 #import "SFHFKeychainUtils.h"
 #import "User.h"
 
 @class Section;
 @class SubForum;
 
-@interface ForumViewController : UITableViewController <NSXMLParserDelegate, UserXMLParserDelegate, UIAlertViewDelegate> {
+@interface ForumViewController : UITableViewController <NSXMLParserDelegate, UIAlertViewDelegate, UIActionSheetDelegate> {
     NSMutableString *currentString;
     NSMutableData *receivedData;
     NSMutableArray *sections;
     NSString *path;
     UITextField *usernameTextField, *passwordTextField;
     UITableViewCell *loadingCell;
-    UserXMLParser *userXMLParser;
     
     SubForum *currentObject;
     Section *currentSection;
@@ -57,5 +55,6 @@ NSString * encodeString(NSString *aString);
 - (void)login;
 - (void)logout;
 - (void)loadData;
+- (void)sendRequestWithXMLString:(NSString *)xmlString cookies:(BOOL)cookies;
 
 @end

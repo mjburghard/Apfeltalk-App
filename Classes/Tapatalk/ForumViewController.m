@@ -11,7 +11,6 @@
 #import "SubForum.h"
 #import "Section.h"
 #import "SubForumController.h"
-#import "UserXMLParser.h"
 #import "Apfeltalk_MagazinAppDelegate.h"
 
 @implementation ForumViewController
@@ -85,16 +84,26 @@ NSString * encodeString(NSString *aString) {
     [pool release];
 }
 
-- (void)loadData {
+- (void)sendRequestWithXMLString:(NSString *)xmlString cookies:(BOOL)cookies {
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
-    NSData *data = [@"<?xml version=\"1.0\"?><methodCall><methodName>get_forum</methodName></methodCall>" dataUsingEncoding:NSASCIIStringEncoding];
+    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    if ([[User sharedUser] isLoggedIn] && cookies) {
+        NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
+        NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
+        [request setAllHTTPHeaderFields:headers];
+    }
     [request setHTTPMethod:@"POST"];
     [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
     [connection start];
+}
+
+- (void)loadData {
+    NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_forum</methodName></methodCall>";
+    [self sendRequestWithXMLString:xmlString cookies:YES];
 }
 
 - (void)login {
@@ -121,31 +130,37 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)logout {
-    self.navigationItem.rightBarButtonItem.title = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
-    self.navigationItem.rightBarButtonItem.action = @selector(login);
-    
-    NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
-    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>logout_user</methodName></methodCall>"];
-    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-    [connection start];
-    [[User sharedUser] setLoggedIn:NO];
-    NSError *error = nil;
-    [SFHFKeychainUtils deleteItemForUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] andServiceName:@"Apfeltalk" error:&error];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ATUsername"];
-    if (error) {
-        NSLog(@"%@", [error localizedDescription]);
+    [[User sharedUser] logout];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LoginDidFail) name:@"ATLoginDidFail" object:nil];
+}
+
+- (void)showActionSheet {
+    NSString *buttonTitle;
+    if ([[User sharedUser] isLoggedIn]) {
+        buttonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
+    } else {
+        buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
     }
-    
-    for (NSHTTPCookie *c in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://apfeltalk.de"]]) {
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:c];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, nil];
+    [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
+    [actionSheet release];
+}
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+            if ([[User sharedUser] isLoggedIn]) {
+                [self logout];
+            } else {
+                [self login];
+            } 
+            break;
+        default:
+            break;
     }
-    
 }
 
 #pragma mark -
@@ -155,18 +170,13 @@ NSString * encodeString(NSString *aString) {
     switch (alertView.tag) {
         case 0:
             if (buttonIndex == 1 && [usernameTextField.text length] != 0 &&  [passwordTextField.text length] != 0) {
-                NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
-                NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>login</methodName><params><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", encodeString(usernameTextField.text), encodeString(passwordTextField.text)];
-                NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
-                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-                [request setHTTPMethod:@"POST"];
-                [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
-                [request setHTTPBody:data];
-                [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-                userXMLParser = nil;
-                userXMLParser = [[UserXMLParser alloc] initWithRequest:request delegate:self];
+                [[User sharedUser] setUsername:usernameTextField.text];
+                [[User sharedUser] setPassword:passwordTextField.text];
+                [[User sharedUser] login];
                 [usernameTextField resignFirstResponder];
                 [passwordTextField resignFirstResponder];
+                [usernameTextField release];
+                [passwordTextField release];
             } else if (buttonIndex == 0 ) {
                 [usernameTextField resignFirstResponder];
                 [passwordTextField resignFirstResponder];
@@ -185,40 +195,16 @@ NSString * encodeString(NSString *aString) {
 }
 
 #pragma mark -
-#pragma mark UserXMLParserDelegate
 
-- (void)userIsLoggedIn:(BOOL)isLoggedIn {
-    if (isLoggedIn) {
-        self.navigationItem.rightBarButtonItem.title = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
-        self.navigationItem.rightBarButtonItem.action = @selector(logout);
-        NSError *error = nil;
-        [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:@"ATUsername"];
-        [SFHFKeychainUtils storeUsername:usernameTextField.text
-                             andPassword:passwordTextField.text forServiceName:@"Apfeltalk" updateExisting:NO error:&error];
-        if (error) {
-            NSLog(@"%@", [error localizedDescription]);
-        }
-        [usernameTextField resignFirstResponder];
-        [passwordTextField resignFirstResponder];
-        [usernameTextField release];
-        [passwordTextField release];
-    } else {
-        [userXMLParser abortParsing];
-        [userXMLParser release];
-        userXMLParser = nil;
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") 
+- (void)loginDidFail {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") 
                                                         message:NSLocalizedStringFromTable(@"Wrong username or password", @"ATLocalizable", @"") 
                                                        delegate:self 
                                               cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") 
                                               otherButtonTitles:NSLocalizedStringFromTable(@"Retry", @"ATLocalizable", @""), nil];
-        alertView.tag = 1;
-        [alertView show];
-        [alertView release];
-    }
-}
-
-- (void)userXMLParserDidFinish {
-    [userXMLParser release];
+    alertView.tag = 1;
+    [alertView show];
+    [alertView release];
 }
 
 #pragma mark-
@@ -229,13 +215,13 @@ NSString * encodeString(NSString *aString) {
     
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     NSDictionary *headers = [httpResponse allHeaderFields];
-    NSLog(@"Response: %@", headers);
     NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
     if ([all count] > 0) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://.apfeltalk.de"] mainDocumentURL:nil]; 
     }
     if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
-        [(Apfeltalk_MagazinAppDelegate *)[UIApplication sharedApplication].delegate login];
+        [[User sharedUser] setLoggedIn:NO];
+        [[User sharedUser] login];
     }
 }
 
@@ -283,18 +269,10 @@ NSString * encodeString(NSString *aString) {
     backButton.title = NSLocalizedStringFromTable(@"Back", @"ATLocalizable", @"");
     self.navigationItem.backBarButtonItem = backButton;
     [backButton release];
-    NSString *buttonTitle;
-    SEL selector;
-    if ([[User sharedUser] isLoggedIn]) {
-        buttonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
-        selector = @selector(logout);
-    } else {
-        buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
-        selector = @selector(login);
-    }
-    
-    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:buttonTitle style:UIBarButtonItemStyleBordered target:self action:selector];
-    self.navigationItem.rightBarButtonItem = loginButton;
+        
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    [rightBarButton release];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -518,11 +496,7 @@ NSString * encodeString(NSString *aString) {
     } else if ([elementName isEqualToString:@"boolean"]) {
         if (isSubOnly) {
             isSubOnly = NO;
-            if ([self.currentString isEqualToString:@"1"]) {
-                self.currentObject.subForaOnly = YES;
-            } else {
-                self.currentObject.subForaOnly = NO;
-            }
+            self.currentObject.subForaOnly = [self.currentString boolValue];
         }
     } 
     
