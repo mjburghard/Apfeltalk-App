@@ -15,6 +15,7 @@
     NSString *title;
     int forumID;
     BOOL hasNewPost;
+    BOOL userCanPost;
 }
 
 @property (copy) NSString *title;
@@ -22,5 +23,6 @@
 @property (assign) int forumID;
 @property (assign) BOOL hasNewPost;
 @property (assign) NSInteger numberOfPosts;
+@property (assign) BOOL userCanPost;
 
 @end

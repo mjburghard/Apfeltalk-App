@@ -10,9 +10,10 @@
 
 
 @implementation Topic
-@synthesize topicID, title, forumID, hasNewPost, numberOfPosts;
+@synthesize topicID, title, forumID, hasNewPost, numberOfPosts, userCanPost;
 
 - (void)dealloc {
+    self.userCanPost = NO;
     self.numberOfPosts = 0;
     self.hasNewPost = NO;
     self.title = nil;
