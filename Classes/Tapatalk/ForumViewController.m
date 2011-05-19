@@ -102,7 +102,10 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)loadData {
-    NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_forum</methodName></methodCall>";
+    NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_config</methodName></methodCall>";
+    [self sendRequestWithXMLString:xmlString cookies:NO];
+    
+    xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_forum</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:YES];
 }
 
