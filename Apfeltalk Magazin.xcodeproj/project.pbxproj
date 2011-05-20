@@ -61,7 +61,6 @@
 		5AE35B21137AA0EB001779A0 /* Right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B1F137AA0EB001779A0 /* Right@2x.png */; };
 		5AE35B23137B4065001779A0 /* thread_dot_hot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B22137B4064001779A0 /* thread_dot_hot@2x.png */; };
 		5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B24137B4073001779A0 /* thread_dot@2x.png */; };
-		5AF0206C1380F935003FE861 /* EGORefreshTableHeaderView_Licence.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5AF0206B1380F935003FE861 /* EGORefreshTableHeaderView_Licence.rtf */; };
 		5AFB72DC1348A0270027752A /* thread_dot_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DA1348A0270027752A /* thread_dot_hot.png */; };
 		5AFB72DD1348A0270027752A /* thread_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DB1348A0270027752A /* thread_dot.png */; };
 		5E1DC1F0137C59D100BE82AC /* ContentTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1DC1EF137C59D100BE82AC /* ContentTranslator.m */; };
@@ -258,7 +257,6 @@
 		5AE35B1F137AA0EB001779A0 /* Right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Right@2x.png"; sourceTree = "<group>"; };
 		5AE35B22137B4064001779A0 /* thread_dot_hot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot_hot@2x.png"; sourceTree = "<group>"; };
 		5AE35B24137B4073001779A0 /* thread_dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot@2x.png"; sourceTree = "<group>"; };
-		5AF0206B1380F935003FE861 /* EGORefreshTableHeaderView_Licence.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = EGORefreshTableHeaderView_Licence.rtf; sourceTree = "<group>"; };
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
 		5E1DC1EE137C59D100BE82AC /* ContentTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentTranslator.h; sourceTree = "<group>"; };
@@ -570,7 +568,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				22D4A69E105001D500BC3317 /* COPYING */,
-				5AF0206B1380F935003FE861 /* EGORefreshTableHeaderView_Licence.rtf */,
 				5A6749EB105D5971006135C2 /* Appstore.rtf */,
 			);
 			name = "Apfeltalk Magazin";
@@ -1253,7 +1250,6 @@
 				5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */,
 				5E2A1864137E8ACA00F6EF86 /* AnswerViewController.xib in Resources */,
 				5E2A186A137EED6F00F6EF86 /* NewTopicViewController.xib in Resources */,
-				5AF0206C1380F935003FE861 /* EGORefreshTableHeaderView_Licence.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

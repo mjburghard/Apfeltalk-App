@@ -57,11 +57,7 @@
 "Create" = "Erstellen";
 "Creating new Topic" = "Neues Thema wird erstellt";
 "Title" = "Titel";
-<<<<<<< HEAD
-"You don't have rights to answer" = "Du hast nicht die nötigen Rechte zu antworten";
-=======
 "You don't have rights to answer" = "Sie haben nicht die Rechte zu Antworten";
 "No title or text entered" = "Kein Titel oder Text eingegeben";
 "No text entered" = "Kein Text eingegeben";
 "There are no topics" = "Es gibt hier keine Themen";
->>>>>>> a77818c2c936ac93278fd10f08ef62cf8d349a07
