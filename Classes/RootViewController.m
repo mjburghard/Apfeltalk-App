@@ -136,59 +136,10 @@
 	
 	Story *story = [stories objectAtIndex: indexPath.row];
 	Class dvClass = [self detailControllerClass];
+    [self markStoryAsRead:story];
 	DetailViewController *detailController = [[dvClass alloc] initWithNibName:@"DetailView" 
 																	   bundle:[NSBundle mainBundle]
 																		story:story];
-    
-	NSString * link = [story link];
-    
-	if ([link length] > 0 && ![self databaseContainsURL:link]) {
-		NSDate *date = [[stories objectAtIndex: indexPath.row] date];
-		
-		const char *sql = "insert into read(url, date) values(?,?)"; 
-		sqlite3_stmt *insert_statement;
-		int error;
-		error = sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL); 
-		if (error == SQLITE_OK) {
-			sqlite3_bind_text(insert_statement, 1, [link UTF8String], -1, SQLITE_TRANSIENT); 
-			sqlite3_bind_double(insert_statement, 2, [date timeIntervalSinceReferenceDate]);
-			error = (sqlite3_step(insert_statement) != SQLITE_DONE);
-		}
-		if (error == SQLITE_OK)
-			error = sqlite3_finalize(insert_statement);	
-		
-		// This code could be resued in the News Controller
-		if (error != SQLITE_OK) {
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Database error", @"ATLocalizable", @"")
-															message:NSLocalizedStringFromTable(@"An unknown error occurred.", @"ATLocalizable", @"")
-														   delegate:nil
-												  cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
-			[alert show];
-			[alert release];
-		}
-        
-		/*
-		 *	More thinking needs to go into the deletion of reads
-		 *
-		 sqlite3_stmt *delete_statement;
-		 NSString *deleteSql = [NSString stringWithFormat:@"delete from read where date<%f", [[[self class] oldestStoryDate] timeIntervalSinceReferenceDate]];
-		 error = sqlite3_prepare_v2(database, [deleteSql UTF8String], -1, &delete_statement, NULL); 
-		 if (error != SQLITE_OK)
-		 NSLog (@"An error occurred: %s", sqlite3_errmsg(database));
-		 
-		 error = sqlite3_step(delete_statement); 
-		 error = error != SQLITE_DONE;
-		 
-		 error = sqlite3_finalize(delete_statement);	
-		 if (error != SQLITE_OK)
-		 NSLog (@"An error occurred: %s", sqlite3_errmsg(database));
-		 */	
-		[newsTable reloadData];
-		
-		// update the number of unread messages in Application Badge
-		[self updateApplicationIconBadgeNumber];
-	}
-    
 	[self.navigationController pushViewController:detailController animated:YES];
 	[detailController release];
 }
@@ -362,6 +313,12 @@
 	[tableHeaderView refreshLastUpdatedDate];
 }
 
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    int error = sqlite3_close(database);
+	assert (error == 0);
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
@@ -374,8 +331,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	int error = sqlite3_close(database);
-	assert (error == 0);
 }
 
 - (NSString *) dateElementName {
@@ -457,6 +412,36 @@
 	return ret;
 }
 
+- (void)markStoryAsRead:(Story *)aStory {
+    NSString * link = [aStory link];
+    
+    if ([link length] > 0 && ![self databaseContainsURL:link]) {
+        NSDate *date = [aStory date];
+        
+        const char *sql = "insert into read(url, date) values(?,?)"; 
+        sqlite3_stmt *insert_statement;
+        int error;
+        error = sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL); 
+        if (error == SQLITE_OK) {
+            sqlite3_bind_text(insert_statement, 1, [link UTF8String], -1, SQLITE_TRANSIENT); 
+            sqlite3_bind_double(insert_statement, 2, [date timeIntervalSinceReferenceDate]);
+            error = (sqlite3_step(insert_statement) != SQLITE_DONE);
+        }
+        if (error == SQLITE_OK)
+            error = sqlite3_finalize(insert_statement);	
+        
+        if (error != SQLITE_OK) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Database error", @"ATLocalizable", @"")
+                                                            message:NSLocalizedStringFromTable(@"An unknown error occurred", @"ATLocalizable", @"")
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+        [self.tableView reloadData];
+    }
+    [self updateApplicationIconBadgeNumber];
+}
 
 - (void)dealloc
 {	

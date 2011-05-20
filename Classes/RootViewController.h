@@ -59,9 +59,11 @@
 - (NSString *)supportFolderPath;
 - (NSString *)documentPath;
 - (Class) detailControllerClass;
+- (void)markStoryAsRead:(Story *)aStory;
 
 - (void)updateApplicationIconBadgeNumber;
 - (BOOL)databaseContainsURL:(NSString *)link;
+- (BOOL)openDatabase;
 
 - (BOOL)isShake:(UIAcceleration *)acceleration;
 - (void)activateShakeToReload:(id)delegate;
