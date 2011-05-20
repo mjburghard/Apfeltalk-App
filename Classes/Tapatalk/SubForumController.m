@@ -10,7 +10,7 @@
 #import "NewTopicViewController.h"
 
 @implementation SubForumController
-@synthesize subForum, currentTopic, topics, isLoadingPinnedTopics;
+@synthesize subForum, currentTopic, topics, isLoadingPinnedTopics, numberOfTopics;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil subForum:(SubForum *)aSubForum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -18,12 +18,14 @@
         // Custom initialization
         self.topics = [NSMutableArray array];
         self.subForum = aSubForum;
+        self.numberOfTopics = -1;
     }
     return self;
 }
 
 - (void)dealloc
 {
+    self.numberOfTopics = 0;
     self.isLoadingPinnedTopics = NO;
     self.subForum = nil;
     self.currentTopic = nil;
@@ -44,13 +46,13 @@
 
 - (void)loadStandartTopics {
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string></string></value></param></params></methodCall>", self.subForum.forumID];
-    [self sendRequestWithXMLString:xmlString cookies:YES];
+    [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
 
 - (void)loadPinnedTopics {
     self.isLoadingPinnedTopics = YES;
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string>TOP</string></value></param></params></methodCall>", self.subForum.forumID];
-    [self sendRequestWithXMLString:xmlString cookies:YES];
+    [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
 
 - (void)loadData {
@@ -229,6 +231,12 @@
         return cell;
     }
     
+    if (self.numberOfTopics == 0) {
+        cell.textLabel.text = NSLocalizedStringFromTable(@"There are no topics", @"ATLocalizable", @"");
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
+        return cell;
+    }
+    
     if ([self.topics count] == 0) {
         if(loadingCell == nil) {
 			[[NSBundle mainBundle] loadNibNamed:@"LoadingCell" owner:self options:nil];
@@ -236,6 +244,7 @@
 		
 		return loadingCell;
     }
+    
     Topic *t = (Topic *)[self.topics objectAtIndex:indexPath.row];
     
     cell.textLabel.text = [t title];
@@ -307,7 +316,7 @@
         return;
     }
     
-    if ([self.topics count] == 0) {
+    if ([self.topics count] == 0 || self.numberOfTopics == 0) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
@@ -345,6 +354,12 @@
  didEndElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qName {
+    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"total_topic_num"]) {
+        isTotalTopicNumber = YES;
+    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/int"] && isTotalTopicNumber) {
+        isTotalTopicNumber = NO;
+        self.numberOfTopics = [self.currentString integerValue];
+    }
     
     if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/name"]) {
         if ([self.currentString isEqualToString:@"topic_id"]) {

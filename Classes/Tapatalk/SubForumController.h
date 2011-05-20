@@ -16,15 +16,18 @@
     SubForum *subForum;
     Topic *currentTopic;
     NSMutableArray *topics;
+    NSInteger numberOfTopics;
     
     BOOL isTopicID, isTopicTitle, isPrefixes, isNewPost, isReplyNumber;
     BOOL isLoadingPinnedTopics;
+    BOOL isTotalTopicNumber;
 }
 
 @property (retain) SubForum *subForum;
 @property (retain) Topic *currentTopic;
 @property (retain) NSMutableArray *topics;
 @property (assign) BOOL isLoadingPinnedTopics;
+@property (assign) NSInteger numberOfTopics;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil subForum:(SubForum *)aSubForum;
 
