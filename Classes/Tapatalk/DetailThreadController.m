@@ -51,21 +51,30 @@ const CGFloat kDefaultRowHeight = 44.0;
 #pragma mark -
 #pragma mark Private and Public Methods
 
-- (void)loadLastSite {
-    int numberOfSites;
+- (NSInteger)numberOfSites {
+    NSInteger numberOfSites;
     if (numberOfPosts % 10 == 0) {
         numberOfSites = numberOfPosts / 10;
     } else {
         numberOfSites = numberOfPosts / 10 + 1;
     }
-    site = numberOfSites-1; 
+    return numberOfSites;
+}
+
+- (void)loadLastSite {
+    site = [self numberOfSites]-1; 
 }
 
 - (void)loadData {
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_thread</methodName><params><param><value><string>%i</string></value></param><param><value><int>%i</int></value></param><param><value><int>%i</int></value></param></params></methodCall>", self.topic.topicID, self.site*10, self.site*10+9];
-    [self sendRequestWithXMLString:xmlString cookies:YES];
+    [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
     self.posts = [NSMutableArray array];
     [self.tableView reloadData];
+    if (self.site == [self numberOfSites]-1) {
+        xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>mark_topic_read</methodName><params><param><value><array><data><value><string>%i</string></value></data></array></value></param></params></methodCall>", self.topic.topicID];
+        
+        [self sendRequestWithXMLString:xmlString cookies:YES delegate:nil];
+    }
 }
 
 - (void)endEditing:(UIBarButtonItem *)sender {
@@ -92,7 +101,7 @@ const CGFloat kDefaultRowHeight = 44.0;
                            self.topic.topicID, 
                            encodeString(@"answer"), 
                            encodeString(content)];
-    [self sendRequestWithXMLString:xmlString cookies:YES];
+    [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
     answerCell.textView.text = @"";
     [self endEditing:nil];
     [self loadData];
@@ -103,13 +112,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         site--;
         [self loadData];
         ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
-        int numberOfSites;
-        if (numberOfPosts % 10 == 0) {
-            numberOfSites = numberOfPosts / 10;
-        } else {
-            numberOfSites = numberOfPosts / 10 + 1;
-        }
-        at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, numberOfSites];
+        at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
         [at showSpinner];
         [at show];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -117,33 +120,21 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)last {
-    int numberOfSites;
-    if (numberOfPosts % 10 == 0) {
-        numberOfSites = numberOfPosts / 10;
-    } else {
-        numberOfSites = numberOfPosts / 10 + 1;
-    }
-    site = numberOfSites-1;
+    site = [self numberOfSites]-1;
     [self loadData];
     ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
-    at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, numberOfSites];
+    at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
     [at showSpinner];
     [at show];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)next {
-    int numberOfSites;
-    if (numberOfPosts % 10 == 0) {
-        numberOfSites = numberOfPosts / 10;
-    } else {
-        numberOfSites = numberOfPosts / 10 + 1;
-    }
-    if (site < numberOfSites-1) {
+    if (site < [self numberOfSites]-1) {
         site++;
         [self loadData];
         ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
-        at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, numberOfSites];
+        at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
         [at showSpinner];
         [at show];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -290,6 +281,10 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
