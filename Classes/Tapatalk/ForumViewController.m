@@ -84,7 +84,7 @@ NSString * encodeString(NSString *aString) {
     [pool release];
 }
 
-- (void)sendRequestWithXMLString:(NSString *)xmlString cookies:(BOOL)cookies {
+- (void)sendRequestWithXMLString:(NSString *)xmlString cookies:(BOOL)cookies delegate:(id)delegate {
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -97,16 +97,16 @@ NSString * encodeString(NSString *aString) {
     [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:self];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
     [connection start];
 }
 
 - (void)loadData {
     NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_config</methodName></methodCall>";
-    [self sendRequestWithXMLString:xmlString cookies:NO];
+    [self sendRequestWithXMLString:xmlString cookies:NO delegate:nil];
     
     xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_forum</methodName></methodCall>";
-    [self sendRequestWithXMLString:xmlString cookies:YES];
+    [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
 
 - (void)login {
@@ -262,7 +262,7 @@ NSString * encodeString(NSString *aString) {
     self.sections = [NSMutableArray array];
     self.path = @"";
     
-    [self loadData];
+    //[self loadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -280,6 +280,7 @@ NSString * encodeString(NSString *aString) {
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self loadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
