@@ -56,7 +56,7 @@
 }
 
 - (void)loadData {
-    self.topics = [NSMutableArray array];
+    self.topics = [[NSMutableArray alloc] init];
     [self loadPinnedTopics];
 }
 
@@ -64,26 +64,6 @@
     NewTopicViewController *newTopicViewController = [[NewTopicViewController alloc] initWithNibName:@"NewTopicViewController" bundle:nil forum:self.subForum];
     [self.navigationController pushViewController:newTopicViewController animated:YES];
     [newTopicViewController release];
-}
-
-- (void)logout {
-    NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
-    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>logout_user</methodName></methodCall>"];
-    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-    [connection start];
-    [[User sharedUser] setLoggedIn:NO];
-    NSError *error = nil;
-    [SFHFKeychainUtils deleteItemForUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] andServiceName:@"Apfeltalk" error:&error];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ATUsername"];
-    if (error) {
-        NSLog(@"%@", [error localizedDescription]);
-    }
 }
 
 - (void)showActionSheet {
@@ -209,7 +189,7 @@
     if ([self.topics count] == 0) {
         return 1;
     }
-    
+    NSLog(@"NumberOfRows: %i", [self.topics count]);
     return [self.topics count];
 }
 
@@ -223,6 +203,7 @@
     }
     
     cell.imageView.image = nil;
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
     if (indexPath.section == 0 && [self.subForum.subFora count] != 0) {
         cell.textLabel.text = [(SubForum *)[self.subForum.subFora objectAtIndex:indexPath.row] name];
@@ -232,6 +213,7 @@
     }
     
     if (self.numberOfTopics == 0) {
+        NSLog(@"No topics");
         cell.textLabel.text = NSLocalizedStringFromTable(@"There are no topics", @"ATLocalizable", @"");
         cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
         return cell;
@@ -241,12 +223,11 @@
         if(loadingCell == nil) {
 			[[NSBundle mainBundle] loadNibNamed:@"LoadingCell" owner:self options:nil];
 		}
-		
 		return loadingCell;
     }
-    
+    NSLog(@"%i", indexPath.row);
     Topic *t = (Topic *)[self.topics objectAtIndex:indexPath.row];
-    
+    NSLog(@"Topic: %@", t);
     cell.textLabel.text = [t title];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -407,18 +388,19 @@
     }
     
     self.path = [self.path stringByDeletingLastPathComponent];
-    
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
+    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value"] && isPrefixes) {
+        isPrefixes = NO;
+    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
         if (self.currentTopic != nil)
             [self.topics addObject:self.currentTopic];
             
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value"] && isPrefixes)
-        isPrefixes = NO;
+    }
         
     self.currentString = nil;
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
+    self.currentTopic = nil;
     if (self.isLoadingPinnedTopics) {
         self.isLoadingPinnedTopics = NO;
         [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
