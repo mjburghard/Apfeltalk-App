@@ -40,9 +40,9 @@
 const int SAVED_MESSAGES_SECTION_INDEX = 1;
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 	[savedStories release];
 	savedStories = [[NSKeyedUnarchiver unarchiveObjectWithFile:[self savedStoryFilepath]] mutableCopy];
-	[super viewWillAppear:animated];
 		
 	UIBarButtonItem *safariButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openSafari:)];
 	self.navigationItem.leftBarButtonItem = safariButton;
@@ -223,12 +223,15 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
     {
         [self setDisplayedStoryIndex:newIndex];
         newStory = [[self stories] objectAtIndex:newIndex];
+        if ([self displayedStorySection] != SAVED_MESSAGES_SECTION_INDEX)
+            [self markStoryAsRead:newStory];
         [[[[self navigationController] viewControllers] lastObject] setStory:newStory];
         [[[[self navigationController] viewControllers] lastObject] updateInterface];
     }
 
     [(UISegmentedControl *)sender setEnabled:([self displayedStoryIndex] > 0) forSegmentAtIndex:0];
     [(UISegmentedControl *)sender setEnabled:!([self displayedStoryIndex] == ([storiesArray count] - 1)) forSegmentAtIndex:1];
+    [self.tableView reloadData];
 }
 
 - (void)updateApplicationIconBadgeNumber {
@@ -337,50 +340,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 		NSInteger i = 0;
 		for( i = 0; i < [stories count]; i++) {
 			Story *story = [stories objectAtIndex: i];
-			NSString * link = [story link];
-			
-			if ([link length] > 0 && ![self databaseContainsURL:link]) {
-				NSDate *date = [[stories objectAtIndex: i] date];
-				
-				const char *sql = "insert into read(url, date) values(?,?)"; 
-				sqlite3_stmt *insert_statement;
-				int error;
-				error = sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL); 
-				if (error == SQLITE_OK) {
-					sqlite3_bind_text(insert_statement, 1, [link UTF8String], -1, SQLITE_TRANSIENT); 
-					sqlite3_bind_double(insert_statement, 2, [date timeIntervalSinceReferenceDate]);
-					error = (sqlite3_step(insert_statement) != SQLITE_DONE);
-				}
-				if (error == SQLITE_OK)
-					error = sqlite3_finalize(insert_statement);	
-				
-				if (error != SQLITE_OK) {
-					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Database error", @"ATLocalizable", @"")
-																	message:NSLocalizedStringFromTable(@"An unknown error occurred", @"ATLocalizable", @"")
-																   delegate:nil
-														  cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
-					[alert show];
-					[alert release];
-				}
-				
-				/*
-				 *	More thinking needs to go into the deletion of reads
-				 *
-				 sqlite3_stmt *delete_statement;
-				 NSString *deleteSql = [NSString stringWithFormat:@"delete from read where date<%f", [[[self class] oldestStoryDate] timeIntervalSinceReferenceDate]];
-				 error = sqlite3_prepare_v2(database, [deleteSql UTF8String], -1, &delete_statement, NULL); 
-				 if (error != SQLITE_OK)
-				 NSLog (@"An error occurred: %s", sqlite3_errmsg(database));
-				 
-				 error = sqlite3_step(delete_statement); 
-				 error = error != SQLITE_DONE;
-				 
-				 error = sqlite3_finalize(delete_statement);	
-				 if (error != SQLITE_OK)
-				 NSLog (@"An error occurred: %s", sqlite3_errmsg(database));
-				 */	
-				[newsTable reloadData];
-			} 
+			[self markStoryAsRead:story];
 		}
 	}
 	if (buttonIdx == 1) {

@@ -55,6 +55,6 @@ NSString * encodeString(NSString *aString);
 - (void)login;
 - (void)logout;
 - (void)loadData;
-- (void)sendRequestWithXMLString:(NSString *)xmlString cookies:(BOOL)cookies;
+- (void)sendRequestWithXMLString:(NSString *)xmlString cookies:(BOOL)cookies delegate:(id)delegate;
 
 @end

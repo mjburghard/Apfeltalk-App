@@ -29,6 +29,8 @@
 @synthesize atTranslations, iOSTranslations;
 - (NSString *)translateStringForiOS:(NSString *)aString {
     NSString *string = [NSString stringWithString:aString];
+    string = [string stringByReplacingOccurrencesOfString:@"[QUOTE]" withString:@"Zitat:\n---------\n"];
+    string = [string stringByReplacingOccurrencesOfString:@"[/QUOTE]" withString:@"\n---------"];
     
     if ([string isMatchedByRegex:@"\\[.+=\"\\bhttps?://[a-zA-Z0-9\\-.]+(?:(?:/[a-zA-Z0-9\\-._?,'+\\&%$=~*!():@\\\\]*)+)?\"\\].+\\[.+\\]"]) {
         NSArray *elements = [string componentsMatchedByRegex:@"\\[.+=\"\\bhttps?://[a-zA-Z0-9\\-.]+(?:(?:/[a-zA-Z0-9\\-._?,'+\\&%$=~*!():@\\\\]*)+)?\"\\].+\\[.+\\]"];
@@ -56,9 +58,6 @@
     string = [string stringByReplacingOccurrencesOfString:@"[IMG]" withString:@""];
     string = [string stringByReplacingOccurrencesOfString:@"[/img]" withString:@""];
     string = [string stringByReplacingOccurrencesOfString:@"[img]" withString:@""];
-    
-    string = [string stringByReplacingOccurrencesOfString:@"[QUOTE]" withString:@"Zitat:\n---------\n"];
-    string = [string stringByReplacingOccurrencesOfString:@"[/QUOTE]" withString:@"\n---------"];
     
     for (int i = 0; i < [iOSTranslations count]; i++) {
         NSString *currentKey = [[iOSTranslations allKeys] objectAtIndex:i];
