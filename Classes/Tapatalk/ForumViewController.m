@@ -103,6 +103,7 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)loadData {
+    self.sections = [[NSMutableArray alloc] init];
     NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_config</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:NO delegate:nil];
     
@@ -269,7 +270,6 @@ NSString * encodeString(NSString *aString) {
     [super viewDidLoad];
     
     self.title = @"Forum";
-    self.sections = [NSMutableArray array];
 }
 
 - (void)viewWillAppear:(BOOL)animated
