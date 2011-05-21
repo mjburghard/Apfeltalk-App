@@ -71,8 +71,8 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 	if (section != SAVED_MESSAGES_SECTION_INDEX)
-		return @"";
-	
+		return nil;
+    
 	return NSLocalizedStringFromTable(@"Saved News", @"ATLocalizable", @"");
 }
 
