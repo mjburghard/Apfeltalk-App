@@ -56,7 +56,7 @@
     NSString *str = [[self story] summary];
     NSString *thumbLink = extractTextFromHTMLForQuery(str, @"//img/attribute::src");
     NSLog(@"%@", thumbLink);
-    NSURL *loadURL = [ [ request URL ] retain ]; // retain the loadURL for use
+    NSURL *loadURL = [[request URL] retain]; // retain the loadURL for use
     if ( ( [ [ loadURL scheme ] isEqualToString: @"http" ] || [ [ loadURL scheme ] isEqualToString: @"https" ] ) && ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) // Check if the scheme is http/https. You can also use these for custom links to open parts of your application.
         if ([[loadURL absoluteString] isEqualToString:thumbLink]) {
             NSString *imageLink = [thumbLink stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
@@ -64,11 +64,13 @@
             GCImageViewer *galleryImageViewController = [[GCImageViewer alloc] initWithURL:[NSURL URLWithString:imageLink]];
             [self.navigationController pushViewController:galleryImageViewController animated:YES];
             [galleryImageViewController release];
+            [loadURL release];
             return NO;
         } else {
             ATWebViewController *webViewController = [[ATWebViewController alloc] initWithNibName:@"ATWebViewController" bundle:nil URL:loadURL];
             [self.navigationController pushViewController:webViewController animated:YES];
             [webViewController release];
+            [loadURL release];
             return NO;
             // Auto release the loadurl because we wont get to release later. then return the opposite of openURL, so if safari cant open the url, open it in the UIWebView.
         }
