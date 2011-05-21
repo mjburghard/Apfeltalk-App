@@ -95,8 +95,9 @@ const CGFloat kDefaultRowHeight = 44.0;
         [alertView show];
         [alertView release];
     }
-    ContentTranslator *translator = [ContentTranslator new];
+    ContentTranslator *translator = [[ContentTranslator alloc] init];
     NSString *content = [translator translateStringForAT:answerCell.textView.text];
+    [translator release];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>reply_post</methodName><params><param><value><string>%i</string></value></param><param><value><string>%i</string></value></param><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", self.topic.forumID, 
                            self.topic.topicID, 
                            encodeString(@"answer"), 
@@ -149,7 +150,11 @@ const CGFloat kDefaultRowHeight = 44.0;
         buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
     }
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @""), NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @""), nil];
-    [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
+    if (self.navigationController.tabBarController.tabBar) {
+        [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
+    } else {
+        [actionSheet showInView:self.view];
+    }
     [actionSheet release];
 }
 
@@ -228,18 +233,9 @@ const CGFloat kDefaultRowHeight = 44.0;
         return;
     }
     self.navigationItem.hidesBackButton = YES;
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(endEditing:)] 
-                                     animated:YES];
-}
-
-- (void)subjectCellDidBeginEditing:(SubjectCell *)cell {
-    activeView = cell.subjectField;
-    if (self.navigationItem.hidesBackButton) {
-        return;
-    }
-    self.navigationItem.hidesBackButton = YES;
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(endEditing:)] 
-                                     animated:YES];
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(endEditing:)];
+    [self.navigationItem setLeftBarButtonItem:leftButton animated:YES];
+    [leftButton release];
 }
 
 #pragma mark -
@@ -285,6 +281,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    NSLog(@"View did Appear");
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -401,7 +398,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         authorCell.detailTextLabel.text = [outFormatter stringFromDate:p.postDate];
         authorCell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
         authorCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        [outFormatter release];
 		return authorCell;
 	}
     if (indexPath.row == 1) {
@@ -533,6 +530,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             isPostContent = NO;
             ContentTranslator *translator = [ContentTranslator new];
             self.currentPost.content = [translator translateStringForiOS:self.currentString];
+            [translator release];
         } else if (isPostAuthor) {
             self.currentPost.author = self.currentString;
         }
@@ -556,6 +554,8 @@ const CGFloat kDefaultRowHeight = 44.0;
         NSString *dateFormat = @"yyyyMMdd'T'HH:mm:ssZZZ";
         [dateFormatter setDateFormat:dateFormat];
         self.currentPost.postDate = [dateFormatter dateFromString:self.currentString];
+        [dateFormatter release];
+        [locale release];
     }
     
     self.path = [self.path stringByDeletingLastPathComponent];
@@ -565,6 +565,11 @@ const CGFloat kDefaultRowHeight = 44.0;
     } 
     
     self.currentString = nil;
+}
+
+- (void)parserDidEndDocument:(NSXMLParser *)parser {
+    [super parserDidEndDocument:parser];
+    self.currentPost = nil;
 }
 
 @end

@@ -11,10 +11,9 @@
 #import "Topic.h"
 #import "Post.h"
 #import "ContentCell.h"
-#import "SubjectCell.h"
 #import "GCImageViewer.h"
 
-@interface DetailThreadController : ForumViewController <ContentCellDelegate, SubjectCellDelegate, UIActionSheetDelegate> {
+@interface DetailThreadController : ForumViewController <ContentCellDelegate, UIActionSheetDelegate> {
     NSInteger numberOfPosts;
     Topic *topic;
     NSMutableArray *posts;
