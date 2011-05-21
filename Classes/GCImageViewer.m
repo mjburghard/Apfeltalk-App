@@ -89,6 +89,7 @@
 	NSURLRequest* request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
 	NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 	[conn start];
+    [conn release];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response {

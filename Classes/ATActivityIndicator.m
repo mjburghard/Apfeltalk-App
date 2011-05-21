@@ -41,7 +41,6 @@
     activityIndicator.opaque = NO;
     activityIndicator.alpha = 0.0;
     
-    
     return activityIndicator;
 }
 

@@ -13,7 +13,7 @@
 
 
 @implementation ATWebViewController
-@synthesize webView, url, toolbar, reloadButton;
+@synthesize webView, url, toolbar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil URL:(NSURL *)aUrl {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,7 +27,6 @@
 - (void)dealloc {
     self.url = nil;
     self.toolbar = nil;
-    self.reloadButton = nil;
     self.webView = nil;
     [super dealloc];
 }
@@ -86,36 +85,40 @@
 - (void)webViewDidStartLoad:(UIWebView *)aWebView {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
-    self.reloadButton = [items objectAtIndex:ReloadButtonIndex];
     [items removeObjectAtIndex:ReloadButtonIndex];
-    [items insertObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop 
-                                                                      target:self.webView 
-                                                                      action:@selector(stopLoading)] atIndex:ReloadButtonIndex];
+    UIBarButtonItem *reloadButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop 
+                                                                                 target:self.webView 
+                                                                                 action:@selector(stopLoading)];
+    [items insertObject:reloadButton atIndex:ReloadButtonIndex];
+
     [self.toolbar setItems:items];
+    [reloadButton release];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)aWebView {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
-    self.reloadButton = [items objectAtIndex:ReloadButtonIndex];
     [items removeObjectAtIndex:ReloadButtonIndex];
-    [items insertObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
-                                                                      target:self.webView 
-                                                                      action:@selector(reload)] atIndex:ReloadButtonIndex];
+    UIBarButtonItem *reloadButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
+                                                                                 target:self.webView 
+                                                                                 action:@selector(reload)];
+    [items insertObject:reloadButton atIndex:ReloadButtonIndex];
     [self.toolbar setItems:items];
     self.url = self.webView.request.URL;
+    [reloadButton release];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     NSLog(@"Error: %@", [error localizedDescription]);
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     NSMutableArray *items = [NSMutableArray arrayWithArray:[self.toolbar items]];
-    self.reloadButton = [items objectAtIndex:ReloadButtonIndex];
     [items removeObjectAtIndex:ReloadButtonIndex];
-    [items insertObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
-                                                                      target:self.webView 
-                                                                      action:@selector(reload)] atIndex:ReloadButtonIndex];
+    UIBarButtonItem *reloadButton =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
+                                                                                 target:self.webView 
+                                                                                 action:@selector(reload)];
+    [items insertObject:reloadButton atIndex:ReloadButtonIndex];
     [self.toolbar setItems:items];
+    [reloadButton release];
 }
 
 @end
