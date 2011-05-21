@@ -106,6 +106,7 @@ NSString * encodeString(NSString *aString) {
     self.sections = [[NSMutableArray alloc] init];
     NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_config</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:NO delegate:nil];
+    [self.tableView reloadData];
     
     xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_forum</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
