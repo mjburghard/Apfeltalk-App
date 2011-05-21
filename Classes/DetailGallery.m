@@ -73,9 +73,10 @@
         if (![webView isLoading]) {
             [self showFullscreen];
         }
+        [loadURL release];
         return NO;
     }
-    [ loadURL release ];
+    [loadURL release];
     return YES;
 }
 
@@ -256,7 +257,7 @@ void endElement (void *userData, const xmlChar *name) {
             
             if (TARGET_IPHONE_SIMULATOR)
                 NSLog(@"Keep in mind, that no mail could be send in Simulator mode... just providing the UI");
-            [self createMailComposerWithThumbnailLink:thumbLink];
+            [self createMailComposerWithThumbnailLink:imageLink];
         }
     }
 	
@@ -288,13 +289,14 @@ void endElement (void *userData, const xmlChar *name) {
                                                   otherButtonTitles:nil];
         [alertView show];
         [alertView release];
+        [controller release];
         return;
     }
     
 	NSData *imageData = UIImageJPEGRepresentation(image, 1);
 	[controller addAttachmentData:imageData mimeType:@"image/jpg" fileName:@"attachment.jpg"];
 	
-	[controller setSubject:[story title] ];
+	[controller setSubject:[story title]];
 	[self presentModalViewController:controller animated:YES];
 	[controller release];
 }
