@@ -189,7 +189,6 @@
     if ([self.topics count] == 0) {
         return 1;
     }
-    NSLog(@"NumberOfRows: %i", [self.topics count]);
     return [self.topics count];
 }
 
@@ -213,7 +212,6 @@
     }
     
     if (self.numberOfTopics == 0) {
-        NSLog(@"No topics");
         cell.textLabel.text = NSLocalizedStringFromTable(@"There are no topics", @"ATLocalizable", @"");
         cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
         return cell;
@@ -225,9 +223,7 @@
 		}
 		return loadingCell;
     }
-    NSLog(@"%i", indexPath.row);
     Topic *t = (Topic *)[self.topics objectAtIndex:indexPath.row];
-    NSLog(@"Topic: %@", t);
     cell.textLabel.text = [t title];
     cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
