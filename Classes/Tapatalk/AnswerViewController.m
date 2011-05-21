@@ -142,8 +142,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Answer", @"Atlocalizable", @"") style:UIBarButtonItemStyleDone target:self action:@selector(reply)];
+    self.navigationItem.title = NSLocalizedStringFromTable(@"Antworten", @"ATLocalizable", @"");
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Antworten", @"Atlocalizable", @"") style:UIBarButtonItemStyleDone target:self action:@selector(reply)];
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
     
