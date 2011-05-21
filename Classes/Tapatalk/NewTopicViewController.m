@@ -60,7 +60,7 @@
     
     NSString *title = [translator translateStringForAT:self.topicField.text];
     NSString *content = [translator translateStringForAT:self.textView.text];
-    
+    [translator release];
     NSURL *url = [NSURL URLWithString:@"http://apfeltalk.de/forum/mobiquo/mobiquo.php/"];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>new_topic</methodName><params><param><value><string>%i</string></value></param><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", self.forum.forumID, 
                            encodeString(title), 
@@ -88,28 +88,6 @@
     [self cancel];
 }
 
-- (void)parse {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:self.receivedData];
-    [parser setDelegate:self];
-    [parser parse];
-    
-    [pool release];
-}
-
-#pragma mark-
-#pragma mark NSURLConnectionDelegate
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSString *s = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", s);
-    
-    /*NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
-    [thread start];
-    [thread release];*/
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -127,6 +105,7 @@
     UIView *seperator = [[UIView alloc] initWithFrame:CGRectMake(0.0, 31.0, self.view.frame.size.width, 1.0)];
     seperator.backgroundColor = [UIColor grayColor];
     [self.view addSubview:seperator];
+    [seperator release];
     self.navigationItem.title = NSLocalizedStringFromTable(@"New Topic", @"ATLocalizable", @"");
     self.navigationItem.rightBarButtonItem.title = NSLocalizedStringFromTable(@"Create", @"ATLocalizable", @"");
 }
@@ -143,28 +122,5 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-/*
-#pragma mark -
-#pragma mark NSXMLParserDelegate
 
-- (void)parserDidStartDocument:(NSXMLParser *)parser {
-    
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-    
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-    
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    
-}
-
-- (void)parserDidEndDocument:(NSXMLParser *)parser {
-    [parser release];
-}
-*/
 @end
