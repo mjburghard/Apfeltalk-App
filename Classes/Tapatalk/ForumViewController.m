@@ -12,6 +12,7 @@
 #import "Section.h"
 #import "SubForumController.h"
 #import "Apfeltalk_MagazinAppDelegate.h"
+#import "NewPostsViewController.h"
 
 @implementation ForumViewController
 @synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject;
@@ -144,7 +145,7 @@ NSString * encodeString(NSString *aString) {
     } else {
         buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
     }
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"New Posts", @"ATLocalizable", @""), nil];
     [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
     [actionSheet release];
 }
@@ -153,6 +154,7 @@ NSString * encodeString(NSString *aString) {
 #pragma mark UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NewPostsViewController *newPostsViewController;
     switch (buttonIndex) {
         case 0:
             if ([[User sharedUser] isLoggedIn]) {
@@ -160,6 +162,14 @@ NSString * encodeString(NSString *aString) {
             } else {
                 [self login];
             } 
+            break;
+        case 1:
+            newPostsViewController = [[NewPostsViewController alloc] initWithNibName:@"NewPostsViewController" bundle:nil];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:newPostsViewController];
+            navController.navigationBar.tintColor = [UIColor colorWithRed:0.673 green:0.038 blue:0.053 alpha:1.000];
+            [self presentModalViewController:navController animated:YES];
+            [newPostsViewController release];
+            [navController release];
             break;
         default:
             break;
@@ -260,7 +270,6 @@ NSString * encodeString(NSString *aString) {
     
     self.title = @"Forum";
     self.sections = [NSMutableArray array];
-    self.path = @"";
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -521,10 +530,17 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
+    self.path = [[NSMutableString alloc] init];
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    self.path = nil;
+    self.currentObject = nil;
+    self.currentFirstLevelForum = nil;
+    self.currentSecondLevelForum = nil;
+    self.currentThirdLevelForum = nil;
+    self.currentSection = nil;
 }
 
 @end
