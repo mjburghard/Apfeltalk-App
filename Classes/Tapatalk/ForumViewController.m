@@ -261,8 +261,6 @@ NSString * encodeString(NSString *aString) {
     self.title = @"Forum";
     self.sections = [NSMutableArray array];
     self.path = @"";
-    
-    //[self loadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
