@@ -66,8 +66,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [connection start];
     self.receivedData = [[NSMutableData alloc] init];
+    [connection start];
+    [connection release];
 }
 
 - (void)logout {
@@ -82,7 +83,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
     [connection start];
-    
+    [connection release];
     NSError *error = nil;
     [SFHFKeychainUtils deleteItemForUsername:[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"] andServiceName:@"Apfeltalk" error:&error];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"ATUsername"];
@@ -117,7 +118,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
             [[User sharedUser] setLoggedIn:NO];
             NSNotification *notfification = [NSNotification notificationWithName:@"ATLoginDidFail" object:nil];
             [[NSNotificationCenter defaultCenter] postNotification:notfification];
-            [notfification release];
         }
     }
     self.path = [self.path stringByDeletingLastPathComponent];
