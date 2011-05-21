@@ -70,7 +70,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
     self.posts = [NSMutableArray array];
     [self.tableView reloadData];
-    if (self.site == [self numberOfSites]-1) {
+    if (self.site == [self numberOfSites]-1 && self.topic.hasNewPost) {
         xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>mark_topic_read</methodName><params><param><value><array><data><value><string>%i</string></value></data></array></value></param></params></methodCall>", self.topic.topicID];
         
         [self sendRequestWithXMLString:xmlString cookies:YES delegate:nil];
@@ -94,6 +94,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") message:NSLocalizedStringFromTable(@"You don't have rights to answer", @"ATLocalizable", @"") delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil, nil];
         [alertView show];
         [alertView release];
+        return;
     }
     ContentTranslator *translator = [[ContentTranslator alloc] init];
     NSString *content = [translator translateStringForAT:answerCell.textView.text];
@@ -105,6 +106,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
     answerCell.textView.text = @"";
     [self endEditing:nil];
+    isAnswering = YES;
     [self loadData];
 }
 
@@ -570,6 +572,10 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     [super parserDidEndDocument:parser];
     self.currentPost = nil;
+    if (isAnswering) {
+        isAnswering = NO;
+        [self loadData];
+    }
 }
 
 @end

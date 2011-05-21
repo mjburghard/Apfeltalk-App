@@ -21,6 +21,7 @@
     UIView *activeView;
     ContentCell *answerCell;
     NSInteger site;
+    BOOL isAnswering;
     
     BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts, isCanReply;
 }
