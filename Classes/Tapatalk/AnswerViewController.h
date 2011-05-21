@@ -13,7 +13,7 @@
 #import "ForumViewController.h"
 
 
-@interface AnswerViewController : UIViewController <UIAlertViewDelegate> {
+@interface AnswerViewController : UIViewController <UIAlertViewDelegate, NSXMLParserDelegate> {
     UITextView *textView;
     Topic *topic;
     NSMutableData *receivedData;

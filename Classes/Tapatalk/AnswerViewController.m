@@ -66,10 +66,10 @@
         return;
     }
     
-    ContentTranslator *translator = [ContentTranslator new];
+    ContentTranslator *translator = [[ContentTranslator alloc] init];
     
     NSString *content = [translator translateStringForAT:self.textView.text];
-    
+    [translator release];
     NSURL *url = [NSURL URLWithString:@"http://apfeltalk.de/forum/mobiquo/mobiquo.php/"];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>reply_post</methodName><params><param><value><string>%i</string></value></param><param><value><string>%i</string></value></param><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", self.topic.forumID, 
                            self.topic.topicID, 
@@ -93,9 +93,16 @@
         self.receivedData = [[NSMutableData alloc] init];
     }
     self.textView.text = @"";
-    NSArray *viewControllers = self.navigationController.viewControllers;
-    [(DetailThreadController *)[viewControllers objectAtIndex:[viewControllers count]-2] loadData];
-    [self cancel];
+}
+
+- (void)parse {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:self.receivedData];
+    [parser setDelegate:self];
+    [parser parse];
+    [parser release];
+    [pool release];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -115,9 +122,9 @@
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://.apfeltalk.de"] mainDocumentURL:nil]; 
     }
     
-    /*if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
+    if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
         [(Apfeltalk_MagazinAppDelegate *)[UIApplication sharedApplication].delegate login];
-    }*/
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -125,8 +132,9 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSString *s = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", s);
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
+    [thread start];
+    [thread release];
 }
 
 #pragma mark - View lifecycle
@@ -157,6 +165,29 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark -
+#pragma mark NSXMLParserDelegate
+
+- (void)parserDidStartDocument:(NSXMLParser *)parser {
+    
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
+    
+}
+
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+    
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+    
+}
+
+- (void)parserDidEndDocument:(NSXMLParser *)parser {
+    [self cancel];
 }
 
 @end
