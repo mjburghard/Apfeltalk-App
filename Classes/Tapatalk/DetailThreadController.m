@@ -181,9 +181,11 @@ const CGFloat kDefaultRowHeight = 44.0;
             [self last];
             break;
         case 2:
-            answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
-            [self.navigationController pushViewController:answerViewController animated:YES];
-            [answerViewController release]; 
+            if ([[User sharedUser] isLoggedIn]) {
+                answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
+                [self.navigationController pushViewController:answerViewController animated:YES];
+                [answerViewController release]; 
+            }
             break;
         default:
             break;
