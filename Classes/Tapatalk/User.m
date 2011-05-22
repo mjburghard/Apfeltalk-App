@@ -115,6 +115,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
         if ([self.currentString isEqualToString:@"1"]) {
             [[User sharedUser] setLoggedIn:YES];
             [self storeKeychainItem];
+            NSNotification *notification = [NSNotification notificationWithName:@"ATLoginWasSuccessful" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
         }
         if ([self.currentString isEqualToString:@"0"]) {
             [[User sharedUser] setLoggedIn:NO];
