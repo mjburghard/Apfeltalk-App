@@ -165,7 +165,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
     if (self) {
         self.path = [[NSMutableString alloc] init];
         self.username = (NSString *)[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"];
-        if (username != nil) {
+        if (username != nil && ![username isEqualToString:@""]) {
             NSError *error = nil;
             self.password = [SFHFKeychainUtils getPasswordForUsername:username andServiceName:@"Apfeltalk" error:&error];
             if (error) {
