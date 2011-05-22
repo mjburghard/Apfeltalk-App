@@ -165,7 +165,6 @@
 		CBC26121108B9DC500E5F36B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBC26120108B9DC500E5F36B /* SystemConfiguration.framework */; };
 		CBC2B8D91068104200040255 /* ATMXMLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CBC2B8D81068104200040255 /* ATMXMLUtilities.m */; };
 		F6222F011041D90D00FC030D /* rss.png in Resources */ = {isa = PBXBuildFile; fileRef = F6222F001041D90D00FC030D /* rss.png */; };
-		F62230401043488D00FC030D /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F622303F1043488D00FC030D /* MediaPlayer.framework */; };
 		F634305410362AA4004ACF93 /* DetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F634304A10362AA4004ACF93 /* DetailView.xib */; };
 		F634305510362AA4004ACF93 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F634304C10362AA4004ACF93 /* DetailViewController.m */; };
 		F634306510362AC6004ACF93 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F634306010362AC6004ACF93 /* Default.png */; };
@@ -180,8 +179,6 @@
 		F6730BE8134A70F50045B876 /* TDHUDProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F6730BE7134A70F40045B876 /* TDHUDProgressBar.m */; };
 		F6730BEA134A71E40045B876 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6730BE9134A71E30045B876 /* QuartzCore.framework */; };
 		F6B4FC73103697960080D615 /* DetailGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B4FC72103697960080D615 /* DetailGallery.m */; };
-		F6DACAC7103EA57700003B92 /* PodcastController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6DACAC6103EA57700003B92 /* PodcastController.m */; };
-		F6DACACF103EA73F00003B92 /* DetailPodcast.m in Sources */ = {isa = PBXBuildFile; fileRef = F6DACACE103EA73F00003B92 /* DetailPodcast.m */; };
 		F6DC30C11039781600A734AF /* gallery.png in Resources */ = {isa = PBXBuildFile; fileRef = F6DC30BF1039781600A734AF /* gallery.png */; };
 		F6DC30C21039781600A734AF /* magazin.png in Resources */ = {isa = PBXBuildFile; fileRef = F6DC30C01039781600A734AF /* magazin.png */; };
 		F6FB7DD6104EDE2F007F5A54 /* Fullscreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F6FB7DD4104EDE2F007F5A54 /* Fullscreen.m */; };
@@ -451,7 +448,6 @@
 		CBC2B8D71068104200040255 /* ATMXMLUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATMXMLUtilities.h; path = Classes/ATMXMLUtilities.h; sourceTree = "<group>"; };
 		CBC2B8D81068104200040255 /* ATMXMLUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATMXMLUtilities.m; path = Classes/ATMXMLUtilities.m; sourceTree = "<group>"; };
 		F6222F001041D90D00FC030D /* rss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rss.png; sourceTree = "<group>"; };
-		F622303F1043488D00FC030D /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F634304A10362AA4004ACF93 /* DetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailView.xib; sourceTree = "<group>"; };
 		F634304B10362AA4004ACF93 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		F634304C10362AA4004ACF93 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
@@ -473,10 +469,6 @@
 		F6730BE9134A71E30045B876 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F6B4FC71103697960080D615 /* DetailGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailGallery.h; sourceTree = "<group>"; };
 		F6B4FC72103697960080D615 /* DetailGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailGallery.m; sourceTree = "<group>"; };
-		F6DACAC5103EA57700003B92 /* PodcastController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PodcastController.h; sourceTree = "<group>"; };
-		F6DACAC6103EA57700003B92 /* PodcastController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PodcastController.m; sourceTree = "<group>"; };
-		F6DACACD103EA73F00003B92 /* DetailPodcast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailPodcast.h; sourceTree = "<group>"; };
-		F6DACACE103EA73F00003B92 /* DetailPodcast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailPodcast.m; sourceTree = "<group>"; };
 		F6DC30BF1039781600A734AF /* gallery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gallery.png; sourceTree = "<group>"; };
 		F6DC30C01039781600A734AF /* magazin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magazin.png; sourceTree = "<group>"; };
 		F6FB7DD3104EDE2F007F5A54 /* Fullscreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fullscreen.h; sourceTree = "<group>"; };
@@ -495,7 +487,6 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */,
-				F62230401043488D00FC030D /* MediaPlayer.framework in Frameworks */,
 				CB9E94841044929D00768B8B /* libsqlite3.dylib in Frameworks */,
 				22250A7210510E5E008B2EEC /* MessageUI.framework in Frameworks */,
 				CBA438FA105836D9002B2077 /* libxml2.dylib in Frameworks */,
@@ -623,7 +614,6 @@
 				CBC26120108B9DC500E5F36B /* SystemConfiguration.framework */,
 				CBA438F9105836D9002B2077 /* libxml2.dylib */,
 				22250A7110510E5E008B2EEC /* MessageUI.framework */,
-				F622303F1043488D00FC030D /* MediaPlayer.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765070DF74369002DB57D /* CoreGraphics.framework */,
@@ -1097,8 +1087,6 @@
 			children = (
 				F634304B10362AA4004ACF93 /* DetailViewController.h */,
 				F634304C10362AA4004ACF93 /* DetailViewController.m */,
-				F6DACACD103EA73F00003B92 /* DetailPodcast.h */,
-				F6DACACE103EA73F00003B92 /* DetailPodcast.m */,
 				F6FB7DD3104EDE2F007F5A54 /* Fullscreen.h */,
 				F6FB7DD4104EDE2F007F5A54 /* Fullscreen.m */,
 				CB15C89A1049950900360BDC /* DetailNews.h */,
@@ -1116,8 +1104,6 @@
 			children = (
 				F634305010362AA4004ACF93 /* RootViewController.h */,
 				F6658265104FC21300BF91E9 /* RootViewController.m */,
-				F6DACAC5103EA57700003B92 /* PodcastController.h */,
-				F6DACAC6103EA57700003B92 /* PodcastController.m */,
 				F634308310362E27004ACF93 /* GalleryController.h */,
 				F634308410362E27004ACF93 /* GalleryController.m */,
 				CB15C87910498EBF00360BDC /* NewsController.h */,
@@ -1269,8 +1255,6 @@
 				F634305510362AA4004ACF93 /* DetailViewController.m in Sources */,
 				F634308510362E27004ACF93 /* GalleryController.m in Sources */,
 				F6B4FC73103697960080D615 /* DetailGallery.m in Sources */,
-				F6DACAC7103EA57700003B92 /* PodcastController.m in Sources */,
-				F6DACACF103EA73F00003B92 /* DetailPodcast.m in Sources */,
 				CB15C87B10498EBF00360BDC /* NewsController.m in Sources */,
 				CB15C89C1049950900360BDC /* DetailNews.m in Sources */,
 				CB15C8CE1049A0CF00360BDC /* Story.m in Sources */,
