@@ -34,7 +34,6 @@
 }
 
 - (void)loadData {
-    self.topics = [[NSMutableArray alloc] init];
     NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_new_topic</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
@@ -261,7 +260,7 @@
         isPrefixes = NO;
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data"]) {
         if (self.currentTopic != nil)
-            [self.topics addObject:self.currentTopic];
+            [self.dataArray addObject:self.currentTopic];
         
     }
     
@@ -270,6 +269,8 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     self.currentTopic = nil;
+    self.topics = self.dataArray;
+    self.dataArray = nil;
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
