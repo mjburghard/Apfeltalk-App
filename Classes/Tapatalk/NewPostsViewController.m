@@ -267,6 +267,11 @@
     self.currentString = nil;
 }
 
+- (void)parserDidStartDocument:(NSXMLParser *)parser {
+    self.dataArray = [[NSMutableArray alloc] init];
+    self.path = [[NSMutableString alloc] init];
+}
+
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     self.currentTopic = nil;
     self.topics = self.dataArray;
