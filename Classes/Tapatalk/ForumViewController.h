@@ -20,6 +20,7 @@
     NSString *path;
     UITextField *usernameTextField, *passwordTextField;
     UITableViewCell *loadingCell;
+    NSMutableArray *dataArray;
     
     SubForum *currentObject;
     Section *currentSection;
@@ -41,6 +42,7 @@
 @property (retain) NSMutableData *receivedData;
 @property (retain) NSMutableArray *sections;
 @property (retain) NSString *path;
+@property (retain) NSMutableArray *dataArray;
 
 @property (retain) SubForum *currentObject;
 @property (retain) Section *currentSection;

@@ -28,6 +28,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.posts = [NSMutableArray array];
         self.site = 0;
         self.numberOfPosts = self.topic.numberOfPosts;
+        isAnswering = NO;
     }
     return self;
 }
@@ -68,8 +69,6 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (void)loadData {
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_thread</methodName><params><param><value><string>%i</string></value></param><param><value><int>%i</int></value></param><param><value><int>%i</int></value></param></params></methodCall>", self.topic.topicID, self.site*10, self.site*10+9];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
-    self.posts = [NSMutableArray array];
-    [self.tableView reloadData];
     if (self.site == [self numberOfSites]-1 && self.topic.hasNewPost) {
         xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>mark_topic_read</methodName><params><param><value><array><data><value><string>%i</string></value></data></array></value></param></params></methodCall>", self.topic.topicID];
         
@@ -107,7 +106,6 @@ const CGFloat kDefaultRowHeight = 44.0;
     answerCell.textView.text = @"";
     [self endEditing:nil];
     isAnswering = YES;
-    [self loadData];
 }
 
 - (void)previous {
@@ -283,7 +281,6 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"View did Appear");
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -346,13 +343,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == [tableView numberOfSections]-1) {
-        int numberOfSites;
-        if (numberOfPosts % 10 == 0) {
-            numberOfSites = numberOfPosts / 10;
-        } else {
-            numberOfSites = numberOfPosts / 10 + 1;
-        }
-        return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, numberOfSites];
+        return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
     }
     
     return nil;
@@ -447,9 +438,6 @@ const CGFloat kDefaultRowHeight = 44.0;
         if (indexPath.row == 1) {
             [self reply];
         }
-    }
-    if (indexPath.section == [self.posts count] +1) {
-        [self loadData];
     }
     
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -563,19 +551,26 @@ const CGFloat kDefaultRowHeight = 44.0;
     self.path = [self.path stringByDeletingLastPathComponent];
     
     if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
-        [self.posts addObject:self.currentPost];
+        [self.dataArray addObject:self.currentPost];
     } 
     
     self.currentString = nil;
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    [super parserDidEndDocument:parser];
-    self.currentPost = nil;
     if (isAnswering) {
         isAnswering = NO;
-        [self loadData];
+        self.dataArray = nil;
+        self.path = nil;
+        self.currentPost = nil;
+        [self performSelectorOnMainThread:@selector(loadData) withObject:nil waitUntilDone:NO];
+        return;
     }
+    self.posts = self.dataArray;
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    self.currentPost = nil;
+    self.dataArray = nil;
+    self.path = nil;
 }
 
 @end

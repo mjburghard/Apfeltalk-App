@@ -56,7 +56,6 @@
 }
 
 - (void)loadData {
-    self.topics = [[NSMutableArray alloc] init];
     [self loadPinnedTopics];
 }
 
@@ -109,13 +108,6 @@
     } else {
         [super alertView:alertView didDismissWithButtonIndex:buttonIndex];
     }
-}
-
-#pragma mark-
-#pragma mark NSURLConnectionDelegate
-
-- (void)connection:(NSURLConnection *)connvection didReceiveData:(NSData *)data {
-    [self.receivedData appendData:data];
 }
 
 #pragma mark - View lifecycle
@@ -313,6 +305,13 @@
 #pragma mark-
 #pragma mark NSXMLParserDelegate
 
+- (void)parserDidStartDocument:(NSXMLParser *)parser {
+    self.path = [[NSMutableString alloc] init];
+    if (isLoadingPinnedTopics) {
+        self.dataArray = [[NSMutableArray alloc] init];
+    }
+}
+
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName 
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qualifiedName 
@@ -388,7 +387,7 @@
         isPrefixes = NO;
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
         if (self.currentTopic != nil)
-            [self.topics addObject:self.currentTopic];
+            [self.dataArray addObject:self.currentTopic];
             
     }
         
@@ -402,7 +401,10 @@
         [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
         return;
     }
+    self.topics = self.dataArray;
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    self.dataArray = nil;
+    self.path = nil;
 }
 
 @end

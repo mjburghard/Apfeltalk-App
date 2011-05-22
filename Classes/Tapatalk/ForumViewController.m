@@ -15,7 +15,7 @@
 #import "NewPostsViewController.h"
 
 @implementation ForumViewController
-@synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject;
+@synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject, dataArray;
 
 NSString* const kSectionPath = @"methodResponse/params/param/value/array/data";
 NSString* const kFirstLevelForumPath = @"methodResponse/params/param/value/array/data/value/struct/member/value/array/data";
@@ -26,6 +26,7 @@ NSString* const kThirdLevelForumPath = @"methodResponse/params/param/value/array
 #pragma mark init & dealloc
 
 - (void)dealloc {
+    self.dataArray = nil;
     self.currentObject = nil;
     self.currentThirdLevelForum = nil;
     self.currentSecondLevelForum = nil;
@@ -103,10 +104,8 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)loadData {
-    self.sections = [[NSMutableArray alloc] init];
     NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_config</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:NO delegate:nil];
-    [self.tableView reloadData];
     
     xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_forum</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
@@ -269,7 +268,7 @@ NSString * encodeString(NSString *aString) {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.sections = [[NSMutableArray alloc] init];
     self.title = @"Forum";
 }
 
@@ -516,7 +515,7 @@ NSString * encodeString(NSString *aString) {
     
     if ([self.path isEqualToString:kSectionPath]) {
         isSection = NO;
-        [self.sections addObject:self.currentSection];
+        [self.dataArray addObject:self.currentSection];
     } else if ([self.path isEqualToString:kFirstLevelForumPath]) {
         isFirstLevelForum = NO;
         [self.currentSection.subFora addObject:self.currentFirstLevelForum];
@@ -531,11 +530,14 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
+    self.dataArray = [[NSMutableArray alloc] init];
     self.path = [[NSMutableString alloc] init];
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
+    self.sections = self.dataArray;
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    self.dataArray = nil;
     self.path = nil;
     self.currentObject = nil;
     self.currentFirstLevelForum = nil;
