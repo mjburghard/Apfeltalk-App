@@ -17,6 +17,7 @@
     UITextView *textView;
     Topic *topic;
     NSMutableData *receivedData;
+    BOOL isNotLoggedIn;
 }
 
 @property (retain) UITextView *textView;

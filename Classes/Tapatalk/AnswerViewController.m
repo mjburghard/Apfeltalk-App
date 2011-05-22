@@ -92,7 +92,6 @@
     if (connection) {
         self.receivedData = [[NSMutableData alloc] init];
     }
-    self.textView.text = @"";
 }
 
 - (void)parse {
@@ -123,7 +122,9 @@
     }
     
     if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
+        [[User sharedUser] setLoggedIn:YES];
         [(Apfeltalk_MagazinAppDelegate *)[UIApplication sharedApplication].delegate login];
+        isNotLoggedIn = YES;
     }
 }
 
@@ -187,7 +188,13 @@
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-    [self cancel];
+    if (isNotLoggedIn) {
+        isNotLoggedIn = YES;
+        [self reply];
+    } else {
+         self.textView.text = @"";
+        [self cancel];
+    }
 }
 
 @end

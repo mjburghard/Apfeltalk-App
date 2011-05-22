@@ -50,7 +50,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 }
 
 - (void)login {
-    if (self.username == nil || self.password ==nil) {
+    if (self.username == nil || self.password == nil) {
         NSLog(@"No username or password set");
         return;
     } else if (self.loggedIn) {

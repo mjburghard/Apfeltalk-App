@@ -82,7 +82,6 @@
     if (connection) {
         self.receivedData = [[NSMutableData alloc] init];
     }
-    self.textView.text = @"";
     [self cancel];
 }
 
