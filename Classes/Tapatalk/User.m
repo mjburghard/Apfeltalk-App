@@ -72,6 +72,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 }
 
 - (void)logout {
+    self.username = nil;
+    self.password = nil;
     self.loggedIn = NO;
     NSURL *url = [NSURL URLWithString:@"http://www.apfeltalk.de/forum/mobiquo/mobiquo.php"];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>logout_user</methodName></methodCall>"];
