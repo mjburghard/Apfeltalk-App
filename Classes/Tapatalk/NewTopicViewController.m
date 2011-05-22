@@ -83,8 +83,6 @@
         self.receivedData = [[NSMutableData alloc] init];
     }
     self.textView.text = @"";
-    NSArray *viewControllers = self.navigationController.viewControllers;
-    [(SubForumController *)[viewControllers objectAtIndex:[viewControllers count]-2] loadData];
     [self cancel];
 }
 
