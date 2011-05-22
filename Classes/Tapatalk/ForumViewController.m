@@ -136,7 +136,6 @@ NSString * encodeString(NSString *aString) {
 
 - (void)logout {
     [[User sharedUser] logout];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LoginDidFail) name:@"ATLoginDidFail" object:nil];
 }
 
 - (void)showActionSheet {
@@ -184,6 +183,7 @@ NSString * encodeString(NSString *aString) {
     switch (alertView.tag) {
         case 0:
             if (buttonIndex == 1 && [usernameTextField.text length] != 0 &&  [passwordTextField.text length] != 0) {
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginDidFail) name:@"ATLoginDidFail" object:nil];
                 [[User sharedUser] setUsername:usernameTextField.text];
                 [[User sharedUser] setPassword:passwordTextField.text];
                 [[User sharedUser] login];
@@ -219,6 +219,7 @@ NSString * encodeString(NSString *aString) {
     alertView.tag = 1;
     [alertView show];
     [alertView release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark-
