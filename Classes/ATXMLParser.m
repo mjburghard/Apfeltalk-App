@@ -60,7 +60,7 @@
 }
 
 - (id) initWithData:(NSData *)data {
-    if (self = [self init])
+    if ((self = [self init]))
     {
         xmlParser = [[NSXMLParser alloc] initWithData:data];
 		if (xmlParser == nil)
@@ -74,7 +74,7 @@
 
 - (id)initWithURLString:(NSString *)urlString
 {
-    if (self = [self init])
+    if ((self = [self init]))
     {
         xmlParser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:urlString]];
 		if (xmlParser == nil)
