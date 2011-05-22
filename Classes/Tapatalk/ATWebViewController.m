@@ -60,6 +60,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [self.webView stopLoading];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
