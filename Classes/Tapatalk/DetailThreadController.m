@@ -143,13 +143,15 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)showActionSheet {
-    NSString *buttonTitle;
+    NSString *loginButtonTitle, *answerButton;
     if ([[User sharedUser] isLoggedIn]) {
-        buttonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
+        loginButtonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
+        answerButton = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
     } else {
-        buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
+        loginButtonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
+        answerButton = nil;
     }
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @""), NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @""), nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:loginButtonTitle, NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @""), answerButton, nil];
     if (self.navigationController.tabBarController.tabBar) {
         [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
     } else {
@@ -281,6 +283,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"ATLoginWasSuccessful" object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -493,6 +496,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/boolean"]) {
         if (isCanReply) {
             isCanReply = NO;
+            NSLog(@"User can post: %@", self.currentString);
             self.topic.userCanPost = [self.currentString boolValue];
         }
     }
