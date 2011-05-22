@@ -52,6 +52,10 @@ const CGFloat kDefaultRowHeight = 44.0;
 #pragma mark -
 #pragma mark Private and Public Methods
 
+- (void)loginWasSuccessful {
+    self.topic.userCanPost = YES;
+}
+
 - (NSInteger)numberOfSites {
     NSInteger numberOfSites;
     if (numberOfPosts % 10 == 0) {
@@ -283,7 +287,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:@"ATLoginWasSuccessful" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginWasSuccessful) name:@"ATLoginWasSuccessful" object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
