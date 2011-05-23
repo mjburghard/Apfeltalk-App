@@ -54,6 +54,8 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)loginWasSuccessful {
     self.topic.userCanPost = YES;
+    NSArray *indexes = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:[self.posts count]]];
+    [self.tableView performSelectorOnMainThread:@selector(reloadRowsAtIndexPaths:withRowAnimation:) withObject:indexes waitUntilDone:NO];
 }
 
 - (NSInteger)numberOfSites {
@@ -381,7 +383,8 @@ const CGFloat kDefaultRowHeight = 44.0;
         if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
             answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:ContentCellIdentifier];
             if (answerCell == nil) {
-                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier] autorelease];
+                NSLog(@"answerCell = nil");
+                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier] autorelease]; 
             }
             answerCell.textView.scrollEnabled = YES;
             answerCell.textView.editable = YES;
