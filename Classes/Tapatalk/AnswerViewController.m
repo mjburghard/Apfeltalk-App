@@ -189,10 +189,10 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     if (isNotLoggedIn) {
-        isNotLoggedIn = YES;
+        isNotLoggedIn = NO;
         [self reply];
     } else {
-         self.textView.text = @"";
+        [self.textView performSelectorOnMainThread:@selector(setText:) withObject:@"" waitUntilDone:NO];
         [self cancel];
     }
 }

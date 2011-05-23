@@ -82,7 +82,6 @@
     if (connection) {
         self.receivedData = [[NSMutableData alloc] init];
     }
-    [self cancel];
 }
 
 #pragma mark - View lifecycle
