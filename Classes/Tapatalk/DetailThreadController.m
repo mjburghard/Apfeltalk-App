@@ -365,6 +365,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     static NSString *AuthorCellIdentifier = @"AuthorCell";
     static NSString *ContentCellIdentifier = @"ContentCell";
     static NSString *ActionsCellIdentifier = @"ActionsCell";
+    static NSString *AnswerCellIdentifier = @"AnswerCell";
     Post *p;
     
     if ([self.posts count] != 0 && indexPath.section < [self.posts count]) {
@@ -381,10 +382,9 @@ const CGFloat kDefaultRowHeight = 44.0;
 		}
         
         if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
-            answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:ContentCellIdentifier];
+            answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:AnswerCellIdentifier];
             if (answerCell == nil) {
-                NSLog(@"answerCell = nil");
-                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier] autorelease]; 
+                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier] autorelease]; 
             }
             answerCell.textView.scrollEnabled = YES;
             answerCell.textView.editable = YES;
