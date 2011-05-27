@@ -1412,7 +1412,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stephan Koenig (CU3AUBYQNK)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Apfeltalk_Magazin_Prefix.pch;
@@ -1428,7 +1428,7 @@
 				);
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "Apfeltalk Magazin";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D6A592A6-E586-4F37-A152-875844455259";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
