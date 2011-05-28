@@ -259,7 +259,7 @@
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
 		5E1DC1EE137C59D100BE82AC /* ContentTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentTranslator.h; sourceTree = "<group>"; };
 		5E1DC1EF137C59D100BE82AC /* ContentTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentTranslator.m; sourceTree = "<group>"; };
-		5E26C6391388098C00A7A1C5 /* NewPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPostsViewController.h; sourceTree = "<group>"; };
+		5E26C6391388098C00A7A1C5 /* NewPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewPostsViewController.h; path = Tapatalk/NewPostsViewController.h; sourceTree = "<group>"; };
 		5E26C63A1388098D00A7A1C5 /* NewPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewPostsViewController.m; sourceTree = "<group>"; };
 		5E26C63B1388098D00A7A1C5 /* NewPostsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewPostsViewController.xib; path = Classes/Tapatalk/NewPostsViewController.xib; sourceTree = "<group>"; };
 		5E2A1860137E8ACA00F6EF86 /* AnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswerViewController.h; sourceTree = "<group>"; };
@@ -505,6 +505,7 @@
 				5AB3DC8F135352C600E0D3CA /* Pulltorenew */,
 				220A139310590B16001D295D /* GalleryImageViewController.h */,
 				220A139410590B16001D295D /* GalleryImageViewController.m */,
+				5E26C6391388098C00A7A1C5 /* NewPostsViewController.h */,
 				220A131F1059031C001D295D /* ImageView.h */,
 				220A13201059031C001D295D /* ImageView.m */,
 				220A13211059031C001D295D /* Image.h */,
@@ -1020,7 +1021,6 @@
 				5E2A1861137E8ACA00F6EF86 /* AnswerViewController.m */,
 				5E2A1866137EED6C00F6EF86 /* NewTopicViewController.h */,
 				5E2A1867137EED6D00F6EF86 /* NewTopicViewController.m */,
-				5E26C6391388098C00A7A1C5 /* NewPostsViewController.h */,
 				5E26C63A1388098D00A7A1C5 /* NewPostsViewController.m */,
 			);
 			path = Tapatalk;
