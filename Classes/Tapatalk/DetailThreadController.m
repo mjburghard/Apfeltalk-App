@@ -457,7 +457,10 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    [self endEditing:nil];
     AnswerViewController *answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
+    answerViewController.textView.text = answerCell.textView.text;
+    answerCell.textView.text = @"";
     [self.navigationController pushViewController:answerViewController animated:YES];
     [answerViewController release];
 }
