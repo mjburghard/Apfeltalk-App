@@ -20,6 +20,7 @@
     if (self) {
         self.hidesBottomBarWhenPushed = YES;
         self.topic = aTopic;
+        self.textView = [[UITextView alloc] init];
     }
     return self;
 }
@@ -122,8 +123,8 @@
     }
     
     if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
-        [[User sharedUser] setLoggedIn:YES];
-        [(Apfeltalk_MagazinAppDelegate *)[UIApplication sharedApplication].delegate login];
+        [[User sharedUser] setLoggedIn:NO];
+        [[User sharedUser] login];
         isNotLoggedIn = YES;
     }
 }
@@ -148,7 +149,7 @@
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
     
-    self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0, 10.0, self.view.frame.size.width, self.view.frame.size.height-270.0)];
+    self.textView.frame = CGRectMake(0.0, 10.0, self.view.frame.size.width, self.view.frame.size.height-270.0);
     self.textView.font = [UIFont fontWithName:@"Helvetica" size:15.0];
     
     [self.view addSubview: self.textView];
@@ -193,7 +194,7 @@
         [self reply];
     } else {
         [self.textView performSelectorOnMainThread:@selector(setText:) withObject:@"" waitUntilDone:NO];
-        [self cancel];
+        [self performSelectorOnMainThread:@selector(cancel) withObject:nil waitUntilDone:NO];
     }
 }
 
