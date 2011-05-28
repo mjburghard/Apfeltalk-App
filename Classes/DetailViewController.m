@@ -53,13 +53,22 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 {	
-    NSString *str = [[self story] summary];
-    NSString *thumbLink = extractTextFromHTMLForQuery(str, @"//img/attribute::src");
-    NSLog(@"%@", thumbLink);
     NSURL *loadURL = [[request URL] retain]; // retain the loadURL for use
-    if ( ( [ [ loadURL scheme ] isEqualToString: @"http" ] || [ [ loadURL scheme ] isEqualToString: @"https" ] ) && ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) // Check if the scheme is http/https. You can also use these for custom links to open parts of your application.
-        if ([[loadURL absoluteString] isEqualToString:thumbLink]) {
-            NSString *imageLink = [thumbLink stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
+    NSString *loadURLString = [loadURL absoluteString];
+    if (([[loadURL scheme] isEqualToString:@"http"] || [[loadURL scheme] isEqualToString:@"https"]) && (navigationType == UIWebViewNavigationTypeLinkClicked )) { // Check if the scheme is http/https. You can also use these for custom links to open parts of your application.
+        NSString *extension = [loadURLString pathExtension];
+    
+        BOOL isImage = NO;
+        NSArray *extensions = [NSArray arrayWithObjects:@"tiff", @"tif", @"jpg", @"jpeg", @"gif", @"png",@"bmp", @"BMPf", @"ico", @"cur", @"xbm", nil];
+    
+        for (NSString *e in extensions) {
+            if ([extension isEqualToString:e]) {
+                isImage = YES;
+            }
+        }
+    
+        if (isImage) {
+            NSString *imageLink = [loadURLString stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
             
             GCImageViewer *galleryImageViewController = [[GCImageViewer alloc] initWithURL:[NSURL URLWithString:imageLink]];
             [self.navigationController pushViewController:galleryImageViewController animated:YES];
@@ -72,8 +81,8 @@
             [webViewController release];
             [loadURL release];
             return NO;
-            // Auto release the loadurl because we wont get to release later. then return the opposite of openURL, so if safari cant open the url, open it in the UIWebView.
         }
+    }
     [ loadURL release ];
     return YES; // URL is not http/https and should open in UIWebView
 }
