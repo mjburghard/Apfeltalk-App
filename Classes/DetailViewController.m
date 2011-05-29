@@ -222,7 +222,9 @@
 	webview.delegate = self;
     [webview setBackgroundColor:[UIColor clearColor]];
     [super viewDidLoad];
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        thumbnailButton.frame = CGRectMake(21, 7, 58, 49);
+    }
     [self updateInterface];
     
 	//Set the title of the navigation bar
