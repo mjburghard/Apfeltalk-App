@@ -29,11 +29,38 @@
 
 @implementation ContentCell
 @synthesize textView, delegate;
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+
+- (CGFloat)groupedCellMarginWithTableWidth:(CGFloat)tableViewWidth
+{
+    CGFloat marginWidth;
+    if(tableViewWidth > 20)
+    {
+        if(tableViewWidth < 400)
+        {
+            marginWidth = 10;
+        }
+        else
+        {
+            marginWidth = MAX(31, MIN(45, tableViewWidth*0.06));
+        }
+    }
+    else
+    {
+        marginWidth = tableViewWidth - 10;
+    }
+    return marginWidth;
+}
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier tableViewWidth:(CGFloat)tableViewWidth {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,7.0, 300.0, self.frame.size.height-7.0)];
+        CGFloat margin = [self groupedCellMarginWithTableWidth:tableViewWidth];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) { 
+            self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,7.0, 320.0-2*margin, self.frame.size.height-7.0)];
+        } else {
+            self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,7.0, 768-2*margin, self.frame.size.height-7.0)];
+        }
         self.textView.scrollEnabled = NO;
         self.textView.layer.masksToBounds = YES;
         self.textView.layer.cornerRadius = 10.0;
@@ -42,6 +69,7 @@
         self.textView.bounces = NO;
         self.textView.dataDetectorTypes = UIDataDetectorTypeLink;
         self.textView.delegate = self;
+        self.textView.backgroundColor = self.contentView.backgroundColor;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     
         [self.contentView addSubview:self.textView];
