@@ -273,7 +273,7 @@
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
 		5E13799E13928F840065941B /* icon@iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@iPad.png"; path = "iPad/Images/icon@iPad.png"; sourceTree = "<group>"; };
-		5E1379A013928FD40065941B /* DetailTop~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DetailTop~iPad.png"; path = "../../../Downloads/Grafiken/DetailTop~iPad.png"; sourceTree = "<group>"; };
+		5E1379A013928FD40065941B /* DetailTop~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DetailTop~iPad.png"; path = "iPad/Images/DetailTop~iPad.png"; sourceTree = "<group>"; };
 		5E1DC1EE137C59D100BE82AC /* ContentTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentTranslator.h; sourceTree = "<group>"; };
 		5E1DC1EF137C59D100BE82AC /* ContentTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentTranslator.m; sourceTree = "<group>"; };
 		5E26C6391388098C00A7A1C5 /* NewPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewPostsViewController.h; path = Tapatalk/NewPostsViewController.h; sourceTree = "<group>"; };
