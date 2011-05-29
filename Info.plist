@@ -16,8 +16,8 @@
 	<array>
 		<string>icon.png</string>
 		<string>icon@2x.png</string>
-		<string>icon~ipad.png</string>
-		<string>icon~ipad.png</string>
+		<string>icon@ipad.png</string>
+		<string>icon@ipad.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.atmobile.de</string>
