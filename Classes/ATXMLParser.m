@@ -219,6 +219,7 @@
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     [delegate parser:self parseErrorOccurred:parseError];
 }
 
