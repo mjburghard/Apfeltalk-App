@@ -42,12 +42,12 @@
 			</object>
 			<object class="IBUIView" id="1035459194">
 				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">274</int>
+				<int key="NSvFlags">282</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIWebView" id="73355324">
 						<reference key="NSNextResponder" ref="1035459194"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">282</int>
 						<string key="NSFrameSize">{320, 367}</string>
 						<reference key="NSSuperview" ref="1035459194"/>
 						<reference key="NSWindow"/>
@@ -98,7 +98,7 @@
 					</object>
 					<object class="IBUIImageView" id="796507918">
 						<reference key="NSNextResponder" ref="1035459194"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">290</int>
 						<string key="NSFrameSize">{320, 92}</string>
 						<reference key="NSSuperview" ref="1035459194"/>
 						<reference key="NSWindow"/>
@@ -111,6 +111,7 @@
 							</object>
 						</object>
 						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIAutoresizesSubviews">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>

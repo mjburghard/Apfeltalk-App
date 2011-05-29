@@ -308,11 +308,11 @@ const CGFloat kDefaultRowHeight = 44.0;
     if (indexPath.section == [self.posts count] +1) return kDefaultRowHeight;
     if ([self.posts count] != 0 && indexPath.row == 0) {
         if (indexPath.section == [self.posts count]) return 100.0;
-        if (indexPath.section == [self.posts count]) return kDefaultRowHeight;
         return 30.0;
     } else if (indexPath.row == 1) {
         if (indexPath.section == [self.posts count]) return kDefaultRowHeight;
-        ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell"];
+        
+        ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell" tableViewWidth:CGRectGetHeight(self.tableView.frame)];
         contentCell.textView.text = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
         CGFloat height = contentCell.textView.contentSize.height+7;
         [contentCell release];
@@ -384,7 +384,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
             answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:AnswerCellIdentifier];
             if (answerCell == nil) {
-                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier] autorelease]; 
+                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetHeight(self.tableView.frame)] autorelease]; 
             }
             answerCell.textView.scrollEnabled = YES;
             answerCell.textView.editable = YES;
@@ -423,7 +423,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         
 		ContentCell *contentCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:ContentCellIdentifier];
 		if (contentCell == nil) {
-			contentCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier] autorelease];
+			contentCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier  tableViewWidth:CGRectGetHeight(self.tableView.frame)] autorelease];
 		}
         contentCell.textView.text = p.content;
         contentCell.textView.scrollEnabled = NO;

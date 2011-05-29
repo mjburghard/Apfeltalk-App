@@ -95,8 +95,12 @@
 
 - (NSString *)baseHtmlString {
     NSURL *bottomURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailBottom" ofType:@"png"]];
-    NSString *testString = [NSString stringWithFormat:@"<div style=\"position:absolute; top:0px; left:0px; width:320px\"><div style=\"%@\">"
-                            @"%@</div><img src=\"%@\" alt=\"DetailBottom\"></div>", [self cssStyleString], @"%@", [bottomURL absoluteString]];
+    NSInteger width = 320;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        width = 768;
+    } 
+    NSString *testString = [NSString stringWithFormat:@"<div style=\"position:absolute; top:0px; left:0px; width:%ipx\"><div style=\"%@\">"
+                            @"%@</div><img src=\"%@\" alt=\"DetailBottom\"></div>", width,  [self cssStyleString], @"%@", [bottomURL absoluteString]];
     
     return testString;
 }
