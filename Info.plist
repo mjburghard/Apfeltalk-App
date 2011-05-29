@@ -16,7 +16,6 @@
 	<array>
 		<string>icon.png</string>
 		<string>icon@2x.png</string>
-    <string>icon@ipad.png</string>
 		<string>icon@ipad.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
@@ -38,7 +37,7 @@
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>NSMainNibFile~ipad</key>
-	<string>MainWindow-iPad</string>
+	<string>MainWindow@iPad</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array/>
 	<key>UISupportedInterfaceOrientations~ipad</key>
