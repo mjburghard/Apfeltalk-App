@@ -75,17 +75,18 @@ static ImageCache *imageCache = nil;
     if (cachedImage != nil) {
         [self setBackgroundImage:cachedImage forState:UIControlStateNormal];
         [self setContentMode:UIViewContentModeScaleAspectFit];
-        self.autoresizingMask = 
-        UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        //self.autoresizingMask = 
+        //UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self setNeedsLayout];
         return;
     }
         
     UIActivityIndicatorView *spinny = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinny.tag = SPINNY_TAG;
-	CGPoint spinnyCenter = self.center;
-	spinnyCenter.x = spinnyCenter.x - 5;
-    spinnyCenter.y = spinnyCenter.y - 5;
+	CGPoint spinnyCenter = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+    NSLog(@"Self.center: %f %f", spinnyCenter.x, spinnyCenter.y);
+	//spinnyCenter.x = spinnyCenter.x - 5;
+    //spinnyCenter.y = spinnyCenter.y - 5;
 	spinny.center = spinnyCenter;
     [spinny startAnimating];
     [self addSubview:spinny];
@@ -122,7 +123,7 @@ static ImageCache *imageCache = nil;
     
 	[self setBackgroundImage:image forState:UIControlStateNormal];
     [self setContentMode:UIViewContentModeScaleAspectFit];
-    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    //self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
     [self setNeedsLayout];
     [data release];
