@@ -31,6 +31,7 @@
     NSArray         *stories;
     NSDateFormatter *shortTimeFormatter;
     NSUInteger       displayedStoryIndex;
+    IBOutlet UITableViewCell *loadingCell;
 }
 
 @property(retain) NSArray *stories;

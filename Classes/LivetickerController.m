@@ -110,6 +110,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdendifier = @"Cell";
+    if ([stories count] == 0 && stories != nil) {
+        if(loadingCell == nil) {
+            [[NSBundle mainBundle] loadNibNamed:@"LoadingCell" owner:self options:nil];
+        }
+        
+        return loadingCell;
+    }
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdendifier];
 
     UILabel *timeLabel;
@@ -161,18 +168,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if ([stories count] == 0 && stories != nil) { 
+        return 1;
+    }
+    
     return [stories count];
 }
 
 
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+/*- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if ([stories count])
+    if ([stories count] && stories != nil)
         return nil;
     else
         return NSLocalizedStringFromTable(@"LivetickerController.noTicker", @"ATLocalizable", @"");
-}
+}*/
 
 
 #pragma mark -
@@ -180,6 +191,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([stories count] == 0) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
     [self setDisplayedStoryIndex:[indexPath row]];
 
     Story            *story = [stories objectAtIndex:[indexPath row]];
@@ -227,6 +242,9 @@
 													   delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") otherButtonTitles:nil];
     [alertView show];
     [alertView release];
+    [[[[loadingCell.subviews lastObject] subviews] lastObject] removeFromSuperview];
+    [loadingCell.textLabel setText:NSLocalizedStringFromTable(@"LivetickerController.noTicker", @"ATLocalizable", @"")];
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 @end
