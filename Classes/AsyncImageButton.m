@@ -84,7 +84,7 @@ static ImageCache *imageCache = nil;
     UIActivityIndicatorView *spinny = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinny.tag = SPINNY_TAG;
 	CGPoint spinnyCenter = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-    NSLog(@"Self.center: %f %f", spinnyCenter.x, spinnyCenter.y);
+
 	//spinnyCenter.x = spinnyCenter.x - 5;
     //spinnyCenter.y = spinnyCenter.y - 5;
 	spinny.center = spinnyCenter;
