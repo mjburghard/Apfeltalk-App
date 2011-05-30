@@ -578,6 +578,7 @@
 		29B97314FDCFA39411CA2CEA /* Apfeltalk Magazin */ = {
 			isa = PBXGroup;
 			children = (
+				5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */,
 				5AEF5A2E13943BDA003A677C /* Default-Landscape~ipad.png */,
 				5AEF5A2C13943BCE003A677C /* Default-Portrait~ipad.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -652,7 +653,6 @@
 		5A393EEA139261CC0095751E /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */,
 				5E1379A013928FD40065941B /* DetailTop~iPad.png */,
 				5E13799E13928F840065941B /* icon@iPad.png */,
 				5A393EF9139264790095751E /* Default-PortraitUpsideDown.png */,
