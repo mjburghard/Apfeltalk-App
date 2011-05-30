@@ -574,7 +574,6 @@
 		29B97314FDCFA39411CA2CEA /* Apfeltalk Magazin */ = {
 			isa = PBXGroup;
 			children = (
-				5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -647,6 +646,7 @@
 		5A393EEA139261CC0095751E /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */,
 				5E1379A013928FD40065941B /* DetailTop~iPad.png */,
 				5E13799E13928F840065941B /* icon@iPad.png */,
 				5A393EF9139264790095751E /* Default-PortraitUpsideDown.png */,
@@ -1479,6 +1479,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "Apfeltalk Magazin";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1580,6 +1581,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IBC_NOTICES = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = (
 					"-Wall",
 					"$(OTHER_CFLAGS)",
