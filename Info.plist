@@ -33,6 +33,8 @@
 	<array/>
 	<key>CFBundleVersion</key>
 	<string>2.0.2</string>
+	<key>Icon already includes Gloss effect</key>
+	<string>YES</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
@@ -52,11 +54,7 @@
 	<array/>
 	<key>UTImportedTypeDeclarations</key>
 	<array/>
-	<key>Icon already includes Gloss effect</key>
-	<string>YES</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 </dict>
 </plist>
