@@ -24,6 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RootViewController.h"
+#import "Story.h"
 
 @interface NewsController : RootViewController <UIAccelerometerDelegate, UIActionSheetDelegate> {
 	@private
