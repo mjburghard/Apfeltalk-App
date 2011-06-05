@@ -33,9 +33,10 @@
 	
 	NSURL* url;
 	IBOutlet TDHUDProgressBar *bar;
+    IBOutlet UIToolbar *topBar;
 	
-	UIImageView* imageView;
-	UIScrollView* myScrollView;
+	IBOutlet UIImageView* imageView;
+	IBOutlet UIScrollView* myScrollView;
     UIColor *navBarColor;
     NSTimer *timer;
 }
@@ -43,9 +44,10 @@
 - (id)initWithURL:(NSURL*)URL;
 - (void)hideBars;
 
+@property (assign) IBOutlet UIToolbar *topBar;
 @property (nonatomic, retain) NSURL* url;
 @property (retain) UIColor *navBarColor;
-@property (retain, setter=setTimer:) NSTimer *timer;
+@property (nonatomic, retain, setter=setTimer:) NSTimer *timer;
 @property (nonatomic, retain) UIImageView* imageView;
 @property (nonatomic, retain) UIScrollView* myScrollView;
 

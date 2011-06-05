@@ -23,6 +23,10 @@
 //
 
 #import "Apfeltalk_MagazinAppDelegate.h"
+#import "RootViewController.h"
+#import "DetailViewController.h"
+#import "DetailNews.h"
+#import "DetailGallery.h"
 #import "User.h"
 
 
@@ -71,6 +75,33 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setApplicationDefaults];
     // Add the tab bar controller's current view as a subview of the window
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        NSMutableArray *viewControllers = (NSMutableArray *)tabBarController.viewControllers;
+        
+        UISplitViewController *splitviewController = [[UISplitViewController alloc] init];
+        splitviewController.delegate = [newsController.viewControllers objectAtIndex:0];
+        splitviewController.tabBarItem = newsController.tabBarItem;
+        DetailNews *detailNews = [[DetailNews alloc] initWithNibName:@"DetailView" bundle:nil story:nil];
+        
+        splitviewController.viewControllers = [NSArray arrayWithObjects:newsController, detailNews,nil];
+        [viewControllers replaceObjectAtIndex:0 withObject:splitviewController];
+        [splitviewController release];
+        [detailNews release];
+        
+        splitviewController = [[UISplitViewController alloc] init];
+        splitviewController.delegate = [galleryController.viewControllers objectAtIndex:0];
+        splitviewController.tabBarItem = galleryController.tabBarItem;
+        DetailGallery *detailGallery = [[DetailGallery alloc] initWithNibName:@"DetailView" bundle:nil story:nil];
+        
+        splitviewController.viewControllers = [NSArray arrayWithObjects:galleryController, detailGallery,nil];
+        [viewControllers replaceObjectAtIndex:1 withObject:splitviewController];
+        [splitviewController release];
+        [DetailGallery release];
+        
+        tabBarController.viewControllers = viewControllers;
+    }
+    
     [window addSubview:tabBarController.view];
     return YES;
 }

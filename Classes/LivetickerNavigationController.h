@@ -30,6 +30,6 @@
     NSTimer *reloadTimer;
 }
 
-@property(retain) NSTimer *reloadTimer;
+@property(nonatomic, retain) NSTimer *reloadTimer;
 
 @end

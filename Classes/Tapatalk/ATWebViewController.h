@@ -11,10 +11,12 @@
 
 @interface ATWebViewController : UIViewController <UIWebViewDelegate> {
     IBOutlet UIWebView *webView;
+    IBOutlet UIToolbar *topBar;
     IBOutlet UIToolbar *toolbar;
     NSURL *url;
 }
 
+@property (assign) IBOutlet UIToolbar *topBar;
 @property (assign) IBOutlet UIWebView *webView;
 @property (assign) IBOutlet UIToolbar *toolbar;
 @property (retain) NSURL *url;

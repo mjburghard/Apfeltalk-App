@@ -24,7 +24,6 @@
 
 
 #import "ATTabBarController.h"
-#import "GalleryImageViewController.h"
 
 
 @implementation ATTabBarController
@@ -46,6 +45,9 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return YES;
+    }
     return [self.selectedViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 

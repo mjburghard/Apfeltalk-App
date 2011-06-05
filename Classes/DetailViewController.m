@@ -28,19 +28,26 @@
 #import "GCImageViewer.h"
 #import "ATWebViewController.h"
 
-#define MAX_IMAGE_WIDTH 280
+#define MAX_IMAGE_WIDTH ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 728 :280)
 
 
 @implementation DetailViewController
 
-@synthesize story;
+@synthesize story, toolbar;
 
 // This is the new designated initializer for the class
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle story:(Story *)newStory
 {
 	self = [super initWithNibName:nibName bundle:nibBundle];
 	if (self != nil) {
-		[self setStory:newStory];
+        if (newStory) {
+            [self setStory:newStory];
+        } else {
+            Story *aStory = [[Story alloc] init];
+            aStory.summary = [NSString stringWithFormat:@"<div style=\"text-align: center;\">%@</div>", NSLocalizedStringFromTable(@"Loading data", @"ATLocalizable", @"")];
+            [self setStory:aStory];
+            [aStory release];
+        }
 	}
 	return self;
 }
@@ -55,6 +62,7 @@
 {	
     NSURL *loadURL = [[request URL] retain]; // retain the loadURL for use
     NSString *loadURLString = [loadURL absoluteString];
+    NSLog(@"%@", loadURLString);
     if (([[loadURL scheme] isEqualToString:@"http"] || [[loadURL scheme] isEqualToString:@"https"]) && (navigationType == UIWebViewNavigationTypeLinkClicked )) { // Check if the scheme is http/https. You can also use these for custom links to open parts of your application.
         NSString *extension = [loadURLString pathExtension];
     
@@ -71,13 +79,21 @@
             NSString *imageLink = [loadURLString stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
             
             GCImageViewer *galleryImageViewController = [[GCImageViewer alloc] initWithURL:[NSURL URLWithString:imageLink]];
-            [self.navigationController pushViewController:galleryImageViewController animated:YES];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                [self presentModalViewController:(UIViewController *)galleryImageViewController animated:YES];
+            } else {
+                [self.navigationController pushViewController:galleryImageViewController animated:YES];
+            }
             [galleryImageViewController release];
             [loadURL release];
             return NO;
         } else {
             ATWebViewController *webViewController = [[ATWebViewController alloc] initWithNibName:@"ATWebViewController" bundle:nil URL:loadURL];
-            [self.navigationController pushViewController:webViewController animated:YES];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                [self presentModalViewController:webViewController animated:YES];
+            } else {
+                [self.navigationController pushViewController:webViewController animated:YES];
+            }
             [webViewController release];
             [loadURL release];
             return NO;
@@ -98,6 +114,10 @@
     NSInteger width = 320;
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         width = 768;
+        UIInterfaceOrientation orientation = self.interfaceOrientation;
+        if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
+            width = 704;
+        }
     } 
     NSString *testString = [NSString stringWithFormat:@"<div style=\"position:absolute; top:0px; left:0px; width:%ipx\"><div style=\"%@\">"
                             @"%@</div><img src=\"%@\" alt=\"DetailBottom\"></div>", width,  [self cssStyleString], @"%@", [bottomURL absoluteString]];
@@ -155,7 +175,7 @@
 
 - (NSString *) htmlString {
     // :below:20091220 All of this should be done with proper HTML Parsing
-	NSString *bodyString = [[self story] summary];
+    NSString *bodyString = [[self story] summary];
 	NSRange divRange = [bodyString rangeOfString:@"<fieldset"];
 	if (divRange.location == NSNotFound)
         divRange.location = [bodyString length];
@@ -236,28 +256,47 @@
     self.navigationItem.rightBarButtonItem = speichernButton;
     [speichernButton release];
     
+    
     // :below:20091111 Apple wants this removed
     //	[(UIScrollView*)[webview.subviews objectAtIndex:0]	 setAllowsRubberBanding:NO];
     // :MacApple:20100105 I'm wondering why this doesn't caused a crash
     //	[webview release];
 }
 
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
+#pragma mark -
+
+- (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Add the popover button to the toolbar.
+    NSMutableArray *itemsArray = [toolbar.items mutableCopy];
+    [itemsArray insertObject:barButtonItem atIndex:0];
+    [toolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
+
+
+- (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Remove the popover button from the toolbar.
+    NSMutableArray *itemsArray = [toolbar.items mutableCopy];
+    [itemsArray removeObject:barButtonItem];
+    [toolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
+
 #pragma mark -
 #pragma mark Interfacerotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return YES;
+    }
     return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)dealloc {
-	[story release];
+    self.toolbar = nil;
+    [story release];
 	[lblText release];
 	[myMenu release];
 	[super dealloc];

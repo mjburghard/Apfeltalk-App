@@ -271,14 +271,14 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 - (void)parseXMLFileAtURL:(NSString *)URL {
 	[super parseXMLFileAtURL:URL];
 
-	// This needs to be done in post-processing, as libxml2 interferes with NSXMLParser
+	/*// This needs to be done in post-processing, as libxml2 interferes with NSXMLParser
 	for (Story *s in stories) {
 		NSString *thumbnailLink = [self extractThumbnailLink:[s summary]];
 		if ([thumbnailLink length] > 0)
 			[s setThumbnailLink:thumbnailLink];
 //		NSString *pureText = [self extractText:[s summary]];
 //		NSLog (pureText);
-	}
+	}*/
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -355,9 +355,9 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	}
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+/*- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
-}
+}*/
 - (void) dealloc {
 	[savedStories release];
 	[super dealloc];

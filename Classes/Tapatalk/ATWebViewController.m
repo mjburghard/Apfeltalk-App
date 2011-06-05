@@ -13,7 +13,7 @@
 
 
 @implementation ATWebViewController
-@synthesize webView, url, toolbar;
+@synthesize webView, url, toolbar, topBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil URL:(NSURL *)aUrl {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -25,6 +25,7 @@
 }
 
 - (void)dealloc {
+    self.topBar = nil;
     self.url = nil;
     self.toolbar = nil;
     self.webView = nil;
@@ -67,6 +68,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIBarButtonItem *doneButton = [[UIBarButtonItem  alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissModalViewControllerAnimated:)];
+        [self.topBar setItems:[NSArray arrayWithObject:doneButton] animated:YES];
+        [doneButton release];
+    }
 }
 
 - (void)viewDidUnload {

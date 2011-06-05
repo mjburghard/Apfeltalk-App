@@ -429,6 +429,16 @@ NSString * encodeString(NSString *aString) {
     // For example: self.myOutlet = nil;
 }
 
+#pragma mark -
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return YES;
+    }
+    
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
 #pragma mark-
 #pragma mark NSXMLParserDelegate
 
@@ -436,26 +446,26 @@ NSString * encodeString(NSString *aString) {
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qualifiedName 
     attributes:(NSDictionary *)attributeDict {
-    self.currentString = [[NSMutableString alloc] init];
+    self.currentString = [NSMutableString string];
     
     if ([self.path isEqualToString:kSectionPath]) {
         isSection = YES;
-        self.currentSection = [[Section alloc] init];
+        self.currentSection = [[[Section alloc] init] autorelease];
         self.currentSection.subFora = [NSMutableArray array];
         self.currentObject = (SubForum *)self.currentSection;
     } else if ([self.path isEqualToString:kFirstLevelForumPath]) {
         isFirstLevelForum = YES;
-        self.currentFirstLevelForum = [[SubForum alloc] init];
+        self.currentFirstLevelForum = [[[SubForum alloc] init] autorelease];
         self.currentFirstLevelForum.subFora = [NSMutableArray array];
         self.currentObject = self.currentFirstLevelForum;
     } else if ([self.path isEqualToString:kSecondLevelForumPath]) {
         isSecondLevelForum = YES;
-        self.currentSecondLevelForum = [[SubForum alloc] init];
+        self.currentSecondLevelForum = [[[SubForum alloc] init] autorelease];
         self.currentSecondLevelForum.subFora = [NSMutableArray array];
         self.currentObject = self.currentSecondLevelForum;
     } else if ([self.path isEqualToString:kThirdLevelForumPath]) {
         isThirdLevelForum = YES;
-        self.currentThirdLevelForum = [[SubForum alloc] init];
+        self.currentThirdLevelForum = [[[SubForum alloc] init] autorelease];
         self.currentObject = self.currentThirdLevelForum;
     } else if ([self.path isEqualToString:@"methodResponse/fault"]) {
         isError = YES;
@@ -531,8 +541,8 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
-    self.dataArray = [[NSMutableArray alloc] init];
-    self.path = [[NSMutableString alloc] init];
+    self.dataArray = [NSMutableArray array];
+    self.path = [NSMutableString string];
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {

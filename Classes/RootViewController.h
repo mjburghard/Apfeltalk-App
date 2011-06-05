@@ -28,11 +28,18 @@
 #import "ATXMLParser.h"
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
-#import "DetailViewController.h"
 #import <MessageUI/MessageUI.h>
 #import "EGORefreshTableHeaderView.h"
+#import "Story.h"
 
-@interface RootViewController : UITableViewController <ATXMLParserDelegateProtocol, MFMailComposeViewControllerDelegate, EGORefreshTableHeaderDelegate>
+@class DetailViewController;
+
+@protocol SubstitutableDetailViewController
+- (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
+- (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
+@end
+
+@interface RootViewController : UITableViewController <ATXMLParserDelegateProtocol, MFMailComposeViewControllerDelegate, EGORefreshTableHeaderDelegate, UISplitViewControllerDelegate>
 {
 	IBOutlet UITableView * newsTable;
 	IBOutlet UITableViewCell *loadingCell;
@@ -40,6 +47,9 @@
 	NSArray *stories;
     EGORefreshTableHeaderView *tableHeaderView;
     BOOL reloading;
+    
+    UIPopoverController *popoverController;    
+    UIBarButtonItem *rootPopoverButtonItem;
 
 @protected
 	sqlite3 * database;
@@ -48,6 +58,8 @@
 @property(retain) NSArray *stories;
 @property (readonly) BOOL shakeToReload;
 @property (readonly) NSDictionary * desiredKeys;
+@property (nonatomic, retain) UIPopoverController *popoverController;
+@property (nonatomic, retain) UIBarButtonItem *rootPopoverButtonItem;
 
 - (void)reloadTableViewDataSource;
 - (void)doneLoadingTableViewData;
