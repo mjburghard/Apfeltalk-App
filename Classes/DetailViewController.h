@@ -26,8 +26,9 @@
 #import "Story.h"
 #import "AsyncImageButton.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "RootViewController.h"
 
-@interface DetailViewController : UIViewController <UIWebViewDelegate> {
+@interface DetailViewController : UIViewController <UIWebViewDelegate, SubstitutableDetailViewController> {
 	IBOutlet UILabel *datum;
 	IBOutlet UILabel *lblText;
 	IBOutlet AsyncImageButton *thumbnailButton;
@@ -38,10 +39,13 @@
 	IBOutlet UILabel *titleLabel;
 	IBOutlet UILabel *authorLabel;
 	IBOutlet UIImageView *detailimage;
+    IBOutlet UIToolbar *toolbar;
     
 	Story *story;
 	UIActionSheet *myMenu;
 }
+
+@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 @property (readwrite, retain) Story *story;
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle story:(Story *)newStory;
