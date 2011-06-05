@@ -31,6 +31,8 @@
 
 #import <libxml/HTMLparser.h>
 
+#define MAX_IMAGE_WIDTH ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 728 :280)
+
 @interface DetailGallery (private)
 - (void)createMailComposer:(NSString*)str;
 @end
@@ -55,7 +57,11 @@
     NSString *imageLink = [thumbLink stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
     
     GCImageViewer *galleryImageViewController = [[GCImageViewer alloc] initWithURL:[NSURL URLWithString:imageLink]];
-    [self.navigationController pushViewController:galleryImageViewController animated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.navigationController pushViewController:galleryImageViewController animated:YES];
+    } else {
+        [self presentModalViewController:galleryImageViewController animated:YES];
+    }
     [galleryImageViewController release];
 }
 
@@ -183,7 +189,13 @@ void endElement (void *userData, const xmlChar *name) {
 	free (htmlDoc);
 	[elementString release];
 	NSString *str = [[[self story] thumbnailLink] stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
-	NSString *showpicture = [NSString stringWithFormat:@"<a href=\"%@\"><img src=\"%@\" width=\"275\" height=\"181\" alt=\"No Medium Picture.\" /></a> ", str, str];
+    
+    NSInteger width = MAX_IMAGE_WIDTH;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)) {
+            width = 664;
+    }
+    
+	NSString *showpicture = [NSString stringWithFormat:@"<a href=\"%@\"><img src=\"%@\" width=\"%i\" alt=\"No Medium Picture.\" /></a> ", str, str, (int)width];
 	NSString *resultString = [NSString stringWithFormat:@"%@<br/>%@", showpicture, cleanedString];
     resultString = [[self baseHtmlString] stringByReplacingOccurrencesOfString:@"%@" withString:resultString];
 	[cleanedString release];
