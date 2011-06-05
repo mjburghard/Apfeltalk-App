@@ -312,7 +312,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     } else if (indexPath.row == 1) {
         if (indexPath.section == [self.posts count]) return kDefaultRowHeight;
         
-        ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell" tableViewWidth:CGRectGetHeight(self.tableView.frame)];
+        ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell" tableViewWidth:CGRectGetWidth(self.tableView.frame)];
         contentCell.textView.text = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
         CGFloat height = contentCell.textView.contentSize.height+7;
         [contentCell release];
@@ -472,10 +472,10 @@ const CGFloat kDefaultRowHeight = 44.0;
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qualifiedName 
     attributes:(NSDictionary *)attributeDict {
-    self.currentString = [NSMutableString new];
+    self.currentString = [NSMutableString string];
     
     if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
-        self.currentPost = [[Post alloc] init];
+        self.currentPost = [[[Post alloc] init] autorelease];
     } else if ([self.path isEqualToString:@"methodResponse/fault"]) {
         isError = YES;
     }
