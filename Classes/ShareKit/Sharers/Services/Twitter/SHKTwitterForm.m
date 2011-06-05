@@ -125,7 +125,7 @@
 	 // < 3.2
 	 else 
 	 {*/
-	[[notification.userInfo valueForKey:UIKeyboardBoundsUserInfoKey] getValue:&keyboardFrame];
+	[[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
 	keyboardHeight = keyboardFrame.size.height;
 	//}
 	
