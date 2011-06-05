@@ -38,6 +38,8 @@
 	<string>MainWindow</string>
 	<key>NSMainNibFile~ipad</key>
 	<string>MainWindow@iPad</string>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array/>
 	<key>UISupportedInterfaceOrientations~ipad</key>
@@ -51,7 +53,5 @@
 	<array/>
 	<key>UTImportedTypeDeclarations</key>
 	<array/>
-	<key>UIPrerenderedIcon</key>
-	<true/>
 </dict>
 </plist>
