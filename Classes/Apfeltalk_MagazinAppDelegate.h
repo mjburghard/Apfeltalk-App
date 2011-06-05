@@ -27,6 +27,8 @@
 @interface Apfeltalk_MagazinAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UIWindow *window;
     UITabBarController *tabBarController;
+    IBOutlet UINavigationController *newsController;
+    IBOutlet UINavigationController *galleryController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
