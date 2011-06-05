@@ -24,6 +24,7 @@
 
 #import "RootViewController.h"
 #import "AudioToolbox/AudioToolbox.h"
+#import "DetailViewController.h"
 
 @interface RootViewController (private)
 - (BOOL) openDatabase;
@@ -33,7 +34,7 @@
 
 @implementation RootViewController
 
-@synthesize stories;
+@synthesize stories, rootPopoverButtonItem, popoverController;
 
 - (BOOL) shakeToReload {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"shakeToReload"];
@@ -140,7 +141,19 @@
 	DetailViewController *detailController = [[dvClass alloc] initWithNibName:@"DetailView" 
 																	   bundle:[NSBundle mainBundle]
 																		story:story];
-	[self.navigationController pushViewController:detailController animated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.navigationController pushViewController:detailController animated:YES];
+    } else {
+        self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, detailController, nil];
+        
+        if (popoverController != nil) {
+            [popoverController dismissPopoverAnimated:YES];
+        }
+        
+        if (rootPopoverButtonItem != nil) {
+            [detailController showRootPopoverButtonItem:self.rootPopoverButtonItem];
+        }
+    }
 	[detailController release];
 }
 
@@ -192,34 +205,31 @@
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
 
-- (void)reloadTableViewDataSource{
+- (void)reloadTableViewDataSource {
     reloading =YES;
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"vibrateOnReload"]) {
         AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
     }
     [self parseXMLFileAtURL:[self documentPath]];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
-- (void)doneLoadingTableViewData{
+- (void)doneLoadingTableViewData {
+    reloading =NO;
 	[tableHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-	reloading =NO;
 }
 
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {	
 	
 	[tableHeaderView egoRefreshScrollViewDidScroll:scrollView];
     
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
 	
 	[tableHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
-	
 }
 
 
@@ -245,6 +255,29 @@
 }
 
 #pragma mark -
+#pragma mark UISplitViewControllerDelegate 
+
+- (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
+    
+    // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
+    barButtonItem.title = @"News";
+    self.popoverController = pc;
+    self.rootPopoverButtonItem = barButtonItem;
+    UIViewController <SubstitutableDetailViewController> *detailViewController = [self.splitViewController.viewControllers objectAtIndex:1];
+    [detailViewController showRootPopoverButtonItem:barButtonItem];
+}
+
+
+- (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
+    UIViewController <SubstitutableDetailViewController> *detailViewController = [self.splitViewController.viewControllers objectAtIndex:1];
+    [detailViewController invalidateRootPopoverButtonItem:barButtonItem];
+    self.popoverController = nil;
+    self.rootPopoverButtonItem = nil;
+}
+
+#pragma mark -
 
 - (NSString *) documentPath {
 	return @"http://pipes.yahoo.com/pipes/pipe.run?ContextBegin=%3Cdiv+class%3D%22article+cms_clear+restore+postcontainer%22%3E&ContextEnd=%3C%2Fdiv%3E&RssUrl=http%3A%2F%2Ffeeds.apfeltalk.de%2Fapfeltalk-magazin&_id=2b7dd66fad6786fb098d951bad72762c&_render=rss";
@@ -267,7 +300,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[self openDatabase];
 	
 	if(self.shakeToReload)
 		[self activateShakeToReload:self];
@@ -301,16 +333,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self openDatabase];
+    self.contentSizeForViewInPopover = CGSizeMake(320.0, self.tableView.rowHeight*5);
     if (tableHeaderView == nil) {
 		
 		tableHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
 		tableHeaderView.delegate = self;
-        tableHeaderView.backgroundColor = self.tableView.backgroundColor;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            tableHeaderView.backgroundColor = self.tableView.backgroundColor;
+        } else {
+            tableHeaderView.backgroundColor = [UIColor colorWithRed:224.0/255.0 green:227.0/255.0 blue:232.0/255.0 alpha:1.0];;
+
+        }
 		[self.tableView addSubview:tableHeaderView];
 		
 	}
 	
 	[tableHeaderView refreshLastUpdatedDate];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && [stories count] == 0) {
+        [self parseXMLFileAtURL:[self documentPath]];
+    }
 }
 
 - (void)viewDidUnload {
@@ -323,7 +365,7 @@
 {
 	[super viewDidAppear:animated];
     
-	if ([stories count] == 0) {
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone &&[stories count] == 0) {
 		[self parseXMLFileAtURL:[self documentPath]];
 		//[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
 	}
@@ -445,6 +487,8 @@
 
 - (void)dealloc
 {	
+    [popoverController release];
+    [rootPopoverButtonItem release];
 	[stories release];
 	[loadingCell release];
 	[xmlData release];
@@ -459,6 +503,9 @@
 {
     [self setStories:parsedStories];
     [(UITableView *)[self view] reloadData];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    }
     [self doneLoadingTableViewData];
 }
 
@@ -478,6 +525,9 @@
 #pragma mark Interfacerotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return YES;
+    }
     return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
