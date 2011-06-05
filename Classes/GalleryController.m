@@ -43,7 +43,7 @@
     [super parseXMLFileAtURL:URL];
 	
 	// This needs to be done in post-processing, as libxml2 interferes with NSXMLParser
-	NSMutableArray *thumbnailStories = [[NSMutableArray alloc] initWithCapacity:[stories count]];
+	/*NSMutableArray *thumbnailStories = [[NSMutableArray alloc] initWithCapacity:[stories count]];
 	for (Story *s in stories) {
 		NSString *thumbnailLink = extractTextFromHTMLForQuery([s summary], @"//img[attribute::alt]/attribute::src");
 		if ([thumbnailLink length] > 0) {
@@ -52,7 +52,7 @@
 		}
 	}	
 	[stories release];
-	stories = thumbnailStories;
+	stories = thumbnailStories;*/
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -117,30 +117,35 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Right now, let's leave it at that because the gallery has no read-indicators
-    // Navigation logic
-
-    // Custom code
     if ([stories count] == 0) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
 
-    // open in Safari
-    DetailGallery *dvController = [[DetailGallery alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] 
+    DetailGallery *detailController = [[DetailGallery alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] 
                                                                    story:[stories objectAtIndex: indexPath.row]];
-    [self.navigationController pushViewController:dvController animated:YES];
-    [dvController release];
-	 
-	 // end of custom code
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.navigationController pushViewController:detailController animated:YES];
+    } else {
+        self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, detailController, nil];
+        
+        if (popoverController != nil) {
+            [popoverController dismissPopoverAnimated:YES];
+        }
+        
+        if (rootPopoverButtonItem != nil) {
+            [detailController showRootPopoverButtonItem:self.rootPopoverButtonItem];
+        }
+    }
+	[detailController release];
 }
 
 - (NSString *) documentPath {
 	return @"http://www.apfeltalk.de/gallery/external.php?type=RSS2";
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {return YES;
+/*- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {return YES;
 	// Return YES for supported orientations
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
+}*/
 @end
