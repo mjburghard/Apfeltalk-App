@@ -27,7 +27,7 @@
 
 
 @implementation GCImageViewer
-@synthesize url, navBarColor, timer, myScrollView, imageView;
+@synthesize url, navBarColor, timer, myScrollView, imageView, topBar;
 
 - (id)initWithURL:(NSURL*)URL {
 	self = [super initWithNibName:@"GCImageViewer" bundle:nil];
@@ -58,9 +58,13 @@
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     self.navBarColor = navigationBar.tintColor;
     navigationBar.tintColor = nil;
+    self.topBar.tintColor =nil;
     navigationBar.barStyle = UIBarStyleBlack;
+    self.topBar.barStyle = UIBarStyleBlack;
     navigationBar.translucent = YES;
-    [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackOpaque animated:YES];
+    self.topBar.translucent= YES;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackOpaque animated:YES];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:3
                                                   target:self
                                                 selector:@selector(hideBars)
@@ -84,12 +88,17 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-	//url = [NSURL URLWithString:@"http://www.alliphonewallpapers.com/images/wallpapers/gk6aim4p7.jpg"];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIBarButtonItem *doneButton = [[UIBarButtonItem  alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissModalViewControllerAnimated:)];
+        [self.topBar setItems:[NSArray arrayWithObject:doneButton] animated:YES];
+        [doneButton release];
+    }
 	NSURLRequest* request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
 	NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 	[conn start];
     [conn release];
+    [self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
+    [self willAnimateRotationToInterfaceOrientation:self.interfaceOrientation duration:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response {
@@ -126,29 +135,43 @@
 	
 	[bar removeFromSuperview];
 	[bar release];
-	
-	self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:responseData]];
-	[imageView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-	[imageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[imageView setContentMode:UIViewContentModeScaleAspectFit];
-	[imageView setTag:2];
-	
-	self.myScrollView = [[UIScrollView alloc] initWithFrame:imageView.frame];
-	myScrollView.contentSize = CGSizeMake(imageView.frame.size.width, imageView.frame.size.height);
-	myScrollView.maximumZoomScale = 4.0;
-	myScrollView.minimumZoomScale = 1.0;
-	myScrollView.clipsToBounds = YES;
-	myScrollView.tag = 999;
-	myScrollView.delegate = self;
-	[myScrollView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-	[myScrollView addSubview:imageView];
-	
-	[myScrollView addSubview:imageView];
-	[self.view addSubview:myScrollView];
-	
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.imageView.image = [UIImage imageWithData:responseData];
+        [imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [imageView setTag:2];
+
+        myScrollView.contentSize = CGSizeMake(imageView.frame.size.width, imageView.frame.size.height);
+        self.imageView.hidden = NO;
+        self.myScrollView.hidden = NO;
+        myScrollView.maximumZoomScale = 4.0;
+        myScrollView.minimumZoomScale = 1.0;
+        myScrollView.clipsToBounds = YES;
+        myScrollView.tag = 999;
+        myScrollView.delegate = self;
+    } else {
+        self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:responseData]];
+        [imageView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        [imageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+        [imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [imageView setTag:2];
+        
+        self.myScrollView = [[UIScrollView alloc] initWithFrame:imageView.frame];
+        myScrollView.contentSize = CGSizeMake(imageView.frame.size.width, imageView.frame.size.height);
+        myScrollView.maximumZoomScale = 4.0;
+        myScrollView.minimumZoomScale = 1.0;
+        myScrollView.clipsToBounds = YES;
+        myScrollView.tag = 999;
+        myScrollView.delegate = self;
+        [myScrollView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+        [myScrollView addSubview:imageView];
+        [self.view addSubview:myScrollView];
+    }
 	UITapGestureRecognizer* tapRegonizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideBars)];
 	[myScrollView addGestureRecognizer:tapRegonizer];
-	[tapRegonizer release];	
+	[tapRegonizer release];
+    [self.view addSubview:self.topBar];
+    NSLog(@"self.view: %@\nmyScrollView: %@\nimageView: %@", self.view, self.myScrollView, self.imageView);
 }
 
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollview {
@@ -162,9 +185,11 @@
 	[UIView setAnimationDuration:0.4];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	
-	if ([[self navigationController] isNavigationBarHidden]) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
+	if ([[self navigationController] isNavigationBarHidden] || [self.topBar isHidden]) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
         [[self navigationController] setNavigationBarHidden:NO animated:YES];
+        [self.topBar setHidden:NO];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:3
                                                       target:self
                                                     selector:@selector(hideBars)
@@ -172,7 +197,9 @@
                                                      repeats:NO];
 	} else {
         [[self navigationController] setNavigationBarHidden:YES animated:YES];
-        [[UIApplication sharedApplication] setStatusBarHidden:YES animated:YES];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+        [self.topBar setHidden:YES];
 	}
     
     
@@ -182,18 +209,16 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations.
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return YES;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    if (toInterfaceOrientation == UIInterfaceOrientationPortrait) {
-        myScrollView.contentSize = CGSizeMake(320, 480);
+    if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+        myScrollView.contentSize = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) ? CGSizeMake(320, 480) : CGSizeMake(768, 1004);
     } else {
-        
-        myScrollView.contentSize = CGSizeMake(480, 320);
+        myScrollView.contentSize = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) ? CGSizeMake(480, 320) : CGSizeMake(1024, 748);
     }
 }
-
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -210,6 +235,7 @@
 
 
 - (void)dealloc {
+    self.topBar = nil;
     [self setTimer:nil];
     [navBarColor release];
 	[myScrollView release];
