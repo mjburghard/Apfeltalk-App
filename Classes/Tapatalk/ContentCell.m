@@ -70,6 +70,7 @@
         self.textView.dataDetectorTypes = UIDataDetectorTypeLink;
         self.textView.delegate = self;
         self.textView.backgroundColor = self.contentView.backgroundColor;
+        self.textView.textColor = [UIColor blackColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     
         [self.contentView addSubview:self.textView];
