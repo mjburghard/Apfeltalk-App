@@ -51,6 +51,11 @@
     return marginWidth;
 }
 
+#define UIColorFromRGB(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier tableViewWidth:(CGFloat)tableViewWidth {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -69,7 +74,7 @@
         self.textView.bounces = NO;
         self.textView.dataDetectorTypes = UIDataDetectorTypeLink;
         self.textView.delegate = self;
-        self.textView.textColor = [UIColor darkGrayColor];
+        self.textView.textColor = UIColorFromRGB(0x000000);
         self.textView.backgroundColor = self.contentView.backgroundColor;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     
