@@ -32,14 +32,14 @@
 	<array/>
 	<key>CFBundleVersion</key>
 	<string>2.0.2</string>
-	<key>Icon already includes Gloss effect</key>
-	<string>YES</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>NSMainNibFile~ipad</key>
 	<string>MainWindow@iPad</string>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array/>
 	<key>UISupportedInterfaceOrientations~ipad</key>
@@ -53,7 +53,5 @@
 	<array/>
 	<key>UTImportedTypeDeclarations</key>
 	<array/>
-	<key>UIPrerenderedIcon</key>
-	<true/>
 </dict>
 </plist>

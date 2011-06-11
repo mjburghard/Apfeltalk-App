@@ -55,6 +55,7 @@
 		5AB3DCA11353546800E0D3CA /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3DC991353546800E0D3CA /* grayArrow@2x.png */; };
 		5AB3DCA21353546800E0D3CA /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3DC9A1353546800E0D3CA /* whiteArrow.png */; };
 		5AB3DCA31353546800E0D3CA /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3DC9B1353546800E0D3CA /* whiteArrow@2x.png */; };
+		5AB493D7139BFBF3004CD686 /* icon@iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */; };
 		5AB8F9E5134F95BD00CAD9C8 /* ATTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB8F9E4134F95BD00CAD9C8 /* ATTabBarController.m */; };
 		5AD2AAEC135316F1008D4EAB /* rss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AD2AAEB135316F1008D4EAB /* rss@2x.png */; };
 		5AD2AAEF13531702008D4EAB /* ticker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AD2AAEE13531702008D4EAB /* ticker@2x.png */; };
@@ -253,7 +254,7 @@
 		5AB3DC991353546800E0D3CA /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
 		5AB3DC9A1353546800E0D3CA /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
 		5AB3DC9B1353546800E0D3CA /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
-		5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@iPad.png"; path = "/Users/manuelburghard/Projects/AT-App/Apfeltalk-App/icon@iPad.png"; sourceTree = "<absolute>"; };
+		5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@iPad.png"; sourceTree = "<group>"; };
 		5AB8F9E3134F95BD00CAD9C8 /* ATTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATTabBarController.h; sourceTree = "<group>"; };
 		5AB8F9E4134F95BD00CAD9C8 /* ATTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATTabBarController.m; sourceTree = "<group>"; };
 		5AD2AAEB135316F1008D4EAB /* rss@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rss@2x.png"; sourceTree = "<group>"; };
@@ -563,6 +564,7 @@
 		29B97314FDCFA39411CA2CEA /* Apfeltalk Magazin */ = {
 			isa = PBXGroup;
 			children = (
+				5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -638,7 +640,6 @@
 		5A393EEA139261CC0095751E /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */,
 				5E1379A013928FD40065941B /* DetailTop~ipad.png */,
 				5E13799E13928F840065941B /* icon@iPad.png */,
 				5A393EF9139264790095751E /* Default-PortraitUpsideDown.png */,
@@ -1287,6 +1288,7 @@
 				5E14F849139A38E100E64323 /* DetailView~ipad.xib in Resources */,
 				5E34A869139AECEF009604AC /* ATWebViewController~ipad.xib in Resources */,
 				5E34A86C139AFAE4009604AC /* GCImageViewer~ipad.xib in Resources */,
+				5AB493D7139BFBF3004CD686 /* icon@iPad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1458,7 +1460,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Stephan Koenig";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Apfeltalk_Magazin_Prefix.pch;
@@ -1475,7 +1477,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "Apfeltalk Magazin";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F140BCC7-89AD-47A2-96D1-CE27F3E7DFAF";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
