@@ -52,6 +52,27 @@ const CGFloat kDefaultRowHeight = 44.0;
 #pragma mark -
 #pragma mark Private and Public Methods
 
+- (CGFloat)groupedCellMarginWithTableWidth:(CGFloat)tableViewWidth
+{
+    CGFloat marginWidth;
+    if(tableViewWidth > 20)
+    {
+        if(tableViewWidth < 400)
+        {
+            marginWidth = 10;
+        }
+        else
+        {
+            marginWidth = MAX(31, MIN(45, tableViewWidth*0.06));
+        }
+    }
+    else
+    {
+        marginWidth = tableViewWidth - 10;
+    }
+    return marginWidth;
+}
+
 - (void)loginWasSuccessful {
     self.topic.userCanPost = YES;
     NSArray *indexes = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:[self.posts count]]];
@@ -312,11 +333,15 @@ const CGFloat kDefaultRowHeight = 44.0;
     } else if (indexPath.row == 1) {
         if (indexPath.section == [self.posts count]) return kDefaultRowHeight;
         
-        ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell" tableViewWidth:CGRectGetWidth(self.tableView.frame)];
+        /*ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell" tableViewWidth:CGRectGetWidth(self.tableView.frame)];
         contentCell.textView.text = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
-        CGFloat height = contentCell.textView.contentSize.height+7;
-        [contentCell release];
-        return height;
+        CGFloat height = contentCell.textView.contentSize.height+7;*/
+        CGFloat cellMargin = [self groupedCellMarginWithTableWidth:CGRectGetWidth(self.tableView.frame)];
+        CGFloat cellWidth =  CGRectGetWidth(self.tableView.frame) - 2 * cellMargin;
+        CGSize expectedSize = [[(Post *)[self.posts objectAtIndex:indexPath.section] content] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12.0] constrainedToSize:CGSizeMake(cellWidth, CGFLOAT_MAX)];
+        CGFloat expectedHeight = expectedSize.height + 15.0;
+        //[contentCell release];
+        return expectedHeight;
     }
     
     return kDefaultRowHeight;
@@ -423,7 +448,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         
 		ContentCell *contentCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:ContentCellIdentifier];
 		if (contentCell == nil) {
-			contentCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier  tableViewWidth:CGRectGetHeight(self.tableView.frame)] autorelease];
+			contentCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease];
 		}
         contentCell.textView.text = p.content;
         contentCell.textView.scrollEnabled = NO;
