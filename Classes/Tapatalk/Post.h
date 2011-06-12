@@ -16,6 +16,7 @@
     NSString *author;
     NSDate *postDate;
     int authorID;
+    BOOL userIsOnline;
 }
 
 @property (assign) int postID;
@@ -24,6 +25,7 @@
 @property (copy) NSString *content;
 @property (copy) NSString *author;
 @property (retain) NSDate *postDate;
+@property (assign) BOOL userIsOnline;
 
 
 @end
