@@ -27,6 +27,7 @@
 #import "DetailViewController.h"
 #import "DetailNews.h"
 #import "DetailGallery.h"
+#import "DetailLiveticker.h"
 #import "User.h"
 
 
@@ -97,7 +98,20 @@
         splitviewController.viewControllers = [NSArray arrayWithObjects:galleryController, detailGallery,nil];
         [viewControllers replaceObjectAtIndex:1 withObject:splitviewController];
         [splitviewController release];
-        [DetailGallery release];
+        [detailGallery release];
+        
+        splitviewController = [[UISplitViewController alloc] init];
+        if (!livetickerController) {
+            livetickerController = [viewControllers objectAtIndex:3];
+        }
+        splitviewController.delegate = [livetickerController.viewControllers objectAtIndex:0];
+        splitviewController.tabBarItem = livetickerController.tabBarItem;
+        DetailLiveticker *detailLiveticker = [[DetailLiveticker alloc] initWithNibName:@"DetailView" bundle:nil story:nil];
+        
+        splitviewController.viewControllers = [NSArray arrayWithObjects:livetickerController, detailLiveticker,nil];
+        [viewControllers replaceObjectAtIndex:3 withObject:splitviewController];
+        [splitviewController release];
+        [detailLiveticker release];
         
         tabBarController.viewControllers = viewControllers;
     }

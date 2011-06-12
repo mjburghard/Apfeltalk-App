@@ -23,12 +23,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LivetickerNavigationController.h"
 
 @interface Apfeltalk_MagazinAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UIWindow *window;
     UITabBarController *tabBarController;
     IBOutlet UINavigationController *newsController;
     IBOutlet UINavigationController *galleryController;
+    IBOutlet LivetickerNavigationController *livetickerController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

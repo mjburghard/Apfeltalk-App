@@ -25,6 +25,7 @@
 #import <UIKit/UIKit.h>
 #import "ATXMLParser.h"
 
+@class DetailLiveticker;
 
 @interface LivetickerController : UITableViewController <ATXMLParserDelegateProtocol>
 {
@@ -32,11 +33,16 @@
     NSDateFormatter *shortTimeFormatter;
     NSUInteger       displayedStoryIndex;
     IBOutlet UITableViewCell *loadingCell;
+    UIPopoverController *popoverController;    
+    UIBarButtonItem *rootPopoverButtonItem;
+    BOOL didFirstLoad;
 }
 
 @property(retain) NSArray *stories;
 @property(retain) NSDateFormatter *shortTimeFormatter;
 @property(assign) NSUInteger displayedStoryIndex;
+@property (nonatomic, retain) UIPopoverController *popoverController;
+@property (nonatomic, retain) UIBarButtonItem *rootPopoverButtonItem;
 
 - (void)reloadTickerEntries:(NSTimer *)timer;
 - (void)changeStory:(id)sender;

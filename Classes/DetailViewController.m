@@ -122,7 +122,7 @@
         UIInterfaceOrientation orientation = self.interfaceOrientation;
         if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
             bottomURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailBottom-Landscape" ofType:@"png"]];
-            width = 704;
+            width = 703;
         }
     } 
     NSString *testString = [NSString stringWithFormat:@"<div style=\"position:absolute; top:0px; left:0px; width:%ipx\"><div style=\"%@\">"
@@ -270,7 +270,6 @@
         [flexibleSpace release];
     }
     [speichernButton release];
-    
     
     // :below:20091111 Apple wants this removed
     //	[(UIScrollView*)[webview.subviews objectAtIndex:0]	 setAllowsRubberBanding:NO];
