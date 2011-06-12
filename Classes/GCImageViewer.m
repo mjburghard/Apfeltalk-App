@@ -171,7 +171,6 @@
 	[myScrollView addGestureRecognizer:tapRegonizer];
 	[tapRegonizer release];
     [self.view addSubview:self.topBar];
-    NSLog(@"self.view: %@\nmyScrollView: %@\nimageView: %@", self.view, self.myScrollView, self.imageView);
 }
 
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollview {
