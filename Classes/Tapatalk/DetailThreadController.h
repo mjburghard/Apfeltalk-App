@@ -21,9 +21,9 @@
     UIView *activeView;
     ContentCell *answerCell;
     NSInteger site;
-    BOOL isAnswering;
+    BOOL isAnswering, didRotate;
     
-    BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts, isCanReply;
+    BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts, isCanReply, isOnline;
 }
 
 @property (retain) Topic *topic;
@@ -31,6 +31,7 @@
 @property (retain) Post *currentPost;
 @property (assign) NSInteger site;
 @property (assign) NSInteger numberOfPosts;
+@property (assign) BOOL didRotate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic;
 - (void)loadLastSite;

@@ -16,7 +16,7 @@
 #import "Apfeltalk_MagazinAppDelegate.h"
 
 @implementation DetailThreadController
-@synthesize topic, posts, currentPost, site, numberOfPosts;
+@synthesize topic, posts, currentPost, site, numberOfPosts, didRotate;
 
 const CGFloat kDefaultRowHeight = 44.0;
 
@@ -28,12 +28,14 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.posts = [NSMutableArray array];
         self.site = 0;
         self.numberOfPosts = self.topic.numberOfPosts;
+        self.didRotate = NO;
         isAnswering = NO;
     }
     return self;
 }
 
 - (void)dealloc {
+    self.didRotate = NO;
     self.site = 0;
     self.numberOfPosts = 0;
     self.currentPost = nil;
@@ -285,6 +287,12 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 #pragma mark - View lifecycle
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    self.didRotate = YES;
+    [self.tableView reloadData];
+    [self performSelector:@selector(setDidRotate:) withObject:NO afterDelay:0.0];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = topic.title;
@@ -332,16 +340,17 @@ const CGFloat kDefaultRowHeight = 44.0;
         return 30.0;
     } else if (indexPath.row == 1) {
         if (indexPath.section == [self.posts count]) return kDefaultRowHeight;
-        
-        /*ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell" tableViewWidth:CGRectGetWidth(self.tableView.frame)];
-        contentCell.textView.text = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
-        CGFloat height = contentCell.textView.contentSize.height+7;*/
-        CGFloat cellMargin = [self groupedCellMarginWithTableWidth:CGRectGetWidth(self.tableView.frame)];
+        NSString *content = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
+        ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell" tableViewWidth:CGRectGetWidth(self.tableView.frame)];
+        contentCell.textView.text = content;
+        CGFloat height = contentCell.textView.contentSize.height;
+        /*CGFloat cellMargin = [self groupedCellMarginWithTableWidth:CGRectGetWidth(self.tableView.frame)];
         CGFloat cellWidth =  CGRectGetWidth(self.tableView.frame) - 2 * cellMargin;
-        CGSize expectedSize = [[(Post *)[self.posts objectAtIndex:indexPath.section] content] sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12.0] constrainedToSize:CGSizeMake(cellWidth, CGFLOAT_MAX)];
-        CGFloat expectedHeight = expectedSize.height + 15.0;
-        //[contentCell release];
-        return expectedHeight;
+        CGSize expectedSize = [content sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12.0] constrainedToSize:CGSizeMake(cellWidth, CGFLOAT_MAX)];
+        CGFloat expectedHeight = (expectedSize.height + 16.0);
+        NSLog(@"Height1: %f, height2: %f", height, expectedHeight);*/
+        [contentCell release];
+        return height;
     }
     
     return kDefaultRowHeight;
@@ -408,8 +417,8 @@ const CGFloat kDefaultRowHeight = 44.0;
         
         if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
             answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:AnswerCellIdentifier];
-            if (answerCell == nil) {
-                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetHeight(self.tableView.frame)] autorelease]; 
+            if (answerCell == nil || didRotate) {
+                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease]; 
             }
             answerCell.textView.scrollEnabled = YES;
             answerCell.textView.editable = YES;
@@ -429,6 +438,11 @@ const CGFloat kDefaultRowHeight = 44.0;
         authorCell.detailTextLabel.text = [outFormatter stringFromDate:p.postDate];
         authorCell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
         authorCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (p.userIsOnline) {
+            authorCell.imageView.image = [UIImage imageNamed:@"online.png"];
+        } else {
+            authorCell.imageView.image = [UIImage imageNamed:@"offline.png"];
+        }
         [outFormatter release];
 		return authorCell;
 	}
@@ -447,7 +461,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         }
         
 		ContentCell *contentCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:ContentCellIdentifier];
-		if (contentCell == nil) {
+		if (contentCell == nil || didRotate) {
 			contentCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease];
 		}
         contentCell.textView.text = p.content;
@@ -549,7 +563,9 @@ const CGFloat kDefaultRowHeight = 44.0;
             isPostAuthorID = YES;
         } else if ([self.currentString isEqualToString:@"post_author_name"]) {
             isPostAuthor = YES;
-        } 
+        } else if ([self.currentString isEqualToString:@"is_online"]) {
+            isOnline = YES;
+        }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/base64"]) {
         // First decode base64 data
         
@@ -577,7 +593,10 @@ const CGFloat kDefaultRowHeight = 44.0;
         }
         
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
-        
+        if (isOnline) {
+            isOnline = NO;
+            self.currentPost.userIsOnline = [self.currentString boolValue];
+        }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/dateTime.iso8601"]) {
         self.currentString = (NSMutableString *)[self.currentString stringByReplacingOccurrencesOfString:@":" withString:@"" options:0 range:NSMakeRange(20, 1)];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
