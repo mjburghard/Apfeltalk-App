@@ -92,13 +92,32 @@
     // Do any additional setup after loading the view from its nib.
     self.topicField = [[UITextField alloc] initWithFrame:CGRectMake(10.0, 0, self.view.frame.size.width-20.0, 31)];
     self.topicField.placeholder = NSLocalizedStringFromTable(@"Title", @"ATLocalizable", @"");
+    self.topicField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.textView resignFirstResponder];
     [self.topicField becomeFirstResponder];
     
     [self.view addSubview:self.topicField];
     
-    self.textView.frame = CGRectMake(0.0, 32.0, self.view.frame.size.width, self.view.frame.size.height-302.0);
+    CGFloat keyboardHeight;
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        NSLog(@"Landscape");
+        keyboardHeight = 194.0;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            keyboardHeight = 384.0;
+        } 
+    } else {
+        keyboardHeight = 248.0;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            keyboardHeight = 296.0;
+        }
+    }
+    CGFloat height = self.view.frame.size.height - keyboardHeight;
+    
+    self.textView.frame = CGRectMake(0.0, 32.0, self.view.frame.size.width, height);
     UIView *seperator = [[UIView alloc] initWithFrame:CGRectMake(0.0, 31.0, self.view.frame.size.width, 1.0)];
+    seperator.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     seperator.backgroundColor = [UIColor grayColor];
     [self.view addSubview:seperator];
     [seperator release];
@@ -113,10 +132,24 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    CGRect frame = self.textView.frame;
+    CGFloat keyboardHeight;
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        NSLog(@"Landscape");
+        keyboardHeight = 194.0;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            keyboardHeight = 384.0;
+        } 
+    } else {
+        keyboardHeight = 248.0;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            keyboardHeight = 296.0;
+        }
+    }
+    frame.size.height = self.view.frame.size.height-keyboardHeight;
+    self.textView.frame = frame;
 }
 
 @end

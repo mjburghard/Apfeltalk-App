@@ -20,7 +20,6 @@
     if (self) {
         self.hidesBottomBarWhenPushed = YES;
         self.topic = aTopic;
-        self.textView = [[UITextView alloc] init];
     }
     return self;
 }
@@ -148,11 +147,29 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"") style:UIBarButtonItemStyleDone target:self action:@selector(reply)];
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+    self.textView = [[UITextView alloc] init];
     
-    self.textView.frame = CGRectMake(0.0, 10.0, self.view.frame.size.width, self.view.frame.size.height-270.0);
+    CGFloat keyboardHeight;
+    
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        NSLog(@"Landscape");
+        keyboardHeight = 162.0;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            keyboardHeight = 352.0;
+        } 
+    } else {
+        keyboardHeight = 216.0;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            keyboardHeight = 264.0;
+        }
+    }
+    CGFloat height = self.view.frame.size.height - keyboardHeight;
+    
+    self.textView.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, height);
     self.textView.font = [UIFont fontWithName:@"Helvetica" size:15.0];
-    
-    [self.view addSubview: self.textView];
+    self.textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:self.textView];
     [self.textView becomeFirstResponder];
 }
 
@@ -165,8 +182,30 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return YES;
+    }
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    CGRect frame = self.textView.frame;
+    CGFloat keyboardHeight;
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        NSLog(@"Landscape");
+        keyboardHeight = 162.0;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+             keyboardHeight = 352.0;
+        } 
+    } else {
+        keyboardHeight = 216.0;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            keyboardHeight = 264.0;
+        }
+    }
+    frame.size.height = self.view.frame.size.height-keyboardHeight;
+    self.textView.frame = frame;
 }
 
 #pragma mark -
