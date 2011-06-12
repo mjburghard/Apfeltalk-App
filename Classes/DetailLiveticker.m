@@ -30,6 +30,7 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     NSArray            *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"Up.png"], [UIImage imageNamed:@"Down.png"], nil];
 	UISegmentedControl *segControl = [[UISegmentedControl alloc] initWithItems:imgArray];
 
@@ -98,7 +99,11 @@
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm"];
-	datum.text = [NSString stringWithFormat:@"von %@ - %@", [[self story] author], [dateFormatter stringFromDate:[[self story] date]]];
+    if ([[self story] author] && [[self story] date]) {
+        datum.text = [NSString stringWithFormat:@"von %@ - %@", [[self story] author], [dateFormatter stringFromDate:[[self story] date]]];
+    } else {
+        datum.text = @"";
+    }
     [dateFormatter release];
 
     [webview loadHTMLString:[self htmlString] baseURL:nil];

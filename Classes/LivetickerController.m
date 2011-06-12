@@ -37,10 +37,13 @@
 @synthesize stories;
 @synthesize shortTimeFormatter;
 @synthesize displayedStoryIndex;
+@synthesize rootPopoverButtonItem, popoverController;
 
 
 - (void)dealloc
 {
+    [popoverController release];
+    [rootPopoverButtonItem release];
     [stories release];
     [shortTimeFormatter release];
 
@@ -60,6 +63,9 @@
     [self setStories:[NSArray array]];
 }
 
+- (void)selectFirstRow {
+    [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+}
 
 - (NSDictionary *) desiredKeys {
 	// :below:20091018 Somewhat ugly...
@@ -75,7 +81,10 @@
     ATXMLParser *parser = [ATXMLParser parserWithURLString:@"http://www.apfeltalk.de/live/?feed=rss2"];
 	[parser setDesiredElementKeys:[self desiredKeys]];
 	
-    [NSThread detachNewThreadSelector:@selector(parseInBackgroundWithDelegate:) toTarget:parser withObject:self];
+    //[NSThread detachNewThreadSelector:@selector(parseInBackgroundWithDelegate:) toTarget:parser withObject:self];
+    NSThread *thread = [[NSThread alloc] initWithTarget:parser selector:@selector(parseInBackgroundWithDelegate:) object:self];
+    [thread start];
+    [thread release];
 }
 
 
@@ -185,6 +194,28 @@
         return NSLocalizedStringFromTable(@"LivetickerController.noTicker", @"ATLocalizable", @"");
 }*/
 
+#pragma mark -
+#pragma mark UISplitViewControllerDelegate 
+
+- (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
+    
+    // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
+    barButtonItem.title = @"News";
+    self.popoverController = pc;
+    self.rootPopoverButtonItem = barButtonItem;
+    UIViewController <SubstitutableDetailViewController> *detailViewController = [self.splitViewController.viewControllers objectAtIndex:1];
+    [detailViewController showRootPopoverButtonItem:barButtonItem];
+}
+
+
+- (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
+    UIViewController <SubstitutableDetailViewController> *detailViewController = [self.splitViewController.viewControllers objectAtIndex:1];
+    [detailViewController invalidateRootPopoverButtonItem:barButtonItem];
+    self.popoverController = nil;
+    self.rootPopoverButtonItem = nil;
+}
 
 #pragma mark -
 #pragma mark UITableViewDelegate
@@ -199,8 +230,19 @@
 
     Story            *story = [stories objectAtIndex:[indexPath row]];
     DetailLiveticker *detailController = [[DetailLiveticker alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] story:story];
-
-    [[self navigationController] pushViewController:detailController animated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [[self navigationController] pushViewController:detailController animated:YES];
+    } else {
+        self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, detailController, nil];
+        
+        if (popoverController != nil) {
+            [popoverController dismissPopoverAnimated:YES];
+        }
+        
+        if (rootPopoverButtonItem != nil) {
+            [detailController showRootPopoverButtonItem:self.rootPopoverButtonItem];
+        }
+    }
     [detailController release];
 }
 
@@ -210,8 +252,13 @@
 
 - (void)parser:(ATXMLParser *)parser didFinishedSuccessfull:(BOOL)success
 {
-    if (success)
+    if (success) {
+        if (!didFirstLoad) {
+            didFirstLoad = YES;
+            [self performSelectorOnMainThread:@selector(selectFirstRow) withObject:nil waitUntilDone:NO];
+        }
         [(UITableView *)[self view] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    }
     else
         [(LivetickerNavigationController *)[self navigationController] setReloadTimer:nil];
 }
@@ -229,11 +276,8 @@
             [self performSelectorOnMainThread:@selector(changeStory:) withObject:[[[[self navigationController] viewControllers] lastObject] storyControl]
                                 waitUntilDone:NO];
     }
-
     [self setStories:parsedStories];
 }
-
-
 
 - (void)parser:(ATXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {

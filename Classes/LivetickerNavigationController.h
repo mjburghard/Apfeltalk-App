@@ -28,6 +28,7 @@
 @interface LivetickerNavigationController : UINavigationController
 {
     NSTimer *reloadTimer;
+    BOOL didAlreadyAppear;
 }
 
 @property(nonatomic, retain) NSTimer *reloadTimer;
