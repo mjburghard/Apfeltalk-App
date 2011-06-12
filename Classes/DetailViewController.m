@@ -105,7 +105,12 @@
 
 - (NSString *) cssStyleString {
     NSURL *middleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailMiddle" ofType:@"png"]];
-    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        UIInterfaceOrientation orientation = self.interfaceOrientation;
+        if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
+            middleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailMiddle-Landscape" ofType:@"png"]];
+        }
+    }
 	return [NSString stringWithFormat:@"background:url(%@) repeat-y; font:10pt Helvetica; padding-top:95px; padding-left:20px; padding-right:20px", [middleURL absoluteString]];
 }
 
@@ -116,6 +121,7 @@
         width = 768;
         UIInterfaceOrientation orientation = self.interfaceOrientation;
         if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
+            bottomURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailBottom-Landscape" ofType:@"png"]];
             width = 704;
         }
     } 
@@ -203,11 +209,6 @@
 	return NSLocalizedStringFromTable(@"Options", @"ATLocalizable", @"");
 }
 
-
-- (UIImage *) usedimage {
-	return [UIImage imageNamed:@"header.png"];
-}
-
 - (UIImage *) thumbimage {
 	NSString *thumbnailLink = [[self story] thumbnailLink];
 	UIImage * thumbnailImage = nil;
@@ -232,7 +233,6 @@
 	}
 	[dateFormatter release];
     
-	//[thumbnailButton setBackgroundImage:[self thumbimage] forState:UIControlStateNormal];
     [thumbnailButton loadImageFromURL:[NSURL URLWithString:[[self story] thumbnailLink]]];
 	[webview loadHTMLString:[self htmlString] baseURL:nil];
 }
@@ -246,14 +246,29 @@
     
 	//Set the title of the navigation bar
 	//-150x150
+    
+    UIImage *detailTop = [UIImage imageNamed:@"DetailTop.png"];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)) {
+        detailTop = [UIImage imageNamed:@"DetailTop-Landscape.png"];
+    }
+    detailimage.image = detailTop;
+    
 	NSString * buttonTitle = [self rightBarButtonTitle];
-	detailimage.image = [self usedimage];
     
     UIBarButtonItem *speichernButton = [[UIBarButtonItem alloc] initWithTitle:buttonTitle
                                                                         style:UIBarButtonItemStyleBordered
                                                                        target:self
                                                                        action:@selector(speichern:)];
-    self.navigationItem.rightBarButtonItem = speichernButton;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        self.navigationItem.rightBarButtonItem = speichernButton;
+    } else {
+        NSMutableArray *items = [toolbar.items mutableCopy];
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [items addObject:flexibleSpace];
+        [items addObject:speichernButton];
+        [toolbar setItems:items animated:NO];
+        [flexibleSpace release];
+    }
     [speichernButton release];
     
     
@@ -261,6 +276,15 @@
     //	[(UIScrollView*)[webview.subviews objectAtIndex:0]	 setAllowsRubberBanding:NO];
     // :MacApple:20100105 I'm wondering why this doesn't caused a crash
     //	[webview release];
+}
+
+- (IBAction)speichern:(id)sender {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIPopoverController *popoverController = [[[[self.splitViewController.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0] popoverController]; 
+        if ([popoverController isPopoverVisible]) {
+            [popoverController dismissPopoverAnimated:YES];
+        }
+    }
 }
 
 #pragma mark -
@@ -293,6 +317,14 @@
     }
     return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [webview loadHTMLString:[self htmlString] baseURL:nil];
+    UIImage *detailTop = [UIImage imageNamed:@"DetailTop.png"];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)) {
+        detailTop = [UIImage imageNamed:@"DetailTop-Landscape.png"];
+    }
+    detailimage.image = detailTop;}
 
 - (void)dealloc {
     self.toolbar = nil;

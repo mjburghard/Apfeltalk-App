@@ -50,10 +50,10 @@
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle story:(Story *)newStory;
 - (NSString *)rightBarButtonTitle;
-- (UIImage *)usedimage;
 - (NSString *)cssStyleString;
 - (NSString *)baseHtmlString;
 - (NSString*)scaledHtmlStringFromHtmlString:(NSString*)htmlString;
 - (void)updateInterface;
+- (IBAction)speichern:(id)sender;
 
 @end
