@@ -50,8 +50,14 @@
 }
 
 - (NSString *) Mailsendecode {
-	NSArray *controllers = [[self navigationController] viewControllers];
-    NewsController *newsController = (NewsController *)[controllers objectAtIndex:[controllers count] - 2];
+    UINavigationController *navController;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        navController = [self navigationController];
+    } else {
+        navController = [self.splitViewController.viewControllers objectAtIndex:0];
+    }
+	NSArray *controllers = [navController viewControllers];
+    NewsController *newsController = (NewsController *)[controllers objectAtIndex:0];
 	
     if ([self showSave] && [newsController isSavedStory:[self story]])
         [self setShowSave:NO];
@@ -98,18 +104,24 @@
     
 	// assume that when we have 3 buttons, the one with idx 1 is the save button
     // :below:20091220 This assumption is not correct, We should find a smarter way
+    UINavigationController *navController;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        navController = [self navigationController];
+    } else {
+        navController = [self.splitViewController.viewControllers objectAtIndex:0];
+    }
+    
 	if (saveEnabled && buttonIdx == 1) {
         // Save
-		UINavigationController *navController = [self navigationController];
+		
 		 NSArray *controllers = [navController viewControllers];
 		 
-		 NewsController *newsController = (NewsController*) [controllers objectAtIndex:[controllers count] -2];
+		 NewsController *newsController = (NewsController*) [controllers objectAtIndex:0];
 		 [newsController addSavedStory:[self story]];
 	}
     
-	UINavigationController *navController = [self navigationController];
     NSArray *controllers = [navController viewControllers];
-    NewsController *newsController = (NewsController*) [controllers objectAtIndex:[controllers count] -2];
+    NewsController *newsController = (NewsController*) [controllers objectAtIndex:0];
     
     if ([self showSave] && [newsController isSavedStory:[self story]])
         [self setShowSave:NO];
