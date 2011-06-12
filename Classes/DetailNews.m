@@ -70,6 +70,7 @@
 
 -(IBAction)speichern:(id)sender
 {
+    [super speichern:sender];
 	Apfeltalk_MagazinAppDelegate *appDelegate = (Apfeltalk_MagazinAppDelegate *)[[UIApplication sharedApplication] delegate];
 	// :below:20090920 This is only to placate the analyzer
         
