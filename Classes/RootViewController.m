@@ -501,11 +501,15 @@
 
 - (void)parser:(ATXMLParser *)parser setParsedStories:(NSArray *)parsedStories
 {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad  && [self.stories count] == 0) {
+        [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [self setStories:parsedStories];
+        [(UITableView *)[self view] reloadData];
+        [self doneLoadingTableViewData];
+        return;
+    }
     [self setStories:parsedStories];
     [(UITableView *)[self view] reloadData];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    }
     [self doneLoadingTableViewData];
 }
 
