@@ -45,6 +45,10 @@
  }
  */
 
+- (void)cancel {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 - (void)setTimer:(NSTimer *)newTimer {
     if (timer != newTimer) {
         [timer invalidate];
@@ -89,7 +93,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        UIBarButtonItem *doneButton = [[UIBarButtonItem  alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissModalViewControllerAnimated:)];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem  alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(cancel)];
         [self.topBar setItems:[NSArray arrayWithObject:doneButton] animated:YES];
         [doneButton release];
     }
