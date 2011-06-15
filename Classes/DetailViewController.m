@@ -237,6 +237,16 @@
 	[webview loadHTMLString:[self htmlString] baseURL:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        UIBarButtonItem *i = [toolbar.items objectAtIndex:0];
+        if (i.tag == 99) {
+            [self invalidateRootPopoverButtonItem:i];
+        }
+    }
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	webview.delegate = self;
@@ -292,6 +302,7 @@
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
     // Add the popover button to the toolbar.
+    barButtonItem.tag = 99;
     NSMutableArray *itemsArray = [toolbar.items mutableCopy];
     [itemsArray insertObject:barButtonItem atIndex:0];
     [toolbar setItems:itemsArray animated:NO];
