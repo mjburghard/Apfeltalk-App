@@ -149,7 +149,19 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	
 	[detailController setShowSave:NO];
 	
-	[self.navigationController pushViewController:detailController animated:YES];
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.navigationController pushViewController:detailController animated:YES];
+    } else {
+        self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, detailController, nil];
+        
+        if (popoverController != nil) {
+            [popoverController dismissPopoverAnimated:YES];
+        }
+        
+        if (rootPopoverButtonItem != nil) {
+            [detailController showRootPopoverButtonItem:self.rootPopoverButtonItem];
+        }
+    }
 	[detailController release];
 }
 

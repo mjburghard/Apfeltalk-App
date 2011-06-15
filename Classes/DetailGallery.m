@@ -162,7 +162,7 @@ void endElement (void *userData, const xmlChar *name) {
 	[cleanedString release];
 	[elementString release];
 	cleanedString = [NSMutableString new];
-	elementString = [NSMutableString new];
+	//elementString = [NSMutableString new];
 	xmlSAXHandler saxInfo;
 	memset(&saxInfo, 0, sizeof(saxInfo));
 	saxInfo.characters = &characters;
@@ -179,7 +179,7 @@ void endElement (void *userData, const xmlChar *name) {
 	// TODO: Add a unit test for this
 	
 	// We could try if seperating it by <br/> Tags works...
-	
+    
 	xmlChar *xmlCharString = (xmlChar*)[[[self story] summary] cStringUsingEncoding:NSUTF8StringEncoding];
 	htmlDocPtr	htmlDoc = htmlSAXParseDoc		(xmlCharString, 
 												 "utf-8", 
@@ -187,7 +187,7 @@ void endElement (void *userData, const xmlChar *name) {
 												 cleanedString)	;
 		
 	free (htmlDoc);
-	[elementString release];
+	//[elementString release];
 	NSString *str = [[[self story] thumbnailLink] stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
     
     NSInteger width = MAX_IMAGE_WIDTH;
@@ -195,7 +195,7 @@ void endElement (void *userData, const xmlChar *name) {
             width = 664;
     }
     
-	NSString *showpicture = [NSString stringWithFormat:@"<a href=\"%@\"><img src=\"%@\" width=\"%i\" alt=\"No Medium Picture.\" /></a> ", str, str, (int)width];
+	NSString *showpicture = [NSString stringWithFormat:@"<a href=\"%@\"><img src=\"%@\" width=\"%ld\" alt=\"No Medium Picture.\" /></a> ", str, str, (long)width];
 	NSString *resultString = [NSString stringWithFormat:@"%@<br/>%@", showpicture, cleanedString];
     resultString = [[self baseHtmlString] stringByReplacingOccurrencesOfString:@"%@" withString:resultString];
 	[cleanedString release];
@@ -248,9 +248,7 @@ void endElement (void *userData, const xmlChar *name) {
     
     switch (buttonIdx) {
         case 2: {
-            GCImageViewer *galleryImageViewController = [[GCImageViewer alloc] initWithURL:[NSURL URLWithString:imageLink]];
-            [self.navigationController pushViewController:galleryImageViewController animated:YES];
-            [galleryImageViewController release];
+            [self showFullscreen];
             break;
         }
         case 1:

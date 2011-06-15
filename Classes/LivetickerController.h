@@ -29,6 +29,7 @@
 
 @interface LivetickerController : UITableViewController <ATXMLParserDelegateProtocol>
 {
+    NSMutableData *xmlData;
     NSArray         *stories;
     NSDateFormatter *shortTimeFormatter;
     NSUInteger       displayedStoryIndex;
@@ -38,6 +39,7 @@
     BOOL didFirstLoad;
 }
 
+@property(retain) NSMutableData *xmlData;
 @property(retain) NSArray *stories;
 @property(retain) NSDateFormatter *shortTimeFormatter;
 @property(assign) NSUInteger displayedStoryIndex;

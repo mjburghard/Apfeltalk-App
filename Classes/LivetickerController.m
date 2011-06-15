@@ -37,11 +37,12 @@
 @synthesize stories;
 @synthesize shortTimeFormatter;
 @synthesize displayedStoryIndex;
-@synthesize rootPopoverButtonItem, popoverController;
+@synthesize rootPopoverButtonItem, popoverController, xmlData;
 
 
 - (void)dealloc
 {
+    [xmlData release];
     [popoverController release];
     [rootPopoverButtonItem release];
     [stories release];
@@ -54,6 +55,9 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    self.contentSizeForViewInPopover = CGSizeMake(320.0, self.tableView.rowHeight*5);
+    [self setDisplayedStoryIndex:0];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 
     [formatter setDateFormat:@"HH:mm"];
@@ -64,6 +68,7 @@
 }
 
 - (void)selectFirstRow {
+    NSLog(@"LivetickerController:selectFirstFow");
     [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 }
 
@@ -76,15 +81,51 @@
 	return elementKeys;
 }
 
+#pragma mark -
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response {
+	long long length = [response expectedContentLength];
+	if (length == NSURLResponseUnknownLength)
+		length = 1024;
+	[xmlData release];
+	xmlData = [[NSMutableData alloc] initWithCapacity:length];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+	[xmlData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	ATXMLParser *parser = [[ATXMLParser alloc] initWithData:xmlData];
+    [parser setDesiredElementKeys:[self desiredKeys]];
+    [parser setStoryClass:[Story self]];
+    [parser setDelegate:self];
+    [parser parse];
+    [parser release];	
+	[xmlData release];
+	xmlData = nil;
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+	// !!!:below:20091021 Can someone add error handling, please?
+}
+
+#pragma mark -
+
 - (void)reloadTickerEntries:(NSTimer *)timer
 {
-    ATXMLParser *parser = [ATXMLParser parserWithURLString:@"http://www.apfeltalk.de/live/?feed=rss2"];
+    /*ATXMLParser *parser = [ATXMLParser parserWithURLString:@"http://www.apfeltalk.de/live/?feed=rss2"];
 	[parser setDesiredElementKeys:[self desiredKeys]];
-	
+	[parser setDelegate:self];
     //[NSThread detachNewThreadSelector:@selector(parseInBackgroundWithDelegate:) toTarget:parser withObject:self];
     NSThread *thread = [[NSThread alloc] initWithTarget:parser selector:@selector(parseInBackgroundWithDelegate:) object:self];
     [thread start];
-    [thread release];
+    [thread release];*/
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.apfeltalk.de/live/?feed=rss2"]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connection start];
+    [connection release];
 }
 
 
@@ -104,8 +145,12 @@
     {
         [self setDisplayedStoryIndex:newIndex];
         newStory = [[self stories] objectAtIndex:newIndex];
-        [[[[self navigationController] viewControllers] lastObject] setStory:newStory];
-        [[[[self navigationController] viewControllers] lastObject] updateInterface];
+        DetailLiveticker *detailLiveticker = [[[self navigationController] viewControllers] lastObject];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            detailLiveticker = [self.splitViewController.viewControllers objectAtIndex:1];
+        }
+        [detailLiveticker setStory:newStory];
+        [detailLiveticker updateInterface];
     }
 
     [(UISegmentedControl *)sender setEnabled:([self displayedStoryIndex] > 0) forSegmentAtIndex:0];
@@ -200,7 +245,7 @@
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     
     // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
-    barButtonItem.title = @"News";
+    barButtonItem.title = @"Liveticker";
     self.popoverController = pc;
     self.rootPopoverButtonItem = barButtonItem;
     UIViewController <SubstitutableDetailViewController> *detailViewController = [self.splitViewController.viewControllers objectAtIndex:1];
@@ -222,6 +267,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"LivetickerController:tableView:didSelectRowAtIndexPath:");
     if ([stories count] == 0) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
@@ -229,7 +275,7 @@
     [self setDisplayedStoryIndex:[indexPath row]];
 
     Story            *story = [stories objectAtIndex:[indexPath row]];
-    DetailLiveticker *detailController = [[DetailLiveticker alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] story:story];
+    DetailLiveticker *detailController = [[DetailLiveticker alloc] initWithNibName:@"DetailView" bundle:nil story:story];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [[self navigationController] pushViewController:detailController animated:YES];
     } else {
@@ -253,11 +299,6 @@
 - (void)parser:(ATXMLParser *)parser didFinishedSuccessfull:(BOOL)success
 {
     if (success) {
-        if (!didFirstLoad) {
-            didFirstLoad = YES;
-            [self performSelectorOnMainThread:@selector(selectFirstRow) withObject:nil waitUntilDone:NO];
-        }
-        [(UITableView *)[self view] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     }
     else
         [(LivetickerNavigationController *)[self navigationController] setReloadTimer:nil];
@@ -267,16 +308,14 @@
 
 - (void)parser:(ATXMLParser *)parser setParsedStories:(NSArray *)parsedStories
 {
-    NSInteger diffCount = [parsedStories count] - [[self stories] count];
-
-    if (diffCount > 0)
-    {
-        [self setDisplayedStoryIndex:[self displayedStoryIndex] + diffCount];
-        if ([[[self navigationController] viewControllers] lastObject] != self)
-            [self performSelectorOnMainThread:@selector(changeStory:) withObject:[[[[self navigationController] viewControllers] lastObject] storyControl]
-                                waitUntilDone:NO];
+    if ([self.stories count] == 0 && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self setStories:parsedStories];
+        [self.tableView reloadData];
+        [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        return;
     }
     [self setStories:parsedStories];
+    [self.tableView reloadData];
 }
 
 - (void)parser:(ATXMLParser *)parser parseErrorOccurred:(NSError *)parseError

@@ -268,6 +268,7 @@
         [items addObject:speichernButton];
         [toolbar setItems:items animated:NO];
         [flexibleSpace release];
+        [items release];
     }
     [speichernButton release];
     
@@ -323,7 +324,8 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)) {
         detailTop = [UIImage imageNamed:@"DetailTop-Landscape.png"];
     }
-    detailimage.image = detailTop;}
+    detailimage.image = detailTop;
+}
 
 - (void)dealloc {
     self.toolbar = nil;
