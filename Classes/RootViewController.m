@@ -501,10 +501,10 @@
 
 - (void)parser:(ATXMLParser *)parser setParsedStories:(NSArray *)parsedStories
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad  && [self.stories count] == 0) {
-        [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad  && ([self.stories count] == 0)) {
         [self setStories:parsedStories];
         [(UITableView *)[self view] reloadData];
+        [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         [self doneLoadingTableViewData];
         return;
     }
