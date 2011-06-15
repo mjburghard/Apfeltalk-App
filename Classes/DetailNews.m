@@ -182,8 +182,15 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSArray *controllers = [[self navigationController] viewControllers];
-    NewsController *newsController = (NewsController *)[controllers objectAtIndex:[controllers count] - 2];
+    [super viewWillAppear:animated];
+    NewsController *newsController;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        newsController = [[[self.splitViewController.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
+    } else {
+        NSArray *controllers = [[self navigationController] viewControllers];
+        newsController = (NewsController *)[controllers objectAtIndex:[controllers count] - 2];
+    }
 
     if ([self showSave] && [newsController isSavedStory:[self story]])
         [self setShowSave:NO];

@@ -190,6 +190,7 @@
         [timeLabel setHighlightedTextColor:[UIColor whiteColor]];
         [timeLabel setTextAlignment:UITextAlignmentLeft];
         [timeLabel setAutoresizingMask:UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight];
+        [timeLabel setBackgroundColor:[UIColor clearColor]];
 
         [[cell contentView] addSubview:timeLabel];
 
@@ -201,6 +202,7 @@
         [titleLabel setHighlightedTextColor:[UIColor whiteColor]];
         [titleLabel setTextAlignment:UITextAlignmentLeft];
         [titleLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+        [titleLabel setBackgroundColor:[UIColor clearColor]];
 
         [[cell contentView] addSubview:titleLabel];
     }
@@ -267,7 +269,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"LivetickerController:tableView:didSelectRowAtIndexPath:");
     if ([stories count] == 0) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
