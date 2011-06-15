@@ -33,7 +33,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"DetailLiveticker: viewDidLoad");
     NSArray            *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"Up.png"], [UIImage imageNamed:@"Down.png"], nil];
 	UISegmentedControl *segControl = [[UISegmentedControl alloc] initWithItems:imgArray];
     LivetickerController *livetickerController = [[[self navigationController] viewControllers] objectAtIndex:0];
