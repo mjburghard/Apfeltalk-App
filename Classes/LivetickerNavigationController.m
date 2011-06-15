@@ -58,29 +58,25 @@
     [super dealloc];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    LivetickerController *rootViewController = (LivetickerController *)[[self viewControllers] objectAtIndex:0];
-    [rootViewController reloadTickerEntries:nil];
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (!didAlreadyAppear) {
-        didAlreadyAppear = YES;
+    if (UI_USER_INTERFACE_IDIOM() ==UIUserInterfaceIdiomPhone) {
         LivetickerController *rootViewController = (LivetickerController *)[[self viewControllers] objectAtIndex:0];
 
         [self setReloadTimer:[NSTimer scheduledTimerWithTimeInterval:RELOAD_TIME target:rootViewController selector:@selector(reloadTickerEntries:) userInfo:nil
                                                          repeats:YES]];
+        [rootViewController reloadTickerEntries:nil];
     }
-	
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self setReloadTimer:nil];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self setReloadTimer:nil];
+    }
 }
 
 @end

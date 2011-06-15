@@ -24,26 +24,43 @@
 
 #import "DetailLiveticker.h"
 #import "LivetickerController.h"
+#import "LivetickerNavigationController.h"
 
+#define RELOAD_TIME 30
 
 @implementation DetailLiveticker
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"DetailLiveticker: viewDidLoad");
     NSArray            *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"Up.png"], [UIImage imageNamed:@"Down.png"], nil];
 	UISegmentedControl *segControl = [[UISegmentedControl alloc] initWithItems:imgArray];
-
-	[segControl addTarget:[[[self navigationController] viewControllers] objectAtIndex:0] action:@selector(changeStory:)
+    LivetickerController *livetickerController = [[[self navigationController] viewControllers] objectAtIndex:0];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        livetickerController = [[[self.splitViewController.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
+    }
+	[segControl addTarget:livetickerController action:@selector(changeStory:)
          forControlEvents:UIControlEventValueChanged];
 	[segControl setFrame:CGRectMake(0, 0, 90, 30)];
 	[segControl setSegmentedControlStyle:UISegmentedControlStyleBar];
 	[segControl setMomentary:YES];
 
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:segControl];
-
-    [[self navigationItem] setRightBarButtonItem:rightItem];
-    [[[[self navigationController] viewControllers] objectAtIndex:0] changeStory:segControl];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        segControl.tintColor = toolbar.tintColor;
+        NSMutableArray *items = (NSMutableArray *)[self.toolbar.items mutableCopy];
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [items removeLastObject];
+        [items addObject:flexibleSpace];
+        [items addObject:rightItem];
+        [self.toolbar setItems:items];
+        [flexibleSpace release];
+        [items release];
+    } else {
+        [[self navigationItem] setRightBarButtonItem:rightItem];
+    }
 
     [segControl release];
     [rightItem release];
@@ -55,7 +72,22 @@
 //	[(UIScrollView *)[webview.subviews objectAtIndex:0] setAllowsRubberBanding:NO];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        LivetickerController *livetickerController = [[[self.splitViewController.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
+        [(LivetickerNavigationController *)[self.splitViewController.viewControllers objectAtIndex:0] setReloadTimer:[NSTimer scheduledTimerWithTimeInterval:RELOAD_TIME target:livetickerController selector:@selector(reloadTickerEntries:) userInfo:nil repeats:YES]];
+        [livetickerController reloadTickerEntries:nil];
+    }
 
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [(LivetickerNavigationController *)[self.splitViewController.viewControllers objectAtIndex:0] setReloadTimer:nil];
+    }
+}
 
 - (UIImage *) thumbimage
 {
@@ -80,7 +112,10 @@
     }
 
     [thumbnailButton setBackgroundImage:[self thumbimage] forState:UIControlStateNormal];
-
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"css"];
+	NSString *cssCode = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    
+	contentString = [NSString stringWithFormat:@"<style type=\"text/css\"> %@ </style>%@<br />", cssCode, contentString];
     return [[self baseHtmlString] stringByReplacingOccurrencesOfString:@"%@" withString:contentString];
 }
 
