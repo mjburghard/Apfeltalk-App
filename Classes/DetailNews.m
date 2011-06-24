@@ -159,10 +159,9 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     NSArray            *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"Up.png"], [UIImage imageNamed:@"Down.png"], nil];
 	UISegmentedControl *segControl = [[UISegmentedControl alloc] initWithItems:imgArray];
-
-    [super viewDidLoad];
 
 	[segControl addTarget:[[[self navigationController] viewControllers] objectAtIndex:0] action:@selector(changeStory:)
          forControlEvents:UIControlEventValueChanged];
