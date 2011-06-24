@@ -49,6 +49,8 @@
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         segControl.tintColor = toolbar.tintColor;
+        [segControl setEnabled:NO forSegmentAtIndex:0];
+        [segControl setEnabled:NO forSegmentAtIndex:1];
         NSMutableArray *items = (NSMutableArray *)[self.toolbar.items mutableCopy];
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
         [items removeLastObject];
@@ -59,6 +61,7 @@
         [items release];
     } else {
         [[self navigationItem] setRightBarButtonItem:rightItem];
+        [livetickerController changeStory:segControl];
     }
 
     [segControl release];
@@ -122,6 +125,9 @@
 
 - (UISegmentedControl *)storyControl
 {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return (UISegmentedControl *)[[self.toolbar.items lastObject] customView];
+    }
     return (UISegmentedControl *)[[[self navigationItem] rightBarButtonItem] customView];
 }
 
