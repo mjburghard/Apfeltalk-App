@@ -276,21 +276,23 @@
     [self setDisplayedStoryIndex:[indexPath row]];
 
     Story            *story = [stories objectAtIndex:[indexPath row]];
-    DetailLiveticker *detailController = [[DetailLiveticker alloc] initWithNibName:@"DetailView" bundle:nil story:story];
+    DetailLiveticker *detailController;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        detailController = [[DetailLiveticker alloc] initWithNibName:@"DetailView" bundle:nil story:story];
         [[self navigationController] pushViewController:detailController animated:YES];
+        [detailController release];
     } else {
-        self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, detailController, nil];
-        
+        detailController = [self.splitViewController.viewControllers lastObject];
+        [detailController setStory:story];
+        [detailController updateInterface];
         if (popoverController != nil) {
             [popoverController dismissPopoverAnimated:YES];
         }
-        
+        /*
         if (rootPopoverButtonItem != nil) {
             [detailController showRootPopoverButtonItem:self.rootPopoverButtonItem];
-        }
+        }*/
     }
-    [detailController release];
 }
 
 
@@ -313,8 +315,11 @@
         [self setStories:parsedStories];
         [self.tableView reloadData];
         [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        DetailLiveticker *detailLiveticker = [self.splitViewController.viewControllers objectAtIndex:1];
+        [[detailLiveticker storyControl] setEnabled:YES forSegmentAtIndex:1];
         return;
     }
+    
     [self setStories:parsedStories];
     [self.tableView reloadData];
 }
