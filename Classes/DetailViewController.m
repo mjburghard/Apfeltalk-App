@@ -62,7 +62,6 @@
 {	
     NSURL *loadURL = [[request URL] retain]; // retain the loadURL for use
     NSString *loadURLString = [loadURL absoluteString];
-    NSLog(@"%@", loadURLString);
     if (([[loadURL scheme] isEqualToString:@"http"] || [[loadURL scheme] isEqualToString:@"https"]) && (navigationType == UIWebViewNavigationTypeLinkClicked )) { // Check if the scheme is http/https. You can also use these for custom links to open parts of your application.
         NSString *extension = [loadURLString pathExtension];
     
