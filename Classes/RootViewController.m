@@ -138,23 +138,26 @@
 	Story *story = [stories objectAtIndex: indexPath.row];
 	Class dvClass = [self detailControllerClass];
     [self markStoryAsRead:story];
-	DetailViewController *detailController = [[dvClass alloc] initWithNibName:@"DetailView" 
-																	   bundle:[NSBundle mainBundle]
-																		story:story];
+	DetailViewController *detailController;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        detailController = [[dvClass alloc] initWithNibName:@"DetailView" 
+                                                     bundle:[NSBundle mainBundle]
+                                                      story:story];
         [self.navigationController pushViewController:detailController animated:YES];
+        [detailController release];
     } else {
-        self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, detailController, nil];
+        detailController =  [self.splitViewController.viewControllers lastObject];
+        [detailController setStory:story];
+        [detailController updateInterface];
         
         if (popoverController != nil) {
             [popoverController dismissPopoverAnimated:YES];
         }
         
-        if (rootPopoverButtonItem != nil) {
+        /*if (rootPopoverButtonItem != nil) {
             [detailController showRootPopoverButtonItem:self.rootPopoverButtonItem];
-        }
+        }*/
     }
-	[detailController release];
 }
 
 #pragma mark -

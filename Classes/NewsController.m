@@ -144,25 +144,26 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	Story *story = [savedStories objectAtIndex: indexPath.row];
 	Class detailClass = [self detailControllerClass];
 	
-	DetailNews *detailController = [[detailClass alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle]
-																  story:story];
-	
-	[detailController setShowSave:NO];
+	DetailNews *detailController;
 	
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        detailController = [[detailClass alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] story:story];
+        [detailController setShowSave:NO];
         [self.navigationController pushViewController:detailController animated:YES];
+        [detailController release];
     } else {
-        self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, detailController, nil];
+        detailController = [self.splitViewController.viewControllers lastObject];
+        [detailController setStory:story];
+        [detailController updateInterface];
         
         if (popoverController != nil) {
             [popoverController dismissPopoverAnimated:YES];
         }
         
-        if (rootPopoverButtonItem != nil) {
+        /*if (rootPopoverButtonItem != nil) {
             [detailController showRootPopoverButtonItem:self.rootPopoverButtonItem];
-        }
+        }*/
     }
-	[detailController release];
 }
 
 - (Class) detailControllerClass {

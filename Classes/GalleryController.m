@@ -121,23 +121,26 @@
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
-
-    DetailGallery *detailController = [[DetailGallery alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] 
-                                                                   story:[stories objectAtIndex: indexPath.row]];
+    Story *story = [stories objectAtIndex: indexPath.row];
+    DetailGallery *detailController;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        detailController = [[DetailGallery alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] 
+                                                            story:story];
         [self.navigationController pushViewController:detailController animated:YES];
+        [detailController release];
     } else {
-        self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, detailController, nil];
+        detailController = [self.splitViewController.viewControllers lastObject];
+        [detailController setStory:story];
+        [detailController updateInterface];
         
         if (popoverController != nil) {
             [popoverController dismissPopoverAnimated:YES];
         }
         
-        if (rootPopoverButtonItem != nil) {
+        /*if (rootPopoverButtonItem != nil) {
             [detailController showRootPopoverButtonItem:self.rootPopoverButtonItem];
-        }
+        }*/
     }
-	[detailController release];
 }
 
 - (NSString *) documentPath {
