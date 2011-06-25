@@ -322,16 +322,19 @@
 #pragma mark Interfacerotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return YES;
-    }
-    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
+    /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+     return YES;
+     }
+     return (interfaceOrientation == UIInterfaceOrientationPortrait);*/
+    return YES;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [webview loadHTMLString:[self htmlString] baseURL:nil];
-    UIImage *detailTop = [UIImage imageNamed:@"DetailTop.png"];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)) {
+    UIImage *detailTop;
+    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+        detailTop = [UIImage imageNamed:@"DetailTop.png"];
+    } else {
         detailTop = [UIImage imageNamed:@"DetailTop-Landscape.png"];
     }
     detailimage.image = detailTop;

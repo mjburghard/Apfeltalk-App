@@ -303,7 +303,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	
 	if(self.shakeToReload)
 		[self activateShakeToReload:self];
 	
@@ -532,10 +531,11 @@
 #pragma mark Interfacerotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return YES;
     }
-    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);*/
+    return YES;
 }
 
 @end
