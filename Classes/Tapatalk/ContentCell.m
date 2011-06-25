@@ -62,7 +62,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
         // Initialization code
         CGFloat margin = [self groupedCellMarginWithTableWidth:tableViewWidth];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) { 
-            self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,0.0, tableViewWidth-2*margin, self.frame.size.height-7.0)];
+            self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,0.0, tableViewWidth-2*10.0, self.frame.size.height-7.0)];
         } else {
             self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,0.0, tableViewWidth-2*margin, self.frame.size.height-7.0)];
         }

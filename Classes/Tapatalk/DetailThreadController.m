@@ -141,7 +141,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     if (site > 0) {
         site--;
         [self loadData];
-        ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
+        ATActivityIndicator *at = [ATActivityIndicator activityIndicatorForView:self.tableView];
         at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
         [at showSpinner];
         [at show];
@@ -152,7 +152,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (void)last {
     site = [self numberOfSites]-1;
     [self loadData];
-    ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
+    ATActivityIndicator *at = [ATActivityIndicator activityIndicatorForView:self.tableView];
     at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
     [at showSpinner];
     [at show];
@@ -163,7 +163,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     if (site < [self numberOfSites]-1) {
         site++;
         [self loadData];
-        ATActivityIndicator *at = [ATActivityIndicator activityIndicator];
+        ATActivityIndicator *at = [ATActivityIndicator activityIndicatorForView:self.tableView];
         at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
         [at showSpinner];
         [at show];
@@ -175,7 +175,10 @@ const CGFloat kDefaultRowHeight = 44.0;
     NSString *loginButtonTitle, *answerButton;
     if ([[User sharedUser] isLoggedIn]) {
         loginButtonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
-        answerButton = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
+        if (self.topic.userCanPost)
+            answerButton = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
+        else
+            answerButton = nil;
     } else {
         loginButtonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
         answerButton = nil;
@@ -206,7 +209,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             [self last];
             break;
         case 2:
-            if ([[User sharedUser] isLoggedIn]) {
+            if ([[User sharedUser] isLoggedIn] && self.topic.userCanPost) {
                 answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
                 [self.navigationController pushViewController:answerViewController animated:YES];
                 [answerViewController release]; 
@@ -321,12 +324,6 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginWasSuccessful) name:@"ATLoginWasSuccessful" object:nil];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -182,17 +182,17 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         return YES;
     }
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);*/
+    return YES;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     CGRect frame = self.textView.frame;
     CGFloat keyboardHeight;
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-        NSLog(@"Landscape");
         keyboardHeight = 162.0;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
              keyboardHeight = 352.0;

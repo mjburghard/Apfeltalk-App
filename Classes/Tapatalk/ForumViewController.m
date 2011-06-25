@@ -301,14 +301,6 @@ NSString * encodeString(NSString *aString) {
 	[super viewDidDisappear:animated];
 }
 
-/*
- // Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	// Return YES for supported orientations.
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
- */
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if ([self.sections count] == 0) {
         return nil;
@@ -432,11 +424,11 @@ NSString * encodeString(NSString *aString) {
 #pragma mark -
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return YES;
-    }
-    
-    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
+    /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+     return YES;
+     }
+     return (interfaceOrientation == UIInterfaceOrientationPortrait);*/
+    return YES;
 }
 
 #pragma mark-
