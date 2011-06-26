@@ -104,11 +104,8 @@
 
 - (NSString *) cssStyleString {
     NSURL *middleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailMiddle" ofType:@"png"]];
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        UIInterfaceOrientation orientation = self.interfaceOrientation;
-        if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
-            middleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailMiddle-Landscape" ofType:@"png"]];
-        }
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        middleURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailMiddle-Landscape" ofType:@"png"]];
     }
 	return [NSString stringWithFormat:@"background:url(%@) repeat-y; font:10pt Helvetica; padding-top:95px; padding-left:20px; padding-right:20px", [middleURL absoluteString]];
 }
@@ -116,14 +113,17 @@
 - (NSString *)baseHtmlString {
     NSURL *bottomURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailBottom" ofType:@"png"]];
     NSInteger width = 320;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) 
         width = 768;
-        UIInterfaceOrientation orientation = self.interfaceOrientation;
-        if (orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight) {
-            bottomURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailBottom-Landscape" ofType:@"png"]];
+
+    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        bottomURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DetailBottom-Landscape" ofType:@"png"]];
+        width = 480;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
             width = 703;
-        }
-    } 
+    }
+
     NSString *testString = [NSString stringWithFormat:@"<div style=\"position:absolute; top:0px; left:0px; width:%ipx\"><div style=\"%@\">"
                             @"%@</div><img src=\"%@\" alt=\"DetailBottom\"></div>", width,  [self cssStyleString], @"%@", [bottomURL absoluteString]];
     
@@ -257,7 +257,7 @@
 	//-150x150
     
     UIImage *detailTop = [UIImage imageNamed:@"DetailTop.png"];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)) {
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         detailTop = [UIImage imageNamed:@"DetailTop-Landscape.png"];
     }
     detailimage.image = detailTop;
@@ -331,10 +331,8 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [webview loadHTMLString:[self htmlString] baseURL:nil];
-    UIImage *detailTop;
-    if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
-        detailTop = [UIImage imageNamed:@"DetailTop.png"];
-    } else {
+    UIImage *detailTop = [UIImage imageNamed:@"DetailTop.png"];
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
         detailTop = [UIImage imageNamed:@"DetailTop-Landscape.png"];
     }
     detailimage.image = detailTop;
