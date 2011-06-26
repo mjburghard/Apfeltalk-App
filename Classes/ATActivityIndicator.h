@@ -13,13 +13,15 @@
     NSString *message;
     UIActivityIndicatorView *spinner;
     UILabel *messageLabel;
+    UIView *customSuperview;
 }
 
 @property (retain) NSString *message;
 @property (retain) UIActivityIndicatorView *spinner;
 @property (retain) UILabel *messageLabel;
+@property (retain) UIView *customSuperview;
 
-+ (ATActivityIndicator *)activityIndicator;
++ (ATActivityIndicator *)activityIndicatorForView:(UIView *)view;
 - (void)show;
 - (void)showSpinner;
 
