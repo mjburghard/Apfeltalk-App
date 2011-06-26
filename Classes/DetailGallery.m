@@ -191,8 +191,16 @@ void endElement (void *userData, const xmlChar *name) {
 	NSString *str = [[[self story] thumbnailLink] stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
     
     NSInteger width = MAX_IMAGE_WIDTH;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)) {
-            width = 664;
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        switch (width) {
+            case 728:
+                width = 663;
+                break;
+            case 280:
+                width = 440;
+            default:
+                break;
+        }
     }
     
 	NSString *showpicture = [NSString stringWithFormat:@"<a href=\"%@\"><img src=\"%@\" width=\"%ld\" alt=\"No Medium Picture.\" /></a> ", str, str, (long)width];
