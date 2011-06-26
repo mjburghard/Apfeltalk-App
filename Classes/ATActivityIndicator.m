@@ -11,7 +11,8 @@
 
 
 @implementation ATActivityIndicator
-@synthesize message, spinner, messageLabel;
+@synthesize message, spinner, messageLabel, customSuperview;
+
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -22,36 +23,39 @@
         self.messageLabel.backgroundColor = [UIColor clearColor];
         self.messageLabel.textColor = [UIColor lightTextColor];
         self.messageLabel.textAlignment = UITextAlignmentCenter;
-        [self addSubview:self.messageLabel];
+        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleRightMargin;
+        self.layer.masksToBounds = YES;
+        self.layer.cornerRadius = 10.0;
+        self.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
+        self.opaque = NO;
+        self.alpha = 0.0;
     }
     return self;
 }
 
-+ (ATActivityIndicator *)activityIndicator {
-    
-    CGRect windowRect = [[[UIApplication sharedApplication] keyWindow] frame];
-    
-    ATActivityIndicator *activityIndicator = [[ATActivityIndicator alloc] initWithFrame:CGRectMake(windowRect.size.width/2 - 80.0, 
-                                                                                                   windowRect.size.height/2 - 80.0, 
++ (ATActivityIndicator *)activityIndicatorForView:(UIView *)view {
+    CGRect viewRect = view.bounds;
+    ATActivityIndicator *activityIndicator = [[ATActivityIndicator alloc] initWithFrame:CGRectMake(viewRect.size.width/2 - 80.0, 
+                                                                                                   viewRect.size.height/2 - 80.0, 
                                                                                                    160.0, 
                                                                                                    160.0)];
-    activityIndicator.layer.masksToBounds = YES;
-    activityIndicator.layer.cornerRadius = 10.0;
-    activityIndicator.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
-    activityIndicator.opaque = NO;
-    activityIndicator.alpha = 0.0;
-    
-    return activityIndicator;
+    activityIndicator.customSuperview = view;
+    return [activityIndicator autorelease];
+}
+
+- (void)dismiss {
+    [self removeFromSuperview];
+    [(UITableView *)[self customSuperview] setScrollEnabled:YES];
 }
 
 - (void)show {
     self.messageLabel.text = self.message;
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    [keyWindow addSubview:self];
-    
+    [self addSubview:messageLabel];
+    [self.customSuperview addSubview:self];
+    [(UITableView *)[self customSuperview] setScrollEnabled:NO];
     self.alpha = 1.0;
     
-    [self performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:1.0];
+    [self performSelector:@selector(dismiss) withObject:nil afterDelay:1.0];
 }
 
 - (void)showSpinner {
@@ -67,6 +71,7 @@
 
 - (void)dealloc
 {
+    self.customSuperview = nil;
     self.message = nil;
     self.spinner = nil;
     [super dealloc];
