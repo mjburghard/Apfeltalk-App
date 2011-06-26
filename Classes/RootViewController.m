@@ -49,8 +49,8 @@
 - (IBAction)about:(id)sender {
 	[newsTable reloadData];
 	UIAlertView *alert = [[UIAlertView alloc]
-						  initWithTitle:@"Hilfe fürs Forum"
-						  message:@"Ein Tap auf den blauen Pfeil in der Themenliste bringt euch zur letzten Seite eines Threads. \n\n Mit einer Wischgeste blättert ihr durch die Seiten. \n\nDer Actionbutton oben rechts beinhaltet die Funktion 'Letzte Seite'."
+						  initWithTitle:NSLocalizedStringFromTable(@"Help for forum", @"ATLocalizable", @"")
+						  message:NSLocalizedStringFromTable(@"HELP_TEXT", @"ATLocalizable", @"")
 						  delegate:self
 						  cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"")
 						  otherButtonTitles:NSLocalizedStringFromTable(@"Contact", @"ATLocalizable", @"")
@@ -335,6 +335,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem.title = NSLocalizedStringFromTable(@"Help", @"ATLocalizable", @"");
     [self openDatabase];
     self.contentSizeForViewInPopover = CGSizeMake(320.0, self.tableView.rowHeight*5);
     if (tableHeaderView == nil) {
