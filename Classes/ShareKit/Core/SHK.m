@@ -138,6 +138,8 @@ BOOL SHKinit;
 			nav.modalTransitionStyle = [SHK modalTransitionStyle];
 		
 		nav.navigationBar.barStyle = nav.toolbar.barStyle = [SHK barStyle];
+        UIColor* c = [UIColor colorWithRed:SHKBarTintColorRed green:SHKBarTintColorGreen blue:SHKBarTintColorBlue alpha:1.0];
+        [nav navigationBar].tintColor = c;
 		
 		[topViewController presentModalViewController:nav animated:YES];			
 		self.currentView = nav;
@@ -155,6 +157,9 @@ BOOL SHKinit;
 		[topViewController presentModalViewController:vc animated:YES];
 		[(UINavigationController *)vc navigationBar].barStyle = 
 		[(UINavigationController *)vc toolbar].barStyle = [SHK barStyle];
+        
+        UIColor* c = [UIColor colorWithRed:SHKBarTintColorRed green:SHKBarTintColorGreen blue:SHKBarTintColorBlue alpha:1.0];
+        [(UINavigationController *)vc navigationBar].tintColor = c;
 		self.currentView = vc;
 	}
 		
