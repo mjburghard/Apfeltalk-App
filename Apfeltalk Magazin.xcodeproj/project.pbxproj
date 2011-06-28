@@ -46,6 +46,7 @@
 		5A7B3A6D13491CE5000DDA5F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7B3A6C13491CE5000DDA5F /* Default@2x.png */; };
 		5A7B3A7013491DDB000DDA5F /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7B3A6F13491DDB000DDA5F /* icon@2x.png */; };
 		5A9C4F001353182100D748FA /* magazin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A9C4EFF1353182100D748FA /* magazin@2x.png */; };
+		5AA9412213B9C52B0072DEC7 /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AA9412113B9C52B0072DEC7 /* SearchResultsViewController.xib */; };
 		5AB3DC92135352C600E0D3CA /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB3DC91135352C600E0D3CA /* EGORefreshTableHeaderView.m */; };
 		5AB3DC9C1353546800E0D3CA /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3DC941353546800E0D3CA /* blackArrow.png */; };
 		5AB3DC9D1353546800E0D3CA /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3DC951353546800E0D3CA /* blackArrow@2x.png */; };
@@ -255,6 +256,7 @@
 		5A7B3A6C13491CE5000DDA5F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		5A7B3A6F13491DDB000DDA5F /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		5A9C4EFF1353182100D748FA /* magazin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magazin@2x.png"; sourceTree = "<group>"; };
+		5AA9412113B9C52B0072DEC7 /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsViewController.xib; sourceTree = "<group>"; };
 		5AB3DC90135352C600E0D3CA /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		5AB3DC91135352C600E0D3CA /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		5AB3DC941353546800E0D3CA /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -637,6 +639,7 @@
 				5E14F848139A38E100E64323 /* DetailView~ipad.xib */,
 				5E34A868139AECEF009604AC /* ATWebViewController~ipad.xib */,
 				5E34A86B139AFAE4009604AC /* GCImageViewer~ipad.xib */,
+				5AA9412113B9C52B0072DEC7 /* SearchResultsViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1333,6 +1336,7 @@
 				5E5C977213B7582500F88F36 /* DetailBottom-Landscape.png in Resources */,
 				5E5C977313B7582500F88F36 /* DetailMiddle-Landscape.png in Resources */,
 				5E5C977413B7582500F88F36 /* DetailTop-Landscape.png in Resources */,
+				5AA9412213B9C52B0072DEC7 /* SearchResultsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
