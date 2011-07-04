@@ -91,6 +91,7 @@
 		5E344B8713A386FD00DA7F8B /* DetailTop-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E344B8413A386FD00DA7F8B /* DetailTop-Landscape~ipad.png */; };
 		5E34A869139AECEF009604AC /* ATWebViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E34A868139AECEF009604AC /* ATWebViewController~ipad.xib */; };
 		5E34A86C139AFAE4009604AC /* GCImageViewer~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E34A86B139AFAE4009604AC /* GCImageViewer~ipad.xib */; };
+		5E39291213C0F16F005B9003 /* ATTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E39291113C0F16F005B9003 /* ATTextView.m */; };
 		5E460621137D5EB6000A5D20 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E460620137D5EB6000A5D20 /* CoreFoundation.framework */; };
 		5E460627137D6260000A5D20 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E460626137D6260000A5D20 /* RegexKitLite.m */; };
 		5E5C977213B7582500F88F36 /* DetailBottom-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E5C976F13B7582500F88F36 /* DetailBottom-Landscape.png */; };
@@ -309,6 +310,8 @@
 		5E344B8413A386FD00DA7F8B /* DetailTop-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DetailTop-Landscape~ipad.png"; sourceTree = "<group>"; };
 		5E34A868139AECEF009604AC /* ATWebViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ATWebViewController~ipad.xib"; sourceTree = "<group>"; };
 		5E34A86B139AFAE4009604AC /* GCImageViewer~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GCImageViewer~ipad.xib"; sourceTree = "<group>"; };
+		5E39291013C0F16F005B9003 /* ATTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATTextView.h; sourceTree = "<group>"; };
+		5E39291113C0F16F005B9003 /* ATTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATTextView.m; sourceTree = "<group>"; };
 		5E460620137D5EB6000A5D20 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		5E460625137D6260000A5D20 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		5E460626137D6260000A5D20 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
@@ -585,6 +588,8 @@
 				F6730BE7134A70F40045B876 /* TDHUDProgressBar.m */,
 				5EAACB5D137437ED00421338 /* ATActivityIndicator.h */,
 				5EAACB5E137437ED00421338 /* ATActivityIndicator.m */,
+				5E39291013C0F16F005B9003 /* ATTextView.h */,
+				5E39291113C0F16F005B9003 /* ATTextView.m */,
 			);
 			name = "Helper Views";
 			sourceTree = "<group>";
@@ -1455,6 +1460,7 @@
 				5E2A1863137E8ACA00F6EF86 /* AnswerViewController.m in Sources */,
 				5E2A1869137EED6F00F6EF86 /* NewTopicViewController.m in Sources */,
 				5E26C63C1388098D00A7A1C5 /* NewPostsViewController.m in Sources */,
+				5E39291213C0F16F005B9003 /* ATTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
