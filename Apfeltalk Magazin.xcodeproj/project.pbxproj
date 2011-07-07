@@ -432,7 +432,6 @@
 		5E8D910B1352355700274017 /* SHKTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKTwitter.m; sourceTree = "<group>"; };
 		5E8D910C1352355700274017 /* SHKTwitterForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKTwitterForm.h; sourceTree = "<group>"; };
 		5E8D910D1352355700274017 /* SHKTwitterForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKTwitterForm.m; sourceTree = "<group>"; };
-		5E8D910E1352355700274017 /* SHKConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKConfig.h; sourceTree = "<group>"; };
 		5E8D91101352355700274017 /* SHKActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKActionSheet.h; sourceTree = "<group>"; };
 		5E8D91111352355700274017 /* SHKActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKActionSheet.m; sourceTree = "<group>"; };
 		5E8D91121352355700274017 /* SHKActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKActivityIndicator.h; sourceTree = "<group>"; };
@@ -480,6 +479,7 @@
 		5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ForumViewController.xib; path = Classes/Tapatalk/ForumViewController.xib; sourceTree = "<group>"; };
 		5ED68E9D136F37B100AB9E4F /* SubForumController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SubForumController.xib; path = Classes/Tapatalk/SubForumController.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BCB9FDE013C63CCF00E9C4FF /* SHKConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKConfig.h; sourceTree = "<group>"; };
 		CB15C87910498EBF00360BDC /* NewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsController.h; sourceTree = "<group>"; };
 		CB15C87A10498EBF00360BDC /* NewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsController.m; sourceTree = "<group>"; };
 		CB15C89A1049950900360BDC /* DetailNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailNews.h; sourceTree = "<group>"; };
@@ -719,7 +719,7 @@
 				5E8D90C51352355700274017 /* Localization */,
 				5E8D90C91352355700274017 /* Reachability */,
 				5E8D90CC1352355700274017 /* Sharers */,
-				5E8D910E1352355700274017 /* SHKConfig.h */,
+				BCB9FDE013C63CCF00E9C4FF /* SHKConfig.h */,
 				5E8D910F1352355700274017 /* UI */,
 			);
 			path = ShareKit;

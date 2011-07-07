@@ -287,6 +287,7 @@
     DetailLiveticker *detailController;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         detailController = [[DetailLiveticker alloc] initWithNibName:@"DetailView" bundle:nil story:story];
+        detailController.hidesBottomBarWhenPushed = YES;
         [[self navigationController] pushViewController:detailController animated:YES];
         [detailController release];
     } else {
