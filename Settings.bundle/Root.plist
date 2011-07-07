@@ -6,14 +6,6 @@
 	<array>
 		<dict>
 			<key>File</key>
-			<string>Font</string>
-			<key>Title</key>
-			<string>Schriftgrösse</string>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-		</dict>
-		<dict>
-			<key>File</key>
 			<string>Team</string>
 			<key>Title</key>
 			<string>Team / Lizenz</string>

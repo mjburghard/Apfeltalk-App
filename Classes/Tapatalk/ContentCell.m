@@ -62,9 +62,9 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
         // Initialization code
         CGFloat margin = [self groupedCellMarginWithTableWidth:tableViewWidth];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) { 
-            self.textView = [[ATTextView alloc] initWithFrame:CGRectMake(0.0,0.0, tableViewWidth-2*10.0, self.frame.size.height-7.0)];
+            self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,0.0, tableViewWidth-2*10.0, self.frame.size.height-7.0)];
         } else {
-            self.textView = [[ATTextView alloc] initWithFrame:CGRectMake(0.0,0.0, tableViewWidth-2*margin, self.frame.size.height-7.0)];
+            self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0.0,0.0, tableViewWidth-2*margin, self.frame.size.height-7.0)];
         }
         self.textView.scrollEnabled = NO;
         self.textView.layer.masksToBounds = YES;
@@ -104,7 +104,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 }
 
 #pragma mark -
-#pragma mark ATTextViewDelegate
+#pragma mark UITextViewDelegate
 
 - (void)textViewDidBeginEditing:(UITextView *)aTextView {
     if (self.delegate) {
@@ -117,20 +117,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     return YES;
 }
 
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    if ([(NSObject *)self.delegate respondsToSelector:@selector(contentCellDidEndEditing:)]) {
-        [self.delegate contentCellDidEndEditing:self];
-    }
-}
-
 - (BOOL)textView:(UITextView *)textView shouldLoadRequest:(NSURLRequest *)request {
     return [self.delegate contentCell:self shouldLoadRequest:request];
-}
-
-- (void)textView:(ATTextView *)textView shouldQuoteText:(NSString *)quoteText {
-    if ([(NSObject *)self.delegate respondsToSelector:@selector(contentCell:shouldQuoteText:)]) {
-        [self.delegate contentCell:self shouldQuoteText:quoteText];
-    }
 }
 
 @end

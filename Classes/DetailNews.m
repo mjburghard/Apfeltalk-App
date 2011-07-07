@@ -156,18 +156,6 @@
 	}
 }
 
-- (void)updateInterface {
-    [super updateInterface];
-    NewsController *newsController;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        newsController = [[[self.splitViewController.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
-    } else {
-        NSArray *controllers = [[self navigationController] viewControllers];
-        newsController = (NewsController *)[controllers objectAtIndex:[controllers count] - 2];
-    }
-    
-    [self setShowSave:![newsController isSavedStory:[self story]]];
-}
 
 - (void)viewDidLoad
 {

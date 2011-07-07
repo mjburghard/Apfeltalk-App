@@ -8,24 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import "ATTextView.h"
 
 @class ContentCell;
-@class ATTextView;
 
 @protocol ContentCellDelegate
 - (void)contentCellDidBeginEditing:(ContentCell *)cell;
-- (void)contentCellDidEndEditing:(ContentCell *)cell;
 - (BOOL)contentCell:(ContentCell *)cell shouldLoadRequest:(NSURLRequest *)aRequest;
-- (void)contentCell:(ContentCell *)cell shouldQuoteText:(NSString *)quoteText;
 @end
 
 @interface ContentCell : UITableViewCell <UITextViewDelegate>{
-    ATTextView *textView;
+    UITextView *textView;
     id <ContentCellDelegate> delegate;
 }
 
-@property (retain) ATTextView *textView;
+@property (retain) UITextView *textView;
 @property (retain) id <ContentCellDelegate> delegate;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier tableViewWidth:(CGFloat)tableViewWidth;
