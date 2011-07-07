@@ -288,7 +288,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     NSLog(@"quoteText: %@", quoteText);
     AnswerViewController *answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
     [self.navigationController pushViewController:answerViewController animated:YES];
-    answerViewController.textView.text = [NSString stringWithFormat:@"[Quote]%@[/Quote]", quoteText];
+    answerViewController.textView.text = [NSString stringWithFormat:@"[QUOTE]%@[/QUOTE]", quoteText];
     [answerViewController release];
 }
 
