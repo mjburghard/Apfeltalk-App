@@ -250,13 +250,21 @@ const CGFloat kDefaultRowHeight = 44.0;
     
     if (isImage) {
         GCImageViewer *imageViewer = [[GCImageViewer alloc] initWithURL:[aRequest URL]];
-        [self.navigationController pushViewController:imageViewer animated:YES];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [self presentModalViewController:imageViewer animated:YES];
+        } else {
+            [self.navigationController pushViewController:imageViewer animated:YES];
+        }   
         [imageViewer release];
         return NO;
     }
     
     ATWebViewController *webViewController = [[ATWebViewController alloc] initWithNibName:@"ATWebViewController" bundle:nil URL:[aRequest URL]];
-    [self.navigationController pushViewController:webViewController animated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self presentModalViewController:webViewController animated:YES];
+    } else {
+        [self.navigationController pushViewController:webViewController animated:YES];
+    }
     [webViewController release];
     
     return NO;
@@ -272,6 +280,18 @@ const CGFloat kDefaultRowHeight = 44.0;
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(endEditing:)];
     [self.navigationItem setLeftBarButtonItem:leftButton animated:YES];
     [leftButton release];
+}
+
+- (void)contentCell:(ContentCell *)cell shouldQuoteText:(NSString *)quoteText {
+    NSLog(@"quoteText: %@", quoteText);
+    AnswerViewController *answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
+    [self.navigationController pushViewController:answerViewController animated:YES];
+    answerViewController.textView.text = [NSString stringWithFormat:@"[Quote]%@[/Quote]", quoteText];
+    [answerViewController release];
+}
+
+- (void)contentCellDidEndEditing:(ContentCell *)cell {
+    [self endEditing:nil];
 }
 
 #pragma mark -
@@ -326,11 +346,9 @@ const CGFloat kDefaultRowHeight = 44.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginWasSuccessful) name:@"ATLoginWasSuccessful" object:nil];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    //Einblenden der TabBar bei verlassen des Forums
-    self.hidesBottomBarWhenPushed = NO;
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -470,6 +488,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 		}
         contentCell.textView.text = p.content;
         contentCell.textView.scrollEnabled = NO;
+        
         contentCell.delegate = self;
 		return contentCell;
 	} 
@@ -502,9 +521,9 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     [self endEditing:nil];
     AnswerViewController *answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
+    [self.navigationController pushViewController:answerViewController animated:YES];
     answerViewController.textView.text = answerCell.textView.text;
     answerCell.textView.text = @"";
-    [self.navigationController pushViewController:answerViewController animated:YES];
     [answerViewController release];
 }
 

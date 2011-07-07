@@ -398,10 +398,6 @@ NSString * encodeString(NSString *aString) {
     
     SubForumController *subForumController = [[SubForumController alloc] initWithNibName:@"SubForumController" bundle:nil subForum:subForum];
     
-    
-    //Ausblenden der TabBar furs Forum
-    //subForumController.hidesBottomBarWhenPushed = YES;
-    
     // ...
     // Pass the selected object to the new view controller.
     [self.navigationController pushViewController:subForumController animated:YES];
@@ -427,12 +423,13 @@ NSString * encodeString(NSString *aString) {
 
 #pragma mark -
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-     return YES;
-     }
-     return (interfaceOrientation == UIInterfaceOrientationPortrait);*/
-    return YES;
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return YES;
+    }
+    
+    return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 #pragma mark-

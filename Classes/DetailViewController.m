@@ -321,12 +321,13 @@
 #pragma mark -
 #pragma mark Interfacerotation
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-     return YES;
-     }
-     return (interfaceOrientation == UIInterfaceOrientationPortrait);*/
-    return YES;
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return YES;
+    }
+    
+    return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
