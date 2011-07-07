@@ -250,6 +250,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     
     if (isImage) {
         GCImageViewer *imageViewer = [[GCImageViewer alloc] initWithURL:[aRequest URL]];
+        [self.navigationController pushViewController:imageViewer animated:YES];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [self presentModalViewController:imageViewer animated:YES];
         } else {
@@ -260,6 +261,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     }
     
     ATWebViewController *webViewController = [[ATWebViewController alloc] initWithNibName:@"ATWebViewController" bundle:nil URL:[aRequest URL]];
+    [self.navigationController pushViewController:webViewController animated:YES];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [self presentModalViewController:webViewController animated:YES];
     } else {
@@ -347,6 +349,8 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    //Einblenden der TabBar bei verlassen des Forums
+    self.hidesBottomBarWhenPushed = NO;
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
