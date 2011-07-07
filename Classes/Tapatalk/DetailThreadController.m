@@ -528,6 +528,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     [self.navigationController pushViewController:answerViewController animated:YES];
     answerViewController.textView.text = answerCell.textView.text;
     answerCell.textView.text = @"";
+    [self.navigationController pushViewController:answerViewController animated:YES];
     [answerViewController release];
 }
 
