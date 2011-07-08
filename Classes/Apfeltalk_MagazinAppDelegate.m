@@ -29,6 +29,7 @@
 #import "DetailGallery.h"
 #import "DetailLiveticker.h"
 #import "User.h"
+#import "NewsController.h"
 
 
 @implementation Apfeltalk_MagazinAppDelegate
@@ -83,7 +84,7 @@
         UISplitViewController *splitviewController = [[UISplitViewController alloc] init];
         splitviewController.delegate = [newsController.viewControllers objectAtIndex:0];
         splitviewController.tabBarItem = newsController.tabBarItem;
-        DetailNews *detailNews = [[DetailNews alloc] initWithNibName:@"DetailView" bundle:nil story:nil];
+        DetailNews *detailNews = [[DetailNews alloc] initWithNibName:[(NewsController *)splitviewController.delegate detailNibName] bundle:nil story:nil];
         
         splitviewController.viewControllers = [NSArray arrayWithObjects:newsController, detailNews,nil];
         [viewControllers replaceObjectAtIndex:0 withObject:splitviewController];

@@ -280,11 +280,6 @@
         [items release];
     }
     [speichernButton release];
-    
-    // :below:20091111 Apple wants this removed
-    //	[(UIScrollView*)[webview.subviews objectAtIndex:0]	 setAllowsRubberBanding:NO];
-    // :MacApple:20100105 I'm wondering why this doesn't caused a crash
-    //	[webview release];
 }
 
 - (IBAction)speichern:(id)sender {
@@ -318,8 +313,7 @@
     [itemsArray release];
 }
 
-#pragma mark -
-#pragma mark Interfacerotation
+#pragma mark - Interfacerotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {

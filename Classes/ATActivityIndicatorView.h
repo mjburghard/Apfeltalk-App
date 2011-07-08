@@ -1,5 +1,5 @@
 //
-//  DetailNews.h
+//  ATActivityIndicatorView.h
 //  Apfeltalk Magazin
 //
 //	Apfeltalk Magazin -- An iPhone Application for the site http://apfeltalk.de
@@ -22,21 +22,15 @@
 //	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.//
 //
 
-#import <Foundation/Foundation.h>
-#import "ATActivityIndicatorView.h"
-#import "DetailViewController.h"
-#import <MessageUI/MessageUI.h>
+#import <UIKit/UIKit.h>
 
-@interface DetailNews : DetailViewController <UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate> {
-	BOOL showSave;
-	UIActionSheet *loadingActionSheet;
+@interface ATActivityIndicatorView : UIView
+{
+@private
+    UIActivityIndicatorView *indicatorView;
 }
 
-@property (readwrite) BOOL showSave;
-@property (nonatomic, retain) IBOutlet ATActivityIndicatorView *activityIndicator;
-@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
-@property (nonatomic, assign) NSInteger currentPage;
-
-- (IBAction)changePage:(UIPageControl *)sender;
+- (void)startAnimating;
+- (void)stopAnimating;
 
 @end

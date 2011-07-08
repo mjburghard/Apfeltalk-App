@@ -147,7 +147,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	DetailNews *detailController;
 	
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        detailController = [[detailClass alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] story:story];
+        detailController = [[detailClass alloc] initWithNibName:[self detailNibName] bundle:[NSBundle mainBundle] story:story];
         [detailController setShowSave:NO];
         [self.navigationController pushViewController:detailController animated:YES];
         [detailController release];
@@ -168,6 +168,10 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 
 - (Class) detailControllerClass {
 	return [DetailNews self];
+}
+
+- (NSString *)detailNibName {
+    return @"MagazineDetailView";
 }
 
 - (void) addSavedStory:(Story *)newStory {
@@ -281,6 +285,14 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	return extractTextFromHTMLForQuery (htmlInput, @"/*[1]");
 }
 
+- (NSDictionary *) desiredKeys {
+	NSArray      *names = [NSArray arrayWithObjects:@"title", @"link", [self dateElementName], nil];
+	NSArray      *keys = [NSArray arrayWithObjects:@"title", @"link", @"date", nil];
+	NSDictionary *elementKeys = [NSDictionary dictionaryWithObjects:keys forKeys:names];
+
+	return elementKeys;
+}
+
 - (void)parseXMLFileAtURL:(NSString *)URL {
 	[super parseXMLFileAtURL:URL];
 
@@ -303,31 +315,6 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
         if ([thumbnailLink length] > 0)
             [s setThumbnailLink:thumbnailLink];
     }
-}
-
-#pragma mark -
-#pragma mark ATXMLParserDelegateProtocol
-
-- (BOOL)parser:(ATXMLParser *)parser shouldAddParsedItem:(id)item
-{
-    NSScanner       *scanner = [NSScanner scannerWithString:[item summary]];
-	NSMutableString *resultString = [[NSMutableString alloc] init];
-    NSString        *aString;
-
-    while (![scanner isAtEnd])
-    {
-        if ([scanner scanUpToString:@"<div id='mediaplayer'" intoString:&aString])
-        {
-            [resultString appendString:aString];
-            [scanner scanUpToString:@"</div>" intoString:NULL];
-            [scanner scanString:@"</div>" intoString:NULL];
-        }
-    }
-
-    [item setSummary:resultString];
-    [resultString release];
-
-    return YES;
 }
 
 #pragma mark -

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -27,6 +27,11 @@
 		4CC030DE1055D4340039DAB5 /* LivetickerNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CC030DD1055D4340039DAB5 /* LivetickerNavigationController.m */; };
 		4CD36BE31058344700DD09FB /* Down.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD36BE21058344700DD09FB /* Down.png */; };
 		4CD36BE71058345800DD09FB /* Up.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD36BE61058345800DD09FB /* Up.png */; };
+		4CDD01A213C644A800E0DCAD /* ATActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD01A113C644A800E0DCAD /* ATActivityIndicatorView.m */; };
+		4CDD01A413C6477C00E0DCAD /* XPaths.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CDD01A313C6477C00E0DCAD /* XPaths.plist */; };
+		4CDD01A613C64BFE00E0DCAD /* Magazine.html in Resources */ = {isa = PBXBuildFile; fileRef = 4CDD01A513C64BFE00E0DCAD /* Magazine.html */; };
+		4CDD01A813C64C5600E0DCAD /* MagazineDetailView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDD01A713C64C5600E0DCAD /* MagazineDetailView~iphone.xib */; };
+		4CDD01AA13C64C6900E0DCAD /* MagazineDetailView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDD01A913C64C6800E0DCAD /* MagazineDetailView~ipad.xib */; };
 		4CFA12B410B8C51B00D8AB71 /* DetailBottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFA12B110B8C51B00D8AB71 /* DetailBottom.png */; };
 		4CFA12B510B8C51B00D8AB71 /* DetailMiddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFA12B210B8C51B00D8AB71 /* DetailMiddle.png */; };
 		4CFA12B610B8C51B00D8AB71 /* DetailTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFA12B310B8C51B00D8AB71 /* DetailTop.png */; };
@@ -240,6 +245,12 @@
 		4CC030DD1055D4340039DAB5 /* LivetickerNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LivetickerNavigationController.m; sourceTree = "<group>"; };
 		4CD36BE21058344700DD09FB /* Down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Down.png; sourceTree = "<group>"; };
 		4CD36BE61058345800DD09FB /* Up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Up.png; sourceTree = "<group>"; };
+		4CDD01A013C644A800E0DCAD /* ATActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATActivityIndicatorView.h; sourceTree = "<group>"; };
+		4CDD01A113C644A800E0DCAD /* ATActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATActivityIndicatorView.m; sourceTree = "<group>"; };
+		4CDD01A313C6477C00E0DCAD /* XPaths.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = XPaths.plist; sourceTree = "<group>"; };
+		4CDD01A513C64BFE00E0DCAD /* Magazine.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Magazine.html; sourceTree = "<group>"; };
+		4CDD01A713C64C5600E0DCAD /* MagazineDetailView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MagazineDetailView~iphone.xib"; sourceTree = "<group>"; };
+		4CDD01A913C64C6800E0DCAD /* MagazineDetailView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MagazineDetailView~ipad.xib"; sourceTree = "<group>"; };
 		4CFA12B110B8C51B00D8AB71 /* DetailBottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DetailBottom.png; sourceTree = "<group>"; };
 		4CFA12B210B8C51B00D8AB71 /* DetailMiddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DetailMiddle.png; sourceTree = "<group>"; };
 		4CFA12B310B8C51B00D8AB71 /* DetailTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DetailTop.png; sourceTree = "<group>"; };
@@ -503,7 +514,7 @@
 		F634306110362AC6004ACF93 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		F634308310362E27004ACF93 /* GalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryController.h; sourceTree = "<group>"; };
 		F634308410362E27004ACF93 /* GalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryController.m; sourceTree = "<group>"; };
-		F6658265104FC21300BF91E9 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		F6658265104FC21300BF91E9 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/RootViewController.m; sourceTree = SOURCE_ROOT; };
 		F6730BA113490EE70045B876 /* default.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = default.css; sourceTree = "<group>"; };
 		F6730BB8134A67040045B876 /* AsyncImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageButton.h; sourceTree = "<group>"; };
 		F6730BB9134A67040045B876 /* AsyncImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageButton.m; sourceTree = "<group>"; };
@@ -590,6 +601,8 @@
 				5EAACB5E137437ED00421338 /* ATActivityIndicator.m */,
 				5E39291013C0F16F005B9003 /* ATTextView.h */,
 				5E39291113C0F16F005B9003 /* ATTextView.m */,
+				4CDD01A013C644A800E0DCAD /* ATActivityIndicatorView.h */,
+				4CDD01A113C644A800E0DCAD /* ATActivityIndicatorView.m */,
 			);
 			name = "Helper Views";
 			sourceTree = "<group>";
@@ -597,7 +610,6 @@
 		29B97314FDCFA39411CA2CEA /* Apfeltalk Magazin */ = {
 			isa = PBXGroup;
 			children = (
-				5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -626,6 +638,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4CDD01A913C64C6800E0DCAD /* MagazineDetailView~ipad.xib */,
+				4CDD01A713C64C5600E0DCAD /* MagazineDetailView~iphone.xib */,
 				5E26C63B1388098D00A7A1C5 /* NewPostsViewController.xib */,
 				5E2A1868137EED6E00F6EF86 /* NewTopicViewController.xib */,
 				5E2A1862137E8ACA00F6EF86 /* AnswerViewController.xib */,
@@ -635,6 +649,8 @@
 				CBBD046610DE4C020056C183 /* LoadingCell.xib */,
 				CB1E3BC610CC674600B01120 /* Entitlements.plist */,
 				F6730BA113490EE70045B876 /* default.css */,
+				4CDD01A513C64BFE00E0DCAD /* Magazine.html */,
+				4CDD01A313C6477C00E0DCAD /* XPaths.plist */,
 				CB1434AE1058616500B5FF14 /* Images */,
 				F6730BE3134A70B40045B876 /* GCImageViewer.xib */,
 				F6FB7DD5104EDE2F007F5A54 /* Fullscreen.xib */,
@@ -689,6 +705,7 @@
 				5A393EEE139263270095751E /* Default-Portrait.png */,
 				5A393EEF139263270095751E /* DetailBottom~ipad.png */,
 				5A393EF0139263270095751E /* DetailMiddle~ipad.png */,
+				5AB7A5681392F11E00C1B6C6 /* icon@iPad.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -1236,8 +1253,11 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Apfeltalk Magazin" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1350,6 +1370,10 @@
 				5AA9412213B9C52B0072DEC7 /* SearchResultsViewController.xib in Resources */,
 				5AA9412413B9C6A70072DEC7 /* PrivateMessagesViewController.xib in Resources */,
 				5AA9412613B9C6E80072DEC7 /* SubscriptionsViewController.xib in Resources */,
+				4CDD01A413C6477C00E0DCAD /* XPaths.plist in Resources */,
+				4CDD01A613C64BFE00E0DCAD /* Magazine.html in Resources */,
+				4CDD01A813C64C5600E0DCAD /* MagazineDetailView~iphone.xib in Resources */,
+				4CDD01AA13C64C6900E0DCAD /* MagazineDetailView~ipad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1461,6 +1485,7 @@
 				5E2A1869137EED6F00F6EF86 /* NewTopicViewController.m in Sources */,
 				5E26C63C1388098D00A7A1C5 /* NewPostsViewController.m in Sources */,
 				5E39291213C0F16F005B9003 /* ATTextView.m in Sources */,
+				4CDD01A213C644A800E0DCAD /* ATActivityIndicatorView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1562,7 +1587,6 @@
 					"-Wall",
 					"$(OTHER_CFLAGS)",
 				);
-				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1619,7 +1643,6 @@
 					"-Wall",
 					"$(OTHER_CFLAGS)",
 				);
-				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1644,7 +1667,6 @@
 					"-Wall",
 					"$(OTHER_CFLAGS)",
 				);
-				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -140,7 +140,7 @@
     [self markStoryAsRead:story];
 	DetailViewController *detailController;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        detailController = [[dvClass alloc] initWithNibName:@"DetailView" 
+        detailController = [[dvClass alloc] initWithNibName:[self detailNibName] 
                                                      bundle:[NSBundle mainBundle]
                                                       story:story];
         [self.navigationController pushViewController:detailController animated:YES];
@@ -283,7 +283,7 @@
 #pragma mark -
 
 - (NSString *) documentPath {
-	return @"http://pipes.yahoo.com/pipes/pipe.run?ContextBegin=%3Cdiv+class%3D%22article+cms_clear+restore+postcontainer%22%3E&ContextEnd=%3C%2Fdiv%3E&RssUrl=http%3A%2F%2Ffeeds.apfeltalk.de%2Fapfeltalk-magazin&_id=2b7dd66fad6786fb098d951bad72762c&_render=rss";
+	return @"http://feeds.feedburner.com/apfeltalk-magazin";
 }
 
 - (NSString *) supportFolderPath {
@@ -300,6 +300,10 @@
 
 - (Class) detailControllerClass {
 	return [DetailViewController self];
+}
+
+- (NSString *)detailNibName {
+    return @"DetailView";
 }
 
 - (void)viewWillAppear:(BOOL)animated {

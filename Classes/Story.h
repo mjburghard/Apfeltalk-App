@@ -25,6 +25,15 @@
 #import <Foundation/Foundation.h>
 
 
+extern NSString *const ATStoryTitle;
+extern NSString *const ATStorySummary;
+extern NSString *const ATStoryDate;
+extern NSString *const ATStoryAuthor;
+extern NSString *const ATStoryLink;
+extern NSString *const ATStoryThumbnailLink;
+extern NSString *const ATStoryContent;
+
+
 @interface Story : NSObject <NSCoding> {
 	NSString *title;
 	NSString *summary;
@@ -32,12 +41,17 @@
 	NSString *author;
 	NSString *link;
 	NSString *thumbnailLink;
+    NSMutableArray *storyContent;
 }
+
 @property (readwrite, copy) NSString *title;
 @property (readwrite, copy) NSString *summary;
 @property (readwrite, copy) NSDate *date;
 @property (readwrite, copy) NSString *author;
 @property (readwrite, copy) NSString *link;
 @property (readwrite, copy) NSString *thumbnailLink;
+@property (readonly, retain) NSArray *content;
+
+- (void)addStoryPage:(NSString *)pageContent;
 
 @end

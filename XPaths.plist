@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>author</key>
+	<string>//div[@class=&quot;article_username_container_full&quot;]/div/a/strong/b</string>
+	<key>content</key>
+	<string>//div[@class=&quot;article cms_clear restore postcontainer&quot;]</string>
+	<key>pagesLinks</key>
+	<string>//ul[@class=&quot;navpopupbody popupbody popuphover&quot;]</string>
+</dict>
+</plist>
