@@ -30,6 +30,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.numberOfPosts = self.topic.numberOfPosts;
         self.didRotate = NO;
         isAnswering = NO;
+        self.hidesBottomBarWhenPushed = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTabBar"];
     }
     return self;
 }
