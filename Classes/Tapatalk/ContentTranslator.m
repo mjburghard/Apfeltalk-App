@@ -30,7 +30,11 @@
 - (NSString *)translateStringForiOS:(NSString *)aString {
     NSString *string = [NSString stringWithString:aString];
     string = [string stringByReplacingOccurrencesOfString:@"[QUOTE]" withString:@"Zitat:\n---------\n"];
-    string = [string stringByReplacingOccurrencesOfString:@"[/QUOTE]" withString:@"\n---------"];
+    string = [string stringByReplacingOccurrencesOfString:@"[/QUOTE]" withString:@"\n---------\n"];
+    string = [string stringByReplacingOccurrencesOfString:@"[quote]" withString:@"Zitat:\n---------\n"];
+    string = [string stringByReplacingOccurrencesOfString:@"[/quote]" withString:@"\n---------\n"];
+    string = [string stringByReplacingOccurrencesOfString:@"[Quote]" withString:@"Zitat:\n---------\n"];
+    string = [string stringByReplacingOccurrencesOfString:@"[/Quote]" withString:@"\n---------\n"];
     
     if ([string isMatchedByRegex:@"\\[.+=\"\\bhttps?://[a-zA-Z0-9\\-.]+(?:(?:/[a-zA-Z0-9\\-._?,'+\\&%$=~*!():@\\\\]*)+)?\"\\].+\\[.+\\]"]) {
         NSArray *elements = [string componentsMatchedByRegex:@"\\[.+=\"\\bhttps?://[a-zA-Z0-9\\-.]+(?:(?:/[a-zA-Z0-9\\-._?,'+\\&%$=~*!():@\\\\]*)+)?\"\\].+\\[.+\\]"];
