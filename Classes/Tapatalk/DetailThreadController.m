@@ -172,16 +172,13 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)showActionSheet {
-    NSString *loginButtonTitle, *answerButton;
+    NSString *loginButtonTitle = nil, *answerButton = nil;
     if ([[User sharedUser] isLoggedIn]) {
         loginButtonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
-        if (self.topic.userCanPost)
+        if (self.topic.userCanPost && !self.topic.closed)
             answerButton = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
-        else
-            answerButton = nil;
     } else {
         loginButtonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
-        answerButton = nil;
     }
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:loginButtonTitle, NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @""), answerButton, nil];
     if (self.navigationController.tabBarController.tabBar) {
@@ -209,7 +206,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             [self last];
             break;
         case 2:
-            if ([[User sharedUser] isLoggedIn] && self.topic.userCanPost) {
+            if ([[User sharedUser] isLoggedIn] && (self.topic.userCanPost && !self.topic.closed)) {
                 answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
                 [self.navigationController pushViewController:answerViewController animated:YES];
                 [answerViewController release]; 
@@ -283,7 +280,6 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)contentCell:(ContentCell *)cell shouldQuoteText:(NSString *)quoteText {
-    NSLog(@"quoteText: %@", quoteText);
     AnswerViewController *answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
     [self.navigationController pushViewController:answerViewController animated:YES];
     answerViewController.textView.text = [NSString stringWithFormat:@"[QUOTE]%@[/QUOTE]", quoteText];
@@ -476,7 +472,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             }
             actionsCell.textLabel.text = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
             actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
-            if (self.topic.userCanPost) {
+            if (self.topic.userCanPost && !self.topic.closed) {
                 actionsCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             }
             return actionsCell;
@@ -559,6 +555,8 @@ const CGFloat kDefaultRowHeight = 44.0;
             isNumberOfPosts = YES;
         } else if ([self.currentString isEqualToString:@"can_reply"]) {
             isCanReply = YES;
+        } else if ([self.currentString isEqualToString:@"is_closed"]) {
+            isClosed = YES;
         }
     }
     
@@ -572,6 +570,9 @@ const CGFloat kDefaultRowHeight = 44.0;
             isCanReply = NO;
             NSLog(@"User can post: %@", self.currentString);
             self.topic.userCanPost = [self.currentString boolValue];
+        } else if (isClosed) {
+            isClosed = NO;
+            self.topic.closed = [self.currentString boolValue];
         }
     }
 

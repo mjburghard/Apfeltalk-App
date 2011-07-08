@@ -23,7 +23,7 @@
     NSInteger site;
     BOOL isAnswering, didRotate;
     
-    BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts, isCanReply, isOnline;
+    BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts, isCanReply, isOnline, isClosed;;
 }
 
 @property (retain) Topic *topic;
