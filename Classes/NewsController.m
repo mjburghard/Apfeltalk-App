@@ -145,7 +145,7 @@ const int SAVED_MESSAGES_SECTION_INDEX = 1;
 	Class detailClass = [self detailControllerClass];
 	
 	DetailNews *detailController;
-	
+    
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         detailController = [[detailClass alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] story:story];
         [detailController setShowSave:NO];

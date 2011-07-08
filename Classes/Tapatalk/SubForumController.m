@@ -137,6 +137,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    //Einblenden der TabBar bei verlassen des Forums	
+    //self.hidesBottomBarWhenPushed = NO;
     [super viewWillDisappear:animated];
 }
 
@@ -285,6 +287,8 @@
     }
     
     DetailThreadController *detailThreadController = [[DetailThreadController alloc] initWithNibName:@"DetailThreadController" bundle:nil topic:(Topic *)[self.topics objectAtIndex:indexPath.row]];
+    //Ausblenden der TabBar im beim lesen der Themen
+    detailThreadController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:detailThreadController animated:YES];
     [detailThreadController release];
     
@@ -293,6 +297,8 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     DetailThreadController *detailThreadController = [[DetailThreadController alloc] initWithNibName:@"DetailThreadController" bundle:nil topic:(Topic *)[self.topics objectAtIndex:indexPath.row]];
     [detailThreadController loadLastSite];
+    //Ausblenden der TabBar im beim lesen der Themen
+    detailThreadController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:detailThreadController animated:YES];
     [detailThreadController release];
 }
