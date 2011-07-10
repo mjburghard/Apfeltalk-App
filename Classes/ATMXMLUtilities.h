@@ -7,5 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <libxml/tree.h>
+
+
+@interface ATMXMLUtilities : NSObject
+{
+    xmlDocPtr theXMLDoc;
+}
+
+@property (nonatomic, retain) NSDictionary *xPaths;
+
++ (ATMXMLUtilities *)xmlUtilitiesWithURLString:(NSString *)urlString;
+
+- (id)initWithURLString:(NSString *)urlString;
+
+- (NSString *)authorName;
+- (NSString *)articleContent;
+- (NSArray *)articlePagesLinks;
+
+@end
 
 NSString *extractTextFromHTMLForQuery (NSString *htmlInput, NSString *query);

@@ -25,6 +25,7 @@
 #import "DetailNews.h"
 #import "NewsController.h"
 #import "Apfeltalk_MagazinAppDelegate.h"
+#import "ATMXMLUtilities.h"
 
 #import "SHK.h"
 #import "SHKTwitter.h"
@@ -32,12 +33,29 @@
 #import "SHKFBStreamDialog.h"
 #import "SHKMail.h"
 
+
+// Private interface
+@interface DetailNews ()
+
+- (NSString *)htmlString;
+- (NSUInteger)imageWidth;
+- (void)loadArticlePages:(NSArray *)pagesLinks;
+- (void)internalUpdateInterface;
+- (void)stopNetworkActivityIndicator;
+
+@end
+
+
 @interface DetailNews (private)
 - (void)createMailComposer;
 @end
 
 @implementation DetailNews
+
 @synthesize showSave;
+@synthesize activityIndicator;
+@synthesize pageControl;
+@synthesize currentPage;
 
 // This is the new designated initializer for the class
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle story:(Story *)newStory
@@ -45,8 +63,16 @@
 	self = [super initWithNibName:nibName bundle:nibBundle story:newStory];
 	if (self != nil) {
 		showSave = YES;
+        self.hidesBottomBarWhenPushed = YES;
 	}
 	return self;
+}
+
+- (void)dealloc
+{
+    self.activityIndicator = nil;
+    self.pageControl = nil;
+    [super dealloc];
 }
 
 - (NSString *) Mailsendecode {
@@ -156,24 +182,49 @@
 	}
 }
 
-- (void)updateInterface {
-    [super updateInterface];
+- (void)updateInterface
+{
     NewsController *newsController;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
         newsController = [[[self.splitViewController.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
-    } else {
+    }
+    else
+    {
         NSArray *controllers = [[self navigationController] viewControllers];
         newsController = (NewsController *)[controllers objectAtIndex:[controllers count] - 2];
     }
-    
+
     [self setShowSave:![newsController isSavedStory:[self story]]];
+
+    Story *theStory = self.story;
+
+    if (theStory && !theStory.author)     // Check if the author and content is already loaded
+    {
+        if (!self.activityIndicator)
+            self.activityIndicator = [[[ATActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0, 0.0, 70.0, 70.0)] autorelease];
+
+        self.activityIndicator.center = CGPointMake(webview.frame.size.width / 2.0, webview.frame.size.height / 2.0);
+
+        [webview addSubview:self.activityIndicator];
+        [self.activityIndicator startAnimating];
+    }
+
+    self.currentPage = 0;
+    [self performSelector:@selector(internalUpdateInterface) withObject:nil afterDelay:0.0];
 }
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    webview.delegate = self;
+    UIBarButtonItem *rightItem = [[[UIBarButtonItem alloc] initWithTitle:[self rightBarButtonTitle]
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:[[[self navigationController] viewControllers] lastObject]
+                                                                  action:@selector(speichern:)] autorelease];
+
     NSArray            *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"Up.png"], [UIImage imageNamed:@"Down.png"], nil];
-	UISegmentedControl *segControl = [[UISegmentedControl alloc] initWithItems:imgArray];
+	UISegmentedControl *segControl = [[[UISegmentedControl alloc] initWithItems:imgArray] autorelease];
 
 	[segControl addTarget:[[[self navigationController] viewControllers] objectAtIndex:0] action:@selector(changeStory:)
          forControlEvents:UIControlEventValueChanged];
@@ -181,14 +232,23 @@
 	[segControl setSegmentedControlStyle:UISegmentedControlStyleBar];
 	[segControl setMomentary:YES];
 
-    UIBarButtonItem* rightItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Options", @"ATLocalizable", @"") style:UIBarButtonItemStyleBordered target:[[[self navigationController] viewControllers] lastObject] action:@selector(speichern:)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        self.navigationItem.titleView = segControl;
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    else
+    {
+        NSMutableArray *items = [toolbar.items mutableCopy];
+        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        [items addObject:flexibleSpace];
+        [items addObject:rightItem];
+        [toolbar setItems:items animated:NO];
+        [flexibleSpace release];
+        [items release];
+    }
 
-    [[self navigationItem] setTitleView:segControl];
-    [[self navigationItem] setRightBarButtonItem:rightItem];
     [[[[self navigationController] viewControllers] objectAtIndex:0] changeStory:segControl];
-
-    [segControl release];
-    [rightItem release];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -207,5 +267,124 @@
         [self setShowSave:NO];
 }
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self updateInterface];
+    [super viewDidAppear:animated];
+}
+
+- (void)changePage:(UIPageControl *)sender
+{
+    NSInteger page = sender.currentPage;
+
+    if (page != self.currentPage)
+    {
+        if (page >= [self.story.content count])
+        {
+            sender.currentPage = self.currentPage;
+        }
+        else
+        {
+            self.currentPage = page;
+            [webview loadHTMLString:[self htmlString] baseURL:nil];
+        }
+    }
+}
+
+#pragma mark - Internal used methods
+
+- (NSString *)htmlString
+{
+    Story           *theStory = self.story;
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setDateFormat:[NSString stringWithFormat:@"%@ HH:mm", [dateFormatter dateFormat]]];
+
+    if ([theStory.content count] == 0)
+        return @"";
+
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"Magazine" ofType:@"html"];
+    NSString *htmlString = [NSString stringWithFormat:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL],
+                            [self imageWidth], theStory.title, theStory.author, [dateFormatter stringFromDate:theStory.date],
+                            [theStory.content objectAtIndex:self.currentPage]];
+    return htmlString;
+}
+
+
+- (NSUInteger)imageWidth
+{
+    NSUInteger width = 290;
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        width = 675;
+
+    return width;
+}
+
+
+- (void)loadArticlePages:(NSArray *)pagesLinks
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    for (NSUInteger index = 1; index < [pagesLinks count]; index++)
+    {
+        ATMXMLUtilities *xmlUtilities = [[ATMXMLUtilities alloc] initWithURLString:[pagesLinks objectAtIndex:index]];
+        [self.story addStoryPage:[xmlUtilities articleContent]];
+        [xmlUtilities release];
+    }
+
+    [self performSelectorOnMainThread:@selector(stopNetworkActivityIndicator) withObject:nil waitUntilDone:NO];
+
+    [pool release];
+}
+
+
+- (void)internalUpdateInterface
+{
+    NSArray *pagesLinks = nil;
+    Story   *theStory= self.story;
+
+    if (theStory.link && !theStory.author)   // Fill the empty attributes of the current item
+    {
+        ATMXMLUtilities *xmlUtilities = [ATMXMLUtilities xmlUtilitiesWithURLString:theStory.link];
+
+        theStory.author = [xmlUtilities authorName];
+        [theStory addStoryPage:[xmlUtilities articleContent]];
+        pagesLinks = [xmlUtilities articlePagesLinks];
+        if (pagesLinks)
+            [self performSelectorInBackground:@selector(loadArticlePages:) withObject:pagesLinks];
+    }
+
+    [webview loadHTMLString:[self htmlString] baseURL:nil];
+
+    NSInteger pageCount = [theStory.content count];
+
+    if (pageCount == 0)
+        pageCount = 1;
+
+    if (pagesLinks)
+        pageCount = [pagesLinks count];
+    else
+        [self stopNetworkActivityIndicator];
+
+    self.pageControl.numberOfPages = pageCount;
+    self.pageControl.currentPage = 0;
+    self.currentPage = 0;
+}
+
+
+- (void)stopNetworkActivityIndicator
+{
+    [self.activityIndicator stopAnimating];
+    [self.activityIndicator removeFromSuperview];
+}
+
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    // No longer needed for the news.
+}
 
 @end

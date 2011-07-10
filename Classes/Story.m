@@ -24,15 +24,26 @@
 
 #import "Story.h"
 
-NSString *ATStoryTitle = @"title";
-NSString *ATStorySummary = @"summary";
-NSString *ATStoryDate = @"date";
-NSString *ATStoryAuthor = @"author";
-NSString *ATStoryLink = @"link";
-NSString *ATStoryThumbnailLink = @"thumbnailLink";
+NSString *const ATStoryTitle = @"title";
+NSString *const ATStorySummary = @"summary";
+NSString *const ATStoryDate = @"date";
+NSString *const ATStoryAuthor = @"author";
+NSString *const ATStoryLink = @"link";
+NSString *const ATStoryThumbnailLink = @"thumbnailLink";
+NSString *const ATStoryContent = @"content";
 
 @implementation Story
+
 @synthesize title, summary, date, author, link, thumbnailLink;
+@synthesize content=storyContent;
+
+
+- (id)init {
+    if (self = [super init])
+        storyContent = [[NSMutableArray alloc] init];
+
+    return self;
+}
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	if (self = [super init]) {
@@ -43,6 +54,7 @@ NSString *ATStoryThumbnailLink = @"thumbnailLink";
 			[self setAuthor:[aDecoder decodeObjectForKey:ATStoryAuthor]];
 			[self setLink:[aDecoder decodeObjectForKey:ATStoryLink]];
 			[self setThumbnailLink:[aDecoder decodeObjectForKey:ATStoryThumbnailLink]];
+            storyContent = [[aDecoder decodeObjectForKey:ATStoryContent] retain];
 		}
 	}
 	return self;
@@ -55,11 +67,7 @@ NSString *ATStoryThumbnailLink = @"thumbnailLink";
 	[aCoder encodeObject:[self author] forKey:ATStoryAuthor];
 	[aCoder encodeObject:[self link] forKey:ATStoryLink];
 	[aCoder encodeObject:[self thumbnailLink] forKey:ATStoryThumbnailLink];
-}
-
-- (void) setThumbnailLink:(NSString *)newLink {
-	[thumbnailLink release];
-	thumbnailLink = [newLink copy];
+    [aCoder encodeObject:[self content] forKey:ATStoryContent];
 }
 
 - (void) dealloc
@@ -70,7 +78,14 @@ NSString *ATStoryThumbnailLink = @"thumbnailLink";
 	[author release];
 	[link release];
 	[thumbnailLink release];
+    [storyContent release];
+
 	[super dealloc];
+}
+
+- (void)addStoryPage:(NSString *)pageContent
+{
+    [storyContent addObject:pageContent];
 }
 
 @end

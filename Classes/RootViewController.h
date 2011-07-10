@@ -64,6 +64,7 @@
 - (void)reloadTableViewDataSource;
 - (void)doneLoadingTableViewData;
 
+- (NSString *)dateElementName;
 - (void)parseXMLFileAtURL:(NSString *)URL;
 - (IBAction)openSafari:(id)sender;
 - (IBAction)about:(id)sender;
@@ -71,6 +72,7 @@
 - (NSString *)supportFolderPath;
 - (NSString *)documentPath;
 - (Class) detailControllerClass;
+- (NSString *)detailNibName;
 - (void)markStoryAsRead:(Story *)aStory;
 
 - (void)updateApplicationIconBadgeNumber;
