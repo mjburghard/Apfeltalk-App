@@ -30,6 +30,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.numberOfPosts = self.topic.numberOfPosts;
         self.didRotate = NO;
         isAnswering = NO;
+        self.hidesBottomBarWhenPushed = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTabBar"];
     }
     return self;
 }
@@ -172,16 +173,13 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)showActionSheet {
-    NSString *loginButtonTitle, *answerButton;
+    NSString *loginButtonTitle = nil, *answerButton = nil;
     if ([[User sharedUser] isLoggedIn]) {
         loginButtonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
-        if (self.topic.userCanPost)
+        if (self.topic.userCanPost && !self.topic.closed)
             answerButton = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
-        else
-            answerButton = nil;
     } else {
         loginButtonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
-        answerButton = nil;
     }
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:loginButtonTitle, NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @""), answerButton, nil];
     if (self.navigationController.tabBarController.tabBar) {
@@ -209,7 +207,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             [self last];
             break;
         case 2:
-            if ([[User sharedUser] isLoggedIn] && self.topic.userCanPost) {
+            if ([[User sharedUser] isLoggedIn] && (self.topic.userCanPost && !self.topic.closed)) {
                 answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
                 [self.navigationController pushViewController:answerViewController animated:YES];
                 [answerViewController release]; 
@@ -251,12 +249,22 @@ const CGFloat kDefaultRowHeight = 44.0;
     if (isImage) {
         GCImageViewer *imageViewer = [[GCImageViewer alloc] initWithURL:[aRequest URL]];
         [self.navigationController pushViewController:imageViewer animated:YES];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [self presentModalViewController:imageViewer animated:YES];
+        } else {
+            [self.navigationController pushViewController:imageViewer animated:YES];
+        }   
         [imageViewer release];
         return NO;
     }
     
     ATWebViewController *webViewController = [[ATWebViewController alloc] initWithNibName:@"ATWebViewController" bundle:nil URL:[aRequest URL]];
     [self.navigationController pushViewController:webViewController animated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self presentModalViewController:webViewController animated:YES];
+    } else {
+        [self.navigationController pushViewController:webViewController animated:YES];
+    }
     [webViewController release];
     
     return NO;
@@ -272,6 +280,17 @@ const CGFloat kDefaultRowHeight = 44.0;
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(endEditing:)];
     [self.navigationItem setLeftBarButtonItem:leftButton animated:YES];
     [leftButton release];
+}
+
+- (void)contentCell:(ContentCell *)cell shouldQuoteText:(NSString *)quoteText {
+    AnswerViewController *answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
+    [self.navigationController pushViewController:answerViewController animated:YES];
+    answerViewController.textView.text = [NSString stringWithFormat:@"[QUOTE]%@[/QUOTE]", quoteText];
+    [answerViewController release];
+}
+
+- (void)contentCellDidEndEditing:(ContentCell *)cell {
+    [self endEditing:nil];
 }
 
 #pragma mark -
@@ -324,6 +343,13 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginWasSuccessful) name:@"ATLoginWasSuccessful" object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    //Einblenden der TabBar bei verlassen des Forums
+    self.hidesBottomBarWhenPushed = NO;
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -451,7 +477,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             }
             actionsCell.textLabel.text = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
             actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
-            if (self.topic.userCanPost) {
+            if (self.topic.userCanPost && !self.topic.closed) {
                 actionsCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             }
             return actionsCell;
@@ -463,6 +489,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 		}
         contentCell.textView.text = p.content;
         contentCell.textView.scrollEnabled = NO;
+        
         contentCell.delegate = self;
 		return contentCell;
 	} 
@@ -495,9 +522,9 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     [self endEditing:nil];
     AnswerViewController *answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
+    [self.navigationController pushViewController:answerViewController animated:YES];
     answerViewController.textView.text = answerCell.textView.text;
     answerCell.textView.text = @"";
-    [self.navigationController pushViewController:answerViewController animated:YES];
     [answerViewController release];
 }
 
@@ -533,6 +560,8 @@ const CGFloat kDefaultRowHeight = 44.0;
             isNumberOfPosts = YES;
         } else if ([self.currentString isEqualToString:@"can_reply"]) {
             isCanReply = YES;
+        } else if ([self.currentString isEqualToString:@"is_closed"]) {
+            isClosed = YES;
         }
     }
     
@@ -546,6 +575,9 @@ const CGFloat kDefaultRowHeight = 44.0;
             isCanReply = NO;
             NSLog(@"User can post: %@", self.currentString);
             self.topic.userCanPost = [self.currentString boolValue];
+        } else if (isClosed) {
+            isClosed = NO;
+            self.topic.closed = [self.currentString boolValue];
         }
     }
 

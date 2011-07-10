@@ -91,6 +91,7 @@
 		5E344B8713A386FD00DA7F8B /* DetailTop-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E344B8413A386FD00DA7F8B /* DetailTop-Landscape~ipad.png */; };
 		5E34A869139AECEF009604AC /* ATWebViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E34A868139AECEF009604AC /* ATWebViewController~ipad.xib */; };
 		5E34A86C139AFAE4009604AC /* GCImageViewer~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E34A86B139AFAE4009604AC /* GCImageViewer~ipad.xib */; };
+		5E39291213C0F16F005B9003 /* ATTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E39291113C0F16F005B9003 /* ATTextView.m */; };
 		5E460621137D5EB6000A5D20 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E460620137D5EB6000A5D20 /* CoreFoundation.framework */; };
 		5E460627137D6260000A5D20 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E460626137D6260000A5D20 /* RegexKitLite.m */; };
 		5E5C977213B7582500F88F36 /* DetailBottom-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E5C976F13B7582500F88F36 /* DetailBottom-Landscape.png */; };
@@ -309,6 +310,8 @@
 		5E344B8413A386FD00DA7F8B /* DetailTop-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DetailTop-Landscape~ipad.png"; sourceTree = "<group>"; };
 		5E34A868139AECEF009604AC /* ATWebViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ATWebViewController~ipad.xib"; sourceTree = "<group>"; };
 		5E34A86B139AFAE4009604AC /* GCImageViewer~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "GCImageViewer~ipad.xib"; sourceTree = "<group>"; };
+		5E39291013C0F16F005B9003 /* ATTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATTextView.h; sourceTree = "<group>"; };
+		5E39291113C0F16F005B9003 /* ATTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATTextView.m; sourceTree = "<group>"; };
 		5E460620137D5EB6000A5D20 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		5E460625137D6260000A5D20 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		5E460626137D6260000A5D20 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
@@ -429,7 +432,6 @@
 		5E8D910B1352355700274017 /* SHKTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKTwitter.m; sourceTree = "<group>"; };
 		5E8D910C1352355700274017 /* SHKTwitterForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKTwitterForm.h; sourceTree = "<group>"; };
 		5E8D910D1352355700274017 /* SHKTwitterForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKTwitterForm.m; sourceTree = "<group>"; };
-		5E8D910E1352355700274017 /* SHKConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKConfig.h; sourceTree = "<group>"; };
 		5E8D91101352355700274017 /* SHKActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKActionSheet.h; sourceTree = "<group>"; };
 		5E8D91111352355700274017 /* SHKActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKActionSheet.m; sourceTree = "<group>"; };
 		5E8D91121352355700274017 /* SHKActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKActivityIndicator.h; sourceTree = "<group>"; };
@@ -477,6 +479,7 @@
 		5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ForumViewController.xib; path = Classes/Tapatalk/ForumViewController.xib; sourceTree = "<group>"; };
 		5ED68E9D136F37B100AB9E4F /* SubForumController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SubForumController.xib; path = Classes/Tapatalk/SubForumController.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BCB9FDE013C63CCF00E9C4FF /* SHKConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKConfig.h; sourceTree = "<group>"; };
 		CB15C87910498EBF00360BDC /* NewsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsController.h; sourceTree = "<group>"; };
 		CB15C87A10498EBF00360BDC /* NewsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsController.m; sourceTree = "<group>"; };
 		CB15C89A1049950900360BDC /* DetailNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailNews.h; sourceTree = "<group>"; };
@@ -585,6 +588,8 @@
 				F6730BE7134A70F40045B876 /* TDHUDProgressBar.m */,
 				5EAACB5D137437ED00421338 /* ATActivityIndicator.h */,
 				5EAACB5E137437ED00421338 /* ATActivityIndicator.m */,
+				5E39291013C0F16F005B9003 /* ATTextView.h */,
+				5E39291113C0F16F005B9003 /* ATTextView.m */,
 			);
 			name = "Helper Views";
 			sourceTree = "<group>";
@@ -714,7 +719,7 @@
 				5E8D90C51352355700274017 /* Localization */,
 				5E8D90C91352355700274017 /* Reachability */,
 				5E8D90CC1352355700274017 /* Sharers */,
-				5E8D910E1352355700274017 /* SHKConfig.h */,
+				BCB9FDE013C63CCF00E9C4FF /* SHKConfig.h */,
 				5E8D910F1352355700274017 /* UI */,
 			);
 			path = ShareKit;
@@ -1455,6 +1460,7 @@
 				5E2A1863137E8ACA00F6EF86 /* AnswerViewController.m in Sources */,
 				5E2A1869137EED6F00F6EF86 /* NewTopicViewController.m in Sources */,
 				5E26C63C1388098D00A7A1C5 /* NewPostsViewController.m in Sources */,
+				5E39291213C0F16F005B9003 /* ATTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

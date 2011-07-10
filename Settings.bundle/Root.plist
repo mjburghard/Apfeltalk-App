@@ -21,6 +21,16 @@
 			<string>PSChildPaneSpecifier</string>
 		</dict>
 		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>hideTabBar</string>
+			<key>Key</key>
+			<string>hideTabBar</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
 			<key>Title</key>
 			<string>Group_IconBadge</string>
 			<key>Type</key>

@@ -16,6 +16,7 @@
     int forumID;
     BOOL hasNewPost;
     BOOL userCanPost;
+    BOOL closed;
 }
 
 @property (copy) NSString *title;
@@ -24,5 +25,6 @@
 @property (assign) BOOL hasNewPost;
 @property (assign) NSInteger numberOfPosts;
 @property (assign) BOOL userCanPost;
+@property (assign, getter = isClosed) BOOL closed;
 
 @end

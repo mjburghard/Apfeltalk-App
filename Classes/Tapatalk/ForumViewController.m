@@ -398,6 +398,9 @@ NSString * encodeString(NSString *aString) {
     
     SubForumController *subForumController = [[SubForumController alloc] initWithNibName:@"SubForumController" bundle:nil subForum:subForum];
     
+    //Ausblenden der TabBar furs Forum
+    //subForumController.hidesBottomBarWhenPushed = YES;
+    
     // ...
     // Pass the selected object to the new view controller.
     [self.navigationController pushViewController:subForumController animated:YES];

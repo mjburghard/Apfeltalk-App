@@ -236,7 +236,7 @@
 	[webview loadHTMLString:[self htmlString] baseURL:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {    
     [super viewWillAppear:animated];
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         UIBarButtonItem *i = [toolbar.items objectAtIndex:0];
