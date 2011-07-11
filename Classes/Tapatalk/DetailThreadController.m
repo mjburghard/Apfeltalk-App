@@ -124,6 +124,11 @@ const CGFloat kDefaultRowHeight = 44.0;
         [alertView show];
         [alertView release];
         return;
+    } else if (self.topic.closed) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") message:NSLocalizedStringFromTable(@"Topic is closed", @"ATLocalizable", @"") delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil, nil];
+        [alertView show];
+        [alertView release];
+        return;
     }
     ContentTranslator *translator = [[ContentTranslator alloc] init];
     NSString *content = [translator translateStringForAT:answerCell.textView.text];
@@ -248,7 +253,6 @@ const CGFloat kDefaultRowHeight = 44.0;
     
     if (isImage) {
         GCImageViewer *imageViewer = [[GCImageViewer alloc] initWithURL:[aRequest URL]];
-        [self.navigationController pushViewController:imageViewer animated:YES];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [self presentModalViewController:imageViewer animated:YES];
         } else {
@@ -259,7 +263,6 @@ const CGFloat kDefaultRowHeight = 44.0;
     }
     
     ATWebViewController *webViewController = [[ATWebViewController alloc] initWithNibName:@"ATWebViewController" bundle:nil URL:[aRequest URL]];
-    [self.navigationController pushViewController:webViewController animated:YES];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [self presentModalViewController:webViewController animated:YES];
     } else {
@@ -392,6 +395,8 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self.posts count] == 0) {
         return 1;
+    } else if (!self.topic.userCanPost || self.topic.closed) {
+        return [self.posts count];
     }
     return [self.posts count]+1;
 }
@@ -411,9 +416,12 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == [tableView numberOfSections]-1) {
-        return [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
+        NSString *s = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
+        if (self.topic.closed) {
+            return [NSString stringWithFormat:@"%@\n%@", s, NSLocalizedStringFromTable(@"Topic is closed", @"ATLocalizable", @"")];
+        }
+        return s;
     }
-    
     return nil;
 }
 
@@ -477,9 +485,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             }
             actionsCell.textLabel.text = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
             actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
-            if (self.topic.userCanPost && !self.topic.closed) {
-                actionsCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-            }
+            actionsCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             return actionsCell;
         }
         
