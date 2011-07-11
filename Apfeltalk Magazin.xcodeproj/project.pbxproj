@@ -103,6 +103,8 @@
 		5E5C977313B7582500F88F36 /* DetailMiddle-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E5C977013B7582500F88F36 /* DetailMiddle-Landscape.png */; };
 		5E5C977413B7582500F88F36 /* DetailTop-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E5C977113B7582500F88F36 /* DetailTop-Landscape.png */; };
 		5E6EE0AB135112D7004B6618 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E6EE0AA135112D7004B6618 /* Security.framework */; };
+		5E7D61F313CB83FA00155444 /* thread_dot_lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E7D61F113CB83FA00155444 /* thread_dot_lock.png */; };
+		5E7D61F413CB83FA00155444 /* thread_dot_lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E7D61F213CB83FA00155444 /* thread_dot_lock@2x.png */; };
 		5E80BADC1375786700F524B6 /* ATLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E80BADA1375762500F524B6 /* ATLocalizable.strings */; };
 		5E8D91201352355700274017 /* SHKOAuthSharer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D90861352355700274017 /* SHKOAuthSharer.m */; };
 		5E8D91211352355700274017 /* SHKSharer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D90881352355700274017 /* SHKSharer.m */; };
@@ -330,6 +332,8 @@
 		5E5C977013B7582500F88F36 /* DetailMiddle-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DetailMiddle-Landscape.png"; sourceTree = "<group>"; };
 		5E5C977113B7582500F88F36 /* DetailTop-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DetailTop-Landscape.png"; sourceTree = "<group>"; };
 		5E6EE0AA135112D7004B6618 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		5E7D61F113CB83FA00155444 /* thread_dot_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_lock.png; sourceTree = "<group>"; };
+		5E7D61F213CB83FA00155444 /* thread_dot_lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot_lock@2x.png"; sourceTree = "<group>"; };
 		5E80BAD91375762500F524B6 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
 		5E80BADB1375762C00F524B6 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
 		5E8D90851352355700274017 /* SHKOAuthSharer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKOAuthSharer.h; sourceTree = "<group>"; };
@@ -1137,6 +1141,8 @@
 				5AE35B1E137AA0EB001779A0 /* Right.png */,
 				5AE35B1F137AA0EB001779A0 /* Right@2x.png */,
 				5AE35B19137AA0D5001779A0 /* Left.png */,
+				5E7D61F113CB83FA00155444 /* thread_dot_lock.png */,
+				5E7D61F213CB83FA00155444 /* thread_dot_lock@2x.png */,
 				5AE35B1A137AA0D5001779A0 /* Left@2x.png */,
 				5A134CF813792FF30055183E /* Up@2x.png */,
 				5A134CF513792FE30055183E /* Down@2x.png */,
@@ -1374,6 +1380,8 @@
 				4CDD01A613C64BFE00E0DCAD /* Magazine.html in Resources */,
 				4CDD01A813C64C5600E0DCAD /* MagazineDetailView~iphone.xib in Resources */,
 				4CDD01AA13C64C6900E0DCAD /* MagazineDetailView~ipad.xib in Resources */,
+				5E7D61F313CB83FA00155444 /* thread_dot_lock.png in Resources */,
+				5E7D61F413CB83FA00155444 /* thread_dot_lock@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

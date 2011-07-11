@@ -221,6 +221,9 @@
     } else {
         cell.imageView.image = [UIImage imageNamed:@"thread_dot.png"];
     }
+    if (t.closed) {
+        cell.imageView.image = [UIImage imageNamed:@"thread_dot_lock.png"];
+    }
     
     return cell;
 }
@@ -348,6 +351,8 @@
             isNewPost = YES;
         } else if ([self.currentString isEqualToString:@"reply_number"]) {
             isReplyNumber = YES;
+        } else if ([self.currentString isEqualToString:@"is_closed"]) {
+            isClosed = YES;
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/base64"]) {
         // First decode base64 data
@@ -372,6 +377,9 @@
         if (isNewPost) {
             isNewPost = NO;
             self.currentTopic.hasNewPost = [self.currentString boolValue];
+        } else if (isClosed) {
+            isClosed = NO;
+            self.currentTopic.closed = [self.currentString boolValue];
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"prefixes"]) {
         isPrefixes = YES;

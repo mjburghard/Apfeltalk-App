@@ -18,7 +18,7 @@
     NSMutableArray *topics;
     NSInteger numberOfTopics;
     
-    BOOL isTopicID, isTopicTitle, isPrefixes, isNewPost, isReplyNumber;
+    BOOL isTopicID, isTopicTitle, isPrefixes, isNewPost, isReplyNumber, isClosed;
     BOOL isLoadingPinnedTopics;
     BOOL isTotalTopicNumber;
 }
