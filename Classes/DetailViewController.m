@@ -48,6 +48,7 @@
             [self setStory:aStory];
             [aStory release];
         }
+        self.hidesBottomBarWhenPushed = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTabBar"];
 	}
 	return self;
 }
@@ -244,6 +245,11 @@
             [self invalidateRootPopoverButtonItem:i];
         }
     }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.hidesBottomBarWhenPushed = NO;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.

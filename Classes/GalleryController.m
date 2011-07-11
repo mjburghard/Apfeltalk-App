@@ -126,7 +126,6 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         detailController = [[DetailGallery alloc] initWithNibName:@"DetailView" bundle:[NSBundle mainBundle] 
                                                             story:story];
-        detailController.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:detailController animated:YES];
         [detailController release];
     } else {
