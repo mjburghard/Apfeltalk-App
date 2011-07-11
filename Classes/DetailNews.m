@@ -218,7 +218,6 @@
 - (void)viewDidLoad
 {
     webview.delegate = self;
-    webview.scalesPageToFit = YES;
     UIBarButtonItem *rightItem = [[[UIBarButtonItem alloc] initWithTitle:[self rightBarButtonTitle]
                                                                    style:UIBarButtonItemStyleBordered
                                                                   target:[[[self navigationController] viewControllers] lastObject]
@@ -385,7 +384,7 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    // No longer needed for the news.
+    [webview loadHTMLString:[self htmlString] baseURL:nil];
 }
 
 @end
