@@ -30,6 +30,9 @@
 @interface DetailNews : DetailViewController <UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate> {
 	BOOL showSave;
 	UIActionSheet *loadingActionSheet;
+    ATActivityIndicatorView *activityIndicator;
+    UIPageControl *pageControl;
+    NSInteger currentPage;
 }
 
 @property (readwrite) BOOL showSave;
