@@ -43,7 +43,6 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv6</string>
-		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
