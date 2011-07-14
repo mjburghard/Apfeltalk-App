@@ -21,9 +21,9 @@
     UIView *activeView;
     ContentCell *answerCell;
     NSInteger site;
-    BOOL isAnswering, didRotate;
+    BOOL isAnswering, didRotate, isSubscribing, result;
     
-    BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts, isCanReply, isOnline, isClosed;;
+    BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts, isCanReply, isOnline, isClosed, isSubscribed, isResult;
 }
 
 @property (retain) Topic *topic;

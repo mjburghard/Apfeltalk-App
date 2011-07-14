@@ -17,6 +17,7 @@
     BOOL hasNewPost;
     BOOL userCanPost;
     BOOL closed;
+    BOOL subscribed;
 }
 
 @property (copy) NSString *title;
@@ -26,5 +27,6 @@
 @property (assign) NSInteger numberOfPosts;
 @property (assign) BOOL userCanPost;
 @property (assign, getter = isClosed) BOOL closed;
+@property (assign) BOOL subscribed;
 
 @end

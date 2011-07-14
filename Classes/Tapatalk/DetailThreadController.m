@@ -178,15 +178,20 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (void)showActionSheet {
-    NSString *loginButtonTitle = nil, *answerButton = nil;
+    NSString *loginButtonTitle = nil, *answerButton = nil, *subscribeButton = nil;
     if ([[User sharedUser] isLoggedIn]) {
         loginButtonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
         if (self.topic.userCanPost && !self.topic.closed)
             answerButton = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
+        if (self.topic.subscribed)
+            subscribeButton = NSLocalizedStringFromTable(@"Unsubscribe", @"ATLocalizable", @"");
+        else
+            subscribeButton = NSLocalizedStringFromTable(@"Subscribe", @"ATLocalizable", @"");
     } else {
         loginButtonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
     }
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:loginButtonTitle, NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @""), answerButton, nil];
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:loginButtonTitle, NSLocalizedStringFromTable(@"Last", @"ATLocalizable", @""), subscribeButton, answerButton, nil];
     if (self.navigationController.tabBarController.tabBar) {
         [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
     } else {
@@ -200,6 +205,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     AnswerViewController *answerViewController;
+    NSString *xmlString;
     switch (buttonIndex) {
         case 0:
             if ([[User sharedUser] isLoggedIn]) {
@@ -212,6 +218,14 @@ const CGFloat kDefaultRowHeight = 44.0;
             [self last];
             break;
         case 2:
+            xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>subscribe_topic</methodName><params><param><value><string>%i</string></value></param></params></methodCall>", self.topic.topicID];
+            if (self.topic.subscribed) {
+                xmlString = [xmlString stringByReplacingOccurrencesOfString:@"subscribe_topic" withString:@"unsubscribe_topic"];
+            }
+            isSubscribing = YES;
+            [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
+            break;
+        case 3:
             if ([[User sharedUser] isLoggedIn] && (self.topic.userCanPost && !self.topic.closed)) {
                 answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
                 [self.navigationController pushViewController:answerViewController animated:YES];
@@ -570,6 +584,10 @@ const CGFloat kDefaultRowHeight = 44.0;
             isCanReply = YES;
         } else if ([self.currentString isEqualToString:@"is_closed"]) {
             isClosed = YES;
+        } else if ([self.currentString isEqualToString:@"is_subscribed"]) {
+            isSubscribed = YES;
+        } else if ([self.currentString isEqualToString:@"result"]) {
+            isResult = YES;
         }
     }
     
@@ -581,11 +599,16 @@ const CGFloat kDefaultRowHeight = 44.0;
     if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/boolean"]) {
         if (isCanReply) {
             isCanReply = NO;
-            NSLog(@"User can post: %@", self.currentString);
             self.topic.userCanPost = [self.currentString boolValue];
         } else if (isClosed) {
             isClosed = NO;
             self.topic.closed = [self.currentString boolValue];
+        } else if (isSubscribed) {
+            isSubscribed = NO;
+            self.topic.subscribed = [self.currentString boolValue];
+        } else if (isResult) {
+            isResult = NO;
+            result = [self.currentString boolValue];
         }
     }
 
@@ -645,7 +668,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         [dateFormatter release];
         [locale release];
     }
-    
+
     self.path = [self.path stringByDeletingLastPathComponent];
     
     if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
@@ -662,6 +685,17 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.path = nil;
         self.currentPost = nil;
         [self performSelectorOnMainThread:@selector(loadData) withObject:nil waitUntilDone:NO];
+        return;
+    } else if (isSubscribing) {
+        isSubscribing = NO;
+        self.dataArray = nil;
+        self.path = nil;
+        self.currentPost = nil;
+        if (self.topic.subscribed)
+            self.topic.subscribed = !result;
+        else
+            self.topic.subscribed = result;
+        result = NO;
         return;
     }
     self.posts = self.dataArray;
