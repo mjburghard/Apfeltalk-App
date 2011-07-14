@@ -56,9 +56,9 @@
 			<key>DoNotLocalize</key>
 			<true/>
 			<key>FooterText</key>
-			<string>Alexander von Below (below), Stefan Kofler (grafele), Manuel Burghard (Unkaputtbar), Andreas Rami (arami), Stephan König (Thaddäus), Michael Fenske (MacApple),
+			<string>Ben Engelbrecht (pseudonym 187), Alexander von Below (below), Stefan Kofler (grafele), Manuel Burghard (Unkaputtbar), Andreas Rami (arami), Stephan König (Thaddäus), Michael Fenske (MacApple),
 Andreas Grauel (moderngeek), Lukas Besch (lmb),
-Michael Ochs (mad boy), Marc Zitzmann (mzitzmann), Nico Reese (branco145)</string>
+Michael Ochs (mad boy), Marc Zitzmann (mzitzmann), Nico Reese (branco145), Nils Mohr</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
