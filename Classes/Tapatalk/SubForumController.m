@@ -353,6 +353,8 @@
             isReplyNumber = YES;
         } else if ([self.currentString isEqualToString:@"is_closed"]) {
             isClosed = YES;
+        } else if ([self.currentString isEqualToString:@"is_subscribed"]) {
+            isSubscribed = YES; 
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/base64"]) {
         // First decode base64 data
@@ -380,6 +382,9 @@
         } else if (isClosed) {
             isClosed = NO;
             self.currentTopic.closed = [self.currentString boolValue];
+        } else if (isSubscribed) {
+            isSubscribed = NO;
+            self.currentTopic.subscribed = [self.currentString boolValue];
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"prefixes"]) {
         isPrefixes = YES;

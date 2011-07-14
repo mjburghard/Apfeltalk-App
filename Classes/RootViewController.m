@@ -341,7 +341,7 @@
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem.title = NSLocalizedStringFromTable(@"Help", @"ATLocalizable", @"");
     [self openDatabase];
-    self.contentSizeForViewInPopover = CGSizeMake(320.0, self.tableView.rowHeight*5);
+    self.contentSizeForViewInPopover = CGSizeMake(320.0, self.tableView.rowHeight*19);
     if (tableHeaderView == nil) {
 		
 		tableHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
