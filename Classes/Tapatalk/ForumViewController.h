@@ -13,7 +13,8 @@
 @class Section;
 @class SubForum;
 
-@interface ForumViewController : UITableViewController <NSXMLParserDelegate, UIAlertViewDelegate, UIActionSheetDelegate> {
+@interface ForumViewController : UITableViewController <NSXMLParserDelegate, UIAlertViewDelegate, UIActionSheetDelegate, UISearchBarDelegate> {
+    UISearchBar *searchBar;
     NSMutableString *currentString;
     NSMutableData *receivedData;
     NSMutableArray *sections;
@@ -38,6 +39,7 @@
     BOOL isError;
 }
 
+@property (retain) UISearchBar *searchBar;
 @property (retain) NSMutableString *currentString;
 @property (retain) NSMutableData *receivedData;
 @property (retain) NSMutableArray *sections;

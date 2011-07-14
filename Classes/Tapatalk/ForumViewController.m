@@ -15,7 +15,7 @@
 #import "NewPostsViewController.h"
 
 @implementation ForumViewController
-@synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject, dataArray;
+@synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject, dataArray, searchBar;
 
 NSString* const kSectionPath = @"methodResponse/params/param/value/array/data";
 NSString* const kFirstLevelForumPath = @"methodResponse/params/param/value/array/data/value/struct/member/value/array/data";
@@ -26,6 +26,7 @@ NSString* const kThirdLevelForumPath = @"methodResponse/params/param/value/array
 #pragma mark init & dealloc
 
 - (void)dealloc {
+    self.searchBar = nil;
     self.dataArray = nil;
     self.currentObject = nil;
     self.currentThirdLevelForum = nil;
@@ -271,6 +272,16 @@ NSString * encodeString(NSString *aString) {
     [super viewDidLoad];
     self.sections = [[NSMutableArray alloc] init];
     self.title = @"Forum";
+    
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 1.0, 320.0, 45.0)];
+    self.searchBar.showsCancelButton = YES;
+    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    //self.searchBar.delegate = self;
+    self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
+    self.tableView.tableHeaderView = self.searchBar;
+    self.tableView.contentOffset = CGPointMake(0.0, 45.0);
 }
 
 - (void)viewWillAppear:(BOOL)animated
