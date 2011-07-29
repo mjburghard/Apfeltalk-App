@@ -213,7 +213,7 @@ void endElement (void *userData, const xmlChar *name) {
 }
 
 - (NSString *) rightBarButtonTitle {
-	return @"Bildoptionen";
+	return NSLocalizedStringFromTable(@"Picture options", @"ATLocalizable", @"");
 }
 
 - (UIImage *) usedimage {
