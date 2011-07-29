@@ -11,8 +11,9 @@
 #import "SubForum.h"
 #import "Topic.h"
 #import "DetailThreadController.h"
+#import "TopicParser.h"
 
-@interface SubForumController : ForumViewController <UIActionSheetDelegate> {
+@interface SubForumController : ForumViewController <UIActionSheetDelegate, TopicParserDelegate> {
     SubForum *subForum;
     Topic *currentTopic;
     NSMutableArray *topics;

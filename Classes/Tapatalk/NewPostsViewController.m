@@ -42,6 +42,24 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
+- (void)parse {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    TopicParser *parser = [[TopicParser alloc] initWithData:self.receivedData basePath:@"methodResponse/params/param/value/array/data" delegate:self];
+    [parser parse];
+    [parser release];
+    self.receivedData = nil;
+    [pool release];
+}
+
+#pragma mark -
+#pragma mark TopicParserDelegate
+
+- (void)topicParserDidFinish:(NSMutableArray *)_topics {
+    self.topics = _topics;
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -115,6 +133,9 @@
         cell.imageView.image = [UIImage imageNamed:@"thread_dot_hot.png"];
     } else {
         cell.imageView.image = [UIImage imageNamed:@"thread_dot.png"];
+    }
+    if (t.closed) {
+        cell.imageView.image = [UIImage imageNamed:@"thread_dot_lock.png"];
     }
     
     return cell;
@@ -215,6 +236,10 @@
             isNewPost = YES;
         } else if ([self.currentString isEqualToString:@"reply_number"]) {
             isReplyNumber = YES;
+        } else if ([self.currentString isEqualToString:@"is_closed"]) {
+            isClosed = YES;
+        } else if ([self.currentString isEqualToString:@"is_subscribed"]) {
+            isSubscribed = YES; 
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/base64"]) {
         // First decode base64 data
@@ -239,6 +264,12 @@
         if (isNewPost) {
             isNewPost = NO;
             self.currentTopic.hasNewPost = [self.currentString boolValue];
+        } else if (isClosed) {
+            isClosed = NO;
+            self.currentTopic.closed = [self.currentString boolValue];
+        } else if (isSubscribed) {
+            isSubscribed = NO;
+            self.currentTopic.subscribed = [self.currentString boolValue];
         }
     } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"prefixes"]) {
         isPrefixes = YES;
