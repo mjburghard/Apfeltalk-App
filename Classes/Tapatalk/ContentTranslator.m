@@ -23,6 +23,7 @@
 // :-c = \ue411
 
 #import "ContentTranslator.h"
+#import "Base64Transcoder.h"
 
 
 @implementation ContentTranslator
@@ -80,6 +81,33 @@
     }
     
     return string;
+}
+
+NSString * decodeString(NSString *aString) {
+    NSData *stringData = [aString dataUsingEncoding:NSASCIIStringEncoding];
+    size_t decodedDataSize = EstimateBas64DecodedDataSize([stringData length]);
+    uint8_t *decodedData = calloc(decodedDataSize, sizeof(uint8_t));
+    Base64DecodeData([stringData bytes], [stringData length], decodedData, &decodedDataSize);
+    
+    stringData = [NSData dataWithBytesNoCopy:decodedData length:decodedDataSize freeWhenDone:YES];
+    
+    NSString *s = [[[NSString alloc] initWithData:stringData encoding:NSUTF8StringEncoding] autorelease];
+    
+    
+    return s;
+    
+}
+
+NSString * encodeString(NSString *aString) {
+    NSData *stringData = [aString dataUsingEncoding:NSUTF8StringEncoding];
+    size_t encodedDataSize = EstimateBas64EncodedDataSize([stringData length]);
+    char *encodedData = malloc(encodedDataSize);
+    Base64EncodeData([stringData bytes], [stringData length], encodedData, &encodedDataSize);
+    
+    stringData = [NSData dataWithBytesNoCopy:encodedData length:encodedDataSize freeWhenDone:YES];
+    
+    return [[[NSString alloc] initWithData:stringData encoding:NSASCIIStringEncoding] autorelease];
+    
 }
 
 - (id)init {
