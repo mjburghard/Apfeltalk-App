@@ -75,6 +75,9 @@
 		5AE35B21137AA0EB001779A0 /* Right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B1F137AA0EB001779A0 /* Right@2x.png */; };
 		5AE35B23137B4065001779A0 /* thread_dot_hot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B22137B4064001779A0 /* thread_dot_hot@2x.png */; };
 		5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B24137B4073001779A0 /* thread_dot@2x.png */; };
+		5AF33AA313E32F8B005684B0 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF33AA213E32F8B005684B0 /* SearchTableViewController.m */; };
+		5AF33AB213E353BA005684B0 /* TopicParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF33AB113E353BA005684B0 /* TopicParser.m */; };
+		5AF33AB513E353D8005684B0 /* ContentTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF33AB413E353D8005684B0 /* ContentTranslator.m */; };
 		5AFB72DC1348A0270027752A /* thread_dot_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DA1348A0270027752A /* thread_dot_hot.png */; };
 		5AFB72DD1348A0270027752A /* thread_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DB1348A0270027752A /* thread_dot.png */; };
 		5E1379A113928FD40065941B /* DetailTop~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E1379A013928FD40065941B /* DetailTop~ipad.png */; };
@@ -298,6 +301,12 @@
 		5AE35B1F137AA0EB001779A0 /* Right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Right@2x.png"; sourceTree = "<group>"; };
 		5AE35B22137B4064001779A0 /* thread_dot_hot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot_hot@2x.png"; sourceTree = "<group>"; };
 		5AE35B24137B4073001779A0 /* thread_dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot@2x.png"; sourceTree = "<group>"; };
+		5AF33AA113E32F8B005684B0 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
+		5AF33AA213E32F8B005684B0 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
+		5AF33AB013E353BA005684B0 /* TopicParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicParser.h; sourceTree = "<group>"; };
+		5AF33AB113E353BA005684B0 /* TopicParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicParser.m; sourceTree = "<group>"; };
+		5AF33AB313E353D7005684B0 /* ContentTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentTranslator.h; sourceTree = "<group>"; };
+		5AF33AB413E353D8005684B0 /* ContentTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentTranslator.m; sourceTree = "<group>"; };
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
 		5E1379A013928FD40065941B /* DetailTop~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DetailTop~ipad.png"; path = "iPad/Images/DetailTop~ipad.png"; sourceTree = "<group>"; };
@@ -1093,6 +1102,12 @@
 		5EC265B5136999D3006A10DE /* Tapatalk */ = {
 			isa = PBXGroup;
 			children = (
+				5AF33AB313E353D7005684B0 /* ContentTranslator.h */,
+				5AF33AB413E353D8005684B0 /* ContentTranslator.m */,
+				5AF33AB013E353BA005684B0 /* TopicParser.h */,
+				5AF33AB113E353BA005684B0 /* TopicParser.m */,
+				5AF33AA113E32F8B005684B0 /* SearchTableViewController.h */,
+				5AF33AA213E32F8B005684B0 /* SearchTableViewController.m */,
 				5EC265D5136999D3006A10DE /* SynthesizeSingleton.h */,
 				5EC265B8136999D3006A10DE /* ContentCell.h */,
 				5EC265B9136999D3006A10DE /* ContentCell.m */,
@@ -1494,6 +1509,9 @@
 				5E26C63C1388098D00A7A1C5 /* NewPostsViewController.m in Sources */,
 				5E39291213C0F16F005B9003 /* ATTextView.m in Sources */,
 				4CDD01A213C644A800E0DCAD /* ATActivityIndicatorView.m in Sources */,
+				5AF33AA313E32F8B005684B0 /* SearchTableViewController.m in Sources */,
+				5AF33AB213E353BA005684B0 /* TopicParser.m in Sources */,
+				5AF33AB513E353D8005684B0 /* ContentTranslator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
