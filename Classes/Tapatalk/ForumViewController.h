@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "SFHFKeychainUtils.h"
 #import "User.h"
+#import "SearchTableViewController.h"
+#import "ContentTranslator.h"
 
 @class Section;
 @class SubForum;
 
-@interface ForumViewController : UITableViewController <NSXMLParserDelegate, UIAlertViewDelegate, UIActionSheetDelegate, UISearchBarDelegate> {
+@interface ForumViewController : UITableViewController <NSXMLParserDelegate, UIAlertViewDelegate, UIActionSheetDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
     UISearchBar *searchBar;
     NSMutableString *currentString;
     NSMutableData *receivedData;
@@ -22,6 +24,10 @@
     UITextField *usernameTextField, *passwordTextField;
     UITableViewCell *loadingCell;
     NSMutableArray *dataArray;
+    
+    SearchTableViewController *searchTableViewController;
+    
+    BOOL searchButtonClicked;
     
     SubForum *currentObject;
     Section *currentSection;
@@ -45,6 +51,7 @@
 @property (retain) NSMutableArray *sections;
 @property (retain) NSString *path;
 @property (retain) NSMutableArray *dataArray;
+@property (retain) SearchTableViewController *searchTableViewController;
 
 @property (retain) SubForum *currentObject;
 @property (retain) Section *currentSection;
@@ -52,8 +59,6 @@
 @property (retain) SubForum *currentSecondLevelForum;
 @property (retain) SubForum *currentThirdLevelForum;
 
-NSString * decodeString(NSString *aString);
-NSString * encodeString(NSString *aString);
 - (NSString *)decodeString:(NSString *)aString;
 - (NSString *)tapatalkPluginPath;
 - (void)login;
