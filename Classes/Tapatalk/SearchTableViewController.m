@@ -70,7 +70,6 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSLog(@"%@", [[[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding] autorelease]);
     unsigned long length = [self.receivedData length];
     NSLog(@"Received length: %lu", length);
     if ([self.receivedData length] != 0) {
