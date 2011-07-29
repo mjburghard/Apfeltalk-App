@@ -14,8 +14,11 @@
 #import "Apfeltalk_MagazinAppDelegate.h"
 #import "NewPostsViewController.h"
 
+#define ATLocalizable @"ATLocalizable"
+#define ATLocalizedString(key, comment) NSLocalizedStringFromTable((key), ATLocalizable, (comment))
+
 @implementation ForumViewController
-@synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject, dataArray, searchBar;
+@synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject, dataArray, searchBar, searchTableViewController;
 
 NSString* const kSectionPath = @"methodResponse/params/param/value/array/data";
 NSString* const kFirstLevelForumPath = @"methodResponse/params/param/value/array/data/value/struct/member/value/array/data";
@@ -26,6 +29,7 @@ NSString* const kThirdLevelForumPath = @"methodResponse/params/param/value/array
 #pragma mark init & dealloc
 
 - (void)dealloc {
+    self.searchTableViewController = nil;
     self.searchBar = nil;
     self.dataArray = nil;
     self.currentObject = nil;
@@ -47,7 +51,7 @@ NSString* const kThirdLevelForumPath = @"methodResponse/params/param/value/array
     return @"http://apfeltalk.de/forum/mobiquo/mobiquo.php/";
 }
 
-NSString * decodeString(NSString *aString) {
+/*NSString * decodeString(NSString *aString) {
     NSData *stringData = [aString dataUsingEncoding:NSASCIIStringEncoding];
     size_t decodedDataSize = EstimateBas64DecodedDataSize([stringData length]);
     uint8_t *decodedData = calloc(decodedDataSize, sizeof(uint8_t));
@@ -72,7 +76,7 @@ NSString * encodeString(NSString *aString) {
     
     return [[[NSString alloc] initWithData:stringData encoding:NSASCIIStringEncoding] autorelease];
     
-}
+}*/
 
 - (NSString *)decodeString:(NSString *)aString {
     return decodeString(aString);
@@ -137,6 +141,29 @@ NSString * encodeString(NSString *aString) {
 
 - (void)logout {
     [[User sharedUser] logout];
+}
+
+- (void)addSearchBar {
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 1.0, 320.0, 45.0)];
+    self.searchBar.showsCancelButton = YES;
+    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.searchBar.delegate = self;
+    self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
+    self.searchBar.placeholder = NSLocalizedStringFromTable(@"At least three characters", @"ATLocalizable", @"");
+    self.tableView.tableHeaderView = self.searchBar;
+    self.tableView.contentOffset = CGPointMake(0.0, 45.0);
+    
+    self.searchTableViewController = [[SearchTableViewController alloc] initWithNibName:nil bundle:nil];
+    
+    UISearchDisplayController *searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+    searchDisplayController.delegate = self;
+    self.searchTableViewController.tableView = searchDisplayController.searchResultsTableView;
+    searchDisplayController.searchResultsTableView.delegate = self.searchTableViewController;
+    searchDisplayController.searchResultsTableView.dataSource = self.searchTableViewController;
+    self.searchTableViewController.forumViewController = self;
+    
 }
 
 - (void)showActionSheet {
@@ -260,28 +287,50 @@ NSString * encodeString(NSString *aString) {
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     self.receivedData = nil;
     NSLog(@"%@", [error localizedDescription]);
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil, nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", ATLocalizable, @"") message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil, nil];
     [alertView show];
     [alertView release];
 }
 
 #pragma mark -
+#pragma UISearchBarDelegate & UISearchDisplayControllerDelegate
 
-- (void)viewDidLoad
-{
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)aSearchBar {
+    if ([aSearchBar.text length] < 3 && searchButtonClicked) {
+        searchButtonClicked = NO;
+        return NO;
+    }
+    return YES;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)aSearchBar {
+    searchButtonClicked = YES;
+    if (!([aSearchBar.text length] < 3)) {
+        NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>search_topic</methodName><params><param><value><base64>%@</base64></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param></params></methodCall>", encodeString(aSearchBar.text)];
+        [self sendRequestWithXMLString:xmlString cookies:NO delegate:self.searchTableViewController];
+        [self.searchTableViewController.tableView reloadData];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", @"") 
+                                                            message:NSLocalizedStringFromTable(@"Please enter at least three characters", ATLocalizable, @"") 
+                                                           delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", ATLocalizable, @"") otherButtonTitles:nil, nil];
+        [alertView show];
+        [alertView release];
+    }
+}
+
+#pragma mark -
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+    CGRect rect = self.tableView.frame;
+    rect.origin.y += 45;
+    [self.tableView scrollRectToVisible:rect animated:YES];
+}
+
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.sections = [[NSMutableArray alloc] init];
     self.title = @"Forum";
-    
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 1.0, 320.0, 45.0)];
-    self.searchBar.showsCancelButton = YES;
-    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    //self.searchBar.delegate = self;
-    self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
-    self.tableView.tableHeaderView = self.searchBar;
-    self.tableView.contentOffset = CGPointMake(0.0, 45.0);
+    [self addSearchBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated

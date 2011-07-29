@@ -66,6 +66,10 @@
     [newTopicViewController release];
 }
 
+- (void)addSearchBar {
+    
+}
+
 - (void)showActionSheet {
     NSString *buttonTitle;
     if ([[User sharedUser] isLoggedIn]) {
@@ -77,6 +81,16 @@
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"New", @"ATLocalizable", @""), nil];
     [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
     [actionSheet release];
+}
+
+- (void)parse {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    TopicParser *parser = [[TopicParser alloc] initWithData:self.receivedData basePath:@"methodResponse/params/param/value/struct/member/value/array/data" delegate:self];
+    [parser parse];
+    [parser release];
+    self.receivedData = nil;
+    [pool release];
 }
 
 #pragma mark -
@@ -108,6 +122,20 @@
         return;
     } else {
         [super alertView:alertView didDismissWithButtonIndex:buttonIndex];
+    }
+}
+
+#pragma mark -
+#pragma mark TopicParserDelegate
+
+- (void)topicParserDidFinish:(NSMutableArray *)_topics {
+    if (isLoadingPinnedTopics) {
+        isLoadingPinnedTopics = NO;
+        self.topics = _topics;
+        [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
+    } else {
+        [self.topics addObjectsFromArray:_topics];
+        [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     }
 }
 

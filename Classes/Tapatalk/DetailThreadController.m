@@ -177,6 +177,10 @@ const CGFloat kDefaultRowHeight = 44.0;
     }
 }
 
+- (void)addSearchBar {
+    
+}
+
 - (void)showActionSheet {
     NSString *loginButtonTitle = nil, *answerButton = nil, *subscribeButton = nil;
     if ([[User sharedUser] isLoggedIn]) {

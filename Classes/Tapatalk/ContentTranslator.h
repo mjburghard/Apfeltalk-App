@@ -20,5 +20,7 @@
 
 - (NSString *)translateStringForiOS:(NSString *)aString;
 - (NSString *)translateStringForAT:(NSString *)aString;
+NSString * decodeString(NSString *aString);
+NSString * encodeString(NSString *aString);
 
 @end
