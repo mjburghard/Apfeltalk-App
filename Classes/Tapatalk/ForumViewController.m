@@ -303,11 +303,20 @@ NSString * encodeString(NSString *aString) {
     return YES;
 }
 
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if ([searchText length] == 0) {
+        self.searchTableViewController.topics = nil;
+    }
+}
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)aSearchBar {
     searchButtonClicked = YES;
     if (!([aSearchBar.text length] < 3)) {
+        searchButtonClicked = NO;
         NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>search_topic</methodName><params><param><value><base64>%@</base64></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param></params></methodCall>", encodeString(aSearchBar.text)];
         [self sendRequestWithXMLString:xmlString cookies:NO delegate:self.searchTableViewController];
+        self.searchTableViewController.topics = nil;
+        self.searchTableViewController.showLoadingCell = YES;
         [self.searchTableViewController.tableView reloadData];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", @"") 

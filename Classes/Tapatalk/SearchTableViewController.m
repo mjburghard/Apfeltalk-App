@@ -13,7 +13,7 @@
 
 
 @implementation SearchTableViewController
-@synthesize receivedData, topics, forumViewController;
+@synthesize receivedData, topics, forumViewController, showLoadingCell;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,6 +26,7 @@
 
 - (void)dealloc
 {
+    self.showLoadingCell = NO;
     self.forumViewController = nil;
     self.topics = nil;
     self.receivedData = nil;
@@ -52,6 +53,7 @@
 #pragma mark NSURLConnectionDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    self.showLoadingCell = YES;
 	self.receivedData = [[NSMutableData alloc] init];
     
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
@@ -94,6 +96,7 @@
 
 - (void)topicParserDidFinish:(NSMutableArray *)_topics {
     self.topics = _topics;
+    self.showLoadingCell = NO;
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
@@ -156,7 +159,7 @@
 {
 
     // Return the number of rows in the section.
-    if ([self.topics count] == 0) 
+    if ([self.topics count] == 0 && showLoadingCell) 
         return 1;
     return [topics count];
 }
