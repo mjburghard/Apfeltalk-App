@@ -16,10 +16,12 @@
     NSMutableArray *topics;
     UITableViewCell *loadingCell;
     ForumViewController *forumViewController;
+    BOOL showLoadingCell;
 }
 
 
 @property (retain) NSMutableData *receivedData;
 @property (retain) NSMutableArray *topics;
 @property (retain) ForumViewController *forumViewController;
+@property (assign) BOOL showLoadingCell;
 @end
