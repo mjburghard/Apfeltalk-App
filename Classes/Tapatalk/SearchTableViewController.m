@@ -9,6 +9,7 @@
 #import "SearchTableViewController.h"
 #import "User.h"
 #import "DetailThreadController.h"
+#import "ForumViewController.h"
 
 
 @implementation SearchTableViewController
