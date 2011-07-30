@@ -306,6 +306,7 @@ NSString * encodeString(NSString *aString) {
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if ([searchText length] == 0) {
         self.searchTableViewController.topics = nil;
+        [self.searchTableViewController.tableView reloadData];
     }
 }
 
@@ -330,9 +331,17 @@ NSString * encodeString(NSString *aString) {
 #pragma mark -
 
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+    self.searchTableViewController.topics = nil;
+    [self.searchTableViewController.tableView reloadData];
     CGRect rect = self.tableView.frame;
     rect.origin.y += 45;
     [self.tableView scrollRectToVisible:rect animated:YES];
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)aTableView {
+    self.searchTableViewController.tableView = aTableView;
+    aTableView.delegate = self.searchTableViewController;
+    aTableView.dataSource = self.searchTableViewController;
 }
 
 - (void)viewDidLoad {

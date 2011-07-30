@@ -131,10 +131,12 @@
 - (void)topicParserDidFinish:(NSMutableArray *)_topics {
     if (isLoadingPinnedTopics) {
         isLoadingPinnedTopics = NO;
-        self.topics = _topics;
+        self.dataArray = _topics;
         [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
     } else {
+        self.topics = self.dataArray;
         [self.topics addObjectsFromArray:_topics];
+        self.dataArray = nil;
         [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     }
 }
