@@ -11,6 +11,7 @@
 #import "DetailThreadController.h"
 #import "ForumViewController.h"
 
+
 @implementation SearchTableViewController
 @synthesize receivedData, topics, forumViewController;
 
