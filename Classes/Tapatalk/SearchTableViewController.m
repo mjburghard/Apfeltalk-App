@@ -46,6 +46,7 @@
     TopicParser *topicParser = [[TopicParser alloc] initWithData:self.receivedData basePath:@"methodResponse/params/param/value/struct/member/value/array/data" delegate:self];
     [topicParser parse];
     [topicParser release];
+    self.receivedData = nil;
     [pool release];
 }
 
@@ -97,7 +98,7 @@
 - (void)topicParserDidFinish:(NSMutableArray *)_topics {
     self.topics = _topics;
     self.showLoadingCell = NO;
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
 }
 
 #pragma mark - View lifecycle
@@ -248,6 +249,13 @@
     }
     
     DetailThreadController *detailThreadController = [[DetailThreadController alloc] initWithNibName:@"DetailThreadController" bundle:nil topic:(Topic *)[self.topics objectAtIndex:indexPath.row]];
+    [self.forumViewController.navigationController pushViewController:detailThreadController animated:YES];
+    [detailThreadController release];
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    DetailThreadController *detailThreadController = [[DetailThreadController alloc] initWithNibName:@"DetailThreadController" bundle:nil topic:(Topic *)[self.topics objectAtIndex:indexPath.row]];
+    [detailThreadController loadLastSite];
     [self.forumViewController.navigationController pushViewController:detailThreadController animated:YES];
     [detailThreadController release];
 }
