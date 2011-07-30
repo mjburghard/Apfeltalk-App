@@ -77,6 +77,8 @@
 		5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B24137B4073001779A0 /* thread_dot@2x.png */; };
 		5AFB72DC1348A0270027752A /* thread_dot_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DA1348A0270027752A /* thread_dot_hot.png */; };
 		5AFB72DD1348A0270027752A /* thread_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DB1348A0270027752A /* thread_dot.png */; };
+		5E12A3AB13E2B54300B74F34 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E12A3AA13E2B54300B74F34 /* SearchTableViewController.m */; };
+		5E12A3AF13E2BFCE00B74F34 /* TopicParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E12A3AE13E2BFCE00B74F34 /* TopicParser.m */; };
 		5E1379A113928FD40065941B /* DetailTop~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E1379A013928FD40065941B /* DetailTop~ipad.png */; };
 		5E14F849139A38E100E64323 /* DetailView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E14F848139A38E100E64323 /* DetailView~ipad.xib */; };
 		5E1DC1F0137C59D100BE82AC /* ContentTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1DC1EF137C59D100BE82AC /* ContentTranslator.m */; };
@@ -300,6 +302,10 @@
 		5AE35B24137B4073001779A0 /* thread_dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot@2x.png"; sourceTree = "<group>"; };
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
+		5E12A3A913E2B54300B74F34 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
+		5E12A3AA13E2B54300B74F34 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
+		5E12A3AD13E2BFCE00B74F34 /* TopicParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicParser.h; sourceTree = "<group>"; };
+		5E12A3AE13E2BFCE00B74F34 /* TopicParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicParser.m; sourceTree = "<group>"; };
 		5E1379A013928FD40065941B /* DetailTop~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DetailTop~ipad.png"; path = "iPad/Images/DetailTop~ipad.png"; sourceTree = "<group>"; };
 		5E14F848139A38E100E64323 /* DetailView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "DetailView~ipad.xib"; sourceTree = "<group>"; };
 		5E1DC1EE137C59D100BE82AC /* ContentTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentTranslator.h; sourceTree = "<group>"; };
@@ -1122,6 +1128,10 @@
 				5E2A1867137EED6D00F6EF86 /* NewTopicViewController.m */,
 				5E26C6391388098C00A7A1C5 /* NewPostsViewController.h */,
 				5E26C63A1388098D00A7A1C5 /* NewPostsViewController.m */,
+				5E12A3A913E2B54300B74F34 /* SearchTableViewController.h */,
+				5E12A3AA13E2B54300B74F34 /* SearchTableViewController.m */,
+				5E12A3AD13E2BFCE00B74F34 /* TopicParser.h */,
+				5E12A3AE13E2BFCE00B74F34 /* TopicParser.m */,
 			);
 			path = Tapatalk;
 			sourceTree = "<group>";
@@ -1494,6 +1504,8 @@
 				5E26C63C1388098D00A7A1C5 /* NewPostsViewController.m in Sources */,
 				5E39291213C0F16F005B9003 /* ATTextView.m in Sources */,
 				4CDD01A213C644A800E0DCAD /* ATActivityIndicatorView.m in Sources */,
+				5E12A3AB13E2B54300B74F34 /* SearchTableViewController.m in Sources */,
+				5E12A3AF13E2BFCE00B74F34 /* TopicParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
