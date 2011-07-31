@@ -62,7 +62,7 @@
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == 1)
 	{
-		NSArray *recipients = [[NSArray alloc] initWithObjects:@"apfeltalkapp@gmail.com", nil];
+		NSArray *recipients = [[NSArray alloc] initWithObjects:@"info@apfeltalk.de", nil];
 		MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
 		controller.mailComposeDelegate = self;
 		[controller setToRecipients:recipients];
