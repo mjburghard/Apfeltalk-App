@@ -151,7 +151,7 @@ NSString * encodeString(NSString *aString) {
     self.searchBar.delegate = self;
     self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
-    self.searchBar.placeholder = NSLocalizedStringFromTable(@"At least three characters", @"ATLocalizable", @"");
+    self.searchBar.placeholder = NSLocalizedStringFromTable(@"At least five characters", @"ATLocalizable", @"");
     self.tableView.tableHeaderView = self.searchBar;
     self.tableView.contentOffset = CGPointMake(0.0, 45.0);
     
