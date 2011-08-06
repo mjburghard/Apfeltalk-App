@@ -8,6 +8,14 @@
 			<key>DoNotLocalize</key>
 			<string>YES</string>
 			<key>FooterText</key>
+			<string>Version 2.1 (Beta 4)</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
 			<string>Apfeltalk Mobile Entwicklerliste (Usernamen in Klammern)</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
