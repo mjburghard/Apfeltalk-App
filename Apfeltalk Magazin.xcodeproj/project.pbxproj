@@ -75,7 +75,6 @@
 		5AE35B21137AA0EB001779A0 /* Right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B1F137AA0EB001779A0 /* Right@2x.png */; };
 		5AE35B23137B4065001779A0 /* thread_dot_hot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B22137B4064001779A0 /* thread_dot_hot@2x.png */; };
 		5AE35B25137B4074001779A0 /* thread_dot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AE35B24137B4073001779A0 /* thread_dot@2x.png */; };
-		5AF0053513EBD606008D46C4 /* icloud.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 5AF0053413EBD606008D46C4 /* icloud.entitlements */; };
 		5AFB72DC1348A0270027752A /* thread_dot_hot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DA1348A0270027752A /* thread_dot_hot.png */; };
 		5AFB72DD1348A0270027752A /* thread_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AFB72DB1348A0270027752A /* thread_dot.png */; };
 		5E12A3AB13E2B54300B74F34 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E12A3AA13E2B54300B74F34 /* SearchTableViewController.m */; };
@@ -276,6 +275,7 @@
 		5A7B3A6C13491CE5000DDA5F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		5A7B3A6F13491DDB000DDA5F /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		5A9C4EFF1353182100D748FA /* magazin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magazin@2x.png"; sourceTree = "<group>"; };
+		5AA1DBDD13EE06DA003FCA7E /* Apfeltalk Magazin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Apfeltalk Magazin.entitlements"; sourceTree = "<group>"; };
 		5AA9412113B9C52B0072DEC7 /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsViewController.xib; sourceTree = "<group>"; };
 		5AA9412313B9C6A70072DEC7 /* PrivateMessagesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivateMessagesViewController.xib; sourceTree = "<group>"; };
 		5AA9412513B9C6E80072DEC7 /* SubscriptionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubscriptionsViewController.xib; sourceTree = "<group>"; };
@@ -301,7 +301,6 @@
 		5AE35B1F137AA0EB001779A0 /* Right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Right@2x.png"; sourceTree = "<group>"; };
 		5AE35B22137B4064001779A0 /* thread_dot_hot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot_hot@2x.png"; sourceTree = "<group>"; };
 		5AE35B24137B4073001779A0 /* thread_dot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thread_dot@2x.png"; sourceTree = "<group>"; };
-		5AF0053413EBD606008D46C4 /* icloud.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = icloud.entitlements; sourceTree = "<group>"; };
 		5AFB72DA1348A0270027752A /* thread_dot_hot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_hot.png; sourceTree = "<group>"; };
 		5AFB72DB1348A0270027752A /* thread_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot.png; sourceTree = "<group>"; };
 		5E12A3A913E2B54300B74F34 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
@@ -622,6 +621,7 @@
 		29B97314FDCFA39411CA2CEA /* Apfeltalk Magazin */ = {
 			isa = PBXGroup;
 			children = (
+				5AA1DBDD13EE06DA003FCA7E /* Apfeltalk Magazin.entitlements */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -679,7 +679,6 @@
 				5AA9412113B9C52B0072DEC7 /* SearchResultsViewController.xib */,
 				5AA9412313B9C6A70072DEC7 /* PrivateMessagesViewController.xib */,
 				5AA9412513B9C6E80072DEC7 /* SubscriptionsViewController.xib */,
-				5AF0053413EBD606008D46C4 /* icloud.entitlements */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1395,7 +1394,6 @@
 				4CDD01AA13C64C6900E0DCAD /* MagazineDetailView~ipad.xib in Resources */,
 				5E7D61F313CB83FA00155444 /* thread_dot_lock.png in Resources */,
 				5A70A1C813CB99B800C0095D /* thread_dot_lock@2x.png in Resources */,
-				5AF0053513EBD606008D46C4 /* icloud.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1541,6 +1539,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "Apfeltalk Magazin.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1570,8 +1569,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_ENTITLEMENTS = "Apfeltalk Magazin.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Stephan Koenig";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Stephan Koenig";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Apfeltalk_Magazin_Prefix.pch;
@@ -1588,7 +1588,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "Apfeltalk Magazin";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "56F609B0-4B66-4E98-A2DF-EB9E91464807";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "56F609B0-4B66-4E98-A2DF-EB9E91464807";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1621,6 +1622,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "Apfeltalk Magazin.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Stephan Koenig";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Stephan Koenig";
 				COPY_PHASE_STRIP = NO;
