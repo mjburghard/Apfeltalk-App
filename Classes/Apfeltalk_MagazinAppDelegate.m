@@ -68,11 +68,11 @@
 }
 
 /*- (void)applicationDidFinishLaunching:(UIApplication *)application {
-	[self setApplicationDefaults];
-    // Add the tab bar controller's current view as a subview of the window
-    [window addSubview:tabBarController.view];
-    [self login];
-}*/
+ [self setApplicationDefaults];
+ // Add the tab bar controller's current view as a subview of the window
+ [window addSubview:tabBarController.view];
+ [self login];
+ }*/
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setApplicationDefaults];
@@ -136,16 +136,16 @@
     [[User sharedUser] setLoggedIn:NO];
 }
 /*
-// Optional UITabBarControllerDelegate method
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-}
-*/
+ // Optional UITabBarControllerDelegate method
+ - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+ }
+ */
 
 /*
-// Optional UITabBarControllerDelegate method
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
-}
-*/
+ // Optional UITabBarControllerDelegate method
+ - (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
+ }
+ */
 
 
 - (void)dealloc {
@@ -155,4 +155,3 @@
 }
 
 @end
-
