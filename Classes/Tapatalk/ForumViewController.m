@@ -322,7 +322,7 @@ NSString * encodeString(NSString *aString) {
         [self.searchTableViewController.tableView reloadData];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", @"") 
-                                                            message:NSLocalizedStringFromTable(@"Please enter at least three characters", ATLocalizable, @"ATLocalizable") 
+                                                            message:NSLocalizedStringFromTable(@"Please enter at least three characters...", ATLocalizable, @"ATLocalizable") 
                                                            delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", ATLocalizable, @"") otherButtonTitles:nil, nil];
         [alertView show];
         [alertView release];
