@@ -36,7 +36,7 @@
 @property (retain) NSMutableString *currentString;
 @property (retain) NSMutableData *receivedData;
 @property (retain) NSString *path;
-@property (retain) id <UserXMLParserDelegate> delegate;
+@property (assign) id <UserXMLParserDelegate> delegate;
 @property (retain) NSXMLParser *parser;
 @property (retain) NSURLConnection *connection;
 

@@ -36,7 +36,7 @@
 @property (retain) NSString *path;
 @property (retain) NSString *basePath;
 @property (assign) NSInteger numberOfTopics;
-@property (retain) id <TopicParserDelegate> delegate;
+@property (assign) id <TopicParserDelegate> delegate;
 @property (retain) Topic *currentTopic;
 @property (retain) NSMutableArray *topics;
 @property (retain) NSString *intPath;

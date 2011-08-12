@@ -87,6 +87,7 @@ NSString * encodeString(NSString *aString) {
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:self.receivedData];
     [parser setDelegate:self];
     [parser parse];
+    [parser release];
     self.receivedData = nil;
     [pool release];
 }
@@ -296,7 +297,7 @@ NSString * encodeString(NSString *aString) {
 #pragma UISearchBarDelegate & UISearchDisplayControllerDelegate
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)aSearchBar {
-    if ([aSearchBar.text length] < 3 && searchButtonClicked) {
+    if ([aSearchBar.text length] < 5 && searchButtonClicked) {
         searchButtonClicked = NO;
         return NO;
     }
@@ -312,7 +313,7 @@ NSString * encodeString(NSString *aString) {
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)aSearchBar {
     searchButtonClicked = YES;
-    if (!([aSearchBar.text length] < 3)) {
+    if (!([aSearchBar.text length] < 5)) {
         searchButtonClicked = NO;
         NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>search_topic</methodName><params><param><value><base64>%@</base64></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param></params></methodCall>", encodeString(aSearchBar.text)];
         [self sendRequestWithXMLString:xmlString cookies:NO delegate:self.searchTableViewController];

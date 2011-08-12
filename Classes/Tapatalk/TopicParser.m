@@ -26,7 +26,7 @@
     if (self && aBasePath) {
         self.basePath = aBasePath;
         self.delegate = aDelegate;
-        self.xmlParser = [[NSXMLParser alloc] initWithData:data];
+        self.xmlParser = [[[NSXMLParser alloc] initWithData:data] autorelease];
         [self.xmlParser setDelegate:self];
     }
     return self;
@@ -75,8 +75,9 @@
 #pragma mark NSXMLParserDelegate
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
-    self.path = [[NSMutableString alloc] init];
-    self.topics = [[NSMutableArray alloc] init];
+    
+    self.path = [[[NSMutableString alloc] init] autorelease];
+    self.topics = [[[NSMutableArray alloc] init] autorelease];
     
     self.stringPath =  [NSString stringWithFormat:@"%@/value/struct/member/value/string", basePath];
     self.intPath =     [NSString stringWithFormat:@"%@/value/struct/member/value/int", basePath];
@@ -89,11 +90,11 @@
   namespaceURI:(NSString *)namespaceURI 
  qualifiedName:(NSString *)qualifiedName 
     attributes:(NSDictionary *)attributeDict {
-    self.currentString = [NSMutableString new];
+    self.currentString = [[[NSMutableString alloc] init] autorelease];
     
     if ([self.path isEqualToString:basePath]) {
         if (!isPrefixes) {
-            self.currentTopic = [[Topic alloc] init];
+            self.currentTopic = [[[Topic alloc] init] autorelease];
         }
     }
     self.path = [self.path stringByAppendingPathComponent:elementName];
