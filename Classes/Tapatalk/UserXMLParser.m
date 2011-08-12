@@ -82,7 +82,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    self.parser = [[NSXMLParser alloc] initWithData:self.receivedData];
+    self.parser = [[[NSXMLParser alloc] initWithData:self.receivedData] autorelease];
     [parser setDelegate:self];
     isParsing = YES;
     isLoading = NO;
