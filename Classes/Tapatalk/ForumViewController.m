@@ -322,7 +322,11 @@ NSString * encodeString(NSString *aString) {
         [self.searchTableViewController.tableView reloadData];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", @"") 
+<<<<<<< HEAD
                                                             message:NSLocalizedStringFromTable(@"Please enter at least five characters...", ATLocalizable, @"ATLocalizable") 
+=======
+                                                            message:NSLocalizedStringFromTable(@"Please enter at least five characters", ATLocalizable, @"") 
+>>>>>>> a5dab2736282e63b25d9ca2d7f6428d0e05b3f6e
                                                            delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", ATLocalizable, @"") otherButtonTitles:nil, nil];
         [alertView show];
         [alertView release];
@@ -343,7 +347,10 @@ NSString * encodeString(NSString *aString) {
     self.searchTableViewController.tableView = aTableView;
     aTableView.delegate = self.searchTableViewController;
     aTableView.dataSource = self.searchTableViewController;
+    [aTableView reloadData];
 }
+
+#pragma mark -
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -363,6 +370,9 @@ NSString * encodeString(NSString *aString) {
     UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet)];
     self.navigationItem.rightBarButtonItem = rightBarButton;
     [rightBarButton release];
+    if (self.searchDisplayController.active) {
+        [self.searchDisplayController.searchResultsTableView reloadData];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
