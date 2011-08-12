@@ -103,6 +103,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>mark_topic_read</methodName><params><param><value><array><data><value><string>%i</string></value></data></array></value></param></params></methodCall>", self.topic.topicID];
         
         [self sendRequestWithXMLString:xmlString cookies:YES delegate:nil];
+        self.topic.hasNewPost = NO;
     }
 }
 
