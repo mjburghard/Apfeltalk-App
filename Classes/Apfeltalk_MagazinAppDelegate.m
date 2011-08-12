@@ -76,7 +76,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setApplicationDefaults];
-      
+    
     // Add the tab bar controller's current view as a subview of the window
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -120,8 +120,8 @@
     
     [window addSubview:tabBarController.view];
     return YES;
-
 }
+
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [self deleteCookies];
