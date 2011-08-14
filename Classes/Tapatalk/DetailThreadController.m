@@ -468,9 +468,17 @@ const CGFloat kDefaultRowHeight = 44.0;
 		}
         
         if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
-            answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:AnswerCellIdentifier];
-            if (answerCell == nil || didRotate) {
-                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease]; 
+            if (didRotate) {
+                NSString *text = [answerCell.textView.text copy];
+                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease];
+                answerCell.textView.text = text;
+                [answerCell.textView becomeFirstResponder];
+                [text release];
+            } else {
+                answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:AnswerCellIdentifier];
+                if (answerCell == nil) {
+                    answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease]; 
+                }
             }
             answerCell.textView.scrollEnabled = YES;
             answerCell.textView.editable = YES;
