@@ -153,8 +153,12 @@
         [self setShowSave:NO];
 
 	if (buttonIdx == 0) {
+        NSMutableString *storyContent = [[NSMutableString alloc] init];
+        for (NSString *pageContent in story.content) {
+            [storyContent appendString:pageContent];
+        }
 		// Mail
-        SHKItem *item = [SHKItem text:story.summary];
+        SHKItem *item = [SHKItem text:storyContent];
         item.title = story.title;
         
         [SHKMail shareItem:item];
@@ -217,6 +221,7 @@
 
 - (void)viewDidLoad
 {
+    [self.pageControl setHidesForSinglePage:YES];
     webview.delegate = self;
     UIBarButtonItem *rightItem = [[[UIBarButtonItem alloc] initWithTitle:[self rightBarButtonTitle]
                                                                    style:UIBarButtonItemStyleBordered
@@ -368,6 +373,13 @@
         pageCount = [pagesLinks count];
     else
         [self stopNetworkActivityIndicator];
+    
+    if (pageCount == 1) {
+        CGRect frame = webview.frame;
+        frame.size.height += self.pageControl.frame.size.height;
+        webview.frame = frame;
+        
+    }
 
     self.pageControl.numberOfPages = pageCount;
     self.pageControl.currentPage = 0;

@@ -26,6 +26,10 @@
 
 #import "ContentCell.h"
 
+#define UIColorFromRGB(rgbValue) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 @implementation ContentCell
 @synthesize textView, delegate;
@@ -51,11 +55,6 @@
     return marginWidth;
 }
 
-#define UIColorFromRGB(rgbValue) [UIColor \
-colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
-green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
-blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier tableViewWidth:(CGFloat)tableViewWidth {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -76,6 +75,10 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
         self.textView.delegate = self;
         self.textView.textColor = UIColorFromRGB(0x000000);
         self.textView.backgroundColor = self.contentView.backgroundColor;
+        
+        UIFont *font = self.textView.font;
+        self.textView.font = [font fontWithSize:[[NSUserDefaults standardUserDefaults] floatForKey:@"fontSize"]];
+        
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     
         [self.contentView addSubview:self.textView];

@@ -5,12 +5,26 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>File</key>
-			<string>Font</string>
-			<key>Title</key>
-			<string>Schriftgrösse</string>
 			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>Schriftgröße</string>
+			<key>Key</key>
+			<string>fontSize</string>
+			<key>DefaultValue</key>
+			<string>12</string>
+			<key>Titles</key>
+			<array>
+				<string>Groß</string>
+				<string>Normal</string>
+				<string>Klein</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>17</string>
+				<string>12</string>
+				<string>10</string>
+			</array>
 		</dict>
 		<dict>
 			<key>File</key>
