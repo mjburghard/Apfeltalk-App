@@ -171,6 +171,7 @@
 		5E8D915C1352355700274017 /* SHKOAuthView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D911B1352355700274017 /* SHKOAuthView.m */; };
 		5E8D915D1352355700274017 /* SHKShareMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D911D1352355700274017 /* SHKShareMenu.m */; };
 		5E8D915E1352355700274017 /* SHKViewControllerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D911F1352355700274017 /* SHKViewControllerWrapper.m */; };
+		5EA7C69913F82842004C945A /* SubscriptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA7C69813F82841004C945A /* SubscriptionsViewController.m */; };
 		5EAACB5F137437ED00421338 /* ATActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EAACB5E137437ED00421338 /* ATActivityIndicator.m */; };
 		5EC265E3136999D3006A10DE /* ContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265B9136999D3006A10DE /* ContentCell.m */; };
 		5EC265E4136999D3006A10DE /* DetailThreadController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265BB136999D3006A10DE /* DetailThreadController.m */; };
@@ -470,6 +471,8 @@
 		5E8D911D1352355700274017 /* SHKShareMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKShareMenu.m; sourceTree = "<group>"; };
 		5E8D911E1352355700274017 /* SHKViewControllerWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKViewControllerWrapper.h; sourceTree = "<group>"; };
 		5E8D911F1352355700274017 /* SHKViewControllerWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKViewControllerWrapper.m; sourceTree = "<group>"; };
+		5EA7C69713F82841004C945A /* SubscriptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscriptionsViewController.h; sourceTree = "<group>"; };
+		5EA7C69813F82841004C945A /* SubscriptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscriptionsViewController.m; sourceTree = "<group>"; };
 		5EAACB5D137437ED00421338 /* ATActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATActivityIndicator.h; sourceTree = "<group>"; };
 		5EAACB5E137437ED00421338 /* ATActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATActivityIndicator.m; sourceTree = "<group>"; };
 		5EC265B8136999D3006A10DE /* ContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentCell.h; sourceTree = "<group>"; };
@@ -1134,6 +1137,8 @@
 				5E12A3AA13E2B54300B74F34 /* SearchTableViewController.m */,
 				5E12A3AD13E2BFCE00B74F34 /* TopicParser.h */,
 				5E12A3AE13E2BFCE00B74F34 /* TopicParser.m */,
+				5EA7C69713F82841004C945A /* SubscriptionsViewController.h */,
+				5EA7C69813F82841004C945A /* SubscriptionsViewController.m */,
 			);
 			path = Tapatalk;
 			sourceTree = "<group>";
@@ -1508,6 +1513,7 @@
 				4CDD01A213C644A800E0DCAD /* ATActivityIndicatorView.m in Sources */,
 				5E12A3AB13E2B54300B74F34 /* SearchTableViewController.m in Sources */,
 				5E12A3AF13E2BFCE00B74F34 /* TopicParser.m in Sources */,
+				5EA7C69913F82842004C945A /* SubscriptionsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
