@@ -6,3 +6,6 @@
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
 #endif
+
+#define ATLocalizable @"ATLocalizable"
+#define ATLocalizedString(key, comment) NSLocalizedStringFromTable((key), ATLocalizable, (comment))
