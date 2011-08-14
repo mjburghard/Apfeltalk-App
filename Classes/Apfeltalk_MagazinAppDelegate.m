@@ -53,6 +53,7 @@
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showIconBadge"];
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"shakeToReload"];
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"vibrateOnReload"];
+        [[NSUserDefaults standardUserDefaults] setFloat:12 forKey:@"fontSize"];
 	} 
 }
 
