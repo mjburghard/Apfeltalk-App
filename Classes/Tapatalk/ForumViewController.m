@@ -13,9 +13,7 @@
 #import "SubForumController.h"
 #import "Apfeltalk_MagazinAppDelegate.h"
 #import "NewPostsViewController.h"
-
-#define ATLocalizable @"ATLocalizable"
-#define ATLocalizedString(key, comment) NSLocalizedStringFromTable((key), ATLocalizable, (comment))
+#import "SubscriptionsViewController.h"
 
 @implementation ForumViewController
 @synthesize receivedData, sections, currentString, path, currentSection, currentFirstLevelForum, currentSecondLevelForum, currentThirdLevelForum, currentObject, dataArray, searchBar, searchTableViewController;
@@ -152,7 +150,7 @@ NSString * encodeString(NSString *aString) {
     self.searchBar.delegate = self;
     self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
-    self.searchBar.placeholder = NSLocalizedStringFromTable(@"At least five characters", @"ATLocalizable", @"");
+    self.searchBar.placeholder = ATLocalizedString(@"At least five characters", @"");
     self.tableView.tableHeaderView = self.searchBar;
     self.tableView.contentOffset = CGPointMake(0.0, 45.0);
     
@@ -168,13 +166,15 @@ NSString * encodeString(NSString *aString) {
 }
 
 - (void)showActionSheet {
-    NSString *buttonTitle;
+    NSString *loginButtonTitle, *subscriptionsButtonTitle;
     if ([[User sharedUser] isLoggedIn]) {
-        buttonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
+        loginButtonTitle = NSLocalizedStringFromTable(@"Logout", @"ATLocalizable", @"");
+        subscriptionsButtonTitle = ATLocalizedString(@"Subscriptions", @"");
     } else {
-        buttonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
+        loginButtonTitle = NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @"");
+        subscriptionsButtonTitle = nil;
     }
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"New Posts", @"ATLocalizable", @""), nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:loginButtonTitle, NSLocalizedStringFromTable(@"New Posts", @"ATLocalizable", @""), subscriptionsButtonTitle, nil];
     [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
     [actionSheet release];
 }
@@ -183,7 +183,9 @@ NSString * encodeString(NSString *aString) {
 #pragma mark UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    UINavigationController *navController;
     NewPostsViewController *newPostsViewController;
+    SubscriptionsViewController *subscriptionsViewController;
     switch (buttonIndex) {
         case 0:
             if ([[User sharedUser] isLoggedIn]) {
@@ -194,10 +196,18 @@ NSString * encodeString(NSString *aString) {
             break;
         case 1:
             newPostsViewController = [[NewPostsViewController alloc] initWithNibName:@"NewPostsViewController" bundle:nil];
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:newPostsViewController];
+            navController = [[UINavigationController alloc] initWithRootViewController:newPostsViewController];
             navController.navigationBar.tintColor = [UIColor colorWithRed:0.673 green:0.038 blue:0.053 alpha:1.000];
             [self presentModalViewController:navController animated:YES];
             [newPostsViewController release];
+            [navController release];
+            break;
+        case 2:
+            subscriptionsViewController = [[SubscriptionsViewController alloc] initWithNibName:@"SubscriptionsViewController" bundle:nil];
+            navController = [[UINavigationController alloc] initWithRootViewController:subscriptionsViewController];
+            navController.navigationBar.tintColor = [UIColor colorWithRed:0.673 green:0.038 blue:0.053 alpha:1.000];
+            [self presentModalViewController:navController animated:YES];
+            [subscriptionsViewController release];
             [navController release];
             break;
         default:
