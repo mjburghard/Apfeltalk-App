@@ -375,9 +375,7 @@
         [self stopNetworkActivityIndicator];
     
     if (pageCount == 1) {
-        CGRect frame = webview.frame;
-        frame.size.height += self.pageControl.frame.size.height;
-        webview.frame = frame;
+        webview.frame = self.view.frame;
         
     }
 
