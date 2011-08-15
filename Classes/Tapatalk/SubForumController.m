@@ -137,6 +137,7 @@
         self.topics = self.dataArray;
         [self.topics addObjectsFromArray:_topics];
         self.dataArray = nil;
+        self.numberOfTopics = self.topics.count;
         [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     }
 }
