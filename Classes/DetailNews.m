@@ -309,10 +309,10 @@
 
     if ([theStory.content count] == 0)
         return @"";
-
+    float fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"fontSize"];
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"Magazine" ofType:@"html"];
-    NSString *htmlString = [NSString stringWithFormat:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL],
-                            [self imageWidth], theStory.title, theStory.author, [dateFormatter stringFromDate:theStory.date],
+    NSString *htmlString = [NSString stringWithFormat:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL], 
+                            fontSize, [self imageWidth], (fontSize + 3.0), theStory.title, (fontSize - 1.0), theStory.author, [dateFormatter stringFromDate:theStory.date], fontSize,
                             [theStory.content objectAtIndex:self.currentPage]];
     return htmlString;
 }
@@ -374,11 +374,15 @@
     else
         [self stopNetworkActivityIndicator];
     
-    if (pageCount == 1) {
-        webview.frame = self.view.frame;
-        
-    }
-
+    CGRect frame = self.pageControl.frame;
+    if (pageCount == 1)
+        frame.origin.y = self.view.frame.size.height;
+    else
+        frame.origin.y = self.view.frame.size.height - frame.size.height;
+    CGRect webviewFrame = webview.frame;
+    webviewFrame.size.height = frame.origin.y - self.toolbar.frame.size.height;
+    webview.frame = webviewFrame;
+    self.pageControl.frame = frame;
     self.pageControl.numberOfPages = pageCount;
     self.pageControl.currentPage = 0;
     self.currentPage = 0;
