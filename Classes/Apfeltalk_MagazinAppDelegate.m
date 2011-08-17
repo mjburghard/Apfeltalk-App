@@ -77,7 +77,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setApplicationDefaults];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO animated:YES];
     
     // Add the tab bar controller's current view as a subview of the window
     
