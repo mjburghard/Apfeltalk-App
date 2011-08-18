@@ -225,7 +225,7 @@
     
     if (indexPath.section == 0 && [self.subForum.subFora count] != 0) {
         cell.textLabel.text = [(SubForum *)[self.subForum.subFora objectAtIndex:indexPath.row] name];
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
