@@ -55,6 +55,8 @@
 		5AA9412213B9C52B0072DEC7 /* SearchResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AA9412113B9C52B0072DEC7 /* SearchResultsViewController.xib */; };
 		5AA9412413B9C6A70072DEC7 /* PrivateMessagesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AA9412313B9C6A70072DEC7 /* PrivateMessagesViewController.xib */; };
 		5AA9412613B9C6E80072DEC7 /* SubscriptionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5AA9412513B9C6E80072DEC7 /* SubscriptionsViewController.xib */; };
+		5AAE9B6413FD372900A32DC2 /* gallery.html in Resources */ = {isa = PBXBuildFile; fileRef = 5AAE9B6313FD372900A32DC2 /* gallery.html */; };
+		5AAE9B6713FD373D00A32DC2 /* ticker.html in Resources */ = {isa = PBXBuildFile; fileRef = 5AAE9B6613FD373D00A32DC2 /* ticker.html */; };
 		5AB3DC92135352C600E0D3CA /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB3DC91135352C600E0D3CA /* EGORefreshTableHeaderView.m */; };
 		5AB3DC9C1353546800E0D3CA /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3DC941353546800E0D3CA /* blackArrow.png */; };
 		5AB3DC9D1353546800E0D3CA /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB3DC951353546800E0D3CA /* blackArrow@2x.png */; };
@@ -282,6 +284,8 @@
 		5AA9412113B9C52B0072DEC7 /* SearchResultsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchResultsViewController.xib; sourceTree = "<group>"; };
 		5AA9412313B9C6A70072DEC7 /* PrivateMessagesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivateMessagesViewController.xib; sourceTree = "<group>"; };
 		5AA9412513B9C6E80072DEC7 /* SubscriptionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubscriptionsViewController.xib; sourceTree = "<group>"; };
+		5AAE9B6313FD372900A32DC2 /* gallery.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = gallery.html; sourceTree = "<group>"; };
+		5AAE9B6613FD373D00A32DC2 /* ticker.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = ticker.html; sourceTree = "<group>"; };
 		5AB3DC90135352C600E0D3CA /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		5AB3DC91135352C600E0D3CA /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		5AB3DC941353546800E0D3CA /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -657,6 +661,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5AAE9B6613FD373D00A32DC2 /* ticker.html */,
+				5AAE9B6313FD372900A32DC2 /* gallery.html */,
 				4CDD01A913C64C6800E0DCAD /* MagazineDetailView~ipad.xib */,
 				4CDD01A713C64C5600E0DCAD /* MagazineDetailView~iphone.xib */,
 				5E26C63B1388098D00A7A1C5 /* NewPostsViewController.xib */,
@@ -1407,6 +1413,8 @@
 				5A70A1C813CB99B800C0095D /* thread_dot_lock@2x.png in Resources */,
 				5AF5E28513FAEE70009A5E8C /* privat.png in Resources */,
 				5AF5E28613FAEE70009A5E8C /* privat@2x.png in Resources */,
+				5AAE9B6413FD372900A32DC2 /* gallery.html in Resources */,
+				5AAE9B6713FD373D00A32DC2 /* ticker.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
