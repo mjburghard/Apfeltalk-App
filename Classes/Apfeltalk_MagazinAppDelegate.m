@@ -44,6 +44,9 @@
     return self;
 }
 
++ (Apfeltalk_MagazinAppDelegate*)sharedAppDelegate {
+    return (Apfeltalk_MagazinAppDelegate *)[[UIApplication sharedApplication] delegate];
+}
 
 - (void)setApplicationDefaults {
 	// !!!:below:20091018 This is not the Apple recommended way of doing this!
