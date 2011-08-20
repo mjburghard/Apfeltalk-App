@@ -86,13 +86,6 @@
     return YES;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-}
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-}
-
 - (NSString *)strip_tags:(NSString *)data :(NSArray *)valid_tags
 {
 	//use to strip the HTML tags from the data
@@ -190,34 +183,48 @@ void endElement (void *userData, const xmlChar *name) {
 	//[elementString release];
 	NSString *str = [[[self story] thumbnailLink] stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
     
-    NSInteger width = MAX_IMAGE_WIDTH;
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        switch (width) {
-            case 728:
-                width = 663;
-                break;
-            case 280:
-                width = 440;
-            default:
-                break;
-        }
-    }
-    
-	NSString *showpicture = [NSString stringWithFormat:@"<a href=\"%@\"><img src=\"%@\" width=\"%ld\" alt=\"No Medium Picture.\" /></a> ", str, str, (long)width];
-	NSString *resultString = [NSString stringWithFormat:@"%@<br/>%@", showpicture, cleanedString];
-    resultString = [[self baseHtmlString] stringByReplacingOccurrencesOfString:@"%@" withString:resultString];
+	NSString *showpicture = [NSString stringWithFormat:@"<a href=\"%@\"><img src=\"%@\" alt=\"No Medium Picture.\" /></a> ", str, str];
+	NSString *resultString = [NSString stringWithFormat:@"%@%@", showpicture, cleanedString];
 	[cleanedString release];
+    
 	cleanedString = nil;
-	
-	return resultString;
+    
+    NSLog(@"%@", self.story.summary);
+    NSLog(@"%@", resultString);
+    
+    NSScanner *scanner = [NSScanner scannerWithString:resultString];
+    [scanner scanUpToString:@"<br/><br/>von: " intoString:nil];
+    NSUInteger location = [scanner scanLocation];
+    [scanner scanString:@"<br/><br/>von: " intoString:nil];
+    NSUInteger length = 0;
+    [scanner scanUpToString:@"<br/>" intoString:nil];
+    if (![scanner isAtEnd])
+        length = [scanner scanLocation] - location + 5; // + 5 to remove the next br tag
+    else
+        length = [resultString length] - location;
+    NSRange range = NSMakeRange(location, length);
+    NSString *author = nil, *rawAuthorString = [resultString substringWithRange:range];
+    author = [rawAuthorString stringByReplacingOccurrencesOfString:@"<br/><br/>von: " withString:@""];
+    author = [author stringByReplacingOccurrencesOfString:@"<br/>" withString:@""];
+    resultString = [resultString stringByReplacingOccurrencesOfString:rawAuthorString withString:@""];
+    
+    [self.story setAuthor:author];
+    Story           *theStory = self.story;
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setDateFormat:[NSString stringWithFormat:@"%@ HH:mm", [dateFormatter dateFormat]]];
+    
+    float fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"fontSize"];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"DetailView" ofType:@"html"];
+    NSString *htmlString = [NSString stringWithFormat:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL], 
+                            fontSize, [self imageWidth], (fontSize + 3.0), theStory.title, (fontSize - 1.0), theStory.author, [dateFormatter stringFromDate:theStory.date], fontSize,
+                            resultString];
+    return htmlString;
 }
 
 - (NSString *) rightBarButtonTitle {
 	return NSLocalizedStringFromTable(@"Picture options", @"ATLocalizable", @"");
-}
-
-- (UIImage *) usedimage {
-	return [UIImage imageNamed:@"header.png"];
 }
 
 -(IBAction)speichern:(id)sender

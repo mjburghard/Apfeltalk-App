@@ -27,18 +27,11 @@
 #import "AsyncImageButton.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "RootViewController.h"
+#import "ATActivityIndicatorView.h"
 
 @interface DetailViewController : UIViewController <UIWebViewDelegate, SubstitutableDetailViewController> {
-	IBOutlet UILabel *datum;
-	IBOutlet UILabel *lblText;
-	IBOutlet AsyncImageButton *thumbnailButton;
-	IBOutlet UIScrollView *scrollView2;
-	IBOutlet UITextView *sunText;
-	IBOutlet UINavigationBar *Textvar;
+    ATActivityIndicatorView *activityIndicator;
 	IBOutlet UIWebView *webview;
-	IBOutlet UILabel *titleLabel;
-	IBOutlet UILabel *authorLabel;
-	IBOutlet UIImageView *detailimage;
     IBOutlet UIToolbar *toolbar;
     
 	Story *story;
@@ -47,12 +40,11 @@
 
 @property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 @property (readwrite, retain) Story *story;
+@property (nonatomic, retain) IBOutlet ATActivityIndicatorView *activityIndicator;
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle story:(Story *)newStory;
+- (NSUInteger)imageWidth;
 - (NSString *)rightBarButtonTitle;
-- (NSString *)cssStyleString;
-- (NSString *)baseHtmlString;
-- (NSString*)scaledHtmlStringFromHtmlString:(NSString*)htmlString;
 - (void)updateInterface;
 - (IBAction)speichern:(id)sender;
 

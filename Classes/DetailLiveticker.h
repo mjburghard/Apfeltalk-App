@@ -32,6 +32,5 @@
 }
 
 - (UISegmentedControl *)storyControl;
-- (void)updateInterface;
 
 @end

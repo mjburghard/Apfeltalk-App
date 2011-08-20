@@ -23,20 +23,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ATActivityIndicatorView.h"
 #import "DetailViewController.h"
 #import <MessageUI/MessageUI.h>
 
 @interface DetailNews : DetailViewController <UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate> {
 	BOOL showSave;
 	UIActionSheet *loadingActionSheet;
-    ATActivityIndicatorView *activityIndicator;
     UIPageControl *pageControl;
     NSInteger currentPage;
 }
 
 @property (readwrite) BOOL showSave;
-@property (nonatomic, retain) IBOutlet ATActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
 @property (nonatomic, assign) NSInteger currentPage;
 

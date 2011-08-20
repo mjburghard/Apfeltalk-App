@@ -68,7 +68,6 @@
     [rightItem release];
 
     [webview setDelegate:self];
-    [webview setBackgroundColor:[UIColor clearColor]];
     [self updateInterface];
 // :below:20091111 Apple wants this removed
 //	[(UIScrollView *)[webview.subviews objectAtIndex:0] setAllowsRubberBanding:NO];
@@ -91,17 +90,10 @@
     }
 }
 
-- (UIImage *) thumbimage
-{
-	return [UIImage imageNamed:@"TickerThumbnail.png"];
-}
-
-
-
 - (NSString *)htmlString
 {
     NSRange          aRange;
-    NSMutableString *contentString = [NSMutableString stringWithString:[self scaledHtmlStringFromHtmlString:[[self story] summary]]];
+    NSMutableString *contentString = [NSMutableString stringWithString:[[self story] summary]];
 
     // Remove the last paragraph tags
     aRange = [contentString rangeOfString:@"</p>" options:NSBackwardsSearch];
@@ -112,16 +104,19 @@
         if (aRange.location != NSNotFound)
             [contentString deleteCharactersInRange:aRange];
     }
-
-    [thumbnailButton setBackgroundImage:[self thumbimage] forState:UIControlStateNormal];
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"default" ofType:@"css"];
-	NSString *cssCode = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     
-	contentString = [NSString stringWithFormat:@"<style type=\"text/css\"> %@ </style>%@<br />", cssCode, contentString];
-    return [[self baseHtmlString] stringByReplacingOccurrencesOfString:@"%@" withString:contentString];
+    Story           *theStory = self.story;
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setDateFormat:[NSString stringWithFormat:@"%@ HH:mm", [dateFormatter dateFormat]]];
+    float fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"fontSize"];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"DetailView" ofType:@"html"];
+    NSString *htmlString = [NSString stringWithFormat:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL], 
+                            fontSize, [self imageWidth], (fontSize + 3.0), theStory.title, (fontSize - 1.0), theStory.author, [dateFormatter stringFromDate:theStory.date], fontSize,
+                            contentString];
+    return htmlString;
 }
-
-
 
 - (UISegmentedControl *)storyControl
 {
@@ -129,24 +124,6 @@
         return (UISegmentedControl *)[[self.toolbar.items lastObject] customView];
     }
     return (UISegmentedControl *)[[[self navigationItem] rightBarButtonItem] customView];
-}
-
-
-
-- (void)updateInterface
-{
-    [titleLabel setText:[[self story] title]];
-
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"HH:mm"];
-    if ([[self story] author] && [[self story] date]) {
-        datum.text = [NSString stringWithFormat:@"von %@ - %@", [[self story] author], [dateFormatter stringFromDate:[[self story] date]]];
-    } else {
-        datum.text = @"";
-    }
-    [dateFormatter release];
-
-    [webview loadHTMLString:[self htmlString] baseURL:nil];
 }
 
 @end

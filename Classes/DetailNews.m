@@ -38,7 +38,6 @@
 @interface DetailNews ()
 
 - (NSString *)htmlString;
-- (NSUInteger)imageWidth;
 - (void)loadArticlePages:(NSArray *)pagesLinks;
 - (void)internalUpdateInterface;
 - (void)stopNetworkActivityIndicator;
@@ -53,7 +52,6 @@
 @implementation DetailNews
 
 @synthesize showSave;
-@synthesize activityIndicator;
 @synthesize pageControl;
 @synthesize currentPage;
 
@@ -70,7 +68,6 @@
 
 - (void)dealloc
 {
-    self.activityIndicator = nil;
     self.pageControl = nil;
     [super dealloc];
 }
@@ -103,7 +100,7 @@
 -(IBAction)speichern:(id)sender
 {
     [super speichern:sender];
-	Apfeltalk_MagazinAppDelegate *appDelegate = (Apfeltalk_MagazinAppDelegate *)[[UIApplication sharedApplication] delegate];
+	Apfeltalk_MagazinAppDelegate *appDelegate = [Apfeltalk_MagazinAppDelegate sharedAppDelegate];
 	// :below:20090920 This is only to placate the analyzer
         
     myMenu = [[UIActionSheet alloc] init];
@@ -221,39 +218,22 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
     [self.pageControl setHidesForSinglePage:YES];
-    webview.delegate = self;
-    UIBarButtonItem *rightItem = [[[UIBarButtonItem alloc] initWithTitle:[self rightBarButtonTitle]
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:[[[self navigationController] viewControllers] lastObject]
-                                                                  action:@selector(speichern:)] autorelease];
-
-    NSArray            *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"Up.png"], [UIImage imageNamed:@"Down.png"], nil];
-	UISegmentedControl *segControl = [[[UISegmentedControl alloc] initWithItems:imgArray] autorelease];
-
-	[segControl addTarget:[[[self navigationController] viewControllers] objectAtIndex:0] action:@selector(changeStory:)
-         forControlEvents:UIControlEventValueChanged];
-    [segControl setFrame:CGRectMake(0.0, 0.0, 110.0, 30.0)];
-	[segControl setSegmentedControlStyle:UISegmentedControlStyleBar];
-	[segControl setMomentary:YES];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
     {
+        NSArray            *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"Up.png"], [UIImage imageNamed:@"Down.png"], nil];
+        UISegmentedControl *segControl = [[[UISegmentedControl alloc] initWithItems:imgArray] autorelease];
+        
+        [segControl addTarget:[[[self navigationController] viewControllers] objectAtIndex:0] action:@selector(changeStory:)
+             forControlEvents:UIControlEventValueChanged];
+        [segControl setFrame:CGRectMake(0.0, 0.0, 110.0, 30.0)];
+        [segControl setSegmentedControlStyle:UISegmentedControlStyleBar];
+        [segControl setMomentary:YES];
         self.navigationItem.titleView = segControl;
-        self.navigationItem.rightBarButtonItem = rightItem;
+        [[[[self navigationController] viewControllers] objectAtIndex:0] changeStory:segControl];
     }
-    else
-    {
-        NSMutableArray *items = [toolbar.items mutableCopy];
-        UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
-        [items addObject:flexibleSpace];
-        [items addObject:rightItem];
-        [toolbar setItems:items animated:NO];
-        [flexibleSpace release];
-        [items release];
-    }
-
-    [[[[self navigationController] viewControllers] objectAtIndex:0] changeStory:segControl];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -310,24 +290,12 @@
     if ([theStory.content count] == 0)
         return @"";
     float fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"fontSize"];
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"Magazine" ofType:@"html"];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"DetailView" ofType:@"html"];
     NSString *htmlString = [NSString stringWithFormat:[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL], 
                             fontSize, [self imageWidth], (fontSize + 3.0), theStory.title, (fontSize - 1.0), theStory.author, [dateFormatter stringFromDate:theStory.date], fontSize,
                             [theStory.content objectAtIndex:self.currentPage]];
     return htmlString;
 }
-
-
-- (NSUInteger)imageWidth
-{
-    NSUInteger width = 290;
-
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        width = 675;
-
-    return width;
-}
-
 
 - (void)loadArticlePages:(NSArray *)pagesLinks
 {
@@ -393,12 +361,6 @@
 {
     [self.activityIndicator stopAnimating];
     [self.activityIndicator removeFromSuperview];
-}
-
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [webview loadHTMLString:[self htmlString] baseURL:nil];
 }
 
 @end
