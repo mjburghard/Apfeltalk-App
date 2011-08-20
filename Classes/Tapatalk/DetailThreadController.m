@@ -496,7 +496,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 		authorCell.textLabel.text = p.author;
         authorCell.detailTextLabel.textColor = authorCell.textLabel.textColor;
         authorCell.detailTextLabel.text = [outFormatter stringFromDate:p.postDate];
-        authorCell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
+        authorCell.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
         authorCell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (p.userIsOnline) {
             authorCell.imageView.image = [UIImage imageNamed:@"online.png"];

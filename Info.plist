@@ -63,5 +63,9 @@
 	<array/>
 	<key>UTImportedTypeDeclarations</key>
 	<array/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleBlackOpaque</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
 </dict>
 </plist>

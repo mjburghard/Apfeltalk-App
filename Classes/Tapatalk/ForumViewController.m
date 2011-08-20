@@ -439,7 +439,7 @@ NSString * encodeString(NSString *aString) {
     }
     
     cell.textLabel.text = [(SubForum *)[[(Section *)[self.sections objectAtIndex:indexPath.section] subFora] objectAtIndex:indexPath.row] name];
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     // Configure the cell.
     return cell;
