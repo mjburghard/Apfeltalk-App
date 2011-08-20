@@ -29,7 +29,7 @@
 		4CD36BE71058345800DD09FB /* Up.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CD36BE61058345800DD09FB /* Up.png */; };
 		4CDD01A213C644A800E0DCAD /* ATActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDD01A113C644A800E0DCAD /* ATActivityIndicatorView.m */; };
 		4CDD01A413C6477C00E0DCAD /* XPaths.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CDD01A313C6477C00E0DCAD /* XPaths.plist */; };
-		4CDD01A613C64BFE00E0DCAD /* Magazine.html in Resources */ = {isa = PBXBuildFile; fileRef = 4CDD01A513C64BFE00E0DCAD /* Magazine.html */; };
+		4CDD01A613C64BFE00E0DCAD /* DetailView.html in Resources */ = {isa = PBXBuildFile; fileRef = 4CDD01A513C64BFE00E0DCAD /* DetailView.html */; };
 		4CDD01A813C64C5600E0DCAD /* MagazineDetailView~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDD01A713C64C5600E0DCAD /* MagazineDetailView~iphone.xib */; };
 		4CDD01AA13C64C6900E0DCAD /* MagazineDetailView~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDD01A913C64C6800E0DCAD /* MagazineDetailView~ipad.xib */; };
 		4CFA12B410B8C51B00D8AB71 /* DetailBottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CFA12B110B8C51B00D8AB71 /* DetailBottom.png */; };
@@ -255,7 +255,7 @@
 		4CDD01A013C644A800E0DCAD /* ATActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATActivityIndicatorView.h; sourceTree = "<group>"; };
 		4CDD01A113C644A800E0DCAD /* ATActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATActivityIndicatorView.m; sourceTree = "<group>"; };
 		4CDD01A313C6477C00E0DCAD /* XPaths.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = XPaths.plist; sourceTree = "<group>"; };
-		4CDD01A513C64BFE00E0DCAD /* Magazine.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Magazine.html; sourceTree = "<group>"; };
+		4CDD01A513C64BFE00E0DCAD /* DetailView.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = DetailView.html; sourceTree = "<group>"; };
 		4CDD01A713C64C5600E0DCAD /* MagazineDetailView~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MagazineDetailView~iphone.xib"; sourceTree = "<group>"; };
 		4CDD01A913C64C6800E0DCAD /* MagazineDetailView~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MagazineDetailView~ipad.xib"; sourceTree = "<group>"; };
 		4CFA12B110B8C51B00D8AB71 /* DetailBottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DetailBottom.png; sourceTree = "<group>"; };
@@ -668,7 +668,7 @@
 				CBBD046610DE4C020056C183 /* LoadingCell.xib */,
 				CB1E3BC610CC674600B01120 /* Entitlements.plist */,
 				F6730BA113490EE70045B876 /* default.css */,
-				4CDD01A513C64BFE00E0DCAD /* Magazine.html */,
+				4CDD01A513C64BFE00E0DCAD /* DetailView.html */,
 				4CDD01A313C6477C00E0DCAD /* XPaths.plist */,
 				CB1434AE1058616500B5FF14 /* Images */,
 				F6730BE3134A70B40045B876 /* GCImageViewer.xib */,
@@ -1400,7 +1400,7 @@
 				5AA9412413B9C6A70072DEC7 /* PrivateMessagesViewController.xib in Resources */,
 				5AA9412613B9C6E80072DEC7 /* SubscriptionsViewController.xib in Resources */,
 				4CDD01A413C6477C00E0DCAD /* XPaths.plist in Resources */,
-				4CDD01A613C64BFE00E0DCAD /* Magazine.html in Resources */,
+				4CDD01A613C64BFE00E0DCAD /* DetailView.html in Resources */,
 				4CDD01A813C64C5600E0DCAD /* MagazineDetailView~iphone.xib in Resources */,
 				4CDD01AA13C64C6900E0DCAD /* MagazineDetailView~ipad.xib in Resources */,
 				5E7D61F313CB83FA00155444 /* thread_dot_lock.png in Resources */,
