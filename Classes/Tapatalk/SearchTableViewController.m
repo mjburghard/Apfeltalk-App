@@ -59,9 +59,9 @@
     
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     NSDictionary *headers = [httpResponse allHeaderFields];
-    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"]];
     if ([all count] > 0) {
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://.apfeltalk.de"] mainDocumentURL:nil]; 
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"] mainDocumentURL:nil]; 
     }
     if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
         [[User sharedUser] setLoggedIn:NO];
