@@ -57,7 +57,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
         return;
     }
 
-    NSURL *url = [NSURL URLWithString:@"http://apfeltalk.de/forum/mobiquo/mobiquo.php/"];
+    NSURL *url = [NSURL URLWithString:ATTapatalkPluginPath];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>login</methodName><params><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", encodeString(self.username), encodeString(self.password)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -75,7 +75,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
     self.username = nil;
     self.password = nil;
     self.loggedIn = NO;
-    NSURL *url = [NSURL URLWithString:@"http://www.apfeltalk.de/forum/mobiquo/mobiquo.php"];
+    NSURL *url = [NSURL URLWithString:ATTapatalkPluginPath];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>logout_user</methodName></methodCall>"];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -149,6 +149,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSString *s = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", s);
+    [s release];
+
     NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
     [thread start];
     [thread release];
