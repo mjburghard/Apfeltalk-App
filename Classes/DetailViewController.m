@@ -47,6 +47,7 @@
             [self setStory:aStory];
             [aStory release];
         }
+        self.hidesBottomBarWhenPushed = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTabBar"];
 	}
 	return self;
 }

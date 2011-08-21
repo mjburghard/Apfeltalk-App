@@ -61,7 +61,6 @@
 	self = [super initWithNibName:nibName bundle:nibBundle story:newStory];
 	if (self != nil) {
 		showSave = YES;
-        self.hidesBottomBarWhenPushed = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTabBar"];
 	}
 	return self;
 }
