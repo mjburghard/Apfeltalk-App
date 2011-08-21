@@ -61,13 +61,13 @@
     NSString *title = [translator translateStringForAT:self.topicField.text];
     NSString *content = [translator translateStringForAT:self.textView.text];
     [translator release];
-    NSURL *url = [NSURL URLWithString:@"http://apfeltalk.de/forum/mobiquo/mobiquo.php/"];
+    NSURL *url = [NSURL URLWithString:@"http://www.apfeltalk.de/forum/mobiquo/mobiquo.php"];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>new_topic</methodName><params><param><value><string>%i</string></value></param><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", self.forum.forumID, 
                            encodeString(title), 
                            encodeString(content)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     
-    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apfeltalk.de"]];
     NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];

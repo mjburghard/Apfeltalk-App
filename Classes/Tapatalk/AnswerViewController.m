@@ -70,14 +70,14 @@
     
     NSString *content = [translator translateStringForAT:self.textView.text];
     [translator release];
-    NSURL *url = [NSURL URLWithString:@"http://apfeltalk.de/forum/mobiquo/mobiquo.php/"];
+    NSURL *url = [NSURL URLWithString:@"http://www.apfeltalk.de/forum/mobiquo/mobiquo.php"];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>reply_post</methodName><params><param><value><string>%i</string></value></param><param><value><string>%i</string></value></param><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", self.topic.forumID, 
                            self.topic.topicID, 
                            encodeString(@"answer"), 
                            encodeString(content)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     
-    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://apfeltalk.de"]];
+    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apfeltalk.de"]];
     NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -116,9 +116,9 @@
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     NSDictionary *headers = [httpResponse allHeaderFields];
     NSLog(@"Response: %@", headers);
-    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"]];
     if ([all count] > 0) {
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://.apfeltalk.de"] mainDocumentURL:nil]; 
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"] mainDocumentURL:nil]; 
     }
     
     if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
