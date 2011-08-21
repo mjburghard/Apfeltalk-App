@@ -46,7 +46,7 @@ NSString* const kThirdLevelForumPath = @"methodResponse/params/param/value/array
 #pragma mark Public & private methods
 
 - (NSString *)tapatalkPluginPath {
-    return @"http://apfeltalk.de/forum/mobiquo/mobiquo.php/";
+    return @"http://www.apfeltalk.de/forum/mobiquo/mobiquo.php";
 }
 
 /*NSString * decodeString(NSString *aString) {
@@ -95,7 +95,7 @@ NSString * encodeString(NSString *aString) {
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     if ([[User sharedUser] isLoggedIn] && cookies) {
-        NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
+        NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apfeltalk.de"]];
         NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
         [request setAllHTTPHeaderFields:headers];
     }
@@ -269,9 +269,9 @@ NSString * encodeString(NSString *aString) {
     
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     NSDictionary *headers = [httpResponse allHeaderFields];
-    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"]];
     if ([all count] > 0) {
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://.apfeltalk.de"] mainDocumentURL:nil]; 
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"] mainDocumentURL:nil]; 
     }
     if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
         [[User sharedUser] setLoggedIn:NO];

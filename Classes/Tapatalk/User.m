@@ -43,7 +43,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 }
 
 - (void)deleteCookies {
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apfeltalk.de"]];
     for (NSHTTPCookie *c in cookies) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:c];
     }
@@ -57,7 +57,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
         return;
     }
 
-    NSURL *url = [NSURL URLWithString:@"http://apfeltalk.de/forum/mobiquo/mobiquo.php/"];
+    NSURL *url = [NSURL URLWithString:@"http://www.apfeltalk.de/forum/mobiquo/mobiquo.php"];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>login</methodName><params><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", encodeString(self.username), encodeString(self.password)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -138,9 +138,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     NSDictionary *headers = [httpResponse allHeaderFields];
-    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
+    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"]];
     if ([all count] > 0) {
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://.apfeltalk.de"] mainDocumentURL:nil]; 
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"] mainDocumentURL:nil]; 
     }
 }
 
