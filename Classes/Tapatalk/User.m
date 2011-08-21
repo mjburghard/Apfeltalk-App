@@ -57,11 +57,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
         return;
     }
 
-<<<<<<< HEAD
-    NSURL *url = [NSURL URLWithString:@"http://www.apfeltalk.de/forum/mobiquo/mobiquo.php"];
-=======
+
     NSURL *url = [NSURL URLWithString:ATTapatalkPluginPath];
->>>>>>> fc829d9bf3edf4e7c482d35ebbe42389b0971e1f
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>login</methodName><params><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", encodeString(self.username), encodeString(self.password)];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
