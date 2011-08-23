@@ -250,8 +250,8 @@ void endElement (void *userData, const xmlChar *name) {
     NSString *thumbLink = extractTextFromHTMLForQuery(str, @"//img[attribute::title]/attribute::src");
     
     if ([thumbLink length] == NSNotFound) {
-		UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Keine URL", @"")
-                                                              message:NSLocalizedString (@"Es konnte keine URL für das Bild gefunden werden", @"")
+		UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"No URL", nil)
+                                                              message:ATLocalizedString(@"No URL for the picture was found", nil)
                                                              delegate:nil cancelButtonTitle:NSLocalizedString (@"OK", @"")
                                                     otherButtonTitles:nil];
 		[errorAlert show];
@@ -309,8 +309,8 @@ void endElement (void *userData, const xmlChar *name) {
     }
     
     if (image == nil) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString (@"Foto konnte nicht geladen werden", @"")
-                                                            message:NSLocalizedString (@"Das Foto konnte in keiner Auflösung geladen werden", @"")
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Couldn't load picture", nil)
+                                                            message:ATLocalizedString(@"Photo couldn't be loaded in any resolution", nil)
                                                            delegate:nil cancelButtonTitle:NSLocalizedString (@"OK", @"")
                                                   otherButtonTitles:nil];
         [alertView show];
