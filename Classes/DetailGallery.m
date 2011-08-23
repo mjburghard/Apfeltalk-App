@@ -238,7 +238,7 @@ void endElement (void *userData, const xmlChar *name) {
               delegate:self
               cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")
               destructiveButtonTitle:nil
-              otherButtonTitles:@"Per Mail versenden", @"Bild speichern", @"Zeige Bild",nil];
+              otherButtonTitles:ATLocalizedString(@"Send as mail", nil), ATLocalizedString(@"Save picture", nil), ATLocalizedString(@"Fullscreen", nil),nil];
     
     [myMenu showFromTabBar:[[appDelegate tabBarController] tabBar]];
 }
