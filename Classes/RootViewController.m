@@ -420,6 +420,9 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSString *s = [[NSString alloc] initWithData:xmlData encoding:NSASCIIStringEncoding];
+    NSLog(@"%@", s);
+    [s release];
 	ATXMLParser *parser = [[ATXMLParser alloc] initWithData:xmlData];
     [parser setDesiredElementKeys:self.desiredKeys];
     [parser setStoryClass:[Story self]];
