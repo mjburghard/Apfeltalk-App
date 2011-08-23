@@ -271,7 +271,7 @@ void endElement (void *userData, const xmlChar *name) {
             UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL: [NSURL URLWithString:imageLink]]];
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil); 
             
-            UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:@"Bild gespeichert" message:@"Das Bild wurde erfolgreich in deine Fotogallerie gespeichert." delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
+            UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Picture saved", nil) message:ATLocalizedString(@"The picture has been saved to your library successfully", nil) delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
             [errorAlert show];
             [errorAlert release];
             
