@@ -653,6 +653,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             self.currentPost.content = [translator translateStringForiOS:self.currentString];
             [translator release];
         } else if (isPostAuthor) {
+            isPostAuthor = NO;
             self.currentPost.author = self.currentString;
         }
         

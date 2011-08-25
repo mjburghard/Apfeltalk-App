@@ -58,6 +58,9 @@
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"vibrateOnReload"];
         [[NSUserDefaults standardUserDefaults] setFloat:12 forKey:@"fontSize"];
 	} 
+    if ([[NSUserDefaults standardUserDefaults] floatForKey:@"fontSize"] == 0) {
+        [[NSUserDefaults standardUserDefaults] setFloat:12 forKey:@"fontSize"];
+    }
 }
 
 - (void)login {
