@@ -64,6 +64,7 @@
 	{
 		NSArray *recipients = [[NSArray alloc] initWithObjects:@"info@apfeltalk.de", nil];
 		MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
+        controller.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
 		controller.mailComposeDelegate = self;
 		[controller setToRecipients:recipients];
 		[recipients release];
@@ -349,7 +350,7 @@
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
             tableHeaderView.backgroundColor = self.tableView.backgroundColor;
         } else {
-            tableHeaderView.backgroundColor = [UIColor colorWithRed:224.0/255.0 green:227.0/255.0 blue:232.0/255.0 alpha:1.0];;
+            tableHeaderView.backgroundColor = [UIColor colorWithRed:224.0/255.0 green:227.0/255.0 blue:232.0/255.0 alpha:1.0];
 
         }
 		[self.tableView addSubview:tableHeaderView];
@@ -372,7 +373,7 @@
 {
 	[super viewDidAppear:animated];
     
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone &&[stories count] == 0) {
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && [stories count] == 0) {
 		[self parseXMLFileAtURL:[self documentPath]];
 		//[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
 	}
@@ -396,6 +397,9 @@
 
 - (void)parseXMLFileAtURL:(NSString *)URLString
 {
+    if (xmlData != nil) {
+        return;
+    }
 	NSURL *url = [NSURL URLWithString:URLString];
 	if (url == nil)
 		return;
