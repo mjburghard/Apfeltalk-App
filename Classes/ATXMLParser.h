@@ -53,6 +53,7 @@
     NSDateFormatter                 *dateFormatter;
     NSMutableString                 *currentContent;
     NSDictionary                    *desiredElementKeys;
+    NSDictionary                    *htmlEntities;
 
 @private
     NSXMLParser  *xmlParser;
@@ -66,6 +67,7 @@
 @property(retain) NSDateFormatter *dateFormatter;
 @property(retain) NSMutableString *currentContent;
 @property(retain) NSDictionary *desiredElementKeys;
+@property(retain) NSDictionary *htmlEntities;
 
 + (ATXMLParser *)parserWithURLString:(NSString *)urlString;
 + (ATXMLParser *)parserWithData:(NSData *)data;
