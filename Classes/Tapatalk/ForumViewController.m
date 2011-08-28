@@ -120,7 +120,6 @@
 }
 
 #pragma mark -
-<<<<<<< HEAD
 #pragma mark XMLRPCResponseDelegate
 
 - (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
@@ -130,83 +129,7 @@
             [self.sections addObject:section];
             [section release];
         }
-=======
-#pragma mark UIAlertViewDelegate
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    switch (alertView.tag) {
-        case 0:
-            if (buttonIndex == 1 && [usernameTextField.text length] != 0 &&  [passwordTextField.text length] != 0) {
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginDidFail) name:@"ATLoginDidFail" object:nil];
-                [[User sharedUser] setUsername:usernameTextField.text];
-                [[User sharedUser] setPassword:passwordTextField.text];
-                [[User sharedUser] login];
-                [usernameTextField resignFirstResponder];
-                [passwordTextField resignFirstResponder];
-                [usernameTextField release];
-                [passwordTextField release];
-            } else if (buttonIndex == 0 ) {
-                [usernameTextField resignFirstResponder];
-                [passwordTextField resignFirstResponder];
-                [usernameTextField release];
-                [passwordTextField release];
-            }
-            break;
-        case 1:
-            if (buttonIndex == 1) {
-                [self login];
-            }
-            break;
-        default:
-            break;
-    }
-}
-
-#pragma mark -
-
-- (void)loginDidFail {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") 
-                                                        message:NSLocalizedStringFromTable(@"Wrong username or password", @"ATLocalizable", @"") 
-                                                       delegate:self 
-                                              cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") 
-                                              otherButtonTitles:NSLocalizedStringFromTable(@"Retry", @"ATLocalizable", @""), nil];
-    alertView.tag = 1;
-    [alertView show];
-    [alertView release];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-#pragma mark-
-#pragma mark NSURLConnectionDelegate
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	self.receivedData = [[NSMutableData alloc] init];
-    
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-    NSDictionary *headers = [httpResponse allHeaderFields];
-    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"]];
-    if ([all count] > 0) {
-        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://www.apfeltalk.de"] mainDocumentURL:nil]; 
-    }
-    if ([[headers valueForKey:@"Mobiquo_is_login"] isEqualToString:@"false"] && [[User sharedUser] isLoggedIn]) {
-        [[User sharedUser] setLoggedIn:NO];
-        [[User sharedUser] login];
-    }
-}
-
-- (void)connection:(NSURLConnection *)connvection didReceiveData:(NSData *)data {
-    [self.receivedData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    unsigned long length = [self.receivedData length];
-    NSLog(@"Received length: %lu", length);
-    if ([self.receivedData length] != 0) {
-        NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
-        [thread start];
-        [thread release];
-    } else {
->>>>>>> 9e28177106241f4db9bff0522ca97b3d10decc55
         [self.tableView reloadData];
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
