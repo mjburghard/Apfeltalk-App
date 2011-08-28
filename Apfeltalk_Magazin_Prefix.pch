@@ -10,3 +10,5 @@
 #define ATLocalizable @"ATLocalizable"
 #define ATLocalizedString(key, comment) NSLocalizedStringFromTable((key), ATLocalizable, (comment))
 #define ATTapatalkPluginPath @"http://www.apfeltalk.de/forum/mobiquo/mobiquo.php"
+
+#define ATLogError(error) NSLog(@"%@: %@", ATLocalizedString(@"Error", nil), [error localizedDescription]);
