@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ForumViewController.h"
+#import "ATTableViewController.h"
 #import "SubForum.h"
 #import "Topic.h"
 #import "DetailThreadController.h"
-#import "TopicParser.h"
 
-@interface SubForumController : ForumViewController <UIActionSheetDelegate, TopicParserDelegate> {
+@interface SubForumController : ATTableViewController {
     SubForum *subForum;
     Topic *currentTopic;
     NSMutableArray *topics;

@@ -13,13 +13,19 @@
 @synthesize subForum, currentTopic, topics, isLoadingPinnedTopics, numberOfTopics;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil subForum:(SubForum *)aSubForum {
+    self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.subForum = aSubForum;
+    }
+    return self;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
         self.topics = [NSMutableArray array];
-        self.subForum = aSubForum;
         self.numberOfTopics = -1;
-        self.hidesBottomBarWhenPushed = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTabBar"];
     }
     return self;
 }
@@ -56,7 +62,7 @@
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
 
-- (void)loadData {
+- (void)loadSubForum {
     [self loadPinnedTopics];
 }
 
@@ -81,16 +87,6 @@
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") destructiveButtonTitle:nil otherButtonTitles:buttonTitle, NSLocalizedStringFromTable(@"New", @"ATLocalizable", @""), nil];
     [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
     [actionSheet release];
-}
-
-- (void)parse {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    TopicParser *parser = [[TopicParser alloc] initWithData:self.receivedData basePath:@"methodResponse/params/param/value/struct/member/value/array/data" delegate:self];
-    [parser parse];
-    [parser release];
-    self.receivedData = nil;
-    [pool release];
 }
 
 #pragma mark -
@@ -126,19 +122,28 @@
 }
 
 #pragma mark -
-#pragma mark TopicParserDelegate
+#pragma mark XMLRPCResponseDelegate
 
-- (void)topicParserDidFinish:(NSMutableArray *)_topics {
+- (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
+    if (type  == XMLRPCResultTypeDictionary) {
+        if (isLoadingPinnedTopics)
+            self.numberOfTopics = 0;
+        NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
+        self.numberOfTopics += [[dictionary valueForKey:@"total_topic_num"] integerValue];
+        
+        NSArray *array = [dictionary valueForKey:@"topics"];
+        
+        for (NSDictionary *dict in array) {
+            Topic *topic = [[Topic alloc] initWithDictionary:dict];
+            [self.topics addObject:topic];
+            [topic release];
+        }
+    }
     if (isLoadingPinnedTopics) {
         isLoadingPinnedTopics = NO;
-        self.dataArray = _topics;
-        [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
+        [self loadStandartTopics];
     } else {
-        self.topics = self.dataArray;
-        [self.topics addObjectsFromArray:_topics];
-        self.dataArray = nil;
-        self.numberOfTopics = self.topics.count;
-        [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+        [self.tableView reloadData];
     }
 }
 
@@ -147,7 +152,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = self.subForum.name;
+    self.title = self.subForum.title;
 }
 
 - (void)viewDidUnload
@@ -159,6 +164,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self loadSubForum];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -224,7 +230,7 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     if (indexPath.section == 0 && [self.subForum.subFora count] != 0) {
-        cell.textLabel.text = [(SubForum *)[self.subForum.subFora objectAtIndex:indexPath.row] name];
+        cell.textLabel.text = [(SubForum *)[self.subForum.subFora objectAtIndex:indexPath.row] title];
         cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
@@ -232,6 +238,7 @@
     
     if (self.numberOfTopics == 0) {
         cell.textLabel.text = NSLocalizedStringFromTable(@"There are no topics", @"ATLocalizable", @"");
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.textLabel.font = [UIFont boldSystemFontOfSize:12];
         return cell;
     }
@@ -331,124 +338,8 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     DetailThreadController *detailThreadController = [[DetailThreadController alloc] initWithNibName:@"DetailThreadController" bundle:nil topic:(Topic *)[self.topics objectAtIndex:indexPath.row]];
     [detailThreadController loadLastSite];
-    //Ausblenden der TabBar im beim lesen der Themen
-    //detailThreadController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:detailThreadController animated:YES];
     [detailThreadController release];
-}
-#pragma mark-
-#pragma mark NSXMLParserDelegate
-
-- (void)parserDidStartDocument:(NSXMLParser *)parser {
-    self.path = [[NSMutableString alloc] init];
-    if (isLoadingPinnedTopics) {
-        self.dataArray = [[NSMutableArray alloc] init];
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI 
- qualifiedName:(NSString *)qualifiedName 
-    attributes:(NSDictionary *)attributeDict {
-    self.currentString = [NSMutableString new];
-    
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
-        if (!isPrefixes) {
-            self.currentTopic = [[Topic alloc] init];
-        }
-    }
-    self.path = [self.path stringByAppendingPathComponent:elementName];
-}
-
-- (void)parser:(NSXMLParser *)parser 
- didEndElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI 
- qualifiedName:(NSString *)qName {
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"total_topic_num"]) {
-        isTotalTopicNumber = YES;
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/int"] && isTotalTopicNumber) {
-        isTotalTopicNumber = NO;
-        self.numberOfTopics = [self.currentString integerValue];
-    }
-    
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/name"]) {
-        if ([self.currentString isEqualToString:@"topic_id"]) {
-            isTopicID = YES;
-        } else if ([self.currentString isEqualToString:@"topic_title"]) {
-            isTopicTitle = YES;
-        } else if ([self.currentString isEqualToString:@"forum_id"]) {
-            isForumID = YES;
-        } else if ([self.currentString isEqualToString:@"new_post"]) {
-            isNewPost = YES;
-        } else if ([self.currentString isEqualToString:@"reply_number"]) {
-            isReplyNumber = YES;
-        } else if ([self.currentString isEqualToString:@"is_closed"]) {
-            isClosed = YES;
-        } else if ([self.currentString isEqualToString:@"is_subscribed"]) {
-            isSubscribed = YES; 
-        }
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/base64"]) {
-        // First decode base64 data
-        self.currentString = (NSMutableString *)decodeString(self.currentString);
-        if (isTopicTitle) {
-            isTopicTitle = NO;
-            self.currentTopic.title = self.currentString;
-        }
-        
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/string"]) {
-        if (isForumID) {
-            isForumID = NO;
-            self.currentTopic.forumID = [self.currentString intValue];
-        }
-        
-        if (isTopicID) {
-            isTopicID = NO;
-            self.currentTopic.topicID = [self.currentString intValue];
-        }
-        
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
-        if (isNewPost) {
-            isNewPost = NO;
-            self.currentTopic.hasNewPost = [self.currentString boolValue];
-        } else if (isClosed) {
-            isClosed = NO;
-            self.currentTopic.closed = [self.currentString boolValue];
-        } else if (isSubscribed) {
-            isSubscribed = NO;
-            self.currentTopic.subscribed = [self.currentString boolValue];
-        }
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"prefixes"]) {
-        isPrefixes = YES;
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/int"]) {
-        if (isReplyNumber) {
-            isReplyNumber = NO;
-            self.currentTopic.numberOfPosts = [self.currentString integerValue]+1;
-        }
-    }
-    
-    self.path = [self.path stringByDeletingLastPathComponent];
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value"] && isPrefixes) {
-        isPrefixes = NO;
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
-        if (self.currentTopic != nil)
-            [self.dataArray addObject:self.currentTopic];
-            
-    }
-        
-    self.currentString = nil;
-}
-
-- (void)parserDidEndDocument:(NSXMLParser *)parser {
-    self.currentTopic = nil;
-    if (self.isLoadingPinnedTopics) {
-        self.isLoadingPinnedTopics = NO;
-        [self performSelectorOnMainThread:@selector(loadStandartTopics) withObject:nil waitUntilDone:NO];
-        return;
-    }
-    self.topics = self.dataArray;
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-    self.dataArray = nil;
-    self.path = nil;
 }
 
 @end

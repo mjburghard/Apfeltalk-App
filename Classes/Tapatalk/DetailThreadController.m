@@ -7,16 +7,17 @@
 //
 
 #import "DetailThreadController.h"
-#import "User.h"
 #import "ATWebViewController.h"
-#import "ATActivityIndicator.h"
-#import "ContentTranslator.h"
 #import "AnswerViewController.h"
-#import "SFHFKeychainUtils.h"
-#import "Apfeltalk_MagazinAppDelegate.h"
+
+@interface DetailThreadController()
+
+- (NSInteger)numberOfSites;
+
+@end
 
 @implementation DetailThreadController
-@synthesize topic, posts, currentPost, site, numberOfPosts, didRotate;
+@synthesize topic, posts, currentPost, site, numberOfPosts, didRotate, activityIndicator;
 
 const CGFloat kDefaultRowHeight = 44.0;
 
@@ -27,7 +28,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.topic = aTopic;
         self.posts = [NSMutableArray array];
         self.site = 0;
-        self.numberOfPosts = self.topic.numberOfPosts;
+        self.numberOfPosts = self.topic.numberOfPosts + 1;
         self.didRotate = NO;
         isAnswering = NO;
         self.hidesBottomBarWhenPushed = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTabBar"];
@@ -54,6 +55,38 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 #pragma mark -
 #pragma mark Private and Public Methods
+
+- (void)displayActivityIndicator {
+    if (!self.activityIndicator) {
+        self.activityIndicator = [ATActivityIndicator activityIndicator];
+    }
+    
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    self.navigationItem.backBarButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self.tableView setScrollEnabled:NO];
+    CGPoint center = self.tableView.center;
+    center.y += self.tableView.contentOffset.y;
+    self.activityIndicator.center = center;
+    if (isAnswering) {
+        self.activityIndicator.message = ATLocalizedString(@"Sending...", nil);
+    } else if (isSubscribing) {
+        self.activityIndicator.message = (self.topic.subscribed ? ATLocalizedString(@"Unsubscribing", nil) : ATLocalizedString(@"Subscribing", nil)); 
+    } else {
+        self.activityIndicator.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
+    }
+    [self.activityIndicator startAnimating];
+    [self.tableView addSubview:self.activityIndicator];
+}
+
+- (void)dismissActivityIndicator {
+    self.navigationItem.backBarButtonItem.enabled = YES;
+    self.navigationItem.leftBarButtonItem.enabled = YES;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+    [self.tableView setScrollEnabled:YES];
+    [self.activityIndicator stopAnimating];
+    [self.activityIndicator dismiss];
+}
 
 - (CGFloat)groupedCellMarginWithTableWidth:(CGFloat)tableViewWidth
 {
@@ -96,7 +129,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     site = [self numberOfSites]-1; 
 }
 
-- (void)loadData {
+- (void)loadThread {
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_thread</methodName><params><param><value><string>%i</string></value></param><param><value><int>%i</int></value></param><param><value><int>%i</int></value></param></params></methodCall>", self.topic.topicID, self.site*10, self.site*10+9];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
     if (self.site == [self numberOfSites]-1 && self.topic.hasNewPost) {
@@ -131,6 +164,11 @@ const CGFloat kDefaultRowHeight = 44.0;
         [alertView release];
         return;
     }
+    
+    [self endEditing:nil];
+    isAnswering = YES;
+    [self displayActivityIndicator];
+    
     ContentTranslator *translator = [[ContentTranslator alloc] init];
     NSString *content = [translator translateStringForAT:answerCell.textView.text];
     [translator release];
@@ -140,40 +178,29 @@ const CGFloat kDefaultRowHeight = 44.0;
                            encodeString(content)];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
     answerCell.textView.text = @"";
-    [self endEditing:nil];
-    isAnswering = YES;
 }
 
 - (void)previous {
     if (site > 0) {
         site--;
-        [self loadData];
-        ATActivityIndicator *at = [ATActivityIndicator activityIndicatorForView:self.tableView];
-        at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
-        [at showSpinner];
-        [at show];
+        [self loadThread];
+        [self displayActivityIndicator];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
 }
 
 - (void)last {
     site = [self numberOfSites]-1;
-    [self loadData];
-    ATActivityIndicator *at = [ATActivityIndicator activityIndicatorForView:self.tableView];
-    at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
-    [at showSpinner];
-    [at show];
+    [self loadThread];
+    [self displayActivityIndicator];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)next {
     if (site < [self numberOfSites]-1) {
         site++;
-        [self loadData];
-        ATActivityIndicator *at = [ATActivityIndicator activityIndicatorForView:self.tableView];
-        at.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
-        [at showSpinner];
-        [at show];
+        [self loadThread];
+        [self displayActivityIndicator];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
 }
@@ -211,34 +238,45 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     AnswerViewController *answerViewController;
     NSString *xmlString;
-    switch (buttonIndex) {
-        case 0:
-            if ([[User sharedUser] isLoggedIn]) {
+    
+    if ([[User sharedUser] isLoggedIn]) {
+        switch (buttonIndex) {
+            case 0:
                 [self logout];
-            } else {
+                break;
+            case 1:
+                [self last];
+                break;
+            case 2:
+                xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>subscribe_topic</methodName><params><param><value><string>%i</string></value></param></params></methodCall>", self.topic.topicID];
+                if (self.topic.subscribed) {
+                    xmlString = [xmlString stringByReplacingOccurrencesOfString:@"subscribe_topic" withString:@"unsubscribe_topic"];
+                }
+                isSubscribing = YES;
+                [self displayActivityIndicator];
+                [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
+                break;
+            case 3:
+                if (self.topic.userCanPost && !self.topic.closed) {
+                    answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
+                    [self.navigationController pushViewController:answerViewController animated:YES];
+                    [answerViewController release]; 
+                }
+                break;
+            default:
+                break;
+        }
+    } else {
+        switch (buttonIndex) {
+            case 0:
                 [self login];
-            } 
-            break;
-        case 1:
-            [self last];
-            break;
-        case 2:
-            xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>subscribe_topic</methodName><params><param><value><string>%i</string></value></param></params></methodCall>", self.topic.topicID];
-            if (self.topic.subscribed) {
-                xmlString = [xmlString stringByReplacingOccurrencesOfString:@"subscribe_topic" withString:@"unsubscribe_topic"];
-            }
-            isSubscribing = YES;
-            [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
-            break;
-        case 3:
-            if ([[User sharedUser] isLoggedIn] && (self.topic.userCanPost && !self.topic.closed)) {
-                answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
-                [self.navigationController pushViewController:answerViewController animated:YES];
-                [answerViewController release]; 
-            }
-            break;
-        default:
-            break;
+                break;
+            case 1:
+                [self last];
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -251,6 +289,63 @@ const CGFloat kDefaultRowHeight = 44.0;
         return;
     } else {
         [super alertView:alertView didDismissWithButtonIndex:buttonIndex];
+    }
+}
+
+#pragma mark -
+#pragma mark XMLRPCResponseDelegate
+
+- (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
+    if (type == XMLRPCResultTypeDictionary) {
+        NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
+        if (isSubscribing) {
+            isSubscribing = NO;
+            [self dismissActivityIndicator];
+            BOOL result = [[dictionary valueForKey:@"result"] boolValue];
+            if (result) {
+                if (self.topic.subscribed)
+                    self.topic.subscribed = !result;
+                else
+                    self.topic.subscribed = result;
+            } else {
+                NSLog(@"Error: %@", [dictionary valueForKey:@"result_text"]);
+                UIAlertView *alertView;
+                if (self.topic.subscribed)
+                   alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", nil) message:ATLocalizedString(@"There was an error when unsubscribing the topic.", nil) delegate:nil cancelButtonTitle:ATLocalizedString(@"OK", nil) otherButtonTitles:nil, nil]; 
+                else
+                   alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", nil) message:ATLocalizedString(@"There was an error when subscribing to the topic.", nil) delegate:nil cancelButtonTitle:ATLocalizedString(@"OK", nil) otherButtonTitles:nil, nil]; 
+                [alertView show];
+                [alertView release];
+            }
+            result = NO;
+            return;
+        } else if (isAnswering) {
+            isAnswering = NO;
+            [self dismissActivityIndicator];
+            if ([[dictionary valueForKey:@"result"] boolValue]) {
+                [self loadThread];
+            } else {
+                NSLog(@"Error: %@", [dictionary valueForKey:@"result_text"]);
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", nil) message:ATLocalizedString(@"There was an error when replying to the topic.", nil) delegate:nil cancelButtonTitle:ATLocalizedString(@"OK", nil) otherButtonTitles:nil, nil];
+                [alertView show];
+                [alertView release];
+            }
+            return;
+        }
+        self.posts = [NSMutableArray array];
+        NSArray *array = [dictionary valueForKey:@"posts"];
+        self.topic.closed = [[dictionary valueForKey:@"is_closed"] boolValue];
+        self.topic.subscribed = [[dictionary valueForKey:@"is_subscribed"] boolValue];
+        self.topic.userCanPost = [[dictionary valueForKey:@"can_reply"] boolValue];
+        for (NSDictionary *dict in array) {
+            Post *post = [[Post alloc] initWithDictionary:dict];
+            [self.posts addObject:post];
+            [post release];
+        }
+        [self dismissActivityIndicator];
+        [self.tableView reloadData];
+    } else {
+        
     }
 }
 
@@ -334,12 +429,12 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     self.didRotate = YES;
     [self.tableView reloadData];
-    [self performSelector:@selector(setDidRotate:) withObject:NO afterDelay:0.0];
+    [self performSelector:@selector(setDidRotate:) withObject:nil afterDelay:0.0];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = topic.title;
+    self.title = topic.title;    
     UISwipeGestureRecognizer *leftSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     leftSwipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
     
@@ -360,18 +455,15 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self loadThread];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginWasSuccessful) name:@"ATLoginWasSuccessful" object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    //Einblenden der TabBar bei verlassen des Forums
-    self.hidesBottomBarWhenPushed = NO;
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -505,8 +597,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         }
         [outFormatter release];
 		return authorCell;
-	}
-    if (indexPath.row == 1) {
+	} else if (indexPath.row == 1) {
         if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
             UITableViewCell *actionsCell = [tableView dequeueReusableCellWithIdentifier:ActionsCellIdentifier];
             if (actionsCell == nil) {
@@ -527,8 +618,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         
         contentCell.delegate = self;
 		return contentCell;
-	} 
-    if (indexPath.row == 2) {
+	} else if (indexPath.row == 2) {
 		UITableViewCell *actionsCell = [tableView dequeueReusableCellWithIdentifier:ActionsCellIdentifier];
 		if (actionsCell == nil) {
 			actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
@@ -561,161 +651,6 @@ const CGFloat kDefaultRowHeight = 44.0;
     answerViewController.textView.text = answerCell.textView.text;
     answerCell.textView.text = @"";
     [answerViewController release];
-}
-
-#pragma mark-
-#pragma mark NSXMLParserDelegate
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI 
- qualifiedName:(NSString *)qualifiedName 
-    attributes:(NSDictionary *)attributeDict {
-    self.currentString = [NSMutableString string];
-    
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
-        self.currentPost = [[[Post alloc] init] autorelease];
-    } else if ([self.path isEqualToString:@"methodResponse/fault"]) {
-        isError = YES;
-    }
-    
-    self.path = [self.path stringByAppendingPathComponent:elementName];
-}
-
-- (void)parser:(NSXMLParser *)parser 
- didEndElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI 
- qualifiedName:(NSString *)qName {
-    if (isError && [self.path isEqualToString:@"methodResponse/fault/value/struct/member/value/string"]) {
-        isError = NO;
-        NSLog(@"Error: %@", self.currentString);
-    }
-    
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"]) {
-        if ([self.currentString isEqualToString:@"total_post_num"]) {
-            isNumberOfPosts = YES;
-        } else if ([self.currentString isEqualToString:@"can_reply"]) {
-            isCanReply = YES;
-        } else if ([self.currentString isEqualToString:@"is_closed"]) {
-            isClosed = YES;
-        } else if ([self.currentString isEqualToString:@"is_subscribed"]) {
-            isSubscribed = YES;
-        } else if ([self.currentString isEqualToString:@"result"]) {
-            isResult = YES;
-        }
-    }
-    
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/int"] && isNumberOfPosts) {
-        isNumberOfPosts = NO;
-        self.numberOfPosts = [self.currentString integerValue];
-    }
-                    
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/boolean"]) {
-        if (isCanReply) {
-            isCanReply = NO;
-            self.topic.userCanPost = [self.currentString boolValue];
-        } else if (isClosed) {
-            isClosed = NO;
-            self.topic.closed = [self.currentString boolValue];
-        } else if (isSubscribed) {
-            isSubscribed = NO;
-            self.topic.subscribed = [self.currentString boolValue];
-        } else if (isResult) {
-            isResult = NO;
-            result = [self.currentString boolValue];
-        }
-    }
-
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/name"]) {
-        if ([self.currentString isEqualToString:@"post_id"]) {
-            isPostID = YES;
-        } else if ([self.currentString isEqualToString:@"post_title"]) {
-            isPostTitle = YES;
-        } else if ([self.currentString isEqualToString:@"post_content"]) {
-            isPostContent = YES;
-        } else if ([self.currentString isEqualToString:@"post_author_id"]) {
-            isPostAuthorID = YES;
-        } else if ([self.currentString isEqualToString:@"post_author_name"]) {
-            isPostAuthor = YES;
-        } else if ([self.currentString isEqualToString:@"is_online"]) {
-            isOnline = YES;
-        }
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/base64"]) {
-        // First decode base64 data
-        
-        self.currentString = (NSMutableString *)decodeString(self.currentString);
-        
-        if (isPostTitle) {
-            isPostTitle = NO;
-            self.currentPost.title = self.currentString;
-        } else if (isPostContent) {
-            isPostContent = NO;
-            ContentTranslator *translator = [ContentTranslator new];
-            self.currentPost.content = [translator translateStringForiOS:self.currentString];
-            [translator release];
-        } else if (isPostAuthor) {
-            self.currentPost.author = self.currentString;
-        }
-        
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/string"]) {
-        if (isPostID) {
-            isPostID = NO;
-            self.currentPost.postID = [self.currentString intValue];
-        } else if (isPostAuthorID) {
-            isPostAuthorID = NO;
-            self.currentPost.authorID = [self.currentString intValue];
-        }
-        
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/boolean"]) {
-        if (isOnline) {
-            isOnline = NO;
-            self.currentPost.userIsOnline = [self.currentString boolValue];
-        }
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data/value/struct/member/value/dateTime.iso8601"]) {
-        self.currentString = (NSMutableString *)[self.currentString stringByReplacingOccurrencesOfString:@":" withString:@"" options:0 range:NSMakeRange(20, 1)];
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"de_DE"];
-        [dateFormatter setLocale:locale];
-        NSString *dateFormat = @"yyyyMMdd'T'HH:mm:ssZZZ";
-        [dateFormatter setDateFormat:dateFormat];
-        self.currentPost.postDate = [dateFormatter dateFromString:self.currentString];
-        [dateFormatter release];
-        [locale release];
-    }
-
-    self.path = [self.path stringByDeletingLastPathComponent];
-    
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/array/data"]) {
-        [self.dataArray addObject:self.currentPost];
-    } 
-    
-    self.currentString = nil;
-}
-
-- (void)parserDidEndDocument:(NSXMLParser *)parser {
-    if (isAnswering) {
-        isAnswering = NO;
-        self.dataArray = nil;
-        self.path = nil;
-        self.currentPost = nil;
-        [self performSelectorOnMainThread:@selector(loadData) withObject:nil waitUntilDone:NO];
-        return;
-    } else if (isSubscribing) {
-        isSubscribing = NO;
-        self.dataArray = nil;
-        self.path = nil;
-        self.currentPost = nil;
-        if (self.topic.subscribed)
-            self.topic.subscribed = !result;
-        else
-            self.topic.subscribed = result;
-        result = NO;
-        return;
-    }
-    self.posts = self.dataArray;
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-    self.currentPost = nil;
-    self.dataArray = nil;
-    self.path = nil;
 }
 
 @end

@@ -7,28 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ForumViewController.h"
+#import "ATTableViewController.h"
 #import "Topic.h"
 #import "Post.h"
 #import "ContentCell.h"
 #import "GCImageViewer.h"
+#import "ATActivityIndicator.h"
 
-@interface DetailThreadController : ForumViewController <ContentCellDelegate, UIActionSheetDelegate> {
+@interface DetailThreadController : ATTableViewController <ContentCellDelegate> {
     NSInteger numberOfPosts;
     Topic *topic;
     NSMutableArray *posts;
-    Post *currentPost;
     UIView *activeView;
+    ATActivityIndicator *activityIndicator;
     ContentCell *answerCell;
     NSInteger site;
-    BOOL isAnswering, didRotate, isSubscribing, result;
-    
-    BOOL isPostTitle, isPostID, isPostAuthor, isPostAuthorID, isPostContent, isNumberOfPosts, isCanReply, isOnline, isClosed, isSubscribed, isResult;
+    BOOL isAnswering, didRotate, isSubscribing;
 }
 
 @property (retain) Topic *topic;
 @property (retain) NSMutableArray *posts;
 @property (retain) Post *currentPost;
+@property (retain) ATActivityIndicator *activityIndicator;
 @property (assign) NSInteger site;
 @property (assign) NSInteger numberOfPosts;
 @property (assign) BOOL didRotate;
