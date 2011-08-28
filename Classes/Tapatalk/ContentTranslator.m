@@ -91,10 +91,7 @@ NSString * decodeString(NSString *aString) {
     
     stringData = [NSData dataWithBytesNoCopy:decodedData length:decodedDataSize freeWhenDone:YES];
     
-    NSString *s = [[[NSString alloc] initWithData:stringData encoding:NSUTF8StringEncoding] autorelease];
-    
-    
-    return s;
+    return [[[NSString alloc] initWithData:stringData encoding:NSUTF8StringEncoding] autorelease];;
     
 }
 
@@ -108,6 +105,12 @@ NSString * encodeString(NSString *aString) {
     
     return [[[NSString alloc] initWithData:stringData encoding:NSASCIIStringEncoding] autorelease];
     
+}
+
+#pragma mark -
+
++ (ContentTranslator *)contentTranslator {
+    return [[[ContentTranslator alloc] init] autorelease];
 }
 
 - (id)init {
