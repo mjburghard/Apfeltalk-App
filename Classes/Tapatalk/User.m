@@ -11,14 +11,12 @@
 
 @implementation User
 SYNTHESIZE_SINGLETON_FOR_CLASS(User)
-@synthesize loggedIn, username, password, path, parser, currentString, receivedData;
+@synthesize loggedIn, username, password, receivedData;
 
 - (void)parse {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    self.parser = [[NSXMLParser alloc] initWithData:self.receivedData];
-    [parser setDelegate:self];
+    XMLRPCResponseParser *parser = [XMLRPCResponseParser parserWithData:self.receivedData delegate:self];
     [parser parse];
-    self.parser = nil;
     self.receivedData = nil;
     [pool release];
 }
@@ -66,7 +64,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
     [request setHTTPBody:data];
     [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    self.receivedData = [[NSMutableData alloc] init];
+    self.receivedData = [NSMutableData data];
     [connection start];
     [connection release];
 }
@@ -95,41 +93,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
     [self deleteCookies];
 }
 
-#pragma mark -
-#pragma mark NSXMLParserDelegate
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-    self.path = [self.path stringByAppendingPathComponent:elementName];
-    self.currentString = [NSMutableString new];
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-    [self.currentString appendString:string];
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"result"]) {
-        isResult = YES;
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value/boolean"] && isResult) {
-        isResult = NO;
-        if ([self.currentString isEqualToString:@"1"]) {
+- (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
+    if (type == XMLRPCResultTypeDictionary) {
+        NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
+        NSNotification *notification;
+        if ([[dictionary valueForKey:@"result"] boolValue]) {
             [[User sharedUser] setLoggedIn:YES];
             [self storeKeychainItem];
-            NSNotification *notification = [NSNotification notificationWithName:@"ATLoginWasSuccessful" object:nil];
+            notification = [NSNotification notificationWithName:@"ATLoginWasSuccessful" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } else {
+            [[User sharedUser] setLoggedIn:NO];
+            notification = [NSNotification notificationWithName:@"ATLoginDidFail" object:nil];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
         }
-        if ([self.currentString isEqualToString:@"0"]) {
-            [[User sharedUser] setLoggedIn:NO];
-            NSNotification *notfification = [NSNotification notificationWithName:@"ATLoginDidFail" object:nil];
-            [[NSNotificationCenter defaultCenter] postNotification:notfification];
-        }
+        
+        notification = [NSNotification notificationWithName:@"ATLoginDidFinish" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
     }
-    self.path = [self.path stringByDeletingLastPathComponent];
-    self.currentString = nil;
 }
 
-- (void)parserDidEndDocument:(NSXMLParser *)parser {
-    
+- (void)parser:(XMLRPCResponseParser *)parser parseErrorOccurred:(NSError *)parseError {
+    NSLog(@"%@: %@", ATLocalizedString(@"Error", nil), [parseError localizedDescription]);
+    [[User sharedUser] setLoggedIn:NO];
+    NSNotification *notification = [NSNotification notificationWithName:@"ATLoginDidFail" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    notification = [NSNotification notificationWithName:@"ATLoginDidFinish" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 #pragma mark-
@@ -149,10 +139,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSString *s = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", s);
-    [s release];
-
     NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
     [thread start];
     [thread release];
@@ -169,7 +155,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 - (id)init {
     self = [super init];
     if (self) {
-        self.path = [[NSMutableString alloc] init];
         self.username = (NSString *)[[NSUserDefaults standardUserDefaults] objectForKey:@"ATUsername"];
         if (username != nil && ![username isEqualToString:@""]) {
             NSError *error = nil;
@@ -183,10 +168,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 }
 
 - (void)dealloc {
-    self.parser = nil;
-    self.currentString = nil;
     self.receivedData = nil;
-    self.path = nil;
     self.username = nil;
     self.password = nil;
     self.loggedIn = NO;

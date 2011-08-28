@@ -9,27 +9,23 @@
 #import <Foundation/Foundation.h>
 #import "SynthesizeSingleton.h"
 #import "SFHFKeychainUtils.h"
+#import "XMLRPCResponseParser.h"
 
-
-@interface User : NSObject <NSXMLParserDelegate> {
+@interface User : NSObject <XMLRPCResponseParserDelegate> {
     BOOL loggedIn;
     NSString *username;
     NSString *password;
     
-    NSMutableString *currentString;
     NSMutableData *receivedData;
-    NSString *path;
-    NSXMLParser *parser;
+    
     BOOL isResult;
 }
 
 @property (assign, getter=isLoggedIn) BOOL loggedIn;
-@property (retain) NSString *username;
-@property (retain) NSString *password;
-@property (retain) NSMutableString *currentString;
+@property (copy) NSString *username;
+@property (copy) NSString *password;
 @property (retain) NSMutableData *receivedData;
-@property (retain) NSString *path;
-@property (retain) NSXMLParser *parser;
+
 
 + (User*)sharedUser;
 
