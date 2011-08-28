@@ -19,6 +19,10 @@
 @implementation ForumViewController
 @synthesize sections, searchBar, searchTableViewController;
 
+- (void)setDefaultBehavior {
+    self.hidesBottomBarWhenPushed = NO;
+}
+
 #pragma mark -
 #pragma mark init & dealloc
 
