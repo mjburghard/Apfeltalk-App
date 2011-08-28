@@ -155,6 +155,7 @@
         }
 		// Mail
         SHKItem *item = [SHKItem text:storyContent];
+        [storyContent release];
         item.title = story.title;
         
         [SHKMail shareItem:item];
@@ -218,8 +219,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self.pageControl setHidesForSinglePage:YES];
-
+    
+    UISwipeGestureRecognizer *leftSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    leftSwipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    
+    [webview addGestureRecognizer:leftSwipeGestureRecognizer];
+    [leftSwipeGestureRecognizer release];
+    
+    UISwipeGestureRecognizer *rightSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    rightSwipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    
+    [webview addGestureRecognizer:rightSwipeGestureRecognizer];
+    [rightSwipeGestureRecognizer release];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
     {
         NSArray            *imgArray = [NSArray arrayWithObjects:[UIImage imageNamed:@"Up.png"], [UIImage imageNamed:@"Down.png"], nil];
@@ -254,7 +267,6 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self updateInterface];
     [super viewDidAppear:animated];
 }
 
@@ -274,6 +286,20 @@
             [webview loadHTMLString:[self htmlString] baseURL:nil];
         }
     }
+}
+
+- (void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer {
+    if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
+        if (self.pageControl.currentPage < self.pageControl.numberOfPages -1) {
+            self.pageControl.currentPage += 1;
+        }
+        
+    } else if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+        if (self.pageControl.currentPage > 1) {
+            self.pageControl.currentPage -= 1;
+        }
+    }
+    [self changePage:self.pageControl];
 }
 
 #pragma mark - Internal used methods
@@ -340,7 +366,7 @@
         pageCount = [pagesLinks count];
     else
         [self stopNetworkActivityIndicator];
-    
+    self.view.backgroundColor = [UIColor colorWithRed:0.811 green:0.812 blue:0.811 alpha:1.000];
     CGRect frame = self.pageControl.frame;
     if (pageCount == 1)
         frame.origin.y = self.view.frame.size.height;
