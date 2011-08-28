@@ -8,21 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import "Topic.h"
-#import "User.h"
-#import "ContentTranslator.h"
-#import "ForumViewController.h"
+#import "XMLRPCResponseParser.h"
+#import "ATActivityIndicator.h"
 
-
-@interface AnswerViewController : UIViewController <UIAlertViewDelegate, NSXMLParserDelegate> {
+@interface AnswerViewController : UIViewController <XMLRPCResponseParserDelegate, UIAlertViewDelegate> {
     UITextView *textView;
     Topic *topic;
     NSMutableData *receivedData;
     BOOL isNotLoggedIn;
+    
+    ATActivityIndicator *activityIndicator;
 }
 
 @property (retain) UITextView *textView;
 @property (retain) Topic *topic;
 @property (retain) NSMutableData *receivedData;
+@property (retain) ATActivityIndicator *activityIndicator;
 
 - (void)cancel;
 

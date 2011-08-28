@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TopicParser.h"
+#import "XMLRPCResponseParser.h"
 
 @class ForumViewController;
 
-@interface SearchTableViewController : UITableViewController <TopicParserDelegate> {
+@interface SearchTableViewController : UITableViewController <XMLRPCResponseParserDelegate> {
     NSMutableData *receivedData;
     NSMutableArray *topics;
     UITableViewCell *loadingCell;

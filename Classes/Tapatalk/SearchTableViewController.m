@@ -43,9 +43,8 @@
 
 - (void)parse {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    TopicParser *topicParser = [[TopicParser alloc] initWithData:self.receivedData basePath:@"methodResponse/params/param/value/struct/member/value/array/data" delegate:self];
-    [topicParser parse];
-    [topicParser release];
+    XMLRPCResponseParser *parser = [XMLRPCResponseParser parserWithData:self.receivedData delegate:self];
+    [parser parse];
     self.receivedData = nil;
     [pool release];
 }
@@ -55,7 +54,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     self.showLoadingCell = YES;
-	self.receivedData = [[NSMutableData alloc] init];
+	self.receivedData = [NSMutableData data];
     
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     NSDictionary *headers = [httpResponse allHeaderFields];
@@ -88,17 +87,28 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     self.receivedData = nil;
     NSLog(@"%@", [error localizedDescription]);
-    /*UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", ATLocalizable, @"") message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil, nil];
-    [alertView show];
-    [alertView release];*/
 }
 
 #pragma mark -
+#pragma mark XMLRPCResponseParserDelegate
 
-- (void)topicParserDidFinish:(NSMutableArray *)_topics {
-    self.topics = _topics;
-    self.showLoadingCell = NO;
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+- (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
+    if (type == XMLRPCResultTypeDictionary) {
+        self.showLoadingCell = NO;
+        NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
+        NSArray *array = [dictionary valueForKey:@"topics"];
+        self.topics = [NSMutableArray array];
+        for (NSDictionary *dict in array) {
+            Topic *topic = [[Topic alloc] initWithDictionary:dict];
+            [self.topics addObject:topic];
+            [topic release];
+        }
+        [self.tableView reloadData];
+    }
+}
+
+- (void)parser:(XMLRPCResponseParser *)parser parseErrorOccurred:(NSError *)parseError {
+    NSLog(@"%@: %@", ATLocalizedString(@"Error", nil), [parseError localizedDescription]);
 }
 
 #pragma mark - View lifecycle

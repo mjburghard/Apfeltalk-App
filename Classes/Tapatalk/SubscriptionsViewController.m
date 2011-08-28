@@ -9,6 +9,7 @@
 #import "SubscriptionsViewController.h"
 
 @implementation SubscriptionsViewController
+@synthesize isUnsubscribingTopic;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,27 +28,22 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)parse {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    TopicParser *topicParser = [[TopicParser alloc] initWithData:self.receivedData basePath:@"methodResponse/params/param/value/struct/member/value/array/data" delegate:self];
-    [topicParser parse];
-    [topicParser release];
-    self.receivedData = nil;
-    [pool release];
+- (void)dealloc {
+    self.isUnsubscribingTopic = NO;
+    [super dealloc];
 }
+
+#pragma mark -
+#pragma mark Private Methods
 
 - (void)done {
     [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)loadData {
+    self.numberOfTopics = 0;
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_subscribed_topic</methodName><params><param><value><int>0</int></value></param><param><value><int>49</int></value></param></params></methodCall>", self.subForum.forumID];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
-}
-
-- (void)topicParserDidFinish:(NSMutableArray *)_topics { 
-    self.topics = _topics;
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 #pragma mark - View lifecycle
@@ -88,6 +84,34 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+}
+
+#pragma mark -
+#pragma mark XMLRPCResponseDelegate
+
+- (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
+    if (type  == XMLRPCResultTypeDictionary) {
+        NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
+        if (self.isUnsubscribingTopic) {
+            self.isUnsubscribingTopic = NO;
+            if (![[dictionary valueForKey:@"result"] boolValue]) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", nil) message:ATLocalizedString(@"There was an error when unsubscribing the topic.", nil) delegate:nil cancelButtonTitle:ATLocalizedString(@"OK", nil) otherButtonTitles:nil, nil];
+                [alertView show];
+                [alertView release];
+            }
+            return;
+        }
+        self.numberOfTopics += [[dictionary valueForKey:@"total_topic_num"] integerValue];
+        
+        NSArray *array = [dictionary valueForKey:@"topics"];
+        
+        for (NSDictionary *dict in array) {
+            Topic *topic = [[Topic alloc] initWithDictionary:dict];
+            [self.topics addObject:topic];
+            [topic release];
+        }
+    }
+    [self.tableView reloadData];
 }
 
 #pragma mark -
@@ -162,7 +186,7 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return (self.isUnsubscribingTopic ? NO:YES);
 }
 
 // Override to support editing the table view.
@@ -171,8 +195,9 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         Topic *t = [self.topics objectAtIndex:indexPath.row];
+        self.isUnsubscribingTopic = YES;
         NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>unsubscribe_topic</methodName><params><param><value><string>%i</string></value></param></params></methodCall>", t.topicID];
-        [self sendRequestWithXMLString:xmlString cookies:YES delegate:nil];
+        [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
         [self.topics removeObject:t];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   

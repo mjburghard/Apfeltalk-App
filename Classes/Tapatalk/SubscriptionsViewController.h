@@ -10,7 +10,9 @@
 #import "SubForumController.h"
 
 @interface SubscriptionsViewController : SubForumController {
-    
+    BOOL isUnsubscribingTopic;
 }
+
+@property (assign) BOOL isUnsubscribingTopic;
 
 @end

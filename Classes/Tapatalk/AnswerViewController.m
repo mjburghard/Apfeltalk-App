@@ -10,9 +10,8 @@
 #import "DetailThreadController.h"
 #import "Apfeltalk_MagazinAppDelegate.h"
 
-
 @implementation AnswerViewController
-@synthesize textView, topic, receivedData;
+@synthesize textView, topic, receivedData, activityIndicator;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic
 {
@@ -34,6 +33,7 @@
 
 - (void)dealloc
 {
+    self.activityIndicator = nil;
     self.receivedData = nil;
     self.textView = nil;
     self.topic = nil;
@@ -46,6 +46,16 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+#pragma mark -
+#pragma mark Private Methods
+
+- (void)handleError:(NSError *)error {
+    NSLog(@"%@: %@", ATLocalizedString(@"Error", nil), [error localizedDescription]);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle:ATLocalizedString(@"OK", nil) otherButtonTitles:nil, nil];
+    [alertView show];
+    [alertView release];
 }
 
 - (void)cancel {
@@ -66,11 +76,24 @@
         return;
     }
     
+    if (!activityIndicator) {
+        self.activityIndicator = [ATActivityIndicator alloc];
+        self.activityIndicator.message = ATLocalizedString(@"Sending...", nil);
+        self.activityIndicator.center = self.view.center;
+        [self.activityIndicator startAnimating];
+        [self.view addSubview:self.activityIndicator];
+    }
+    
+    [self.textView resignFirstResponder];
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    self.textView.editable = NO;
+    
     ContentTranslator *translator = [[ContentTranslator alloc] init];
     
     NSString *content = [translator translateStringForAT:self.textView.text];
     [translator release];
-    NSURL *url = [NSURL URLWithString:@"http://apfeltalk.de/forum/mobiquo/mobiquo.php/"];
+    NSURL *url = [NSURL URLWithString:ATTapatalkPluginPath];
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>reply_post</methodName><params><param><value><string>%i</string></value></param><param><value><string>%i</string></value></param><param><value><base64>%@</base64></value></param><param><value><base64>%@</base64></value></param></params></methodCall>", self.topic.forumID, 
                            self.topic.topicID, 
                            encodeString(@"answer"), 
@@ -90,23 +113,47 @@
     [connection start];
     
     if (connection) {
-        self.receivedData = [[NSMutableData alloc] init];
+        self.receivedData = [NSMutableData data];
     }
 }
 
 - (void)parse {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:self.receivedData];
-    [parser setDelegate:self];
+    XMLRPCResponseParser *parser = [XMLRPCResponseParser parserWithData:self.receivedData delegate:self];
     [parser parse];
-    [parser release];
-    [pool release];
+    self.receivedData = nil;
+}
+#pragma mark -
+#pragma mark XMLRPCResponseDelegate
+
+- (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
+    NSLog(@"%@", dictionaryOrArray);
+    if (isNotLoggedIn) {
+        isNotLoggedIn = NO;
+        [self reply];
+    } else if (type == XMLRPCResultTypeDictionary) {
+        NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
+        [self.activityIndicator stopAnimating];
+        [self.activityIndicator dismiss];
+        self.activityIndicator = nil;
+        if ([[dictionary valueForKey:@"result"] boolValue]) {
+            [self cancel];
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", nil) message:ATLocalizedString(@"An unexpected error occurred. Please try later.", nil) delegate:self cancelButtonTitle:ATLocalizedString(@"OK", nil) otherButtonTitles:nil, nil];
+            [alertView show];
+            [alertView release];
+        }
+    }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    ForumViewController *forumViewController = (ForumViewController *)[self.navigationController.viewControllers objectAtIndex:0];
-    [forumViewController login];
+- (void)parser:(XMLRPCResponseParser *)parser parseErrorOccurred:(NSError *)parseError {
+    [self handleError:parseError];
+}
+
+#pragma mark-
+#pragma mark UIAlertViewDelegate 
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    [self cancel];
 }
 
 #pragma mark-
@@ -115,7 +162,6 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
     NSDictionary *headers = [httpResponse allHeaderFields];
-    NSLog(@"Response: %@", headers);
     NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:@"http://.apfeltalk.de"]];
     if ([all count] > 0) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://.apfeltalk.de"] mainDocumentURL:nil]; 
@@ -133,9 +179,11 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(parse) object:nil];
-    [thread start];
-    [thread release];
+    [self parse];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self handleError:error];
 }
 
 #pragma mark - View lifecycle
@@ -144,15 +192,19 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"") style:UIBarButtonItemStyleDone target:self action:@selector(reply)];
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"") style:UIBarButtonItemStyleDone target:self action:@selector(reply)];
+    self.navigationItem.rightBarButtonItem = rightBarButton;
     self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
-    self.textView = [[UITextView alloc] init];
+    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+    self.navigationItem.leftBarButtonItem = leftBarButton;
+    
+    [rightBarButton release];
+    [leftBarButton release];
+    self.textView = [[[UITextView alloc] init] autorelease];
     
     CGFloat keyboardHeight;
     
     if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        NSLog(@"Landscape");
         keyboardHeight = 162.0;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             keyboardHeight = 352.0;
@@ -182,11 +234,11 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         return YES;
-    }
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);*/
-    return YES;
+    
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -206,35 +258,6 @@
     }
     frame.size.height = self.view.frame.size.height-keyboardHeight;
     self.textView.frame = frame;
-}
-
-#pragma mark -
-#pragma mark NSXMLParserDelegate
-
-- (void)parserDidStartDocument:(NSXMLParser *)parser {
-    
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-    
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-    
-}
-
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    
-}
-
-- (void)parserDidEndDocument:(NSXMLParser *)parser {
-    if (isNotLoggedIn) {
-        isNotLoggedIn = NO;
-        [self reply];
-    } else {
-        [self.textView performSelectorOnMainThread:@selector(setText:) withObject:@"" waitUntilDone:NO];
-        [self performSelectorOnMainThread:@selector(cancel) withObject:nil waitUntilDone:NO];
-    }
 }
 
 @end

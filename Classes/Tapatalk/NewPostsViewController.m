@@ -42,22 +42,20 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)parse {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    TopicParser *parser = [[TopicParser alloc] initWithData:self.receivedData basePath:@"methodResponse/params/param/value/array/data" delegate:self];
-    [parser parse];
-    [parser release];
-    self.receivedData = nil;
-    [pool release];
-}
-
 #pragma mark -
-#pragma mark TopicParserDelegate
+#pragma mark XMLRPCResponseParserDelegate
 
-- (void)topicParserDidFinish:(NSMutableArray *)_topics {
-    self.topics = _topics;
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+- (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
+    if (type == XMLRPCResultTypeArray) {
+        self.topics = [NSMutableArray array];
+        NSArray *array = (NSArray *)dictionaryOrArray;
+        for (NSDictionary *dictionary in array) {
+            Topic *topic = [[Topic alloc] initWithDictionary:dictionary];
+            [self.topics addObject:topic];
+            [topic release];
+        }
+        [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    }
 }
 
 #pragma mark - View lifecycle
@@ -202,106 +200,6 @@
     [detailThreadController loadLastSite];
     [self.navigationController pushViewController:detailThreadController animated:YES];
     [detailThreadController release];
-}
-
-#pragma mark-
-#pragma mark NSXMLParserDelegate
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI 
- qualifiedName:(NSString *)qualifiedName 
-    attributes:(NSDictionary *)attributeDict {
-    self.currentString = [NSMutableString new];
-    
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data"]) {
-        if (!isPrefixes) {
-            self.currentTopic = [[Topic alloc] init];
-        }
-    }
-    self.path = [self.path stringByAppendingPathComponent:elementName];
-}
-
-- (void)parser:(NSXMLParser *)parser 
- didEndElement:(NSString *)elementName 
-  namespaceURI:(NSString *)namespaceURI 
- qualifiedName:(NSString *)qName {
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/name"]) {
-        if ([self.currentString isEqualToString:@"topic_id"]) {
-            isTopicID = YES;
-        } else if ([self.currentString isEqualToString:@"topic_title"]) {
-            isTopicTitle = YES;
-        } else if ([self.currentString isEqualToString:@"forum_id"]) {
-            isForumID = YES;
-        } else if ([self.currentString isEqualToString:@"new_post"]) {
-            isNewPost = YES;
-        } else if ([self.currentString isEqualToString:@"reply_number"]) {
-            isReplyNumber = YES;
-        } else if ([self.currentString isEqualToString:@"is_closed"]) {
-            isClosed = YES;
-        } else if ([self.currentString isEqualToString:@"is_subscribed"]) {
-            isSubscribed = YES; 
-        }
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/base64"]) {
-        // First decode base64 data
-        self.currentString = (NSMutableString *)decodeString(self.currentString);
-        if (isTopicTitle) {
-            isTopicTitle = NO;
-            self.currentTopic.title = self.currentString;
-        }
-        
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/string"]) {
-        if (isForumID) {
-            isForumID = NO;
-            self.currentTopic.forumID = [self.currentString intValue];
-        }
-        
-        if (isTopicID) {
-            isTopicID = NO;
-            self.currentTopic.topicID = [self.currentString intValue];
-        }
-        
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/boolean"]) {
-        if (isNewPost) {
-            isNewPost = NO;
-            self.currentTopic.hasNewPost = [self.currentString boolValue];
-        } else if (isClosed) {
-            isClosed = NO;
-            self.currentTopic.closed = [self.currentString boolValue];
-        } else if (isSubscribed) {
-            isSubscribed = NO;
-            self.currentTopic.subscribed = [self.currentString boolValue];
-        }
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/name"] && [self.currentString isEqualToString:@"prefixes"]) {
-        isPrefixes = YES;
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data/value/struct/member/value/int"]) {
-        if (isReplyNumber) {
-            isReplyNumber = NO;
-            self.currentTopic.numberOfPosts = [self.currentString integerValue]+1;
-        }
-    }
-    
-    self.path = [self.path stringByDeletingLastPathComponent];
-    if ([self.path isEqualToString:@"methodResponse/params/param/value/struct/member/value"] && isPrefixes) {
-        isPrefixes = NO;
-    } else if ([self.path isEqualToString:@"methodResponse/params/param/value/array/data"]) {
-        if (self.currentTopic != nil)
-            [self.dataArray addObject:self.currentTopic];
-        
-    }
-    
-    self.currentString = nil;
-}
-
-- (void)parserDidStartDocument:(NSXMLParser *)parser {
-    self.dataArray = [[NSMutableArray alloc] init];
-    self.path = [[NSMutableString alloc] init];
-}
-
-- (void)parserDidEndDocument:(NSXMLParser *)parser {
-    self.currentTopic = nil;
-    self.topics = self.dataArray;
-    self.dataArray = nil;
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 @end
