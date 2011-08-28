@@ -42,7 +42,7 @@
 			<key>Key</key>
 			<string>hideTabBar</string>
 			<key>DefaultValue</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Title</key>

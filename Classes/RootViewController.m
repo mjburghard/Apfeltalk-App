@@ -529,8 +529,8 @@
 - (void)parser:(ATXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {
     NSLog(@"%@", [parseError localizedDescription]);
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Content konnte nicht geladen werden", nil)
-                                                        message:@"Der Feed ist im Moment nicht verfügbar. Versuche es bitte später erneut."
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Could not load content", nil)
+                                                        message:ATLocalizedString(@"The feed appears to be actually offline. Please try again later", nil)
 													   delegate:nil cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") otherButtonTitles:nil];
     [alertView show];
     [alertView release];

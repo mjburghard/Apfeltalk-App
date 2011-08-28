@@ -41,9 +41,9 @@
 
 - (void)showFullscreen {
     NSString *str = [[self story] summary];
-	
+    
     NSString *thumbLink = extractTextFromHTMLForQuery(str, @"//img[attribute::title]/attribute::src");
-	
+    
     if ([thumbLink length] == NSNotFound) {
 		UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Keine URL", @"")
                                                               message:NSLocalizedString (@"Es konnte keine URL für das Bild gefunden werden", @"")
@@ -234,12 +234,12 @@ void endElement (void *userData, const xmlChar *name) {
 
 	// :below:20090920 This is only to placate the analyzer
 	myMenu = [[UIActionSheet alloc]
-							 initWithTitle: nil
-							 delegate:self
-							 cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")
-							 destructiveButtonTitle:nil
-							 otherButtonTitles:@"Per Mail versenden", @"Bild speichern", @"Zeige Bild",nil];
-
+              initWithTitle: nil
+              delegate:self
+              cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")
+              destructiveButtonTitle:nil
+              otherButtonTitles:ATLocalizedString(@"Send as mail", nil), ATLocalizedString(@"Save picture", nil), ATLocalizedString(@"Fullscreen", nil),nil];
+    
     [myMenu showFromTabBar:[[appDelegate tabBarController] tabBar]];
 }
 
@@ -250,8 +250,8 @@ void endElement (void *userData, const xmlChar *name) {
     NSString *thumbLink = extractTextFromHTMLForQuery(str, @"//img[attribute::title]/attribute::src");
 	
     if ([thumbLink length] == NSNotFound) {
-		UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Keine URL", @"")
-                                                              message:NSLocalizedString (@"Es konnte keine URL für das Bild gefunden werden", @"")
+		UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"No URL", nil)
+                                                              message:ATLocalizedString(@"No URL for the picture was found", nil)
                                                              delegate:nil cancelButtonTitle:NSLocalizedString (@"OK", @"")
                                                     otherButtonTitles:nil];
 		[errorAlert show];
@@ -271,7 +271,7 @@ void endElement (void *userData, const xmlChar *name) {
             UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL: [NSURL URLWithString:imageLink]]];
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil); 
             
-            UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:@"Bild gespeichert" message:@"Das Bild wurde erfolgreich in deine Fotogallerie gespeichert." delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
+            UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Picture saved", nil) message:ATLocalizedString(@"The picture has been saved to your library successfully", nil) delegate:self cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"") otherButtonTitles:nil];
             [errorAlert show];
             [errorAlert release];
             
@@ -286,7 +286,7 @@ void endElement (void *userData, const xmlChar *name) {
             [self createMailComposerWithThumbnailLink:imageLink];
         }
     }
-	
+    
 	// :below:20090920 This is only to placate the analyzer
 	if (actionSheet == myMenu) {
 		[myMenu release];
@@ -298,7 +298,7 @@ void endElement (void *userData, const xmlChar *name) {
     
 	MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
 	controller.mailComposeDelegate = self;
-	
+    
     NSString *imageLink = [thumbnailLink stringByReplacingOccurrencesOfString:@"/thumbs" withString:@"/medium"];
     
 	// adde image as attachment
@@ -307,10 +307,10 @@ void endElement (void *userData, const xmlChar *name) {
         imageLink = [thumbnailLink stringByReplacingOccurrencesOfString:@"/thumbs" withString:@""];
         image = [UIImage imageWithData: [NSData dataWithContentsOfURL: [NSURL URLWithString:imageLink]]];
     }
-      
+    
     if (image == nil) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString (@"Foto konnte nicht geladen werden", @"")
-                                                            message:NSLocalizedString (@"Das Foto konnte in keiner Auflösung geladen werden", @"")
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Couldn't load picture", nil)
+                                                            message:ATLocalizedString(@"Photo couldn't be loaded in any resolution", nil)
                                                            delegate:nil cancelButtonTitle:NSLocalizedString (@"OK", @"")
                                                   otherButtonTitles:nil];
         [alertView show];
@@ -321,7 +321,7 @@ void endElement (void *userData, const xmlChar *name) {
     
 	NSData *imageData = UIImageJPEGRepresentation(image, 1);
 	[controller addAttachmentData:imageData mimeType:@"image/jpg" fileName:@"attachment.jpg"];
-	
+    
 	[controller setSubject:[story title]];
 	[self presentModalViewController:controller animated:YES];
 	[controller release];
