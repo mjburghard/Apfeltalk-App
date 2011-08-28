@@ -15,6 +15,10 @@
 @implementation PrivateMessagesViewController
 @synthesize boxes;
 
+- (void)setDefaultBehavior {
+    self.hidesBottomBarWhenPushed = NO;
+}
+
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -41,6 +45,7 @@
 }
 
 - (void)loadBoxes {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ATLoginDidFinish" object:nil];
     NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_box_info</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
@@ -77,7 +82,7 @@
     
     self.boxes = [NSMutableArray array];
     self.tabBarItem.title = ATLocalizedString(@"PM", nil);
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadBoxes) name:@"ATLoginWasSuccessful" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadBoxes) name:@"ATLoginDidFinish" object:nil];
 }
 
 - (void)viewDidUnload
