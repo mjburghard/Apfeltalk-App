@@ -11,14 +11,16 @@
 
 @interface Section : NSObject {
     NSMutableArray *subFora;
-    NSString *name;
-    int forumID;
+    NSString *title;
+    NSInteger forumID;
     BOOL subForaOnly;
 }
 
 @property (retain) NSMutableArray *subFora;
-@property (copy) NSString *name;
+@property (copy) NSString *title;
 @property (assign) BOOL subForaOnly;
-@property (assign) int forumID;
+@property (assign) NSInteger forumID;
+
+- (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

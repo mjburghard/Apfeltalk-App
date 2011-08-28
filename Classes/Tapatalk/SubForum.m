@@ -12,6 +12,14 @@
 @implementation SubForum
 @synthesize description;
 
+- (id)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
+    if (self) {
+        self.description = [dictionary valueForKey:@"description"];
+    }
+    return self;
+}
+
 - (void)dealloc {
     self.description = nil;
     [super dealloc];

@@ -11,9 +11,9 @@
 
 @interface Topic : NSObject {
     NSInteger numberOfPosts;
-    int topicID;
+    NSInteger topicID;
     NSString *title;
-    int forumID;
+    NSInteger forumID;
     BOOL hasNewPost;
     BOOL userCanPost;
     BOOL closed;
@@ -21,12 +21,14 @@
 }
 
 @property (copy) NSString *title;
-@property (assign) int topicID;
-@property (assign) int forumID;
+@property (assign) NSInteger topicID;
+@property (assign) NSInteger forumID;
 @property (assign) BOOL hasNewPost;
 @property (assign) NSInteger numberOfPosts;
 @property (assign) BOOL userCanPost;
 @property (assign, getter = isClosed) BOOL closed;
 @property (assign) BOOL subscribed;
+
+- (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

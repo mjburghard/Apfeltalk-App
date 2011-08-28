@@ -10,17 +10,17 @@
 
 
 @interface Post : NSObject {
-    int postID;
+    NSInteger postID;
     NSString *title;
     NSString *content;
     NSString *author;
     NSDate *postDate;
-    int authorID;
+    NSInteger authorID;
     BOOL userIsOnline;
 }
 
-@property (assign) int postID;
-@property (assign) int authorID;
+@property (assign) NSInteger postID;
+@property (assign) NSInteger authorID;
 @property (copy) NSString *title;
 @property (copy) NSString *content;
 @property (copy) NSString *author;
