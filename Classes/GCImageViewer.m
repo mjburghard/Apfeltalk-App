@@ -68,7 +68,7 @@
     navigationBar.translucent = YES;
     self.topBar.translucent= YES;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackOpaque animated:YES];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:3
                                                   target:self
                                                 selector:@selector(hideBars)
@@ -85,7 +85,7 @@
     navigationBar.translucent = NO;
 	[[self navigationController] setNavigationBarHidden:NO animated:NO];
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleDefault animated:YES];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
 }
 
 
@@ -123,9 +123,10 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    ATLogError(error);
 	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"Error", @"ATLocalizable", @"") 
 													message:@"Vorgang nicht möglich, du bist nicht mit dem Internet verbunden." 
-												   delegate:self 
+												   delegate:nil 
 										  cancelButtonTitle:NSLocalizedStringFromTable(@"OK", @"ATLocalizable", @"")
 										  otherButtonTitles:nil];
 	[alert show];
@@ -154,13 +155,13 @@
         myScrollView.tag = 999;
         myScrollView.delegate = self;
     } else {
-        self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:responseData]];
+        self.imageView = [[[UIImageView alloc] initWithImage:[UIImage imageWithData:responseData]] autorelease];
         [imageView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         [imageView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
         [imageView setContentMode:UIViewContentModeScaleAspectFit];
         [imageView setTag:2];
         
-        self.myScrollView = [[UIScrollView alloc] initWithFrame:imageView.frame];
+        self.myScrollView = [[[UIScrollView alloc] initWithFrame:imageView.frame] autorelease];
         myScrollView.contentSize = CGSizeMake(imageView.frame.size.width, imageView.frame.size.height);
         myScrollView.maximumZoomScale = 4.0;
         myScrollView.minimumZoomScale = 1.0;
