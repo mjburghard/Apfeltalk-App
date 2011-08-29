@@ -24,7 +24,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.topics = [NSMutableArray array];
         self.numberOfTopics = -1;
     }
     return self;
@@ -57,6 +56,7 @@
 }
 
 - (void)loadPinnedTopics {
+    self.topics = [NSMutableArray array];
     self.isLoadingPinnedTopics = YES;
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string>TOP</string></value></param></params></methodCall>", self.subForum.forumID];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
@@ -70,10 +70,6 @@
     NewTopicViewController *newTopicViewController = [[NewTopicViewController alloc] initWithNibName:@"NewTopicViewController" bundle:nil forum:self.subForum];
     [self.navigationController pushViewController:newTopicViewController animated:YES];
     [newTopicViewController release];
-}
-
-- (void)addSearchBar {
-    
 }
 
 - (void)showActionSheet {

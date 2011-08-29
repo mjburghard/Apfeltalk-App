@@ -7,12 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SubForumController.h"
+#import "ATTableViewController.h"
 
-@interface SubscriptionsViewController : SubForumController {
+@interface SubscriptionsViewController : ATTableViewController {
     BOOL isUnsubscribingTopic;
+    NSInteger numberOfTopics;
+    NSMutableArray *topics;
 }
 
 @property (assign) BOOL isUnsubscribingTopic;
+@property (assign) NSInteger numberOfTopics;
+@property (retain) NSMutableArray *topics;
 
 @end
