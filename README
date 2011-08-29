@@ -1,3 +1,9 @@
 Important: SHKConfig.h is not included!!
 
 WARNING: When trying to build and run the app with Xcode 4.1, entitlements MUST BE TURNED OFF in the project settings, since Xcode 4.1 doesn't support iCloud entitlements yet. In Xcode 4.2 they can remain turned on, but are still just preparation for iCloud support yet.
+
+WARNING: LibThree20 is just linked to this project. To get it to your local hardrive, navigate in terminal to your Development Folder, where the Apfeltalk-App project is located and type the following command in terminal:
+
+git clone git://github.com/facebook/three20
+
+You won't be able to compile the app unless you cloned this repo to your local harddrive.
