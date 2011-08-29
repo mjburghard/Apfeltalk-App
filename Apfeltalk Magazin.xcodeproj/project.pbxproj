@@ -20,6 +20,7 @@
 		22FB60C5104DBD5100A0F65A /* Icon-Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FB60C4104DBD5100A0F65A /* Icon-Settings.png */; };
 		22FB60DE104DC15600A0F65A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22FB60DD104DC15600A0F65A /* Settings.bundle */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
+		4C0E121A140A8E2A00C4DCB4 /* HTMLEntities.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C0E1219140A8E2A00C4DCB4 /* HTMLEntities.plist */; };
 		4C42FF4F10533731002CC1E8 /* ATXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C42FF4E10533731002CC1E8 /* ATXMLParser.m */; };
 		4C64415F106548620007715D /* TickerThumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C64415E106548620007715D /* TickerThumbnail.png */; };
 		4C6788341052C74E00635F55 /* LivetickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C6788331052C74E00635F55 /* LivetickerController.m */; };
@@ -247,6 +248,7 @@
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* Apfeltalk_Magazin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Apfeltalk_Magazin_Prefix.pch; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4C0E1219140A8E2A00C4DCB4 /* HTMLEntities.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HTMLEntities.plist; sourceTree = "<group>"; };
 		4C42FF4D10533731002CC1E8 /* ATXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATXMLParser.h; sourceTree = "<group>"; };
 		4C42FF4E10533731002CC1E8 /* ATXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATXMLParser.m; sourceTree = "<group>"; };
 		4C64415E106548620007715D /* TickerThumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TickerThumbnail.png; sourceTree = "<group>"; };
@@ -688,6 +690,7 @@
 				CB1E3BC610CC674600B01120 /* Entitlements.plist */,
 				F6730BA113490EE70045B876 /* default.css */,
 				4CDD01A513C64BFE00E0DCAD /* DetailView.html */,
+				4C0E1219140A8E2A00C4DCB4 /* HTMLEntities.plist */,
 				4CDD01A313C6477C00E0DCAD /* XPaths.plist */,
 				CB1434AE1058616500B5FF14 /* Images */,
 				F6730BE3134A70B40045B876 /* GCImageViewer.xib */,
@@ -1436,6 +1439,7 @@
 				5AF5E28613FAEE70009A5E8C /* privat@2x.png in Resources */,
 				5E600BCD14017E3600187988 /* WriteMessageViewController.xib in Resources */,
 				5E97FE3F1405AD5F00DC2906 /* BoxViewController.xib in Resources */,
+				4C0E121A140A8E2A00C4DCB4 /* HTMLEntities.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

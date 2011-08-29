@@ -106,7 +106,7 @@
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     
-    UIBarButtonItem *sendButton = [[UIBarButtonItem alloc] initWithTitle:ATLocalizedString(@"Send", @"") style:UIBarButtonItemStyleDone target:self action:@selector(send)];
+    UIBarButtonItem *sendButton = [[UIBarButtonItem alloc] initWithTitle:ATLocalizedString(@"Send", nil) style:UIBarButtonItemStyleDone target:self action:@selector(send)];
     self.navigationItem.rightBarButtonItem = sendButton;
     
     [sendButton release];

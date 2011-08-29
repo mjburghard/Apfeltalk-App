@@ -36,6 +36,7 @@
 @synthesize dateFormatter;
 @synthesize currentContent;
 @synthesize desiredElementKeys;
+@synthesize htmlEntities;
 
 
 + (ATXMLParser *)parserWithURLString:(NSString *)urlString
@@ -55,6 +56,7 @@
 		[self setStoryClass:[Story self]];
 		[self setDateElementName:@"pubDate"];
 		[self setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss zzz" localeIdentifier:@"en_US"];
+        self.htmlEntities = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"HTMLEntities" ofType:@"plist"]];
 	}
 	return self;
 }
@@ -95,6 +97,7 @@
     [dateFormatter release];
     [currentContent release];
     [desiredElementKeys release];
+    [htmlEntities release];
     [xmlParser release];
 	
     [super dealloc];
@@ -210,7 +213,13 @@
         {
             NSString *storyKey = [desiredElementKeys objectForKey:elementName];
             if ([storyKey length] > 0)
+            {
+                for (NSString *htmlEntity in [htmlEntities allKeys])
+                    [self.currentContent replaceOccurrencesOfString:htmlEntity withString:[htmlEntities objectForKey:htmlEntity] options:NSLiteralSearch
+                                                              range:NSMakeRange(0, self.currentContent.length)];
+
                 [story setValue:[self currentContent] forKey:storyKey];
+            }
         }
     }
 }
