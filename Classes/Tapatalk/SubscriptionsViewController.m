@@ -7,9 +7,11 @@
 //
 
 #import "SubscriptionsViewController.h"
+#import "DetailThreadController.h"
+#import "Topic.h"
 
 @implementation SubscriptionsViewController
-@synthesize isUnsubscribingTopic;
+@synthesize isUnsubscribingTopic, topics, numberOfTopics;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,6 +31,8 @@
 }
 
 - (void)dealloc {
+    self.topics = nil;
+    self.numberOfTopics = 0;
     self.isUnsubscribingTopic = NO;
     [super dealloc];
 }
@@ -40,9 +44,10 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)loadData {
+- (void)loadSubscriptions {
+    self.topics = [NSMutableArray array];
     self.numberOfTopics = 0;
-    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_subscribed_topic</methodName><params><param><value><int>0</int></value></param><param><value><int>49</int></value></param></params></methodCall>", self.subForum.forumID];
+    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_subscribed_topic</methodName><params><param><value><int>0</int></value></param><param><value><int>49</int></value></param></params></methodCall>"];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
 
@@ -74,6 +79,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self loadSubscriptions];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

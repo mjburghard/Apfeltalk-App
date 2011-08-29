@@ -66,8 +66,6 @@
     searchDisplayController.searchResultsTableView.delegate = self.searchTableViewController;
     searchDisplayController.searchResultsTableView.dataSource = self.searchTableViewController;
     self.searchTableViewController.forumViewController = self;
-    [searchDisplayController release];
-    
 }
 
 - (void)showActionSheet {

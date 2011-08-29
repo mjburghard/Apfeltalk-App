@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ATTableViewController.h"
+#import "Three20/Three20.h"
 
-@interface PrivateMessagesViewController : ATTableViewController {
+@interface PrivateMessagesViewController : ATTableViewController <TTMessageControllerDelegate> {
     NSMutableArray *boxes;
 }
 

@@ -36,12 +36,14 @@
 #pragma mark Private methods
 
 - (void)writeMessage {
-    WriteMessageViewController *writeMessageViewController = [[WriteMessageViewController alloc] initWithNibName:@"WriteMessageViewController" bundle:nil];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:writeMessageViewController];
+    TTMessageController *messageController = [[TTMessageController alloc] initWithRecipients:nil];
+    messageController.showsRecipientPicker = YES;
+    messageController.navigationBarTintColor = self.navigationController.navigationBar.tintColor;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:messageController];
     navigationController.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
     [self presentModalViewController:navigationController animated:YES];
     [navigationController release];
-    [writeMessageViewController release];
+    [messageController release];
 }
 
 - (void)loadBoxes {
@@ -49,6 +51,9 @@
     NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_box_info</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
+
+#pragma mark -
+#pragma mark TTMessageControllerDelegate
 
 #pragma mark -
 #pragma mark XMLRPCResponseDelegate
