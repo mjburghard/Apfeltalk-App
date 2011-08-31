@@ -245,9 +245,33 @@ Tin Hau, Hong Kong S.A.R.</string>
 		</dict>
 		<dict>
 			<key>DoNotLocalize</key>
+			<string>Yes</string>
+			<key>FooterText</key>
+			<string>libThree20:</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>Diese Bibliothek steht unter Apache 2.0 Lizenz. Die gesamte Lizenz ist hier ersichtlich:</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
+			<string>YES</string>
+			<key>FooterText</key>
+			<string>http://www.apache.org/licenses/LICENSE-2.0</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DoNotLocalize</key>
 			<true/>
 			<key>FooterText</key>
-			<string>Die Apfeltalk Mobile App steht unter der GPL v2 Lizenz, und ist somit opensource. Der Code kann unter der Voraussetzung, dass die GPL v2 Lizenz weitergegeben wird uneingeschränkt genutzt werden. Allfällige andere Lizenzen müssen bei der Weiterverbreitung beachtet werden. Der Source-Code ist unter:</string>
+			<string>Die Apfeltalk Mobile App steht unter der GPL v3 (oder neuer) Lizenz, und ist somit opensource. Der Code kann unter der Voraussetzung, dass die GPL v3 (oder neuer) Lizenz weitergegeben wird uneingeschränkt genutzt werden. Allfällige andere Lizenzen müssen bei der Weiterverbreitung beachtet werden. Der Source-Code ist unter:</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
