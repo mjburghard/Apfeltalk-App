@@ -133,8 +133,8 @@
             return;
         }
         NSArray *array = [dictionary valueForKey:@"list"];
+        self.messages = [NSMutableArray array];
         for (NSDictionary *dict in array) {
-            self.messages = [NSMutableArray array];
             ATMessage *message = [[ATMessage alloc] initWithDictionary:dict];
             message.boxID = self.box.boxID;
             [self.messages addObject:message];
