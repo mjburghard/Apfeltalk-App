@@ -15,16 +15,19 @@
     BOOL loggedIn;
     NSString *username;
     NSString *password;
+    NSMutableArray *friends;
     
     NSMutableData *receivedData;
     
-    BOOL isResult;
+    BOOL isLoadingFriends;
 }
 
 @property (assign, getter=isLoggedIn) BOOL loggedIn;
 @property (copy) NSString *username;
 @property (copy) NSString *password;
+@property (retain) NSMutableArray *friends;
 @property (retain) NSMutableData *receivedData;
+@property (assign) BOOL isLoadingFriends;
 
 
 + (User*)sharedUser;

@@ -11,13 +11,12 @@
 
 @implementation User
 SYNTHESIZE_SINGLETON_FOR_CLASS(User)
-@synthesize loggedIn, username, password, receivedData;
+@synthesize loggedIn, username, password, friends, receivedData, isLoadingFriends;
 
 - (void)parse {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     XMLRPCResponseParser *parser = [XMLRPCResponseParser parserWithData:self.receivedData delegate:self];
     [parser parse];
-    self.receivedData = nil;
     [pool release];
 }
 
@@ -47,9 +46,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
     }
 }
 
+- (void)loadFriends {
+    self.isLoadingFriends = YES;
+    NSURL *url = [NSURL URLWithString:ATTapatalkPluginPath];
+    NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_following</methodName></methodCall>"];
+    NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"text/xml" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:data];
+    [request setValue:[NSString stringWithFormat:@"%i", [data length]] forHTTPHeaderField:@"Content-length"];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    self.receivedData = [NSMutableData data];
+    [connection start];
+    [connection release];
+}
+
 - (void)login {
     if (self.username == nil || self.password == nil) {
         NSLog(@"No username or password set");
+        NSNotification *notificaton = [NSNotification notificationWithName:@"ATCanNotLoginUser" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notificaton];
         return;
     } else if (self.loggedIn) {
         return;
@@ -94,6 +111,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 }
 
 - (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
+    if (self.isLoadingFriends) {
+        self.isLoadingFriends = NO;
+        NSLog(@"%@", dictionaryOrArray);
+        return;
+    }
     if (type == XMLRPCResultTypeDictionary) {
         NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
         NSNotification *notification;
@@ -102,6 +124,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
             [self storeKeychainItem];
             notification = [NSNotification notificationWithName:@"ATLoginWasSuccessful" object:nil];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
+           // [self loadFriends];
         } else {
             [[User sharedUser] setLoggedIn:NO];
             notification = [NSNotification notificationWithName:@"ATLoginDidFail" object:nil];
@@ -168,6 +191,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 }
 
 - (void)dealloc {
+    self.friends = nil;
+    self.isLoadingFriends = NO;
     self.receivedData = nil;
     self.username = nil;
     self.password = nil;
