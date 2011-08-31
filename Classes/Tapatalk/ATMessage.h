@@ -24,6 +24,7 @@ typedef enum {
     NSMutableArray *recipients;
     NSString *subject;
     NSString *content;
+    NSInteger boxID;
 }
 
 @property (assign) ATMessageState state;
@@ -33,6 +34,7 @@ typedef enum {
 @property (retain) NSMutableArray *recipients;
 @property (copy) NSString *subject;
 @property (copy) NSString *content;
+@property (assign) NSInteger boxID;
 
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;

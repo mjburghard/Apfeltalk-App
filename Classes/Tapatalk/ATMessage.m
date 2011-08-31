@@ -9,7 +9,7 @@
 #import "ATMessage.h"
 
 @implementation ATMessage
-@synthesize state, messageID, content, sender, subject, sentDate, recipients;
+@synthesize state, messageID, content, sender, subject, sentDate, recipients, boxID;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
@@ -32,8 +32,8 @@
         [locale release];
         
         self.recipients = [NSMutableArray array];
-        for (NSString *s in [dictionary valueForKey:@"msg_to"]) {
-            [self.recipients addObject:s];
+        for (NSDictionary *dict in [dictionary valueForKey:@"msg_to"]) {
+            [self.recipients addObject:[dict valueForKey:@"username"]];
         }
         
     }
@@ -42,6 +42,7 @@
 }
 
 - (void)dealloc {
+    self.boxID = 0;
     self.state = ATMessageStateNone;
     self.messageID = 0;
     self.content = nil;
