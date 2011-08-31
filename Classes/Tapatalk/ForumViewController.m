@@ -37,6 +37,7 @@
 #pragma mark Public & private methods
 
 - (void)loadForum {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ATCanNotLoginUser" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ATLoginDidFinish" object:nil];
     NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_config</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:NO delegate:nil];
@@ -53,7 +54,7 @@
     self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.searchBar.delegate = self;
     self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
+    self.searchBar.tintColor = ATNavigationBarTintColor;
     self.searchBar.placeholder = ATLocalizedString(@"At least five characters", @"");
     self.tableView.tableHeaderView = self.searchBar;
     self.tableView.contentOffset = CGPointMake(0.0, 45.0);
@@ -111,7 +112,7 @@
             }
             subscriptionsViewController = [[SubscriptionsViewController alloc] initWithNibName:@"SubscriptionsViewController" bundle:nil];
             navController = [[UINavigationController alloc] initWithRootViewController:subscriptionsViewController];
-            navController.navigationBar.tintColor = [UIColor colorWithRed:0.673 green:0.038 blue:0.053 alpha:1.000];
+            navController.navigationBar.tintColor = ATNavigationBarTintColor;
             [self presentModalViewController:navController animated:YES];
             [subscriptionsViewController release];
             [navController release];
@@ -197,6 +198,7 @@
     self.sections = [NSMutableArray array];
     self.title = @"Forum";
     [self addSearchBar];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadForum) name:@"ATCanNotLoginUser" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadForum) name:@"ATLoginDidFinish" object:nil];
 }
 
