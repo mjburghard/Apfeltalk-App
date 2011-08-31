@@ -112,6 +112,9 @@
 		5E39291213C0F16F005B9003 /* ATTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E39291113C0F16F005B9003 /* ATTextView.m */; };
 		5E460621137D5EB6000A5D20 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E460620137D5EB6000A5D20 /* CoreFoundation.framework */; };
 		5E460627137D6260000A5D20 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E460626137D6260000A5D20 /* RegexKitLite.m */; };
+		5E4FCFC1140CE063001EC8FE /* ATContactDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FCFC0140CE063001EC8FE /* ATContactDataSource.m */; };
+		5E4FCFC4140CE084001EC8FE /* ATContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FCFC3140CE084001EC8FE /* ATContactModel.m */; };
+		5E54C8E7140E3D08007C1098 /* DetailMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E54C8E6140E3D08007C1098 /* DetailMessageViewController.m */; };
 		5E5C977213B7582500F88F36 /* DetailBottom-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E5C976F13B7582500F88F36 /* DetailBottom-Landscape.png */; };
 		5E5C977313B7582500F88F36 /* DetailMiddle-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E5C977013B7582500F88F36 /* DetailMiddle-Landscape.png */; };
 		5E5C977413B7582500F88F36 /* DetailTop-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E5C977113B7582500F88F36 /* DetailTop-Landscape.png */; };
@@ -204,6 +207,8 @@
 		5EC265F7136999D3006A10DE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265DF136999D3006A10DE /* User.m */; };
 		5EC2660D1369AAE1006A10DE /* ATWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC2660C1369AAE1006A10DE /* ATWebViewController.m */; };
 		5EC2660F1369AB18006A10DE /* ATWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC2660E1369AB18006A10DE /* ATWebViewController.xib */; };
+		5EC839D2140D2CA20060F44E /* ATContactPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC839D1140D2CA20060F44E /* ATContactPicker.m */; };
+		5EC839D5140D345D0060F44E /* ATContactPickerList.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC839D4140D345B0060F44E /* ATContactPickerList.m */; };
 		5ED68E98136F379600AB9E4F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E99136F379600AB9E4F /* MainWindow.xib */; };
 		5ED68E9A136F37A500AB9E4F /* ForumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */; };
 		5ED68E9C136F37B100AB9E4F /* SubForumController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E9D136F37B100AB9E4F /* SubForumController.xib */; };
@@ -528,6 +533,12 @@
 		5E460620137D5EB6000A5D20 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		5E460625137D6260000A5D20 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		5E460626137D6260000A5D20 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		5E4FCFBF140CE063001EC8FE /* ATContactDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ATContactDataSource.h; sourceTree = "<group>"; };
+		5E4FCFC0140CE063001EC8FE /* ATContactDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATContactDataSource.m; sourceTree = "<group>"; };
+		5E4FCFC2140CE084001EC8FE /* ATContactModel.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ATContactModel.h; sourceTree = "<group>"; };
+		5E4FCFC3140CE084001EC8FE /* ATContactModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATContactModel.m; sourceTree = "<group>"; };
+		5E54C8E5140E3D07007C1098 /* DetailMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailMessageViewController.h; sourceTree = "<group>"; };
+		5E54C8E6140E3D08007C1098 /* DetailMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailMessageViewController.m; sourceTree = "<group>"; };
 		5E5C976F13B7582500F88F36 /* DetailBottom-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DetailBottom-Landscape.png"; sourceTree = "<group>"; };
 		5E5C977013B7582500F88F36 /* DetailMiddle-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DetailMiddle-Landscape.png"; sourceTree = "<group>"; };
 		5E5C977113B7582500F88F36 /* DetailTop-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DetailTop-Landscape.png"; sourceTree = "<group>"; };
@@ -705,6 +716,10 @@
 		5EC2660B1369AAE0006A10DE /* ATWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATWebViewController.h; path = Tapatalk/ATWebViewController.h; sourceTree = "<group>"; };
 		5EC2660C1369AAE1006A10DE /* ATWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATWebViewController.m; path = Tapatalk/ATWebViewController.m; sourceTree = "<group>"; };
 		5EC2660E1369AB18006A10DE /* ATWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ATWebViewController.xib; sourceTree = "<group>"; };
+		5EC839D0140D2CA20060F44E /* ATContactPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATContactPicker.h; sourceTree = "<group>"; };
+		5EC839D1140D2CA20060F44E /* ATContactPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATContactPicker.m; sourceTree = "<group>"; };
+		5EC839D3140D345A0060F44E /* ATContactPickerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATContactPickerList.h; sourceTree = "<group>"; };
+		5EC839D4140D345B0060F44E /* ATContactPickerList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATContactPickerList.m; sourceTree = "<group>"; };
 		5ED68E99136F379600AB9E4F /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		5ED68E9B136F37A500AB9E4F /* ForumViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ForumViewController.xib; path = Classes/Tapatalk/ForumViewController.xib; sourceTree = "<group>"; };
 		5ED68E9D136F37B100AB9E4F /* SubForumController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SubForumController.xib; path = Classes/Tapatalk/SubForumController.xib; sourceTree = "<group>"; };
@@ -1438,6 +1453,16 @@
 				5E97FE391405A96C00DC2906 /* ATMessage.m */,
 				5E97FE3B1405AD5B00DC2906 /* BoxViewController.h */,
 				5E97FE3C1405AD5C00DC2906 /* BoxViewController.m */,
+				5E4FCFBF140CE063001EC8FE /* ATContactDataSource.h */,
+				5E4FCFC0140CE063001EC8FE /* ATContactDataSource.m */,
+				5E4FCFC2140CE084001EC8FE /* ATContactModel.h */,
+				5E4FCFC3140CE084001EC8FE /* ATContactModel.m */,
+				5EC839D0140D2CA20060F44E /* ATContactPicker.h */,
+				5EC839D1140D2CA20060F44E /* ATContactPicker.m */,
+				5EC839D3140D345A0060F44E /* ATContactPickerList.h */,
+				5EC839D4140D345B0060F44E /* ATContactPickerList.m */,
+				5E54C8E5140E3D07007C1098 /* DetailMessageViewController.h */,
+				5E54C8E6140E3D08007C1098 /* DetailMessageViewController.m */,
 			);
 			path = Tapatalk;
 			sourceTree = "<group>";
@@ -1977,6 +2002,11 @@
 				5E97FE3A1405A96D00DC2906 /* ATMessage.m in Sources */,
 				5E97FE3E1405AD5F00DC2906 /* BoxViewController.m in Sources */,
 				5EA2F7571407F05200640397 /* ATTableViewController.m in Sources */,
+				5E4FCFC1140CE063001EC8FE /* ATContactDataSource.m in Sources */,
+				5E4FCFC4140CE084001EC8FE /* ATContactModel.m in Sources */,
+				5EC839D2140D2CA20060F44E /* ATContactPicker.m in Sources */,
+				5EC839D5140D345D0060F44E /* ATContactPickerList.m in Sources */,
+				5E54C8E7140E3D08007C1098 /* DetailMessageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
