@@ -17,7 +17,7 @@
 - (void)contentCellDidBeginEditing:(ContentCell *)cell;
 - (void)contentCellDidEndEditing:(ContentCell *)cell;
 - (BOOL)contentCell:(ContentCell *)cell shouldLoadRequest:(NSURLRequest *)aRequest;
-- (void)contentCell:(ContentCell *)cell shouldQuoteText:(NSString *)quoteText;
+- (void)contentCell:(ContentCell *)cell shouldQuoteText:(NSString *)quoteText ofObjectAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @interface ContentCell : UITableViewCell <UITextViewDelegate>{

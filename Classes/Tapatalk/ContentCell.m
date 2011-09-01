@@ -139,8 +139,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 }
 
 - (void)textView:(ATTextView *)textView shouldQuoteText:(NSString *)quoteText {
-    if ([(NSObject *)self.delegate respondsToSelector:@selector(contentCell:shouldQuoteText:)]) {
-        [self.delegate contentCell:self shouldQuoteText:quoteText];
+    if ([(NSObject *)self.delegate respondsToSelector:@selector(contentCell:shouldQuoteText:ofObjectAtIndexPath:)]) {
+        [self.delegate contentCell:self shouldQuoteText:quoteText ofObjectAtIndexPath:[(UITableView *)self.superview indexPathForCell:self]];
     }
 }
 
