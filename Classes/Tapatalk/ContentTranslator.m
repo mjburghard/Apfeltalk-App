@@ -30,12 +30,24 @@
 @synthesize atTranslations, iOSTranslations;
 - (NSString *)translateStringForiOS:(NSString *)aString {
     NSString *string = [NSString stringWithString:aString];
-    string = [string stringByReplacingOccurrencesOfString:@"[QUOTE]" withString:@"Zitat:\n---------\n"];
-    string = [string stringByReplacingOccurrencesOfString:@"[/QUOTE]" withString:@"\n---------\n"];
-    string = [string stringByReplacingOccurrencesOfString:@"[quote]" withString:@"Zitat:\n---------\n"];
-    string = [string stringByReplacingOccurrencesOfString:@"[/quote]" withString:@"\n---------\n"];
-    string = [string stringByReplacingOccurrencesOfString:@"[Quote]" withString:@"Zitat:\n---------\n"];
-    string = [string stringByReplacingOccurrencesOfString:@"[/Quote]" withString:@"\n---------\n"];
+   
+    NSRange quoteRange = [string rangeOfString:@"[quote][url=" options:NSCaseInsensitiveSearch];
+    while (quoteRange.location != NSNotFound) {
+        NSScanner *scanner = [NSScanner scannerWithString:string];
+        [scanner setScanLocation:quoteRange.location + quoteRange.length];
+        [scanner scanUpToString:@"]Zitat von " intoString:NULL];
+        NSUInteger location = [scanner scanLocation] + 11;
+        [scanner scanUpToString:@"[/url]" intoString:NULL];
+        NSUInteger length = [scanner scanLocation] - location;
+        NSString *username = [string substringWithRange:NSMakeRange(location, length)];
+        location = quoteRange.location;
+        quoteRange = NSMakeRange(location, [scanner scanLocation] + 6 - location);
+        string = [string stringByReplacingCharactersInRange:quoteRange withString:[NSString stringWithFormat:@"Zitat von %@:\n----------------------------------------", username]];
+        quoteRange = [string rangeOfString:@"[quote][url=" options:NSCaseInsensitiveSearch];
+    }
+    
+    string = [string stringByReplacingOccurrencesOfString:@"[/quote]" withString:@"\n----------------------------------------\n" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [string length])];
+    
     
     if ([string isMatchedByRegex:@"\\[.+=\"\\bhttps?://[a-zA-Z0-9\\-.]+(?:(?:/[a-zA-Z0-9\\-._?,'+\\&%$=~*!():@\\\\]*)+)?\"\\].+\\[.+\\]"]) {
         NSArray *elements = [string componentsMatchedByRegex:@"\\[.+=\"\\bhttps?://[a-zA-Z0-9\\-.]+(?:(?:/[a-zA-Z0-9\\-._?,'+\\&%$=~*!():@\\\\]*)+)?\"\\].+\\[.+\\]"];
@@ -55,14 +67,10 @@
         }
     }
     
-    string = [string stringByReplacingOccurrencesOfString:@"[/URL]" withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"[URL]" withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"[/url]" withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"[url]" withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"[/IMG]" withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"[IMG]" withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"[/img]" withString:@""];
-    string = [string stringByReplacingOccurrencesOfString:@"[img]" withString:@""];
+    NSArray *array = [NSArray arrayWithObjects:@"[url]", @"[/url]", @"[img]", @"[/img]", nil];
+    for (NSString *s in array) {
+        string = [string stringByReplacingOccurrencesOfString:s withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [string length])];
+    }
     
     for (int i = 0; i < [iOSTranslations count]; i++) {
         NSString *currentKey = [[iOSTranslations allKeys] objectAtIndex:i];

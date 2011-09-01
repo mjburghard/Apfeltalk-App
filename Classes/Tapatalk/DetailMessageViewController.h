@@ -13,12 +13,10 @@
 #import "ATContactPicker.h"
 
 
-@interface DetailMessageViewController : ATTableViewController <TTMessageControllerDelegate, ATContactPickerDelegate> {
+@interface DetailMessageViewController : ATTableViewController {
     ATMessage *message;
-    BOOL isSending;
 }
 
 @property (retain) ATMessage *message;
-@property (assign) BOOL isSending;
 
 @end

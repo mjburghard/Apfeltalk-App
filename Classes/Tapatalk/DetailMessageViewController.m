@@ -8,13 +8,11 @@
 
 #import "DetailMessageViewController.h"
 #import "ContentCell.h"
-#import "Three20/Three20.h"
 #import "ATContactDataSource.h"
 #import "ATContactModel.h"
-#import "ATContactPicker.h"
 
 @implementation DetailMessageViewController
-@synthesize message, isSending;
+@synthesize message;
 
 - (void)didReceiveMemoryWarning
 {
@@ -25,7 +23,6 @@
 }
 
 - (void)dealloc {
-    self.isSending = NO;
     self.message = nil;
     [super dealloc];
 }
@@ -36,7 +33,7 @@
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_message</methodName><params><param><value><string>%i</string></value></param><param><value><string>%i</string></value></param></params></methodCall>", self.message.messageID, self.message.boxID];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
-
+/*
 #pragma mark -
 #pragma mark TTMessageControllerDelegate
 
@@ -59,7 +56,7 @@
     [navigationController release];
     [contactPicker release];
 }
-
+*/
 - (void)composeController:(TTMessageController *)controller didSendFields:(NSArray *)fields {
     NSMutableString *recipients = [NSMutableString string];
     for (NSObject *item in [(TTMessageRecipientField *)[fields objectAtIndex:0] recipients]) {
@@ -79,7 +76,7 @@
     self.isSending = YES;
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
-
+/*
 #pragma mark -
 #pragma mark ATContactPickerDelegate
 
@@ -88,12 +85,11 @@
     [messageController addRecipient:contactName forFieldAtIndex:0];
     [messageController dismissModalViewControllerAnimated:YES];
 }
-
+*/
 #pragma mark -
 #pragma mark XMLRPCResponseParserDelegate
 
 - (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
-    NSLog(@"%@", dictionaryOrArray);
     if (type == XMLRPCResultTypeDictionary) {
         NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
         if (self.isSending) {
@@ -142,13 +138,10 @@
     [self loadMessage];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return YES;
-    }
-    
-    return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+
 }
 
 #pragma mark -
@@ -200,11 +193,11 @@
             if (self.message.content == nil) 
                 return tableView.rowHeight;
             CGFloat margin = [self groupedCellMarginWithTableWidth:CGRectGetWidth(self.tableView.frame)];
-            CGFloat width = CGRectGetWidth(self.tableView.frame) - 2 * margin;
+            CGFloat width = CGRectGetWidth(self.tableView.frame) - 2 * margin - 16.0;
             CGSize maxSize = CGSizeMake(width, CGFLOAT_MAX);
             CGFloat fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"fontSize"];
             CGSize size = [self.message.content sizeWithFont:[UIFont fontWithName:@"Helvetica" size:fontSize] constrainedToSize:maxSize lineBreakMode:UILineBreakModeWordWrap];   
-            return size.height + 16;
+            return size.height + 16.0;
             break;
         } case 1: {
             return tableView.rowHeight;

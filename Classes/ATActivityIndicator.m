@@ -11,18 +11,18 @@
 
 
 @implementation ATActivityIndicator
-@synthesize message, spinner, messageLabel;
+@synthesize spinner, messageLabel;
 
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.message = [NSString string];
         self.messageLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10.0, 160.0 - 21.0 -10.0, 140.0, 21.0)] autorelease];
         self.messageLabel.backgroundColor = [UIColor clearColor];
         self.messageLabel.textColor = [UIColor whiteColor];
         self.messageLabel.textAlignment = UITextAlignmentCenter;
+        [self addSubview:self.messageLabel];
         self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin |UIViewAutoresizingFlexibleRightMargin;
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 10.0;
@@ -46,14 +46,7 @@
     return [activityIndicator autorelease];
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview {
-    [super willMoveToSuperview:newSuperview];
-    [self addSubview:self.messageLabel];
-    self.messageLabel.text = self.message;
-}
-
 - (void)dismiss {
-    [self.messageLabel removeFromSuperview];
     [self removeFromSuperview];
 }
 
@@ -67,7 +60,6 @@
 
 - (void)dealloc {
     self.messageLabel = nil;
-    self.message = nil;
     self.spinner = nil;
     [super dealloc];
 }

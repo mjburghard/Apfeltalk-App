@@ -54,7 +54,7 @@
     
     if (!activityIndicator) {
         self.activityIndicator = [ATActivityIndicator alloc];
-        self.activityIndicator.message = ATLocalizedString(@"Sending...", nil);
+        self.activityIndicator.messageLabel.text = ATLocalizedString(@"Sending...", nil);
         self.activityIndicator.center = self.view.center;
         [self.activityIndicator startAnimating];
         [self.view addSubview:self.activityIndicator];

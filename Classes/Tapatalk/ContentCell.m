@@ -59,12 +59,13 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        CGFloat margin = [self groupedCellMarginWithTableWidth:tableViewWidth];
+        /*CGFloat margin = [self groupedCellMarginWithTableWidth:tableViewWidth];
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) { 
             self.textView = [[[ATTextView alloc] initWithFrame:CGRectMake(0.0,0.0, tableViewWidth-2*10.0, self.frame.size.height-7.0)] autorelease];
         } else {
             self.textView = [[[ATTextView alloc] initWithFrame:CGRectMake(0.0,0.0, tableViewWidth-2*margin, self.frame.size.height-7.0)] autorelease];
-        }
+        }*/
+        self.textView = [[[ATTextView alloc] init] autorelease];
         self.textView.scrollEnabled = NO;
         self.textView.layer.masksToBounds = YES;
         self.textView.layer.cornerRadius = 10.0;
@@ -96,8 +97,15 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     self.textView.text = nil;
 }
 
-- (void)layoutSubviews { // Only for debugging 
+- (void)layoutSubviews {
     [super layoutSubviews];
+    CGFloat width = CGRectGetWidth(self.frame);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) { 
+        self.textView.frame = CGRectMake(0.0,0.0, width - 2.0 * 10.0, self.frame.size.height - 7.0);
+    } else {
+        CGFloat margin = [self groupedCellMarginWithTableWidth:width];
+        self.textView.frame = CGRectMake(0.0,0.0, width - 2.0 * margin, self.frame.size.height - 7.0);
+    }
 }
 
 - (void)dealloc {

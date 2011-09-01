@@ -7,12 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SubForumController.h"
+#import "ATTableViewController.h"
 #import "DetailThreadController.h"
 #import "Topic.h"
 
-@interface NewPostsViewController : SubForumController {
-    
+@interface NewPostsViewController : ATTableViewController {
+    NSMutableArray *topics;
+    NSInteger numberOfTopics;
 }
+
+@property (retain) NSMutableArray *topics;
+@property (assign) NSInteger numberOfTopics;
 
 @end

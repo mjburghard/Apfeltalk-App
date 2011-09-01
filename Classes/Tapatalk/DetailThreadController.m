@@ -69,11 +69,11 @@ const CGFloat kDefaultRowHeight = 44.0;
     center.y += self.tableView.contentOffset.y;
     self.activityIndicator.center = center;
     if (isAnswering) {
-        self.activityIndicator.message = ATLocalizedString(@"Sending...", nil);
+        self.activityIndicator.messageLabel.text = ATLocalizedString(@"Sending...", nil);
     } else if (isSubscribing) {
-        self.activityIndicator.message = (self.topic.subscribed ? ATLocalizedString(@"Unsubscribing", nil) : ATLocalizedString(@"Subscribing", nil)); 
+        self.activityIndicator.messageLabel.text = (self.topic.subscribed ? ATLocalizedString(@"Unsubscribing", nil) : ATLocalizedString(@"Subscribing", nil)); 
     } else {
-        self.activityIndicator.message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
+        self.activityIndicator.messageLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
     }
     [self.activityIndicator startAnimating];
     [self.tableView addSubview:self.activityIndicator];
@@ -427,9 +427,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 #pragma mark - View lifecycle
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    self.didRotate = YES;
     [self.tableView reloadData];
-    [self performSelector:@selector(setDidRotate:) withObject:nil afterDelay:0.0];
 }
 
 - (void)viewDidLoad {
@@ -455,6 +453,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.tableView reloadData];
     [self loadThread];
 }
 
@@ -478,15 +477,20 @@ const CGFloat kDefaultRowHeight = 44.0;
     } else if (indexPath.row == 1) {
         if (indexPath.section == [self.posts count]) return kDefaultRowHeight;
         NSString *content = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
-        ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CalculateCell" tableViewWidth:CGRectGetWidth(self.tableView.frame)];
+        
+        /*ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        contentCell.frame = CGRectMake(0, 0, self.tableView.size.width, 10);
         contentCell.textView.text = content;
-        CGFloat height = contentCell.textView.contentSize.height;
-        /*CGFloat cellMargin = [self groupedCellMarginWithTableWidth:CGRectGetWidth(self.tableView.frame)];
-        CGFloat cellWidth =  CGRectGetWidth(self.tableView.frame) - 2 * cellMargin;
-        CGSize expectedSize = [content sizeWithFont:[UIFont fontWithName:@"Helvetica" size:12.0] constrainedToSize:CGSizeMake(cellWidth, CGFLOAT_MAX)];
-        CGFloat expectedHeight = (expectedSize.height + 16.0);
-        NSLog(@"Height1: %f, height2: %f", height, expectedHeight);*/
-        [contentCell release];
+        CGFloat contentCellHeight = contentCell.textView.contentSize.height;
+        [contentCell release];*/
+        
+        CGFloat margin = [self groupedCellMarginWithTableWidth:CGRectGetWidth(self.tableView.frame)];
+        CGFloat width = CGRectGetWidth(self.tableView.frame) - 2.0 * margin - 16.0;
+        CGSize maxSize = CGSizeMake(width, CGFLOAT_MAX);
+        CGFloat fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"fontSize"];
+        CGSize size = [content sizeWithFont:[UIFont fontWithName:@"Helvetica" size:fontSize] constrainedToSize:maxSize lineBreakMode:UILineBreakModeWordWrap];
+        CGFloat height = size.height + 16.0;
+        
         return height;
     }
     
@@ -564,7 +568,6 @@ const CGFloat kDefaultRowHeight = 44.0;
                 NSString *text = [answerCell.textView.text copy];
                 answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease];
                 answerCell.textView.text = text;
-                [answerCell.textView becomeFirstResponder];
                 [text release];
             } else {
                 answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:AnswerCellIdentifier];
