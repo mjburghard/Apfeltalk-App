@@ -47,6 +47,7 @@
 	NSArray *stories;
     EGORefreshTableHeaderView *tableHeaderView;
     BOOL reloading;
+    BOOL isLoading;
     
     UIPopoverController *popoverController;    
     UIBarButtonItem *rootPopoverButtonItem;
