@@ -10,6 +10,7 @@
 
 
 @implementation NewPostsViewController
+@synthesize numberOfTopics, topics;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,7 +34,7 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)loadData {
+- (void)loadTopics {
     NSString *xmlString = @"<?xml version=\"1.0\"?><methodCall><methodName>get_new_topic</methodName></methodCall>";
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
@@ -74,6 +75,11 @@
     [doneButton release];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self loadTopics];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -84,9 +90,6 @@
 #pragma mark - Table view data source
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if ([self.subForum.subFora count] != 0 && section == 0) {
-        return NSLocalizedStringFromTable(@"Subforums", @"ATLocalizable", @"");
-    }
     return NSLocalizedStringFromTable(@"Threads", @"ATLocalizable", @"");
 }
 
