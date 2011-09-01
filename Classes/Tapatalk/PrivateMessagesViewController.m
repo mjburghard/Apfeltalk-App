@@ -7,7 +7,6 @@
 //
 
 #import "PrivateMessagesViewController.h"
-#import "WriteMessageViewController.h"
 #import "User.h"
 #import "Box.h"
 #import "BoxViewController.h"
@@ -18,7 +17,7 @@
 
 
 @implementation PrivateMessagesViewController
-@synthesize boxes, isSending;
+@synthesize boxes;
 
 - (void)setDefaultBehavior {
     self.hidesBottomBarWhenPushed = NO;
@@ -33,7 +32,6 @@
 }
 
 - (void)dealloc {
-    self.isSending = NO;
     self.boxes = nil;
     [super dealloc];
 }
@@ -64,6 +62,13 @@
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
 
+- (void)tabBarItemSetValue:(id)value forKey:(NSString *)key {
+    NSMutableArray *items = [NSMutableArray arrayWithArray:self.tabBarController.tabBar.items];
+    UIBarItem *barItem = [items objectAtIndex:4];
+    [barItem setValue:value forKey:key];
+    //[self.tabBarController set];
+}
+/*
 #pragma mark -
 #pragma mark TTMessageControllerDelegate
 
@@ -114,7 +119,7 @@
     TTMessageController *messageController = (TTMessageController *)[[(UINavigationController *)self.modalViewController viewControllers] objectAtIndex:0];
     [messageController addRecipient:contactName forFieldAtIndex:0];
     [messageController dismissModalViewControllerAnimated:YES];
-}
+}*/
 
 #pragma mark -
 #pragma mark XMLRPCResponseDelegate
@@ -133,10 +138,17 @@
             return;
         }
         NSArray *array = [dictionary valueForKey:@"list"];
+        self.boxes = [NSMutableArray array];
+        NSInteger unreadCount = 0;
         for (NSDictionary *dict in array) {
             Box *box = [[Box alloc] initWithDictionary:dict];
+            unreadCount +=box.numberOfUnreadMessages;
             [self.boxes addObject:box];
             [box release];
+        }
+        if (unreadCount > 0) {
+            NSString *s = [NSString stringWithFormat:@"%ld", (long)unreadCount];
+            [self tabBarItemSetValue:s forKey:@"badgeValue"];
         }
         [self.tableView reloadData];
     }
@@ -148,6 +160,9 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = ATLocalizedString(@"Private Messages", @"");
+    
+    [self tabBarItemSetValue:ATLocalizedString(@"PM", nil) forKey:@"title"];
+    //self.tabBarItem.title = ATLocalizedString(@"PM", nil);
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -155,9 +170,6 @@
     UIBarButtonItem *writeMessageButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(writeMessage)];
     self.navigationItem.rightBarButtonItem = writeMessageButton;
     [writeMessageButton release];
-    
-    self.boxes = [NSMutableArray array];
-    self.tabBarItem.title = ATLocalizedString(@"PM", nil);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadBoxes) name:@"ATLoginWasSuccessful" object:nil];
     
 }
@@ -183,7 +195,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+    if ([[User sharedUser] isLoggedIn]) {
+        [self loadBoxes];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

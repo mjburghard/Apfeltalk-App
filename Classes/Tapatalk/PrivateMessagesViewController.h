@@ -12,12 +12,10 @@
 #import "Three20/Three20+Additions.h"
 #import "ATContactPicker.h"
 
-@interface PrivateMessagesViewController : ATTableViewController <TTMessageControllerDelegate, ATContactPickerDelegate> {
+@interface PrivateMessagesViewController : ATTableViewController {
     NSMutableArray *boxes;
-    BOOL isSending;
 }
 
 @property (retain) NSMutableArray *boxes;
-@property (assign) BOOL isSending;
 
 @end

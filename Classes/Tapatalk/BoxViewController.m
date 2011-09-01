@@ -10,12 +10,9 @@
 #import "ATMessage.h"
 #import "User.h"
 #import "DetailMessageViewController.h"
-#import "ATContactDataSource.h"
-#import "ATContactModel.h"
-#import "ATContactPicker.h"
 
 @implementation BoxViewController
-@synthesize box, messages, isSending;
+@synthesize box, messages;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil box:(Box *)aBox {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,7 +31,6 @@
 }
 
 - (void)dealloc {
-    self.isSending = NO;
     self.box = nil;
     self.messages = nil;
     [super dealloc];
@@ -63,7 +59,7 @@
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_box</methodName><params><param><value><string>%ld</string></value></param></params></methodCall>", self.box.boxID ];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
-
+/*
 #pragma mark -
 #pragma mark TTMessageControllerDelegate
 
@@ -114,7 +110,7 @@
     TTMessageController *messageController = (TTMessageController *)[[(UINavigationController *)self.modalViewController viewControllers] objectAtIndex:0];
     [messageController addRecipient:contactName forFieldAtIndex:0];
     [messageController dismissModalViewControllerAnimated:YES];
-}
+}*/
 
 #pragma mark -
 #pragma mark XMLRPCResponsParserDelegate
