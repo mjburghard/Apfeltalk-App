@@ -67,6 +67,8 @@ const CGFloat kDefaultRowHeight = 44.0;
     [self.tableView setScrollEnabled:NO];
     CGPoint center = self.tableView.center;
     center.y += self.tableView.contentOffset.y;
+    center = [UIApplication sharedApplication].keyWindow.center;
+    center.x += self.view.frame.origin.x;
     self.activityIndicator.center = center;
     if (isAnswering) {
         self.activityIndicator.messageLabel.text = ATLocalizedString(@"Sending...", nil);
@@ -76,7 +78,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.activityIndicator.messageLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
     }
     [self.activityIndicator startAnimating];
-    [self.tableView addSubview:self.activityIndicator];
+    [[UIApplication sharedApplication].keyWindow addSubview:self.activityIndicator];
 }
 
 - (void)dismissActivityIndicator {
@@ -203,10 +205,6 @@ const CGFloat kDefaultRowHeight = 44.0;
         [self displayActivityIndicator];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
-}
-
-- (void)addSearchBar {
-    
 }
 
 - (void)showActionSheet {
@@ -399,10 +397,11 @@ const CGFloat kDefaultRowHeight = 44.0;
     [leftButton release];
 }
 
-- (void)contentCell:(ContentCell *)cell shouldQuoteText:(NSString *)quoteText {
+- (void)contentCell:(ContentCell *)cell shouldQuoteText:(NSString *)quoteText ofObjectAtIndexPath:(NSIndexPath *)indexPath {
     AnswerViewController *answerViewController = [[AnswerViewController alloc] initWithNibName:@"AnswerViewController" bundle:nil topic:self.topic];
     [self.navigationController pushViewController:answerViewController animated:YES];
-    answerViewController.textView.text = [NSString stringWithFormat:@"[QUOTE]%@[/QUOTE]", quoteText];
+    Post *post = [self.posts objectAtIndex:indexPath.section];
+    answerViewController.textView.text = [NSString stringWithFormat:@"[QUOTE=%@;%ld]%@[/QUOTE]", post.author, (long)post.postID, quoteText];
     [answerViewController release];
 }
 
