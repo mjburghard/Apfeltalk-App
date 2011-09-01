@@ -54,7 +54,6 @@
 				<object class="NSPSMatrix" key="NSFrameMatrix"/>
 				<string key="NSFrameSize">{768, 1024}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
@@ -105,7 +104,6 @@
 					<object class="IBUITabBarItem" key="IBUITabBarItem" id="221561391">
 						<string key="IBUITitle">Item</string>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<reference key="IBUITabBar" ref="795333663"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
 					<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -138,7 +136,6 @@
 								<int key="NSvFlags">274</int>
 								<string key="NSFrame">{{0, 20}, {635, 984}}</string>
 								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:719</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
@@ -183,7 +180,6 @@
 								<string key="NSResourceName">magazin.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							<reference key="IBUITabBar" ref="795333663"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<reference key="IBUISimulatedStatusBarMetrics" ref="787946122"/>
@@ -264,7 +260,6 @@
 								<string key="NSResourceName">gallery.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							<reference key="IBUITabBar" ref="795333663"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<reference key="IBUISimulatedStatusBarMetrics" ref="787946122"/>
@@ -342,7 +337,6 @@
 								<string key="NSResourceName">rss.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							<reference key="IBUITabBar" ref="795333663"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<reference key="IBUISimulatedStatusBarMetrics" ref="787946122"/>
@@ -424,7 +418,6 @@
 								<string key="NSResourceName">ticker.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							<reference key="IBUITabBar" ref="795333663"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1034742383"/>
 						<reference key="IBUISimulatedStatusBarMetrics" ref="787946122"/>
@@ -490,7 +483,6 @@
 					<int key="NSvFlags">266</int>
 					<string key="NSFrame">{{0, 1004}, {635, 49}}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
@@ -498,15 +490,6 @@
 					</object>
 					<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 					<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-					<object class="NSMutableArray" key="IBUIItems">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<reference ref="639888864"/>
-						<reference ref="1068159736"/>
-						<reference ref="1028248403"/>
-						<reference ref="876220519"/>
-						<reference ref="221561391"/>
-					</object>
-					<reference key="IBUISelectedItem" ref="221561391"/>
 				</object>
 			</object>
 		</object>
@@ -1170,219 +1153,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">242</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBPartialClassDescription">
-					<string key="className">ATTabBarController</string>
-					<string key="superclassName">UITabBarController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ATTabBarController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ATTableViewController</string>
-					<string key="superclassName">UITableViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ATTableViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">Apfeltalk_MagazinAppDelegate</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>galleryController</string>
-							<string>livetickerController</string>
-							<string>newsController</string>
-							<string>tabBarController</string>
-							<string>window</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UINavigationController</string>
-							<string>LivetickerNavigationController</string>
-							<string>UINavigationController</string>
-							<string>UITabBarController</string>
-							<string>UIWindow</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>galleryController</string>
-							<string>livetickerController</string>
-							<string>newsController</string>
-							<string>tabBarController</string>
-							<string>window</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">galleryController</string>
-								<string key="candidateClassName">UINavigationController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">livetickerController</string>
-								<string key="candidateClassName">LivetickerNavigationController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">newsController</string>
-								<string key="candidateClassName">UINavigationController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">tabBarController</string>
-								<string key="candidateClassName">UITabBarController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">window</string>
-								<string key="candidateClassName">UIWindow</string>
-							</object>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/Apfeltalk_MagazinAppDelegate.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ForumViewController</string>
-					<string key="superclassName">ATTableViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ForumViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">GalleryController</string>
-					<string key="superclassName">RootViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/GalleryController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">LivetickerController</string>
-					<string key="superclassName">UITableViewController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">loadingCell</string>
-						<string key="NS.object.0">UITableViewCell</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">loadingCell</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">loadingCell</string>
-							<string key="candidateClassName">UITableViewCell</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/LivetickerController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">LivetickerNavigationController</string>
-					<string key="superclassName">UINavigationController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/LivetickerNavigationController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NewsController</string>
-					<string key="superclassName">RootViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NewsController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">PrivateMessagesViewController</string>
-					<string key="superclassName">ATTableViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/PrivateMessagesViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">RootViewController</string>
-					<string key="superclassName">UITableViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>about:</string>
-							<string>openSafari:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>about:</string>
-							<string>openSafari:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBActionInfo">
-								<string key="name">about:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">openSafari:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>loadingCell</string>
-							<string>newsTable</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UITableViewCell</string>
-							<string>UITableView</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>loadingCell</string>
-							<string>newsTable</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">loadingCell</string>
-								<string key="candidateClassName">UITableViewCell</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">newsTable</string>
-								<string key="candidateClassName">UITableView</string>
-							</object>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/RootViewController.h</string>
-					</object>
-				</object>
-			</object>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
