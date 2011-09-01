@@ -46,6 +46,7 @@
         quoteRange = [string rangeOfString:@"[quote][url=" options:NSCaseInsensitiveSearch];
     }
     
+    string = [string stringByReplacingOccurrencesOfString:@"[quote]" withString:@"Zitat:\n----------------------------------------\n" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [string length])];
     string = [string stringByReplacingOccurrencesOfString:@"[/quote]" withString:@"\n----------------------------------------\n" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [string length])];
     
     
