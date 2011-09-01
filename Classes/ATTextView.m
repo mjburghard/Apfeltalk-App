@@ -53,7 +53,7 @@
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
     BOOL result = NO;
     result = [super canPerformAction:action withSender:sender];
-    if (action == @selector(quote:)) {
+    if (action == @selector(quote:) && !self.editable) {
         result = YES;
     }
     /*if (result && [NSStringFromSelector(action) isEqualToString:@"copy:"]) {
