@@ -533,9 +533,9 @@
 		5E460620137D5EB6000A5D20 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		5E460625137D6260000A5D20 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		5E460626137D6260000A5D20 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
-		5E4FCFBF140CE063001EC8FE /* ATContactDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ATContactDataSource.h; sourceTree = "<group>"; };
+		5E4FCFBF140CE063001EC8FE /* ATContactDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATContactDataSource.h; sourceTree = "<group>"; };
 		5E4FCFC0140CE063001EC8FE /* ATContactDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATContactDataSource.m; sourceTree = "<group>"; };
-		5E4FCFC2140CE084001EC8FE /* ATContactModel.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ATContactModel.h; sourceTree = "<group>"; };
+		5E4FCFC2140CE084001EC8FE /* ATContactModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATContactModel.h; sourceTree = "<group>"; };
 		5E4FCFC3140CE084001EC8FE /* ATContactModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATContactModel.m; sourceTree = "<group>"; };
 		5E54C8E5140E3D07007C1098 /* DetailMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailMessageViewController.h; sourceTree = "<group>"; };
 		5E54C8E6140E3D08007C1098 /* DetailMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailMessageViewController.m; sourceTree = "<group>"; };
