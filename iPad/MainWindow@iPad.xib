@@ -57,7 +57,6 @@
 				<object class="NSPSMatrix" key="NSFrameMatrix"/>
 				<string key="NSFrameSize">{768, 1024}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -106,6 +105,10 @@
 				<object class="IBUINavigationController" key="IBUISelectedViewController" id="277454486">
 					<object class="IBUITabBarItem" key="IBUITabBarItem" id="221561391">
 						<string key="IBUITitle">Item</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">privat.png</string>
+						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
 					<reference key="IBUIParentViewController" ref="1034742383"/>
@@ -131,7 +134,7 @@
 							<bytes key="NSRGB">MC42NzM0Njk0MjQyIDAuMDM4MDgwOTQxODkgMC4wNTI2OTg2NTY5MgA</bytes>
 						</object>
 					</object>
-					<object class="NSArray" key="IBUIViewControllers">
+					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUITableViewController" id="631320703">
 							<object class="IBUITableView" key="IBUIView" id="388650605">
@@ -486,7 +489,6 @@
 					<int key="NSvFlags">266</int>
 					<string key="NSFrame">{{0, 1048}, {635, 49}}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSNextKeyView"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MCAwAA</bytes>
@@ -1173,11 +1175,13 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>gallery.png</string>
 				<string>magazin.png</string>
+				<string>privat.png</string>
 				<string>rss.png</string>
 				<string>ticker.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{30, 30}</string>
 				<string>{30, 30}</string>
 				<string>{30, 30}</string>
 				<string>{30, 30}</string>
