@@ -10,12 +10,10 @@
 
 
 @interface ATActivityIndicator : UIView {
-    NSString *message;
     UIActivityIndicatorView *spinner;
     UILabel *messageLabel;
 }
 
-@property (copy) NSString *message;
 @property (retain) UIActivityIndicatorView *spinner;
 @property (retain) UILabel *messageLabel;
 
