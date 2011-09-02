@@ -14,6 +14,8 @@
 #import "GCImageViewer.h"
 #import "ATActivityIndicator.h"
 
+@class ATTableViewController;
+
 @interface DetailThreadController : ATTableViewController <ContentCellDelegate> {
     NSInteger numberOfPosts;
     Topic *topic;
@@ -21,6 +23,7 @@
     UIView *activeView;
     ATActivityIndicator *activityIndicator;
     ContentCell *answerCell;
+    //UITableViewCell *loadingCell;
     NSInteger site;
     BOOL isAnswering, didRotate, isSubscribing;
 }

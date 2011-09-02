@@ -342,6 +342,15 @@
 }
 
 #pragma mark -
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (loadingCell  == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"LoadingCell" owner:self options:nil];
+    }
+    return loadingCell;
+}
+
+#pragma mark -
 #pragma mark Orientation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

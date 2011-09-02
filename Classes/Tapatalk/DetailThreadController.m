@@ -555,11 +555,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     
 	if (indexPath.row == 0) {
 		if (indexPath.section == [self.posts count] && [self.posts count] == 0) { // For the loading cell
-			if(loadingCell == nil) {
-                [[NSBundle mainBundle] loadNibNamed:@"LoadingCell" owner:self options:nil];
-            }
-            
-            return loadingCell;
+			return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 		}
         
         if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
