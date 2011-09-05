@@ -112,8 +112,8 @@
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 		[formatter setAMSymbol:@"AM"];
 		[formatter setPMSymbol:@"PM"];
-		[formatter setDateFormat:@"dd/MM/yyyy HH:mm"];
-		_lastUpdatedLabel.text = [NSString stringWithFormat:@"Letztes Update: %@", [formatter stringFromDate:date]];
+		[formatter setDateFormat:ATLocalizedString(@"MM/dd/yyyy hh:mm a", nil)];
+		_lastUpdatedLabel.text = [NSString stringWithFormat:ATLocalizedString(@"Last update: %@", nil), [formatter stringFromDate:date]];
 		[[NSUserDefaults standardUserDefaults] setObject:_lastUpdatedLabel.text forKey:@"EGORefreshTableView_LastRefresh"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 		[formatter release];
