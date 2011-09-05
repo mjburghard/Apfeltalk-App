@@ -10,9 +10,10 @@
 #import "ATMessage.h"
 #import "User.h"
 #import "DetailMessageViewController.h"
+#import "SHKActivityIndicator.h"
 
 @implementation BoxViewController
-@synthesize box, messages;
+@synthesize box, messages, isDeletingMessage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil box:(Box *)aBox {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -31,6 +32,7 @@
 }
 
 - (void)dealloc {
+    self.isDeletingMessage = NO;
     self.box = nil;
     self.messages = nil;
     [super dealloc];
@@ -122,10 +124,16 @@
             self.isSending = NO;
             [self.modalViewController dismissModalViewControllerAnimated:YES];
             if (![[dictionary valueForKey:@"result"] boolValue]) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", nil) message:[dictionary valueForKey:@"result_text"] delegate:nil cancelButtonTitle:ATLocalizedString(@"OK", nil) otherButtonTitles:nil, nil];
-                [alertView show];
-                [alertView release];
+                [self showAlertViewWithErrorString:[dictionary valueForKey:@"result_text"]];
             } 
+            return;
+        } else if (self.isDeletingMessage) {
+            self.isDeletingMessage = NO;
+            if ([[dictionary valueForKey:@"result"] boolValue]) {
+                [[SHKActivityIndicator currentIndicator] displayCompleted:nil];
+            } else {
+               [self showAlertViewWithErrorString:[dictionary valueForKey:@"result_text"]];
+            }
             return;
         }
         NSArray *array = [dictionary valueForKey:@"list"];
@@ -217,33 +225,43 @@
     
     cell.textLabel.text = message.subject;
     cell.detailTextLabel.text = message.sender;
+    if (self.box.boxType == BoxTypeSentBox) {
+        NSMutableString *recipients = [NSMutableString stringWithString:[message.recipients objectAtIndex:0]];
+        for (NSInteger i = 1; i < message.recipients.count; i++) {
+            [recipients appendFormat:@", %@", [message.recipients objectAtIndex:i]];
+        }
+        cell.detailTextLabel.text  = recipients;
+    }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return !self.isDeletingMessage;
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
+        ATMessage *message = [self.messages objectAtIndex:indexPath.row];
+        NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>delete_message</methodName><params><param><value><string>%ld</string></value></param><param><value><string>%ld</string></value></param></params></methodCall>", message.messageID, self.box.boxID];
+        
+        self.isDeletingMessage = YES;
+        [[SHKActivityIndicator currentIndicator] displayActivity:ATLocalizedString(@"Deleting message", nil)];
+        [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
+        [self.messages removeObject:message];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.

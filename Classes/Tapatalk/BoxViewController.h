@@ -15,10 +15,12 @@
 @interface BoxViewController : ATTableViewController {
     NSMutableArray *messages;
     Box *box;
+    BOOL isDeletingMessage;
 }
 
 @property (retain) NSMutableArray *messages;
 @property (retain) Box *box;
+@property (assign) BOOL isDeletingMessage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil box:(Box *)aBox;
 
