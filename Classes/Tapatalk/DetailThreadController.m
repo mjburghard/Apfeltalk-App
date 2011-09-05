@@ -511,7 +511,34 @@ const CGFloat kDefaultRowHeight = 44.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.posts count] == 0) {
+    switch (indexPath.row) {
+        case 0: {
+            if (self.posts.count != 0) {
+                if (indexPath.section == self.posts.count) 
+                    return 100.0;
+                return 30;
+            }
+            return kDefaultRowHeight;
+            break;
+        } case 1: {
+            if (indexPath.section == self.posts.count)
+                return kDefaultRowHeight;
+            NSString *content = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
+            CGFloat margin = [self groupedCellMarginWithTableWidth:CGRectGetWidth(self.tableView.frame)];
+            CGFloat width = CGRectGetWidth(self.tableView.frame) - 2.0 * margin - 16.0;
+            CGSize maxSize = CGSizeMake(width, CGFLOAT_MAX);
+            CGFloat fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"fontSize"];
+            CGSize size = [content sizeWithFont:[UIFont fontWithName:@"Helvetica" size:fontSize] constrainedToSize:maxSize lineBreakMode:UILineBreakModeWordWrap];
+            CGFloat height = size.height + 16.0;
+            
+            return height;
+            break;
+        } default: {
+            break;
+        }
+    }
+    
+    /*if ([self.posts count] == 0) {
         return kDefaultRowHeight;
     }
     
@@ -523,11 +550,11 @@ const CGFloat kDefaultRowHeight = 44.0;
         if (indexPath.section == [self.posts count]) return kDefaultRowHeight;
         NSString *content = [(Post *)[self.posts objectAtIndex:indexPath.section] content];
         
-        /*ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        ContentCell *contentCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         contentCell.frame = CGRectMake(0, 0, self.tableView.size.width, 10);
         contentCell.textView.text = content;
         CGFloat contentCellHeight = contentCell.textView.contentSize.height;
-        [contentCell release];*/
+        [contentCell release];
         
         CGFloat margin = [self groupedCellMarginWithTableWidth:CGRectGetWidth(self.tableView.frame)];
         CGFloat width = CGRectGetWidth(self.tableView.frame) - 2.0 * margin - 16.0;
@@ -538,7 +565,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         
         return height;
     }
-    
+    */
     return kDefaultRowHeight;
 }
 
@@ -555,23 +582,15 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self.posts count] == 0) {
         return 1;
-    } 
-    else if (!self.topic.userCanPost || self.topic.closed) {
+    } else if (!self.topic.userCanPost || self.topic.closed) {
         return [self.posts count];
     }
     return [self.posts count]+1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == [self.posts count]) {
-        if ([self.posts count] == 0) {
-            return [super tableView:tableView numberOfRowsInSection:section];
-        }
-        return 2;
-    } 
-    
-    if (section == [self.posts count]+1) {
-        return 1;
+    if ([self.posts count] == 0) {
+        return [super tableView:tableView numberOfRowsInSection:section];
     }
     return 2;
 }
@@ -598,7 +617,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     if ([self.posts count] != 0 && indexPath.section < [self.posts count]) {
         p = (Post *)[self.posts objectAtIndex:indexPath.section];
     }
-    
+    /*
 	if (indexPath.row == 0) {
 		if (indexPath.section == [self.posts count] && [self.posts count] == 0) { // For the loading cell
 			return [super tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -657,24 +676,14 @@ const CGFloat kDefaultRowHeight = 44.0;
         
         contentCell.delegate = self;
 		return contentCell;
-	} /*else if (indexPath.row == 2) {
-		UITableViewCell *actionsCell = [tableView dequeueReusableCellWithIdentifier:ActionsCellIdentifier];
-		if (actionsCell == nil) {
-			actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
-		}
-		actionsCell.textLabel.text = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
-        actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
-		return actionsCell;
-	}
-    */
-    /*switch (indexPath.row) {
+	}*/ 
+    
+    switch (indexPath.row) {
         case 0: {
-            
-            if (indexPath.section == [self.posts count] && [self.posts count] == 0) { // For the loading cell
-                return [super tableView:tableView cellForRowAtIndexPath:indexPath];
-            }
-            
-            if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
+            if (indexPath.section == self.posts.count) {
+                if (self.posts.count == 0)
+                    return [super tableView:tableView cellForRowAtIndexPath:indexPath]; // loadingCell
+                
                 if (answerCell == nil) {
                     self.answerCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)]; 
                 }
@@ -687,6 +696,9 @@ const CGFloat kDefaultRowHeight = 44.0;
             UITableViewCell *authorCell = [tableView dequeueReusableCellWithIdentifier:AuthorCellIdentifier];
             if (authorCell == nil) {
                 authorCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:AuthorCellIdentifier] autorelease];
+                UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showMenu:)];
+                [authorCell addGestureRecognizer:longPressGestureRecognizer];
+                [longPressGestureRecognizer release];
             }
             
             NSDateFormatter *outFormatter = [[NSDateFormatter alloc] init];
@@ -706,8 +718,7 @@ const CGFloat kDefaultRowHeight = 44.0;
             
             break;
         } case 1: {
-            
-            if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
+            if (indexPath.section == self.posts.count) {
                 UITableViewCell *actionsCell = [tableView dequeueReusableCellWithIdentifier:ActionsCellIdentifier];
                 if (actionsCell == nil) {
                     actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
@@ -721,19 +732,17 @@ const CGFloat kDefaultRowHeight = 44.0;
             ContentCell *contentCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:ContentCellIdentifier];
             if (contentCell == nil) {
                 contentCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease];
+                contentCell.textView.scrollEnabled = NO;
+                contentCell.delegate = self;
             }
             contentCell.textView.text = p.content;
-            contentCell.textView.scrollEnabled = NO;
-            
-            contentCell.delegate = self;
             return contentCell;
-            
             break;
         } default:{
             break;
         }
     }
-    */
+
 	return nil;
 }
 
