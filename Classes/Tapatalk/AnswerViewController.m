@@ -11,13 +11,12 @@
 #import "Apfeltalk_MagazinAppDelegate.h"
 
 @implementation AnswerViewController
-@synthesize textView, topic, receivedData, activityIndicator;
+@synthesize textView, topic, receivedData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic
 {
     self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.hidesBottomBarWhenPushed = YES;
         self.topic = aTopic;
     }
     return self;
@@ -33,7 +32,6 @@
 
 - (void)dealloc
 {
-    self.activityIndicator = nil;
     self.receivedData = nil;
     self.textView = nil;
     self.topic = nil;
@@ -76,13 +74,7 @@
         return;
     }
     
-    if (!activityIndicator) {
-        self.activityIndicator = [ATActivityIndicator alloc];
-        self.activityIndicator.messageLabel.text = ATLocalizedString(@"Sending...", nil);
-        self.activityIndicator.center = self.view.center;
-        [self.activityIndicator startAnimating];
-        [self.view addSubview:self.activityIndicator];
-    }
+    [[SHKActivityIndicator currentIndicator] displayActivity:ATLocalizedString(@"Sending...", nil)];
     
     [self.textView resignFirstResponder];
     self.navigationItem.leftBarButtonItem.enabled = NO;
@@ -126,18 +118,16 @@
 #pragma mark XMLRPCResponseDelegate
 
 - (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
-    NSLog(@"%@", dictionaryOrArray);
     if (isNotLoggedIn) {
         isNotLoggedIn = NO;
         [self reply];
     } else if (type == XMLRPCResultTypeDictionary) {
         NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
-        [self.activityIndicator stopAnimating];
-        [self.activityIndicator dismiss];
-        self.activityIndicator = nil;
         if ([[dictionary valueForKey:@"result"] boolValue]) {
-            [self cancel];
+            [[SHKActivityIndicator currentIndicator] displayCompleted:@""];
+            [self performSelector:@selector(cancel) withObject:nil afterDelay:0.6];
         } else {
+            [[SHKActivityIndicator currentIndicator] hide];
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", nil) message:ATLocalizedString(@"An unexpected error occurred. Please try later.", nil) delegate:self cancelButtonTitle:ATLocalizedString(@"OK", nil) otherButtonTitles:nil, nil];
             [alertView show];
             [alertView release];
