@@ -131,6 +131,7 @@
             if ([[dictionary valueForKey:@"result"] boolValue]) {
                 [[SHKActivityIndicator currentIndicator] displayCompleted:@""];
             } else {
+                [[SHKActivityIndicator currentIndicator] hide];
                [self showAlertViewWithErrorString:[dictionary valueForKey:@"result_text"]];
             }
             return;
