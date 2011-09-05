@@ -52,14 +52,7 @@
         return;
     }
     
-    if (!activityIndicator) {
-        self.activityIndicator = [ATActivityIndicator alloc];
-        self.activityIndicator.messageLabel.text = ATLocalizedString(@"Sending...", nil);
-        self.activityIndicator.center = self.view.center;
-        [self.activityIndicator startAnimating];
-        [self.view addSubview:self.activityIndicator];
-    }
-    
+    [[SHKActivityIndicator currentIndicator] displayActivity:ATLocalizedString(@"Sending...", nil)];
     
     [self.textView resignFirstResponder];
     self.navigationItem.leftBarButtonItem.enabled = NO;
@@ -100,7 +93,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     self.topicField = [[[UITextField alloc] initWithFrame:CGRectMake(10.0, 0, self.view.frame.size.width-20.0, 31)] autorelease];
     self.topicField.placeholder = NSLocalizedStringFromTable(@"Title", @"ATLocalizable", @"");
     self.topicField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
