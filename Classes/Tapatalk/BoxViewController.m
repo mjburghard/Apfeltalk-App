@@ -10,7 +10,6 @@
 #import "ATMessage.h"
 #import "User.h"
 #import "DetailMessageViewController.h"
-#import "SHKActivityIndicator.h"
 
 @implementation BoxViewController
 @synthesize box, messages, isDeletingMessage;
@@ -130,7 +129,7 @@
         } else if (self.isDeletingMessage) {
             self.isDeletingMessage = NO;
             if ([[dictionary valueForKey:@"result"] boolValue]) {
-                [[SHKActivityIndicator currentIndicator] displayCompleted:nil];
+                [[SHKActivityIndicator currentIndicator] displayCompleted:@""];
             } else {
                [self showAlertViewWithErrorString:[dictionary valueForKey:@"result_text"]];
             }
