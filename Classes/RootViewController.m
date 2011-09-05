@@ -518,7 +518,7 @@
         [self setStories:parsedStories];
         [(UITableView *)[self view] reloadData];
         [self doneLoadingTableViewData];
-        double delayInSeconds = 2.0;
+        double delayInSeconds = 0.1;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
