@@ -10,6 +10,7 @@
 #import "ATMessage.h"
 #import "User.h"
 #import "DetailMessageViewController.h"
+#import "PrivateMessagesViewController.h"
 
 @implementation BoxViewController
 @synthesize box, messages, isDeletingMessage;
@@ -287,6 +288,10 @@
     
     DetailMessageViewController *detailMessageViewController = [[DetailMessageViewController alloc] initWithStyle:UITableViewStyleGrouped];
     detailMessageViewController.message = [self.messages objectAtIndex:indexPath.row];
+    if (detailMessageViewController.message.state == ATMessageStateUnread) {
+        self.box.numberOfUnreadMessages--;
+        [(PrivateMessagesViewController *)[self.navigationController.viewControllers objectAtIndex:0] updateTabBarItemBadge];
+    }
     [self.navigationController pushViewController:detailMessageViewController animated:YES];
     [detailMessageViewController release];
      
