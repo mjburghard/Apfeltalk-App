@@ -18,6 +18,7 @@
 
 @property (retain) NSMutableArray *boxes;
 
+- (void)updateTabBarItemBadge;
 - (void)writeMessageWithRecipients:(NSArray *)recipients;
 
 @end

@@ -37,7 +37,24 @@
 }
 
 #pragma mark -
-#pragma mark Private methods
+#pragma mark Private & public methods
+
+- (void)tabBarItemSetValue:(id)value forKey:(NSString *)key {
+    NSMutableArray *items = [NSMutableArray arrayWithArray:self.tabBarController.tabBar.items];
+    UITabBarItem *tabBarItem = [items objectAtIndex:4];
+    [tabBarItem setValue:value forKey:key];
+}
+
+- (void)updateTabBarItemBadge {
+    NSInteger numberOfUnreadMessages = 0;
+    
+    for (Box *box in self.boxes) {
+        numberOfUnreadMessages += box.numberOfUnreadMessages;
+    }
+    
+    NSString *s = (numberOfUnreadMessages == 0 ? nil : [NSString stringWithFormat:@"%ld", (long)numberOfUnreadMessages] );
+    [self tabBarItemSetValue:s forKey:@"badgeValue"];
+}
 
 - (void)writeMessageWithRecipients:(NSArray *)recipients {
     TTMessageController *messageController = [[TTMessageController alloc] initWithRecipients:recipients];
@@ -66,12 +83,6 @@
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
 }
 
-- (void)tabBarItemSetValue:(id)value forKey:(NSString *)key {
-    NSMutableArray *items = [NSMutableArray arrayWithArray:self.tabBarController.tabBar.items];
-    UIBarItem *barItem = [items objectAtIndex:4];
-    [barItem setValue:value forKey:key];
-    //[self.tabBarController set];
-}
 /*
 #pragma mark -
 #pragma mark TTMessageControllerDelegate
@@ -150,10 +161,7 @@
             [self.boxes addObject:box];
             [box release];
         }
-        if (unreadCount > 0) {
-            NSString *s = [NSString stringWithFormat:@"%ld", (long)unreadCount];
-            [self tabBarItemSetValue:s forKey:@"badgeValue"];
-        }
+        [self updateTabBarItemBadge];
         [self.tableView reloadData];
     }
 }
