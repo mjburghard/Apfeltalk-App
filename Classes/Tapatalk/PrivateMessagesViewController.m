@@ -39,8 +39,8 @@
 #pragma mark -
 #pragma mark Private methods
 
-- (void)writeMessage {
-    TTMessageController *messageController = [[TTMessageController alloc] initWithRecipients:nil];
+- (void)writeMessageWithRecipients:(NSArray *)recipients {
+    TTMessageController *messageController = [[TTMessageController alloc] initWithRecipients:recipients];
     messageController.delegate = self;
     ATContactDataSource *dataSource = [[ATContactDataSource alloc] init];
     dataSource.messageController = messageController;
@@ -53,6 +53,10 @@
     [navigationController release];
     [messageController release];
     [dataSource release];
+}
+
+- (void)writeMessage {
+    [self writeMessageWithRecipients:nil];
 }
 
 - (void)loadBoxes {
@@ -256,7 +260,7 @@
     Box *box = [self.boxes objectAtIndex:indexPath.row];
     
     cell.textLabel.text = box.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld|%ld", box.numberOfUnreadMessages, box.numberOfMessages];
+    cell.detailTextLabel.text = [NSString stringWithFormat:ATLocalizedString(@"Unread: %ld", nil), box.numberOfUnreadMessages];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }

@@ -18,4 +18,6 @@
 
 @property (retain) NSMutableArray *boxes;
 
+- (void)writeMessageWithRecipients:(NSArray *)recipients;
+
 @end
