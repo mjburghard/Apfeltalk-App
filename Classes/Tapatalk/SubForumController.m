@@ -10,7 +10,7 @@
 #import "NewTopicViewController.h"
 
 @implementation SubForumController
-@synthesize subForum, currentTopic, topics, isLoadingPinnedTopics, numberOfTopics;
+@synthesize subForum, currentTopic, topics, isLoadingPinnedTopics, numberOfTopics, dataArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil subForum:(SubForum *)aSubForum {
     self = [self initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -31,6 +31,7 @@
 
 - (void)dealloc
 {
+    self.dataArray = nil;
     self.numberOfTopics = 0;
     self.isLoadingPinnedTopics = NO;
     self.subForum = nil;
@@ -56,7 +57,7 @@
 }
 
 - (void)loadPinnedTopics {
-    self.topics = [NSMutableArray array];
+    self.dataArray = [NSMutableArray array];
     self.isLoadingPinnedTopics = YES;
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_topic</methodName><params><param><value><string>%i</string></value></param><param><value><int>0</int></value></param><param><value><int>19</int></value></param><param><value><string>TOP</string></value></param></params></methodCall>", self.subForum.forumID];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
@@ -131,7 +132,7 @@
         
         for (NSDictionary *dict in array) {
             Topic *topic = [[Topic alloc] initWithDictionary:dict];
-            [self.topics addObject:topic];
+            [self.dataArray addObject:topic];
             [topic release];
         }
     }
@@ -139,6 +140,7 @@
         isLoadingPinnedTopics = NO;
         [self loadStandartTopics];
     } else {
+        self.topics = self.dataArray;
         [self.tableView reloadData];
     }
 }
