@@ -140,6 +140,9 @@
         isLoadingPinnedTopics = NO;
         [self loadStandartTopics];
     } else {
+        if (self.dataArray.count == 0) {
+            self.numberOfTopics = 0;
+        }
         self.topics = self.dataArray;
         [self.tableView reloadData];
     }
