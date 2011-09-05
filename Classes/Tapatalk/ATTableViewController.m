@@ -335,6 +335,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [[SHKActivityIndicator currentIndicator] hide];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -342,6 +343,14 @@
 }
 
 #pragma mark -
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (loadingCell  == nil) {

@@ -16,6 +16,7 @@
 #import "ATContactPicker.h"
 #import "ATContactDataSource.h"
 #import "ATContactModel.h"
+#import "SHKActivityIndicator.h"
 
 @interface ATTableViewController : UITableViewController <XMLRPCResponseParserDelegate, UIAlertViewDelegate, UIActionSheetDelegate, TTMessageControllerDelegate, ATContactPickerDelegate> {
     NSMutableData *receivedData;
@@ -34,11 +35,15 @@
 @property (retain) NSDictionary *requestParameters;
 @property (assign) BOOL isSending;
 
-
 - (NSString *)tapatalkPluginPath;
 - (void)login;
 - (void)logout;
 - (void)loginDidFail;
 - (void)sendRequestWithXMLString:(NSString *)xmlString cookies:(BOOL)cookies delegate:(id)delegate;
+
+- (void)showAlertViewWithErrorString:(NSString *)errorString;
+- (void)showAlertViewWithError:(NSError *)error;
+- (void)handleErrorString:(NSString *)errorString;
+- (void)handleError:(NSError *)error;
 
 @end
