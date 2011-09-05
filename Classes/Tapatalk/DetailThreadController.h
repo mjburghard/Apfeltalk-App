@@ -21,20 +21,19 @@
     Topic *topic;
     NSMutableArray *posts;
     UIView *activeView;
-    ATActivityIndicator *activityIndicator;
     ContentCell *answerCell;
-    //UITableViewCell *loadingCell;
     NSInteger site;
-    BOOL isAnswering, didRotate, isSubscribing;
+    BOOL isAnswering, isSubscribing;
+    NSString *username;
 }
 
 @property (retain) Topic *topic;
 @property (retain) NSMutableArray *posts;
 @property (retain) Post *currentPost;
-@property (retain) ATActivityIndicator *activityIndicator;
 @property (assign) NSInteger site;
 @property (assign) NSInteger numberOfPosts;
-@property (assign) BOOL didRotate;
+@property (retain) ContentCell *answerCell;
+@property (retain) NSString *username;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic;
 - (void)loadLastSite;

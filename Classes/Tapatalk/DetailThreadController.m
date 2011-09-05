@@ -9,6 +9,7 @@
 #import "DetailThreadController.h"
 #import "ATWebViewController.h"
 #import "AnswerViewController.h"
+#import "PrivateMessagesViewController.h"
 
 @interface DetailThreadController()
 
@@ -17,7 +18,7 @@
 @end
 
 @implementation DetailThreadController
-@synthesize topic, posts, currentPost, site, numberOfPosts, didRotate, activityIndicator;
+@synthesize topic, posts, currentPost, site, numberOfPosts, answerCell, username;
 
 const CGFloat kDefaultRowHeight = 44.0;
 
@@ -29,15 +30,14 @@ const CGFloat kDefaultRowHeight = 44.0;
         self.posts = [NSMutableArray array];
         self.site = 0;
         self.numberOfPosts = self.topic.numberOfPosts + 1;
-        self.didRotate = NO;
         isAnswering = NO;
-        self.hidesBottomBarWhenPushed = [[NSUserDefaults standardUserDefaults] boolForKey:@"hideTabBar"];
     }
     return self;
 }
 
 - (void)dealloc {
-    self.didRotate = NO;
+    self.username = nil;
+    self.answerCell = nil;
     self.site = 0;
     self.numberOfPosts = 0;
     self.currentPost = nil;
@@ -57,28 +57,21 @@ const CGFloat kDefaultRowHeight = 44.0;
 #pragma mark Private and Public Methods
 
 - (void)displayActivityIndicator {
-    if (!self.activityIndicator) {
-        self.activityIndicator = [ATActivityIndicator activityIndicator];
-    }
-    
     self.navigationItem.leftBarButtonItem.enabled = NO;
     self.navigationItem.backBarButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [self.tableView setScrollEnabled:NO];
-    CGPoint center = self.tableView.center;
-    center.y += self.tableView.contentOffset.y;
-    center = [UIApplication sharedApplication].keyWindow.center;
-    center.x += self.view.frame.origin.x;
-    self.activityIndicator.center = center;
+    /*CGPoint center = self.tableView.center;
+     center.y += self.tableView.contentOffset.y;
+     center = [UIApplication sharedApplication].keyWindow.center;
+     center.x += self.view.frame.origin.x;*/
     if (isAnswering) {
-        self.activityIndicator.messageLabel.text = ATLocalizedString(@"Sending...", nil);
+        [[SHKActivityIndicator currentIndicator] displayActivity:ATLocalizedString(@"Sending...", nil)];
     } else if (isSubscribing) {
-        self.activityIndicator.messageLabel.text = (self.topic.subscribed ? ATLocalizedString(@"Unsubscribing", nil) : ATLocalizedString(@"Subscribing", nil)); 
+        [[SHKActivityIndicator currentIndicator] displayActivity:(self.topic.subscribed ? ATLocalizedString(@"Unsubscribing", nil) : ATLocalizedString(@"Subscribing", nil))]; 
     } else {
-        self.activityIndicator.messageLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]];
+        [[SHKActivityIndicator currentIndicator] displayActivity:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Site %i of %i", @"ATLocalizable", @""), site+1, [self numberOfSites]]];
     }
-    [self.activityIndicator startAnimating];
-    [[UIApplication sharedApplication].keyWindow addSubview:self.activityIndicator];
 }
 
 - (void)dismissActivityIndicator {
@@ -86,8 +79,14 @@ const CGFloat kDefaultRowHeight = 44.0;
     self.navigationItem.leftBarButtonItem.enabled = YES;
     self.navigationItem.rightBarButtonItem.enabled = YES;
     [self.tableView setScrollEnabled:YES];
-    [self.activityIndicator stopAnimating];
-    [self.activityIndicator dismiss];
+    if (isAnswering) {
+        [[SHKActivityIndicator currentIndicator] displayCompleted:@""];
+    } else if (isSubscribing) {
+        [[SHKActivityIndicator currentIndicator] displayCompleted:@""]; 
+    } else {
+        [[SHKActivityIndicator currentIndicator] hide];
+    }
+    
 }
 
 - (CGFloat)groupedCellMarginWithTableWidth:(CGFloat)tableViewWidth
@@ -179,7 +178,6 @@ const CGFloat kDefaultRowHeight = 44.0;
                            encodeString(@"answer"), 
                            encodeString(content)];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
-    answerCell.textView.text = @"";
 }
 
 - (void)previous {
@@ -297,8 +295,8 @@ const CGFloat kDefaultRowHeight = 44.0;
     if (type == XMLRPCResultTypeDictionary) {
         NSDictionary *dictionary = (NSDictionary *)dictionaryOrArray;
         if (isSubscribing) {
-            isSubscribing = NO;
             [self dismissActivityIndicator];
+            isSubscribing = NO;
             BOOL result = [[dictionary valueForKey:@"result"] boolValue];
             if (result) {
                 if (self.topic.subscribed)
@@ -318,9 +316,10 @@ const CGFloat kDefaultRowHeight = 44.0;
             result = NO;
             return;
         } else if (isAnswering) {
-            isAnswering = NO;
             [self dismissActivityIndicator];
+            isAnswering = NO;
             if ([[dictionary valueForKey:@"result"] boolValue]) {
+                answerCell.textView.text = @"";
                 [self loadThread];
             } else {
                 NSLog(@"Error: %@", [dictionary valueForKey:@"result_text"]);
@@ -423,6 +422,52 @@ const CGFloat kDefaultRowHeight = 44.0;
     }
 }
 
+#pragma mark -
+#pragma mark UILongPressGestureRecognizer
+
+- (void)showMenu:(UILongPressGestureRecognizer *)sender {
+    if ([sender state] == UIGestureRecognizerStateBegan) {
+        UITableViewCell *view = (UITableViewCell *)sender.view;
+        CGPoint location = [sender locationInView:view];
+        CGPoint locationInTextLabel = [view.textLabel convertPoint:location fromView:view];
+        if (CGRectContainsPoint(view.textLabel.frame, locationInTextLabel)) {
+            self.username = view.textLabel.text;
+            UIMenuController *menuController = [UIMenuController sharedMenuController];
+            UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:ATLocalizedString(@"Send Message", nil) action:@selector(sendMessage:)];
+            [self becomeFirstResponder];
+            [menuController setArrowDirection:UIMenuControllerArrowUp];
+            [menuController setMenuItems:[NSArray arrayWithObject:menuItem]];
+            CGRect rect = view.detailTextLabel.frame;
+            [menuController setTargetRect:CGRectMake(rect.size.width/2, rect.size.height, 0.0f, 0.0f) inView:view.textLabel];
+            [menuController setMenuVisible:YES animated:YES];
+            [menuItem release];
+        }
+    }
+}
+
+- (void)sendMessage:(id)sender {
+    if (![[User sharedUser] isLoggedIn]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:ATLocalizedString(@"Error", nil) message:ATLocalizedString(@"Please login...", nil) delegate:self cancelButtonTitle:ATLocalizedString(@"OK", nil) otherButtonTitles:nil, nil];
+        alertView.tag = 2;
+        [alertView show];
+        [alertView release];
+    } else {
+        PrivateMessagesViewController *privateMessagesViewController = (PrivateMessagesViewController *)[[(UINavigationController *)[self.tabBarController.viewControllers objectAtIndex:4] viewControllers] objectAtIndex:0];
+        [privateMessagesViewController writeMessageWithRecipients:[NSArray arrayWithObject:username]];
+        [self.tabBarController setSelectedIndex:4];
+    }
+}
+
+#pragma mark -
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
+    return (action == @selector(sendMessage:));
+}
+
 #pragma mark - View lifecycle
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -443,6 +488,7 @@ const CGFloat kDefaultRowHeight = 44.0;
     
     [self.tableView addGestureRecognizer:rightSwipeGestureRecognizer];
     [rightSwipeGestureRecognizer release];
+    
 }
 
 - (void)viewDidUnload {
@@ -519,7 +565,7 @@ const CGFloat kDefaultRowHeight = 44.0;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == [self.posts count]) {
         if ([self.posts count] == 0) {
-            return 1;
+            return [super tableView:tableView numberOfRowsInSection:section];
         }
         return 2;
     } 
@@ -559,16 +605,8 @@ const CGFloat kDefaultRowHeight = 44.0;
 		}
         
         if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
-            if (didRotate) {
-                NSString *text = [answerCell.textView.text copy];
-                answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease];
-                answerCell.textView.text = text;
-                [text release];
-            } else {
-                answerCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:AnswerCellIdentifier];
-                if (answerCell == nil) {
-                    answerCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease]; 
-                }
+            if (answerCell == nil) {
+                self.answerCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)]; 
             }
             answerCell.textView.scrollEnabled = YES;
             answerCell.textView.editable = YES;
@@ -579,11 +617,14 @@ const CGFloat kDefaultRowHeight = 44.0;
 		UITableViewCell *authorCell = [tableView dequeueReusableCellWithIdentifier:AuthorCellIdentifier];
 		if (authorCell == nil) {
 			authorCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:AuthorCellIdentifier] autorelease];
+            UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showMenu:)];
+            [authorCell addGestureRecognizer:longPressGestureRecognizer];
+            [longPressGestureRecognizer release];
 		}
         
         NSDateFormatter *outFormatter = [[NSDateFormatter alloc] init];
         [outFormatter setDateFormat:@"dd.MM.yyyy HH:mm"];
-		authorCell.textLabel.text = p.author;
+        authorCell.textLabel.text = p.author;
         authorCell.detailTextLabel.textColor = authorCell.textLabel.textColor;
         authorCell.detailTextLabel.text = [outFormatter stringFromDate:p.postDate];
         authorCell.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
@@ -608,7 +649,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         }
         
 		ContentCell *contentCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:ContentCellIdentifier];
-		if (contentCell == nil || didRotate) {
+		if (contentCell == nil) {
 			contentCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease];
 		}
         contentCell.textView.text = p.content;
@@ -616,7 +657,7 @@ const CGFloat kDefaultRowHeight = 44.0;
         
         contentCell.delegate = self;
 		return contentCell;
-	} else if (indexPath.row == 2) {
+	} /*else if (indexPath.row == 2) {
 		UITableViewCell *actionsCell = [tableView dequeueReusableCellWithIdentifier:ActionsCellIdentifier];
 		if (actionsCell == nil) {
 			actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
@@ -625,7 +666,74 @@ const CGFloat kDefaultRowHeight = 44.0;
         actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
 		return actionsCell;
 	}
-    
+    */
+    /*switch (indexPath.row) {
+        case 0: {
+            
+            if (indexPath.section == [self.posts count] && [self.posts count] == 0) { // For the loading cell
+                return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+            }
+            
+            if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
+                if (answerCell == nil) {
+                    self.answerCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)]; 
+                }
+                answerCell.textView.scrollEnabled = YES;
+                answerCell.textView.editable = YES;
+                answerCell.delegate = self;
+                return answerCell;
+            }
+            
+            UITableViewCell *authorCell = [tableView dequeueReusableCellWithIdentifier:AuthorCellIdentifier];
+            if (authorCell == nil) {
+                authorCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:AuthorCellIdentifier] autorelease];
+            }
+            
+            NSDateFormatter *outFormatter = [[NSDateFormatter alloc] init];
+            [outFormatter setDateFormat:@"dd.MM.yyyy HH:mm"];
+            authorCell.textLabel.text = p.author;
+            authorCell.detailTextLabel.textColor = authorCell.textLabel.textColor;
+            authorCell.detailTextLabel.text = [outFormatter stringFromDate:p.postDate];
+            authorCell.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
+            authorCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            if (p.userIsOnline) {
+                authorCell.imageView.image = [UIImage imageNamed:@"online.png"];
+            } else {
+                authorCell.imageView.image = [UIImage imageNamed:@"offline.png"];
+            }
+            [outFormatter release];
+            return authorCell;
+            
+            break;
+        } case 1: {
+            
+            if (indexPath.section == [self.posts count] && [self.posts count] != 0) {
+                UITableViewCell *actionsCell = [tableView dequeueReusableCellWithIdentifier:ActionsCellIdentifier];
+                if (actionsCell == nil) {
+                    actionsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActionsCellIdentifier] autorelease];
+                }
+                actionsCell.textLabel.text = NSLocalizedStringFromTable(@"Answer", @"ATLocalizable", @"");
+                actionsCell.textLabel.textAlignment = UITextAlignmentCenter;
+                actionsCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                return actionsCell;
+            }
+            
+            ContentCell *contentCell = (ContentCell *)[tableView dequeueReusableCellWithIdentifier:ContentCellIdentifier];
+            if (contentCell == nil) {
+                contentCell = [[[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ContentCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)] autorelease];
+            }
+            contentCell.textView.text = p.content;
+            contentCell.textView.scrollEnabled = NO;
+            
+            contentCell.delegate = self;
+            return contentCell;
+            
+            break;
+        } default:{
+            break;
+        }
+    }
+    */
 	return nil;
 }
 
