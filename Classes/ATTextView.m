@@ -11,17 +11,6 @@
 
 @implementation ATTextView
 
-- (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Quote", @"ATLocalizable", @"") action:@selector(quote:)];
-        UIMenuController *menuCont = [UIMenuController sharedMenuController];
-        menuCont.menuItems = [NSArray arrayWithObject:menuItem];
-        [menuItem release];
-    }
-    return self;
-}
-
 - (void)quote:(id)sender {
     SEL selector = @selector(textView:shouldQuoteText:);
     if ([(NSObject *)self.delegate respondsToSelector:selector]) {
@@ -66,6 +55,14 @@
         [[UIMenuController sharedMenuController] setMenuItems:nil];
     }*/
     return result;
+}
+
+- (BOOL)canBecomeFirstResponder {
+    UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Quote", @"ATLocalizable", @"") action:@selector(quote:)];
+    UIMenuController *menuCont = [UIMenuController sharedMenuController];
+    menuCont.menuItems = [NSArray arrayWithObject:menuItem];
+    [menuItem release];
+    return YES;
 }
 
 @end
