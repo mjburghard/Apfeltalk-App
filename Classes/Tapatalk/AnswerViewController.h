@@ -23,6 +23,7 @@
 @property (retain) Topic *topic;
 @property (retain) NSMutableData *receivedData;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil topic:(Topic *)aTopic;
 - (void)cancel;
 
 @end

@@ -27,5 +27,6 @@
 @property (retain) NSDate *postDate;
 @property (assign) BOOL userIsOnline;
 
+- (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
