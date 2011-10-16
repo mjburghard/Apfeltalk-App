@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 #import "DetailViewController.h"
 #import <MessageUI/MessageUI.h>
+#import <Twitter/Twitter.h>
 
 @interface DetailNews : DetailViewController <UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate> {
 	BOOL showSave;

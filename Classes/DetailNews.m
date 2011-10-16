@@ -109,7 +109,7 @@
     if ([self Mailsendecode]) // :below:20100101 This is something of a hack
         [myMenu addButtonWithTitle:[self Mailsendecode]];
     [myMenu addButtonWithTitle:@"Twitter"];
-    [myMenu addButtonWithTitle:@"Facebook"];
+    //[myMenu addButtonWithTitle:@"Facebook"];
     [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")];
     if ([self Mailsendecode])
         myMenu.cancelButtonIndex = 4;
@@ -163,19 +163,29 @@
 	
 	if (buttonIdx == 1 + saveEnabled) {
 		// Twitter
-        NSURL *url = [NSURL URLWithString:story.link];
-        SHKItem *item = [SHKItem URL:url title:story.title];
+        Class tweetControllerClase = NSClassFromString(@"TWTweetComposeViewController");
+        if (tweetControllerClase) {
+            [TWTweetComposeViewController canSendTweet];
+            TWTweetComposeViewController *controller = [[TWTweetComposeViewController alloc] init];
+            [controller setInitialText:story.title];
+            [controller addURL:[NSURL URLWithString:story.link]];
+            [self presentModalViewController:controller animated:YES];
+            [controller release];
+        } else {
+            NSURL *url = [NSURL URLWithString:story.link];
+            SHKItem *item = [SHKItem URL:url title:story.title];
         
-        [SHKTwitter shareItem:item];
+            [SHKTwitter shareItem:item];
+        }
 	}
 	
-	if (buttonIdx == 2 + saveEnabled) {
+	/*if (buttonIdx == 2 + saveEnabled) {
         // FaceBook
         NSURL *url = [NSURL URLWithString:story.link];
         SHKItem *item = [SHKItem URL:url title:story.title];
         
         [SHKFacebook shareItem:item];
-	}
+	}*/
 	
 	if (actionSheet == myMenu) {
 		[myMenu release];		
@@ -272,6 +282,8 @@
 
 - (void)changePage:(UIPageControl *)sender
 {
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5];
     NSInteger page = sender.currentPage;
 
     if (page != self.currentPage)
@@ -282,10 +294,15 @@
         }
         else
         {
+            /*if (self.currentPage > page)
+                [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:webview cache:NO];
+            else
+                [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:webview cache:NO];*/
             self.currentPage = page;
             [webview loadHTMLString:[self htmlString] baseURL:nil];
         }
     }
+    //[UIView commitAnimations];
 }
 
 - (void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer {
@@ -295,7 +312,7 @@
         }
         
     } else if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
-        if (self.pageControl.currentPage > 1) {
+        if (self.pageControl.currentPage > 0) {
             self.pageControl.currentPage -= 1;
         }
     }
@@ -347,9 +364,19 @@
     if (theStory.link && !theStory.author)   // Fill the empty attributes of the current item
     {
         ATMXMLUtilities *xmlUtilities = [ATMXMLUtilities xmlUtilitiesWithURLString:theStory.link];
-
         theStory.author = [xmlUtilities authorName];
         [theStory addStoryPage:[xmlUtilities articleContent]];
+        /*NSString *string = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:theStory.link]];
+        NSString *s = extractTextFromHTMLForQuery(string, @"//form[@id='form_widget_comments']/@action");
+        NSArray *parameters = [s componentsSeparatedByString:@"&"];
+        NSInteger i = 0;
+        for (NSString *str in parameters) {
+            if ([str rangeOfString:@"t="].location != NSNotFound) {
+                i = [[str stringByReplacingOccurrencesOfString:@"t=" withString:@""] integerValue];
+                break;
+            }
+        }
+        [string release];*/
         pagesLinks = [xmlUtilities articlePagesLinks];
         if (pagesLinks)
             [self performSelectorInBackground:@selector(loadArticlePages:) withObject:pagesLinks];
