@@ -104,6 +104,7 @@
     [dict setValue:[NSNumber numberWithBool:cookies] forKey:@"Cookies"];
     [dict setValue:delegate forKey:@"Delegate"];
     self.requestParameters = dict;
+    [dict release];
     NSURL *url = [NSURL URLWithString:[self tapatalkPluginPath]];
     NSData *data = [xmlString dataUsingEncoding:NSASCIIStringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
