@@ -229,6 +229,7 @@
     
     cell.imageView.image = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.textLabel.textAlignment = UITextAlignmentLeft;
     
     if (indexPath.section == 0 && [self.subForum.subFora count] != 0) {
         cell.textLabel.text = [(SubForum *)[self.subForum.subFora objectAtIndex:indexPath.row] title];
