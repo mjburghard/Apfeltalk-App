@@ -162,7 +162,7 @@ didStartElement:(NSString *)elementName
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    [self performSelectorOnMainThread:@selector(parseErrorOccurred:) withObject:parser waitUntilDone:YES];
+    [self performSelectorOnMainThread:@selector(parseErrorOccurred:) withObject:parseError waitUntilDone:YES];
 }
 
 @end
