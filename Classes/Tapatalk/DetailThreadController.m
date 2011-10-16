@@ -10,6 +10,7 @@
 #import "ATWebViewController.h"
 #import "AnswerViewController.h"
 #import "PrivateMessagesViewController.h"
+#import "Apfeltalk_MagazinAppDelegate.h"
 
 @interface DetailThreadController()
 
@@ -452,9 +453,11 @@ const CGFloat kDefaultRowHeight = 44.0;
         [alertView show];
         [alertView release];
     } else {
-        PrivateMessagesViewController *privateMessagesViewController = (PrivateMessagesViewController *)[[(UINavigationController *)[self.tabBarController.viewControllers objectAtIndex:4] viewControllers] objectAtIndex:0];
+        [self dismissModalViewControllerAnimated:NO];
+        UITabBarController *tabBarController = [Apfeltalk_MagazinAppDelegate sharedAppDelegate].tabBarController;
+        PrivateMessagesViewController *privateMessagesViewController = (PrivateMessagesViewController *)[[(UINavigationController *)[tabBarController.viewControllers objectAtIndex:4] viewControllers] objectAtIndex:0];
         [privateMessagesViewController writeMessageWithRecipients:[NSArray arrayWithObject:username]];
-        [self.tabBarController setSelectedIndex:4];
+        [tabBarController setSelectedIndex:4];
     }
 }
 
