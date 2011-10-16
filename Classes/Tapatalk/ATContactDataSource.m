@@ -36,7 +36,7 @@
     
     self.items = nil;
     
-    self.items = [NSMutableArray new];
+    self.items = [NSMutableArray array];
     int countPeople = [((ATContactModel *)self.model).searchResults count];
     
     for (int i = 0; i < countPeople; i++) {
