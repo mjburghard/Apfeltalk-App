@@ -17,21 +17,42 @@
         NSString *quoteString;
         if (self.selectedRange.length == 0) {
             quoteString = self.text;
-            while ([quoteString rangeOfString:@"Zitat:\n---------\n"].location != NSNotFound) {
-                NSRange range = [quoteString rangeOfString:@"Zitat:\n---------\n"];
+            while ([quoteString rangeOfString:@"Zitat:\n----------------------------------------\n"].location != NSNotFound) {
+                NSRange range = [quoteString rangeOfString:@"Zitat:\n----------------------------------------\n"];
                 NSScanner *scanner = [NSScanner scannerWithString:self.text];
                 NSUInteger pos = range.location+range.length;
                 NSLog(@"Position: %lu", (unsigned long)[scanner scanLocation]);
                 [scanner setScanLocation:pos];
                 NSLog(@"Position: %lu", (unsigned long)[scanner scanLocation]);
-                [scanner scanUpToString:@"\n---------\n" intoString:NULL];
+                [scanner scanUpToString:@"\n----------------------------------------\n" intoString:NULL];
                 NSLog(@"Position: %lu", (unsigned long)[scanner scanLocation]);
                 NSLog(@"Text length: %lu", (unsigned long)self.text.length);
                 NSRange quoteRange = NSMakeRange(pos,([scanner scanLocation] - pos));
-                NSString *s = [NSString stringWithFormat:@"Zitat:\n---------\n%@\n---------\n", [quoteString substringWithRange:quoteRange]];
+                NSString *s = [NSString stringWithFormat:@"Zitat:\n----------------------------------------\n%@\n----------------------------------------\n", [quoteString substringWithRange:quoteRange]];
                 quoteString = [quoteString stringByReplacingOccurrencesOfString:s withString:@""];
                 quoteString = [quoteString stringByReplacingCharactersInRange:quoteRange withString:@""];
             }
+            
+            while (([quoteString rangeOfString:@"Zitat von "].location != NSNotFound) && ([quoteString rangeOfString:@":\n----------------------------------------\n"].location != NSNotFound)) {
+                NSRange headerRange = [quoteString rangeOfString:@"Zitat von "];
+                NSRange range = [quoteString rangeOfString:@":\n----------------------------------------\n"];
+                headerRange.length += range.length + (range.location - (headerRange.location + headerRange.length));
+                NSString *quoteHeader = [quoteString substringWithRange:headerRange];
+                
+                NSScanner *scanner = [NSScanner scannerWithString:self.text];
+                NSUInteger pos = range.location+range.length;
+                NSLog(@"Position: %lu", (unsigned long)[scanner scanLocation]);
+                [scanner setScanLocation:pos];
+                NSLog(@"Position: %lu", (unsigned long)[scanner scanLocation]);
+                [scanner scanUpToString:@"\n----------------------------------------\n" intoString:NULL];
+                NSLog(@"Position: %lu", (unsigned long)[scanner scanLocation]);
+                NSLog(@"Text length: %lu", (unsigned long)self.text.length);
+                NSRange quoteRange = NSMakeRange(pos,([scanner scanLocation] - pos));
+                NSString *s = [NSString stringWithFormat:@"%@%@\n----------------------------------------\n", quoteHeader, [quoteString substringWithRange:quoteRange]];
+                quoteString = [quoteString stringByReplacingOccurrencesOfString:s withString:@""];
+                quoteString = [quoteString stringByReplacingCharactersInRange:quoteRange withString:@""];
+            }
+            
         } else {
             quoteString = [self.text substringWithRange:self.selectedRange];
         } 
