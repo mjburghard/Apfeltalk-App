@@ -42,7 +42,7 @@
         NSString *username = [string substringWithRange:NSMakeRange(location, length)];
         location = quoteRange.location;
         quoteRange = NSMakeRange(location, [scanner scanLocation] + 6 - location);
-        string = [string stringByReplacingCharactersInRange:quoteRange withString:[NSString stringWithFormat:@"Zitat von %@:\n----------------------------------------", username]];
+        string = [string stringByReplacingCharactersInRange:quoteRange withString:[NSString stringWithFormat:@"Zitat von %@:\n----------------------------------------\n", username]];
         quoteRange = [string rangeOfString:@"[quote][url=" options:NSCaseInsensitiveSearch];
     }
     
