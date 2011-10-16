@@ -39,7 +39,7 @@
 - (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
 @end
 
-@interface RootViewController : UITableViewController <ATXMLParserDelegateProtocol, MFMailComposeViewControllerDelegate, EGORefreshTableHeaderDelegate, UISplitViewControllerDelegate>
+@interface RootViewController : UITableViewController <ATXMLParserDelegateProtocol, MFMailComposeViewControllerDelegate, EGORefreshTableHeaderDelegate, UISplitViewControllerDelegate, NSURLConnectionDelegate>
 {
 	IBOutlet UITableView * newsTable;
 	IBOutlet UITableViewCell *loadingCell;
