@@ -165,12 +165,13 @@
 		// Twitter
         Class tweetControllerClase = NSClassFromString(@"TWTweetComposeViewController");
         if (tweetControllerClase) {
-            [TWTweetComposeViewController canSendTweet];
-            TWTweetComposeViewController *controller = [[TWTweetComposeViewController alloc] init];
-            [controller setInitialText:story.title];
-            [controller addURL:[NSURL URLWithString:story.link]];
-            [self presentModalViewController:controller animated:YES];
-            [controller release];
+            if ([TWTweetComposeViewController canSendTweet]) {
+                TWTweetComposeViewController *controller = [[TWTweetComposeViewController alloc] init];
+                [controller setInitialText:story.title];
+                [controller addURL:[NSURL URLWithString:story.link]];
+                [self presentModalViewController:controller animated:YES];
+                [controller release];
+            }
         } else {
             NSURL *url = [NSURL URLWithString:story.link];
             SHKItem *item = [SHKItem URL:url title:story.title];
