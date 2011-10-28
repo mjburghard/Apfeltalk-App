@@ -15,8 +15,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 
 - (void)parse {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    XMLRPCResponseParser *parser = [XMLRPCResponseParser parserWithData:self.receivedData delegate:self];
+    XMLRPCResponseParser *parser = [[XMLRPCResponseParser alloc] initWithData:self.receivedData delegate:self];
     [parser parse];
+    [parser release];
+    self.receivedData = nil;
     [pool release];
 }
 
@@ -113,7 +115,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(User)
 - (void)parserDidFinishWithObject:(NSObject *)dictionaryOrArray ofType:(XMLRPCResultType)type {
     if (self.isLoadingFriends) {
         self.isLoadingFriends = NO;
-        NSLog(@"%@", dictionaryOrArray);
         return;
     }
     if (type == XMLRPCResultTypeDictionary) {
