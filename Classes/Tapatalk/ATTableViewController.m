@@ -141,9 +141,11 @@
                                               cancelButtonTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"") 
                                               otherButtonTitles:NSLocalizedStringFromTable(@"Login", @"ATLocalizable", @""), nil];
     alertView.tag = 0;
-    self.usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
+    UITextField *uField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
+    UITextField *pField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 75.0, 260.0, 25.0)];
+    self.usernameTextField = uField;
+    self.passwordTextField = pField;
     [usernameTextField setBackgroundColor:[UIColor whiteColor]];
-    self.passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 75.0, 260.0, 25.0)];
     [passwordTextField setBackgroundColor:[UIColor whiteColor]];
     usernameTextField.placeholder = NSLocalizedStringFromTable(@"Username", @"ATLocalizable", @"");
     passwordTextField.placeholder = NSLocalizedStringFromTable(@"Password", @"ATLocalizable", @"");
@@ -155,6 +157,8 @@
     
     [alertView show];
     [alertView release];
+    [uField release];
+    [pField release];
 }
 
 - (void)logout {
