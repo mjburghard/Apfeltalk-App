@@ -110,13 +110,13 @@
     myMenu.title = nil;
     myMenu.delegate = self;
     [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Send Mail", @"ATLocalizable", @"")];
-    if ([self Mailsendecode]) // :below:20100101 This is something of a hack
+    if ([self showSaveButton]) // :below:20100101 This is something of a hack
         [myMenu addButtonWithTitle:[self Mailsendecode]];
     [myMenu addButtonWithTitle:@"Twitter"];
     //[myMenu addButtonWithTitle:@"Facebook"];
     NSInteger lastButtonIndex = [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")];
     
-    myMenu.cancelButtonIndex = lastButtonIndex + [self showSaveButton] + 1;
+    myMenu.cancelButtonIndex = lastButtonIndex;
 	
     [myMenu showFromTabBar:[[appDelegate tabBarController] tabBar]];
 }
@@ -194,6 +194,10 @@
 		[myMenu release];		
 		myMenu = nil;
 	}
+}
+
+- (void)actionSheetCancel:(UIActionSheet *)actionSheet {
+    
 }
 
 - (void)updateInterface
