@@ -83,4 +83,6 @@
 - (BOOL)isShake:(UIAcceleration *)acceleration;
 - (void)activateShakeToReload:(id)delegate;
 
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
+
 @end
