@@ -71,7 +71,7 @@
     [super dealloc];
 }
 
-- (NSString *) Mailsendecode {
+- (NSInteger)showSaveButton {
     UINavigationController *navController;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         navController = [self navigationController];
@@ -84,11 +84,15 @@
     if ([self showSave] && [newsController isSavedStory:[self story]])
         [self setShowSave:NO];
 	
-    if (![self showSave]) {
-		return nil;
-	} else {
-		return NSLocalizedStringFromTable(@"Save", @"ATLocalizable", @"");
-	}
+    if (![self showSave])
+		return 0;
+    return 1;
+}
+
+- (NSString *) Mailsendecode {
+    if ([self showSaveButton])
+        return NSLocalizedStringFromTable(@"Save", @"ATLocalizable", @"");
+    return nil;
 }
 
 - (void) status_updateCallback: (NSData *) content {
@@ -110,19 +114,17 @@
         [myMenu addButtonWithTitle:[self Mailsendecode]];
     [myMenu addButtonWithTitle:@"Twitter"];
     //[myMenu addButtonWithTitle:@"Facebook"];
-    [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")];
-    if ([self Mailsendecode])
-        myMenu.cancelButtonIndex = 4;
-    else
-        myMenu.cancelButtonIndex = 3;
-    	
+    NSInteger lastButtonIndex = [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")];
+    
+    myMenu.cancelButtonIndex = lastButtonIndex + [self showSaveButton] + 1;
+	
     [myMenu showFromTabBar:[[appDelegate tabBarController] tabBar]];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIdx
 {	
 	// int numberOfButtons = [actionSheet numberOfButtons]; not used
-	int saveEnabled = [self Mailsendecode]?1:0;
+	int saveEnabled = [self showSaveButton];
     
 	// assume that when we have 3 buttons, the one with idx 1 is the save button
     // :below:20091220 This assumption is not correct, We should find a smarter way
