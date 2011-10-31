@@ -8,16 +8,16 @@
 			<key>Type</key>
 			<string>PSMultiValueSpecifier</string>
 			<key>Title</key>
-			<string>Schriftgröße</string>
+			<string>fontSize</string>
 			<key>Key</key>
 			<string>fontSize</string>
 			<key>DefaultValue</key>
 			<string>12</string>
 			<key>Titles</key>
 			<array>
-				<string>Groß</string>
-				<string>Normal</string>
-				<string>Klein</string>
+				<string>big</string>
+				<string>normal</string>
+				<string>small</string>
 			</array>
 			<key>Values</key>
 			<array>
