@@ -71,7 +71,7 @@
     [super dealloc];
 }
 
-- (NSString *) Mailsendecode {
+- (NSInteger)showSaveButton {
     UINavigationController *navController;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         navController = [self navigationController];
@@ -84,11 +84,15 @@
     if ([self showSave] && [newsController isSavedStory:[self story]])
         [self setShowSave:NO];
 	
-    if (![self showSave]) {
-		return nil;
-	} else {
-		return NSLocalizedStringFromTable(@"Save", @"ATLocalizable", @"");
-	}
+    if (![self showSave])
+		return 0;
+    return 1;
+}
+
+- (NSString *) Mailsendecode {
+    if ([self showSaveButton])
+        return NSLocalizedStringFromTable(@"Save", @"ATLocalizable", @"");
+    return nil;
 }
 
 - (void) status_updateCallback: (NSData *) content {
@@ -106,23 +110,21 @@
     myMenu.title = nil;
     myMenu.delegate = self;
     [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Send Mail", @"ATLocalizable", @"")];
-    if ([self Mailsendecode]) // :below:20100101 This is something of a hack
+    if ([self showSaveButton]) // :below:20100101 This is something of a hack
         [myMenu addButtonWithTitle:[self Mailsendecode]];
     [myMenu addButtonWithTitle:@"Twitter"];
     //[myMenu addButtonWithTitle:@"Facebook"];
-    [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")];
-    if ([self Mailsendecode])
-        myMenu.cancelButtonIndex = 4;
-    else
-        myMenu.cancelButtonIndex = 3;
-    	
+    NSInteger lastButtonIndex = [myMenu addButtonWithTitle:NSLocalizedStringFromTable(@"Cancel", @"ATLocalizable", @"")];
+    
+    myMenu.cancelButtonIndex = lastButtonIndex;
+	
     [myMenu showFromTabBar:[[appDelegate tabBarController] tabBar]];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIdx
 {	
 	// int numberOfButtons = [actionSheet numberOfButtons]; not used
-	int saveEnabled = [self Mailsendecode]?1:0;
+	int saveEnabled = [self showSaveButton];
     
 	// assume that when we have 3 buttons, the one with idx 1 is the save button
     // :below:20091220 This assumption is not correct, We should find a smarter way
@@ -165,12 +167,13 @@
 		// Twitter
         Class tweetControllerClase = NSClassFromString(@"TWTweetComposeViewController");
         if (tweetControllerClase) {
-            [TWTweetComposeViewController canSendTweet];
-            TWTweetComposeViewController *controller = [[TWTweetComposeViewController alloc] init];
-            [controller setInitialText:story.title];
-            [controller addURL:[NSURL URLWithString:story.link]];
-            [self presentModalViewController:controller animated:YES];
-            [controller release];
+            if ([TWTweetComposeViewController canSendTweet]) {
+                TWTweetComposeViewController *controller = [[TWTweetComposeViewController alloc] init];
+                [controller setInitialText:story.title];
+                [controller addURL:[NSURL URLWithString:story.link]];
+                [self presentModalViewController:controller animated:YES];
+                [controller release];
+            }
         } else {
             NSURL *url = [NSURL URLWithString:story.link];
             SHKItem *item = [SHKItem URL:url title:story.title];
@@ -191,6 +194,10 @@
 		[myMenu release];		
 		myMenu = nil;
 	}
+}
+
+- (void)actionSheetCancel:(UIActionSheet *)actionSheet {
+    
 }
 
 - (void)updateInterface
@@ -282,8 +289,8 @@
 
 - (void)changePage:(UIPageControl *)sender
 {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5];
+    /*[UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5];*/
     NSInteger page = sender.currentPage;
 
     if (page != self.currentPage)

@@ -689,6 +689,7 @@ const CGFloat kDefaultRowHeight = 44.0;
                 
                 if (answerCell == nil) {
                     self.answerCell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AnswerCellIdentifier  tableViewWidth:CGRectGetWidth(self.tableView.frame)]; 
+                    [answerCell release];
                 }
                 answerCell.textView.scrollEnabled = YES;
                 answerCell.textView.editable = YES;

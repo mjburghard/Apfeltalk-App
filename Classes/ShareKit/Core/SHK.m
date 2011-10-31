@@ -178,15 +178,17 @@ BOOL SHKinit;
 	
 	if (currentView != nil)
 	{
-		// Dismiss the modal view
-		if ([currentView parentViewController] != nil)
-		{
-			self.isDismissingView = YES;
-			[[currentView parentViewController] dismissModalViewControllerAnimated:animated];
-		}
 		
-		else
-			self.currentView = nil;
+        SEL method = @selector(parentViewController);
+        
+        if ([currentView respondsToSelector:@selector(presentingViewController)])
+            method = @selector(presentingViewController);
+        
+        if ([currentView performSelector:method] != nil) {
+            self.isDismissingView = YES;
+            [[currentView performSelector:method] dismissModalViewControllerAnimated:animated];
+        } else 
+            self.currentView = nil;
 	}
 }
 
@@ -293,6 +295,8 @@ BOOL SHKinit;
 			case SHKShareTypeFile:
 				favoriteSharers = [NSArray arrayWithObjects:@"SHKMail", nil];
 				break;
+            case SHKShareTypeUndefined:
+                break;
 		}
 		
 		// Save defaults to prefs
