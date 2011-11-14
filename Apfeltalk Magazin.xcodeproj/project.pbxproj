@@ -126,7 +126,10 @@
 		5E7A6496140451BD009869EB /* Box.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7A6495140451B5009869EB /* Box.m */; };
 		5E7BDC81140255E800FD01D7 /* XMLRPCResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E7BDC80140255E800FD01D7 /* XMLRPCResponseParser.m */; };
 		5E7D61F313CB83FA00155444 /* thread_dot_lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E7D61F113CB83FA00155444 /* thread_dot_lock.png */; };
+		5E802D281463480F008797CF /* ATImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E802D271463480F008797CF /* ATImagePickerController.m */; };
 		5E80BADC1375786700F524B6 /* ATLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E80BADA1375762500F524B6 /* ATLocalizable.strings */; };
+		5E821E2714701BD000DBAC75 /* ATImageUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E821E2514701BD000DBAC75 /* ATImageUploadViewController.m */; };
+		5E821E2814701BD000DBAC75 /* ATImageUploadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E821E2614701BD000DBAC75 /* ATImageUploadViewController.xib */; };
 		5E8D91201352355700274017 /* SHKOAuthSharer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D90861352355700274017 /* SHKOAuthSharer.m */; };
 		5E8D91211352355700274017 /* SHKSharer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D90881352355700274017 /* SHKSharer.m */; };
 		5E8D91221352355700274017 /* UIWebView+SHK.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8D908B1352355700274017 /* UIWebView+SHK.m */; };
@@ -208,6 +211,9 @@
 		5EC265F7136999D3006A10DE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC265DF136999D3006A10DE /* User.m */; };
 		5EC2660D1369AAE1006A10DE /* ATWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC2660C1369AAE1006A10DE /* ATWebViewController.m */; };
 		5EC2660F1369AB18006A10DE /* ATWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC2660E1369AB18006A10DE /* ATWebViewController.xib */; };
+		5EC33E6F146EB989006630E1 /* GalleryTopController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC33E6E146EB989006630E1 /* GalleryTopController.m */; };
+		5EC33E71146EBFD7006630E1 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5EC33E70146EBFD7006630E1 /* DetailViewController.xib */; };
+		5EC33E74146EDC41006630E1 /* Gallery.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC33E73146EDC41006630E1 /* Gallery.m */; };
 		5EC839D2140D2CA20060F44E /* ATContactPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC839D1140D2CA20060F44E /* ATContactPicker.m */; };
 		5EC839D5140D345D0060F44E /* ATContactPickerList.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC839D4140D345B0060F44E /* ATContactPickerList.m */; };
 		5ED68E98136F379600AB9E4F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED68E99136F379600AB9E4F /* MainWindow.xib */; };
@@ -542,8 +548,13 @@
 		5E7BDC7F140255E800FD01D7 /* XMLRPCResponseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLRPCResponseParser.h; sourceTree = "<group>"; };
 		5E7BDC80140255E800FD01D7 /* XMLRPCResponseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCResponseParser.m; sourceTree = "<group>"; };
 		5E7D61F113CB83FA00155444 /* thread_dot_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thread_dot_lock.png; sourceTree = "<group>"; };
+		5E802D261463480F008797CF /* ATImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATImagePickerController.h; sourceTree = "<group>"; };
+		5E802D271463480F008797CF /* ATImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATImagePickerController.m; sourceTree = "<group>"; };
 		5E80BAD91375762500F524B6 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
 		5E80BADB1375762C00F524B6 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ATLocalizable.strings; sourceTree = "<group>"; };
+		5E821E2414701BD000DBAC75 /* ATImageUploadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATImageUploadViewController.h; sourceTree = "<group>"; };
+		5E821E2514701BD000DBAC75 /* ATImageUploadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATImageUploadViewController.m; sourceTree = "<group>"; };
+		5E821E2614701BD000DBAC75 /* ATImageUploadViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ATImageUploadViewController.xib; path = Classes/ATImageUploadViewController.xib; sourceTree = "<group>"; };
 		5E8D90851352355700274017 /* SHKOAuthSharer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKOAuthSharer.h; sourceTree = "<group>"; };
 		5E8D90861352355700274017 /* SHKOAuthSharer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKOAuthSharer.m; sourceTree = "<group>"; };
 		5E8D90871352355700274017 /* SHKSharer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKSharer.h; sourceTree = "<group>"; };
@@ -705,6 +716,11 @@
 		5EC2660B1369AAE0006A10DE /* ATWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATWebViewController.h; path = Tapatalk/ATWebViewController.h; sourceTree = "<group>"; };
 		5EC2660C1369AAE1006A10DE /* ATWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATWebViewController.m; path = Tapatalk/ATWebViewController.m; sourceTree = "<group>"; };
 		5EC2660E1369AB18006A10DE /* ATWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ATWebViewController.xib; sourceTree = "<group>"; };
+		5EC33E6D146EB989006630E1 /* GalleryTopController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryTopController.h; sourceTree = "<group>"; };
+		5EC33E6E146EB989006630E1 /* GalleryTopController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryTopController.m; sourceTree = "<group>"; };
+		5EC33E70146EBFD7006630E1 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		5EC33E72146EDC41006630E1 /* Gallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gallery.h; sourceTree = "<group>"; };
+		5EC33E73146EDC41006630E1 /* Gallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gallery.m; sourceTree = "<group>"; };
 		5EC839D0140D2CA20060F44E /* ATContactPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATContactPicker.h; sourceTree = "<group>"; };
 		5EC839D1140D2CA20060F44E /* ATContactPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATContactPicker.m; sourceTree = "<group>"; };
 		5EC839D3140D345A0060F44E /* ATContactPickerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATContactPickerList.h; sourceTree = "<group>"; };
@@ -873,6 +889,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5E821E2614701BD000DBAC75 /* ATImageUploadViewController.xib */,
 				320B6C86F11D9990244A9730 /* Three20.bundle */,
 				5E97FE3D1405AD5D00DC2906 /* BoxViewController.xib */,
 				5E600BCB14017E3300187988 /* WriteMessageViewController.xib */,
@@ -905,6 +922,7 @@
 				5E34A86B139AFAE4009604AC /* GCImageViewer~ipad.xib */,
 				5AA9412113B9C52B0072DEC7 /* SearchResultsViewController.xib */,
 				5AA9412513B9C6E80072DEC7 /* SubscriptionsViewController.xib */,
+				5EC33E70146EBFD7006630E1 /* DetailViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1520,6 +1538,8 @@
 			children = (
 				CB15C8CC1049A0CF00360BDC /* Story.h */,
 				CB15C8CD1049A0CF00360BDC /* Story.m */,
+				5EC33E72146EDC41006630E1 /* Gallery.h */,
+				5EC33E73146EDC41006630E1 /* Gallery.m */,
 			);
 			name = "Story Containers";
 			sourceTree = "<group>";
@@ -1554,6 +1574,8 @@
 				4C6788331052C74E00635F55 /* LivetickerController.m */,
 				4CC030DC1055D4340039DAB5 /* LivetickerNavigationController.h */,
 				4CC030DD1055D4340039DAB5 /* LivetickerNavigationController.m */,
+				5EC33E6D146EB989006630E1 /* GalleryTopController.h */,
+				5EC33E6E146EB989006630E1 /* GalleryTopController.m */,
 			);
 			name = "Master View Controllers";
 			sourceTree = "<group>";
@@ -1565,6 +1587,10 @@
 				5EC2660C1369AAE1006A10DE /* ATWebViewController.m */,
 				F6730BE1134A70B40045B876 /* GCImageViewer.h */,
 				F6730BE2134A70B40045B876 /* GCImageViewer.m */,
+				5E802D261463480F008797CF /* ATImagePickerController.h */,
+				5E802D271463480F008797CF /* ATImagePickerController.m */,
+				5E821E2414701BD000DBAC75 /* ATImageUploadViewController.h */,
+				5E821E2514701BD000DBAC75 /* ATImageUploadViewController.m */,
 			);
 			name = "Helper View Controllers";
 			sourceTree = "<group>";
@@ -1860,6 +1886,8 @@
 				5E600BCD14017E3600187988 /* WriteMessageViewController.xib in Resources */,
 				5E97FE3F1405AD5F00DC2906 /* BoxViewController.xib in Resources */,
 				4C0E121A140A8E2A00C4DCB4 /* HTMLEntities.plist in Resources */,
+				5EC33E71146EBFD7006630E1 /* DetailViewController.xib in Resources */,
+				5E821E2814701BD000DBAC75 /* ATImageUploadViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1985,6 +2013,10 @@
 				5EC839D2140D2CA20060F44E /* ATContactPicker.m in Sources */,
 				5EC839D5140D345D0060F44E /* ATContactPickerList.m in Sources */,
 				5E54C8E7140E3D08007C1098 /* DetailMessageViewController.m in Sources */,
+				5E802D281463480F008797CF /* ATImagePickerController.m in Sources */,
+				5EC33E6F146EB989006630E1 /* GalleryTopController.m in Sources */,
+				5EC33E74146EDC41006630E1 /* Gallery.m in Sources */,
+				5E821E2714701BD000DBAC75 /* ATImageUploadViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
