@@ -54,7 +54,6 @@
 				<object class="NSPSMatrix" key="NSFrameMatrix"/>
 				<string key="NSFrameSize">{768, 1024}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -100,12 +99,12 @@
 				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 				<bool key="IBUIHorizontal">YES</bool>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="339608518">
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="639888864">
-						<string key="IBUITitle">News</string>
+				<object class="IBUINavigationController" key="IBUISelectedViewController" id="495321501">
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="1068159736">
+						<string key="IBUITitle">Gallery</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">magazin.png</string>
+							<string key="NSResourceName">gallery.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
@@ -117,7 +116,7 @@
 					</object>
 					<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					<bool key="IBUIHorizontal">NO</bool>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="424012101">
+					<object class="IBUINavigationBar" key="IBUINavigationBar" id="145284526">
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrameSize">{0, 0}</string>
@@ -127,16 +126,16 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSColor" key="IBUITintColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC42NzM0Njk0MjQyIDAuMDM4MDgwOTQxODkgMC4wNTI2OTg2NTY5MgA</bytes>
+							<bytes key="NSRGB">MC42NzQ1MDk4MjMzIDAuMDM5MjE1Njg3NjYgMC4wNTA5ODAzOTI4NAA</bytes>
 						</object>
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUIViewController" id="251304095">
-							<object class="IBUITableView" key="IBUIView" id="901649474">
+						<object class="IBUIViewController" id="554498597">
+							<object class="IBUITableView" key="IBUIView" id="379337192">
 								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{0, 20}, {1024, 699}}</string>
+								<string key="NSFrame">{{0, 20}, {1024, 655}}</string>
 								<reference key="NSSuperview"/>
 								<reference key="NSNextKeyView"/>
 								<object class="NSColor" key="IBUIBackgroundColor" id="842465458">
@@ -156,23 +155,23 @@
 								<float key="IBUISectionHeaderHeight">10</float>
 								<float key="IBUISectionFooterHeight">10</float>
 							</object>
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="641780202">
-								<string key="IBUITitle">News</string>
-								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="881086681">
+							<object class="IBUINavigationItem" key="IBUINavigationItem" id="578556686">
+								<string key="IBUITitle">Gallery</string>
+								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="1063302258">
 									<string key="IBUITitle">Safari</string>
 									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 									<int key="IBUIStyle">1</int>
-									<reference key="IBUINavigationItem" ref="641780202"/>
+									<reference key="IBUINavigationItem" ref="578556686"/>
 								</object>
-								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="920440853">
+								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="10674722">
 									<string key="IBUITitle">Hilfe</string>
 									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 									<int key="IBUIStyle">1</int>
-									<reference key="IBUINavigationItem" ref="641780202"/>
+									<reference key="IBUINavigationItem" ref="578556686"/>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
-							<reference key="IBUIParentViewController" ref="339608518"/>
+							<reference key="IBUIParentViewController" ref="495321501"/>
 							<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 								<int key="IBUIInterfaceOrientation">1</int>
 								<int key="interfaceOrientation">1</int>
@@ -184,13 +183,12 @@
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<reference ref="339608518"/>
-					<object class="IBUINavigationController" id="495321501">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="1068159736">
-							<string key="IBUITitle">Gallery</string>
+					<object class="IBUINavigationController" id="339608518">
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="639888864">
+							<string key="IBUITitle">News</string>
 							<object class="NSCustomResource" key="IBUIImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">gallery.png</string>
+								<string key="NSResourceName">magazin.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						</object>
@@ -202,7 +200,7 @@
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<bool key="IBUIHorizontal">NO</bool>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="145284526">
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="424012101">
 							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrameSize">{0, 0}</string>
@@ -212,16 +210,16 @@
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							<object class="NSColor" key="IBUITintColor">
 								<int key="NSColorSpace">1</int>
-								<bytes key="NSRGB">MC42NzQ1MDk4MjMzIDAuMDM5MjE1Njg3NjYgMC4wNTA5ODAzOTI4NAA</bytes>
+								<bytes key="NSRGB">MC42NzM0Njk0MjQyIDAuMDM4MDgwOTQxODkgMC4wNTI2OTg2NTY5MgA</bytes>
 							</object>
 						</object>
 						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUIViewController" id="554498597">
-								<object class="IBUITableView" key="IBUIView" id="379337192">
+							<object class="IBUIViewController" id="251304095">
+								<object class="IBUITableView" key="IBUIView" id="901649474">
 									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
-									<string key="NSFrame">{{0, 64}, {1024, 655}}</string>
+									<string key="NSFrame">{{0, 20}, {1024, 699}}</string>
 									<reference key="IBUIBackgroundColor" ref="842465458"/>
 									<bool key="IBUIOpaque">NO</bool>
 									<bool key="IBUIClipsSubviews">YES</bool>
@@ -236,23 +234,23 @@
 									<float key="IBUISectionHeaderHeight">10</float>
 									<float key="IBUISectionFooterHeight">10</float>
 								</object>
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="578556686">
-									<string key="IBUITitle">Gallery</string>
-									<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="1063302258">
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="641780202">
+									<string key="IBUITitle">News</string>
+									<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="881086681">
 										<string key="IBUITitle">Safari</string>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<int key="IBUIStyle">1</int>
-										<reference key="IBUINavigationItem" ref="578556686"/>
+										<reference key="IBUINavigationItem" ref="641780202"/>
 									</object>
-									<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="10674722">
+									<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="920440853">
 										<string key="IBUITitle">Hilfe</string>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<int key="IBUIStyle">1</int>
-										<reference key="IBUINavigationItem" ref="578556686"/>
+										<reference key="IBUINavigationItem" ref="641780202"/>
 									</object>
 									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								</object>
-								<reference key="IBUIParentViewController" ref="495321501"/>
+								<reference key="IBUIParentViewController" ref="339608518"/>
 								<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 									<int key="IBUIInterfaceOrientation">1</int>
 									<int key="interfaceOrientation">1</int>
@@ -262,6 +260,7 @@
 							</object>
 						</object>
 					</object>
+					<reference ref="495321501"/>
 					<object class="IBUINavigationController" id="112103980">
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="1028248403">
 							<string key="IBUITitle">Forum</string>
@@ -485,7 +484,7 @@
 				<object class="IBUITabBar" key="IBUITabBar" id="795333663">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">266</int>
-					<string key="NSFrame">{{0, 719}, {1024, 49}}</string>
+					<string key="NSFrame">{{0, 675}, {1024, 49}}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
@@ -542,6 +541,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">galleryTopController</string>
+						<reference key="source" ref="664661524"/>
+						<reference key="destination" ref="554498597"/>
+					</object>
+					<int key="connectionID">245</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">newsTable</string>
 						<reference key="source" ref="251304095"/>
 						<reference key="destination" ref="901649474"/>
@@ -582,14 +589,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">newsTable</string>
-						<reference key="source" ref="554498597"/>
-						<reference key="destination" ref="379337192"/>
-					</object>
-					<int key="connectionID">151</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="379337192"/>
 						<reference key="destination" ref="554498597"/>
@@ -610,7 +609,7 @@
 						<reference key="source" ref="1063302258"/>
 						<reference key="destination" ref="554498597"/>
 					</object>
-					<int key="connectionID">155</int>
+					<int key="connectionID">243</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -618,7 +617,7 @@
 						<reference key="source" ref="10674722"/>
 						<reference key="destination" ref="554498597"/>
 					</object>
-					<int key="connectionID">154</int>
+					<int key="connectionID">244</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -1085,7 +1084,7 @@
 						<integer value="0" key="NS.object.0"/>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>GalleryController</string>
+					<string>GalleryTopController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1155,7 +1154,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">242</int>
+			<int key="maxID">246</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

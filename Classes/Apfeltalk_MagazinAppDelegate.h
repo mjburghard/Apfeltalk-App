@@ -24,6 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LivetickerNavigationController.h"
+#import "GalleryTopController.h"
 
 @interface Apfeltalk_MagazinAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UIWindow *window;
@@ -31,10 +32,12 @@
     IBOutlet UINavigationController *newsController;
     IBOutlet UINavigationController *galleryController;
     IBOutlet LivetickerNavigationController *livetickerController;
+    IBOutlet GalleryTopController *galleryTopController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic, retain) IBOutlet GalleryTopController *galleryTopController;
 
 + (Apfeltalk_MagazinAppDelegate *)sharedAppDelegate;
 - (void)login;

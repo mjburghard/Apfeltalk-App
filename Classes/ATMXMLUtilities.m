@@ -48,7 +48,6 @@ NSString *const kItemPagesLinksKey = @"pagesLinks";
     return self;
 }
 
-
 - (void)dealloc
 {
     if (theXMLDoc)
@@ -201,6 +200,47 @@ NSString *const kItemPagesLinksKey = @"pagesLinks";
     return pagesLinks;
 }
 
+- (NSInteger)topicIDOfCommentsTopic {
+    NSInteger topicID = 0;
+    NSString *xPath = @"//form[@id='form_widget_comments']/@action";
+    
+    NSString *value = [self extractTextForQuery:xPath];
+    
+    NSLog(@"%@", value);
+    
+    return topicID;
+}
+
+- (NSString *)extractTextForQuery:(NSString *)query {
+    NSString *value = nil;
+    if (query)
+    {
+        xmlXPathContextPtr xpathContext = xmlXPathNewContext(theXMLDoc);
+        if (xpathContext)
+        {
+            xmlXPathObjectPtr xpathObject = xmlXPathEvalExpression((xmlChar *)[query UTF8String], xpathContext);
+            if (xpathObject)
+            {
+                if ((xpathObject->type == XPATH_NODESET) && (xpathObject->nodesetval) && (xpathObject->nodesetval->nodeNr == 1))
+                {
+                    xmlNodePtr node = xpathObject->nodesetval->nodeTab[0];
+                    if (node->children)
+                    {
+                        node = node->children;
+                        if (node->content)
+                            value = [NSString stringWithCString:(char *)node->content encoding:NSUTF8StringEncoding];
+                    }
+                }
+                
+                xmlXPathFreeObject(xpathObject);
+            }
+            
+            xmlXPathFreeContext(xpathContext);
+        }
+    }
+    return value;
+}
+
 @end
 
 
@@ -240,4 +280,44 @@ NSString *extractTextFromHTMLForQuery (NSString *htmlInput, NSString *query)
     xmlCleanupParser();
 
     return value;
+}
+
+NSArray *extractNodesFromHTMLForQuery (NSString *htmlInput, NSString *query)
+{
+    NSMutableArray *array = nil;
+    
+    NSData *data = [htmlInput dataUsingEncoding:NSUTF8StringEncoding];
+    htmlDocPtr	doc = htmlReadMemory([data bytes],[data length], NULL, NULL, 0);
+    // Create xpath evaluation context
+    xmlXPathContextPtr xpathCtx = xmlXPathNewContext(doc);
+    
+    xmlChar * xpathExpr = (xmlChar*)[query UTF8String];
+    
+    xmlXPathObjectPtr xpathObj = xmlXPathEvalExpression(xpathExpr, xpathCtx);
+    if(xpathObj == NULL)
+    {
+        fprintf(stderr,"Error: unable to evaluate xpath expression \"%s\"\n", xpathExpr);
+    }
+    else
+    {
+        xmlNodeSetPtr nodeset = xpathObj->nodesetval;
+        if (nodeset)
+        {
+            array = [NSMutableArray array];
+            for (int i = 0; i < (nodeset->nodeNr); i++) {
+                xmlNodePtr nodeTab = nodeset->nodeTab[i];
+                xmlNodePtr child = nodeTab->children;
+                if (!child)
+                    child = nodeTab;
+                [array addObject:[NSString stringWithCString:(char*)child->content encoding:NSUTF8StringEncoding]];
+            }
+        }
+        xmlXPathFreeObject(xpathObj);
+    }
+    
+    xmlXPathFreeContext(xpathCtx);
+    xmlFreeDoc(doc);
+    xmlCleanupParser();
+    
+    return array;
 }

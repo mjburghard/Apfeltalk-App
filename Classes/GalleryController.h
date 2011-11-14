@@ -24,7 +24,16 @@
 
 #import <UIKit/UIKit.h>
 #import "RootViewController.h"
+#import "Gallery.h"
 
-@interface GalleryController : RootViewController <UIAccelerometerDelegate> {
+@interface GalleryController : RootViewController <UIAccelerometerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+    UIPopoverController *imagePickerPopover;
+    NSString *URLString;
 }
+
+@property (nonatomic, retain) UIPopoverController *imagePickerPopover;
+@property (nonatomic, retain) NSString *URLString;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil gallery:(Gallery *)gallery;
+
 @end

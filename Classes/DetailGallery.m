@@ -28,6 +28,10 @@
 #import "Apfeltalk_MagazinAppDelegate.h"
 #import "GCImageViewer.h"
 #import "ATMXMLUtilities.h"
+#import "ATImagePickerController.h"
+#import "ATImageUploadViewController.h"
+#import "Apfeltalk_MagazinAppDelegate.h"
+#import "Gallery.h"
 
 #import <libxml/HTMLparser.h>
 
@@ -38,6 +42,74 @@
 @end
 
 @implementation DetailGallery
+@synthesize uploadButton, imagePickerPopoverController;
+
+- (void)showImagePicker:(UIImagePickerControllerSourceType)sourceType {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.sourceType = sourceType;
+    self.imagePickerPopoverController = [[UIPopoverController alloc] initWithContentViewController:imagePickerController];
+    [imagePickerPopoverController presentPopoverFromBarButtonItem:self.uploadButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    [imagePickerPopoverController release];
+    [imagePickerController release];
+}
+
+#pragma mark -
+#pragma mark UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (Gallery *gallery in [Apfeltalk_MagazinAppDelegate sharedAppDelegate].galleryTopController.galleries) {
+        [array addObject:gallery.title];
+    }
+    
+    ATImageUploadViewController *imageUploadViewController = [[ATImageUploadViewController alloc] initWithNibName:@"ATImageUploadViewController" bundle:nil];
+    imageUploadViewController.image = image;
+    imageUploadViewController.galleryTitles = array;
+    imageUploadViewController.indexOfDefaultGallery = [Apfeltalk_MagazinAppDelegate sharedAppDelegate].galleryTopController.indexOfCurrentGallery;
+    UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:imageUploadViewController];
+    self.imagePickerPopoverController.contentViewController = controller;
+    [controller release];
+    [imageUploadViewController release];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+}
+
+#pragma mark -
+
+- (void)uploadImage {
+    if (imagePickerPopoverController.isPopoverVisible)
+        [imagePickerPopoverController dismissPopoverAnimated:YES];
+    else if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [self showImagePicker:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+    } else {
+        UIActionSheet *actionSheet =[[UIActionSheet alloc] initWithTitle:nil 
+                                                                delegate:self 
+                                                       cancelButtonTitle:ATLocalizedString(@"Cancel", nil) 
+                                                  destructiveButtonTitle:nil 
+                                                       otherButtonTitles:ATLocalizedString(@"Chose photo", nil), ATLocalizedString(@"Take phote", nil), nil];
+        actionSheet.tag = 1;
+        [actionSheet showFromBarButtonItem:self.uploadButton animated:YES]; 
+        [actionSheet release];
+    }
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:ATLocalizedString(@"Upload photo", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(uploadImage)];
+        self.uploadButton = button;
+        NSMutableArray *items = [toolbar.items mutableCopy];
+        [items insertObject:self.uploadButton atIndex:items.count-1];
+        [self.toolbar setItems:items animated:YES];
+    
+        [button release];
+        [items release];
+    }
+}
 
 - (void)showFullscreen {
     NSString *str = [[self story] summary];
@@ -188,10 +260,7 @@ void endElement (void *userData, const xmlChar *name) {
 	[cleanedString release];
     
 	cleanedString = nil;
-    
-    NSLog(@"%@", self.story.summary);
-    NSLog(@"%@", resultString);
-    
+        
     NSScanner *scanner = [NSScanner scannerWithString:resultString];
     [scanner scanUpToString:@"<br/><br/>von: " intoString:nil];
     NSUInteger location = [scanner scanLocation];
@@ -245,6 +314,20 @@ void endElement (void *userData, const xmlChar *name) {
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIdx
 {
+    if (actionSheet.tag == 1) {
+        switch (buttonIdx) {
+            case 0:
+                [self showImagePicker:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+                break;
+            case 1:
+                break;
+                [self showImagePicker:UIImagePickerControllerSourceTypeCamera];
+            default:
+                break;
+        }
+        return;
+    }
+    
 	NSString *str = [[self story] summary];
 	
     NSString *thumbLink = extractTextFromHTMLForQuery(str, @"//img[attribute::title]/attribute::src");
@@ -332,8 +415,9 @@ void endElement (void *userData, const xmlChar *name) {
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
+    self.imagePickerPopoverController = nil;
+    self.uploadButton = nil;
 	[cleanedString release];
 	[super dealloc];
 }

@@ -36,6 +36,7 @@
 
 @synthesize window;
 @synthesize tabBarController;
+@synthesize galleryTopController;
 
 - (id)init {
     self = [super init];
@@ -160,6 +161,7 @@
 
 
 - (void)dealloc {
+    self.galleryTopController = nil;
     [tabBarController release];
     [window release];
     [super dealloc];

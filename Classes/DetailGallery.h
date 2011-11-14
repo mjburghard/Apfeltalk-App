@@ -26,10 +26,16 @@
 #import "DetailViewController.h"
 #import <MessageUI/MessageUI.h>
 
-@interface DetailGallery : DetailViewController <UIWebViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
+@interface DetailGallery : DetailViewController <UIWebViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
 	NSMutableString *cleanedString;
 	NSMutableString *elementString;
+    UIBarButtonItem *uploadButton;
+    UIPopoverController *imagePickerPopoverController;
 }
+
+@property (nonatomic, retain) UIBarButtonItem *uploadButton;
+@property (nonatomic, retain) UIPopoverController *imagePickerPopoverController;
+
 - (void)createMailComposerWithThumbnailLink:(NSString*)thumbnailLink;
 - (NSString *)strip_tags:(NSString *)data :(NSArray *)valid_tags;
 @end

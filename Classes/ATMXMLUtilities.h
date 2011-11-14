@@ -24,7 +24,11 @@
 - (NSString *)authorName;
 - (NSString *)articleContent;
 - (NSArray *)articlePagesLinks;
+- (NSInteger)topicIDOfCommentsTopic;
+
+- (NSString *)extractTextForQuery:(NSString *)query;
 
 @end
 
 NSString *extractTextFromHTMLForQuery (NSString *htmlInput, NSString *query);
+NSArray *extractNodesFromHTMLForQuery (NSString *htmlInput, NSString *query);

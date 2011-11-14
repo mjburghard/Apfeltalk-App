@@ -31,6 +31,7 @@
 #import <MessageUI/MessageUI.h>
 #import "EGORefreshTableHeaderView.h"
 #import "Story.h"
+#import "Apfeltalk_MagazinAppDelegate.h"
 
 @class DetailViewController;
 

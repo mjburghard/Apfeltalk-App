@@ -27,8 +27,96 @@
 #import "AsyncImageView.h"
 #import "Story.h"
 #import "ATMXMLUtilities.h"
+#import "ATImageUploadViewController.h"
 
 @implementation GalleryController
+@synthesize imagePickerPopover, URLString;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil gallery:(Gallery *)gallery {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.navigationItem.title = gallery.title;
+        self.URLString = gallery.URLString;
+    }
+    return self;
+}
+
+- (void)showImagePicker:(UIImagePickerControllerSourceType)sourceType {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.sourceType = sourceType;
+    [self presentViewController:imagePickerController animated:YES completion:NULL];
+    [imagePickerController release];
+}
+
+- (IBAction)about:(id)sender {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            [self showImagePicker:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+        } else {
+            UIActionSheet *actionSheet =[[UIActionSheet alloc] initWithTitle:nil 
+                                                                    delegate:self 
+                                                           cancelButtonTitle:ATLocalizedString(@"Cancel", nil) 
+                                                      destructiveButtonTitle:nil 
+                                                           otherButtonTitles:ATLocalizedString(@"Chose photo", nil), ATLocalizedString(@"Take phote", nil), nil];
+            [actionSheet showFromTabBar:[Apfeltalk_MagazinAppDelegate sharedAppDelegate].tabBarController.tabBar];
+            [actionSheet release];
+        }
+    } else {
+        [super about:sender];
+    }
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"Upload" style:UIBarButtonItemStyleBordered target:self action:@selector(about:)];
+    self.navigationItem.rightBarButtonItem = aboutButton;
+    [aboutButton release];
+}
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+            [self showImagePicker:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+            break;
+        case 1:
+            break;
+            [self showImagePicker:UIImagePickerControllerSourceTypeCamera];
+        default:
+            break;
+    }
+}
+
+#pragma mark -
+#pragma mark UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
+    NSMutableArray *array = [NSMutableArray array];
+    
+    for (Gallery *gallery in [Apfeltalk_MagazinAppDelegate sharedAppDelegate].galleryTopController.galleries) {
+        [array addObject:gallery.title];
+    }
+    
+    ATImageUploadViewController *imageUploadViewController = [[ATImageUploadViewController alloc] initWithNibName:@"ATImageUploadViewController" bundle:nil];
+    imageUploadViewController.image = image;
+    imageUploadViewController.galleryTitles = array;
+    imageUploadViewController.indexOfDefaultGallery = [Apfeltalk_MagazinAppDelegate sharedAppDelegate].galleryTopController.indexOfCurrentGallery;
+    UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:imageUploadViewController];
+    [picker dismissViewControllerAnimated:YES completion:^(){
+       [self presentViewController:controller animated:YES completion:NULL]; 
+    }];
+    [controller release];
+    [imageUploadViewController release];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark -
 
 - (NSDictionary *) desiredKeys {
 	NSMutableDictionary *elementKeys = [NSMutableDictionary dictionaryWithDictionary:[super desiredKeys]];
@@ -144,7 +232,7 @@
 }
 
 - (NSString *) documentPath {
-	return @"http://www.apfeltalk.de/gallery/external.php?type=RSS2";
+	return self.URLString;
 }
 
 /*- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {return YES;
@@ -163,6 +251,14 @@
     self.rootPopoverButtonItem = barButtonItem;
     UIViewController <SubstitutableDetailViewController> *detailViewController = [self.splitViewController.viewControllers objectAtIndex:1];
     [detailViewController showRootPopoverButtonItem:barButtonItem];
+}
+
+#pragma mark -
+
+- (void)dealloc {
+    self.URLString = nil;
+    self.imagePickerPopover = nil;
+    [super dealloc];
 }
 
 @end
