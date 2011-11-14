@@ -330,16 +330,18 @@ const CGFloat kDefaultRowHeight = 44.0;
             }
             return;
         }
-        self.posts = [NSMutableArray array];
+        NSMutableArray *postsArray = [[NSMutableArray alloc] init];
         NSArray *array = [dictionary valueForKey:@"posts"];
         self.topic.closed = [[dictionary valueForKey:@"is_closed"] boolValue];
         self.topic.subscribed = [[dictionary valueForKey:@"is_subscribed"] boolValue];
         self.topic.userCanPost = [[dictionary valueForKey:@"can_reply"] boolValue];
         for (NSDictionary *dict in array) {
             Post *post = [[Post alloc] initWithDictionary:dict];
-            [self.posts addObject:post];
+            [postsArray addObject:post];
             [post release];
         }
+        self.posts = postsArray;
+        [postsArray release];
         [self dismissActivityIndicator];
         [self.tableView reloadData];
     } else {

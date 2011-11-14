@@ -45,7 +45,6 @@
 }
 
 - (void)loadSubscriptions {
-    self.topics = [NSMutableArray array];
     self.numberOfTopics = 0;
     NSString *xmlString = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodCall><methodName>get_subscribed_topic</methodName><params><param><value><int>0</int></value></param><param><value><int>49</int></value></param></params></methodCall>"];
     [self sendRequestWithXMLString:xmlString cookies:YES delegate:self];
@@ -110,12 +109,13 @@
         self.numberOfTopics += [[dictionary valueForKey:@"total_topic_num"] integerValue];
         
         NSArray *array = [dictionary valueForKey:@"topics"];
-        
+        NSMutableArray *tmp = [NSMutableArray array];
         for (NSDictionary *dict in array) {
             Topic *topic = [[Topic alloc] initWithDictionary:dict];
-            [self.topics addObject:topic];
+            [tmp addObject:topic];
             [topic release];
         }
+        self.topics = tmp;
     }
     [self.tableView reloadData];
 }
